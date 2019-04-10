@@ -9,16 +9,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileEdit"
-            android:label="Edit Profile">
+        <activity
+            android:name=".TourListPackages"
+            android:label="List Tour Packages">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".TourEdit"
+            android:label="Edit Tour">
         </activity>
+        <activity
+            android:name=".ProfileEdit"
+            android:label="Edit Profile"></activity>
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>
