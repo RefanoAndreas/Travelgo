@@ -3,8 +3,8 @@
     android:id="@+id/layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minWidth="328dp"
-    android:maxWidth="328dp"
+    android:minWidth="448dp"
+    android:maxWidth="448dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.makeramen.roundedimageview.RoundedImageView

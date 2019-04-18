@@ -3,8 +3,8 @@
     android:id="@+id/layout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:minWidth="328dp"
-    android:maxWidth="328dp"
+    android:minWidth="288dp"
+    android:maxWidth="288dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.makeramen.roundedimageview.RoundedImageView
@@ -34,7 +34,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         app:cardCornerRadius="10dp"
-        android:layout_marginBottom="13dp"
+        android:layout_marginBottom="8dp"
         app:cardPreventCornerOverlap="false"
         app:layout_constraintTop_toTopOf="@id/guideline1"
         app:layout_constraintRight_toRightOf="@id/guideline1"
@@ -44,10 +44,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="8dp">
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -85,10 +85,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Kuta, Bali"
-                android:textSize="16dp"
+                android:textSize="14dp"
                 android:textColor="#424242"
                 app:fontFamily="@font/montserrat_semi_bold"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:ellipsize="end"/>
             <TextView
                 android:id="@+id/itemRV_Home_TV2"
@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:text="Bali is an Indonesian island known as paradise Island"
                 android:textColor="#7D7D7D"
-                android:textSize="14dp"
+                android:textSize="12dp"
                 android:ellipsize="end"
                 app:fontFamily="@font/montserrat_regular"
                 android:lines="1"/>
