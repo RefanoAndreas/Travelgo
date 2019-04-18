@@ -12,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.yinglan.shadowimageview.ShadowImageView;
-
 import java.util.ArrayList;
 
 public class FragmentHome extends Fragment {
