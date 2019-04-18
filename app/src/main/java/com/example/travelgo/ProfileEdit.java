@@ -4,6 +4,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 
 public class ProfileEdit extends AppCompatActivity {
 
@@ -11,6 +12,10 @@ public class ProfileEdit extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_edit);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ((TextInputLayout) findViewById(R.id.TIL_name_profileEdit)).setHint(null);
         ((TextInputEditText) findViewById(R.id.TIET_name_profileEdit)).setHint(null);

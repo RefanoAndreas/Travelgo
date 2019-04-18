@@ -6,11 +6,16 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     tools:context=".ProfileEdit">
-    <android.support.v7.widget.Toolbar
+
+    <include
         android:id="@+id/toolbar_profileEdit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </android.support.v7.widget.Toolbar>
+        layout="@layout/toolbar_elevation"/>
+
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/toolbar_profileEdit"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+    <!--</android.support.v7.widget.Toolbar>-->
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -159,5 +164,11 @@
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_profileEdit"
+        android:background="@drawable/shadow_uptodown"/>
 
 </android.support.constraint.ConstraintLayout>

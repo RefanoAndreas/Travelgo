@@ -3,28 +3,46 @@
     package="com.example.travelgo">
 
     <application
+        android:name=".splashDuration"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".TourListPackages"
-            android:label="List Tour Packages">
+        <activity android:name=".Home">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".TourEdit"
-            android:label="Edit Tour">
+        <activity android:name=".BottomNavContainer">
         </activity>
         <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme"></activity>
+        <activity android:name=".SignUp" />
+        <activity android:name=".LogIn" />
+        <activity android:name=".LogSign" />
+        <activity
+            android:name=".TourCreatePackage"
+            android:label="Create Tour Package" />
+        <activity
+            android:name=".TourCreate"
+            android:label="Create Packages" />
+        <activity
+            android:name=".TourList"
+            android:label="List Tour Packages" />
+        <activity
+            android:name=".TourEdit"
+            android:label="Edit Tour" />
+        <activity
             android:name=".ProfileEdit"
-            android:label="Edit Profile"></activity>
-        <activity android:name=".MainActivity" />
+            android:label="Edit Profile" />
+        <activity
+            android:name=".MainActivity"
+            android:label="My Profile" />
     </application>
 
 </manifest>

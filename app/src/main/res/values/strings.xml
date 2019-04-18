@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Travelgo</string>
+    <string name="location_prompt">Choose a location</string>
+
+    <string-array name="location_array">
+        <item>Bali</item>
+        <item>Surabaya</item>
+        <item>Malang</item>
+        <item>Medan</item>
+        <item>Makassar</item>
+        <item>Manado</item>
+        <item>Manalagi</item>
+        <item>Disini</item>
+        <item>Disana</item>
+        <item>Dimana-mana</item>
+    </string-array>
+    <string name="title_activity_tour_create_package">TourCreatePackage</string>
 </resources>
