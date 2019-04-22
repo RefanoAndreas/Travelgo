@@ -130,15 +130,23 @@
                     android:textColor="@android:color/black"
                     android:gravity="center"/>
 
-                <android.support.design.button.MaterialButton
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button_fb"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    app:backgroundTint="#3B5998"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:text="Facebook"
                     android:textStyle="bold"/>
+
+                <!--<android.support.design.button.MaterialButton-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="16dp"-->
+                    <!--app:backgroundTint="#3B5998"-->
+                    <!--android:insetTop="0dp"-->
+                    <!--android:insetBottom="0dp"-->
+                    <!--android:text="Facebook"-->
+                    <!--android:textStyle="bold"/>-->
 
             </LinearLayout>
 
