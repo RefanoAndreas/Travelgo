@@ -15,8 +15,8 @@
         <item>Dimana-mana</item>
     </string-array>
     <string name="title_activity_tour_create_package">TourCreatePackage</string>
-
     <string name="facebook_app_id">534717363703723</string>
     <string name="fb_login_protocol_scheme">fb534717363703723</string>
+
 
 </resources>
