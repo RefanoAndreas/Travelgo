@@ -33,12 +33,20 @@ public class LogIn extends AppCompatActivity {
     String url;
     RequestQueue requestQueue;
     TextInputLayout emailLayout, passwordLayout;
+    String userIDGet;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
+
+        userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userIDGet = userID.getString("user_id", "Data not found");
+
+        if(!userIDGet.equals("Data not found")){
+            startActivity(new Intent(LogIn.this, BottomNavContainer.class));
+        }
 
         getWindow().setBackgroundDrawableResource(R.drawable.background_splash);
 
@@ -97,7 +105,7 @@ public class LogIn extends AppCompatActivity {
                         editor.putString("user_id", response.getString("data"));
                         editor.apply();
 
-                        Intent intentHome = new Intent(LogIn.this, Home.class);
+                        Intent intentHome = new Intent(LogIn.this, BottomNavContainer.class);
                         startActivity(intentHome);
                     }
                     else if(response.getString("status").equals("invalid email")){

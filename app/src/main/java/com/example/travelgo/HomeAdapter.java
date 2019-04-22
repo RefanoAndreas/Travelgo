@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -63,8 +65,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
     @Override
     public void onBindViewHolder(HomePackagesViewHolder homePackagesViewHolder, int i) {
         HomeItem currentItem = mHomeList.get(i);
+        Log.d("photo", currentItem.getImageResources());
 
-        homePackagesViewHolder.mRoundedImageView.setImageResource(currentItem.getImageResources());
+//        homePackagesViewHolder.mRoundedImageView.setImageResource(currentItem.getImageResources());
+        Picasso.get().load(currentItem.getImageResources()).placeholder(R.mipmap.ic_launcher).into(homePackagesViewHolder.mRoundedImageView);
         homePackagesViewHolder.mTextView1.setText(currentItem.getText1());
         homePackagesViewHolder.mTextView2.setText(currentItem.getText2());
 

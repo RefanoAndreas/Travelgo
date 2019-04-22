@@ -1,5 +1,7 @@
 package com.example.travelgo;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -10,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class BottomNavContainer extends AppCompatActivity {
+
+    SharedPreferences userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

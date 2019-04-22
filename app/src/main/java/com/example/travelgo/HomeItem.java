@@ -1,17 +1,17 @@
 package com.example.travelgo;
 
 public class HomeItem {
-    private int mImageResources;
+    private String mImageResources;
     private String mText1;
     private String mText2;
 
-    public HomeItem(int imageResource, String text1, String text2){
+    public HomeItem(String imageResource, String text1, String text2){
         mImageResources = imageResource;
         mText1 = text1;
         mText2 = text2;
     }
 
-    public int getImageResources(){
+    public String getImageResources(){
         return mImageResources;
     }
 
