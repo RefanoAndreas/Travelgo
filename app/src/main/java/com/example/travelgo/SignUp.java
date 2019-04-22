@@ -31,6 +31,7 @@ public class SignUp extends AppCompatActivity {
     RequestQueue requestQueue;
     SharedPreferences userID;
     TextView btnLogin;
+    TextInputLayout emailLayout, passwordLayout, retypePassLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +40,14 @@ public class SignUp extends AppCompatActivity {
 
         getWindow().setBackgroundDrawableResource(R.drawable.background_splash);
 
-        ((TextInputLayout) findViewById(R.id.email_layout)).setHint(null);
-        ((TextInputLayout) findViewById(R.id.password_layout)).setHint(null);
-        ((TextInputLayout) findViewById(R.id.retype_password_layout)).setHint(null);
+        emailLayout = (TextInputLayout) findViewById(R.id.email_layout);
+        emailLayout.setHint(null);
+
+        passwordLayout = (TextInputLayout) findViewById(R.id.password_layout);
+        passwordLayout.setHint(null);
+
+        retypePassLayout = (TextInputLayout) findViewById(R.id.retype_password_layout);
+        retypePassLayout.setHint(null);
 
         btnLogin = (TextView)findViewById(R.id.loginBtn);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +73,12 @@ public class SignUp extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signUp();
+                if(retypePass.getText().toString().equals(password.getText().toString())) {
+                    signUp();
+                }
+                else{
+                    retypePassLayout.setError("Password doesn't match");
+                }
             }
         });
 
@@ -84,40 +95,36 @@ public class SignUp extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (password.getText().toString().equals(retypePass.getText().toString())) {
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    Log.d("responseLogin", response.toString());
-                    try {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("responseLogin", response.toString());
+                try {
 
-                        if (response.getString("status").equals("success")) {
-                            userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                            SharedPreferences.Editor editor = userID.edit();
-                            editor.putString("user_id", response.getString("data"));
-                            editor.apply();
+                    if (response.getString("status").equals("success")) {
+                        userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = userID.edit();
+                        editor.putString("user_id", response.getString("data"));
+                        editor.apply();
 
-                            Intent intentHome = new Intent(SignUp.this, Home.class);
-                            startActivity(intentHome);
-                        } else {
-                            Toast.makeText(SignUp.this, "User Already Exist", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
+                        Intent intentHome = new Intent(SignUp.this, Home.class);
+                        startActivity(intentHome);
+                    } else {
+//                        Toast.makeText(SignUp.this, "User Already Exist", Toast.LENGTH_SHORT).show();
+                        emailLayout.setError("Email already exist");
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Log.e("error", error.getMessage());
-                }
-            });
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error", error.getMessage());
+            }
+        });
 
-            requestQueue.add(jsonObjectRequest);
-        }
-        else{
-            retypePass.setError("Invalid password");
-        }
+        requestQueue.add(jsonObjectRequest);
 
     }
 }
