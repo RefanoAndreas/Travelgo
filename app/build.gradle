@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.qreatiq.travelgo"
-        minSdkVersion 16
+        minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -52,7 +52,6 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:[4,5)'
 
     implementation 'com.synnapps:carouselview:0.1.5'
-    implementation 'at.blogc:expandabletextview:1.0.5'
 
 //    implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
 }

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/layout"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:clipToPadding="false"
+        app:cardCornerRadius="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/itemRV_tour_TV1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="Tour Name"
+                android:textSize="16dp"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/montserrat_bold"/>
+            <com.synnapps.carouselview.CarouselView
+                android:id="@+id/itemRV_tour_CV"
+                android:layout_width="match_parent"
+                app:autoPlay="false"
+                app:indicatorVisibility="invisible"
+                android:layout_height="200dp">
+            </com.synnapps.carouselview.CarouselView>
+            <TextView
+                android:id="@+id/itemRV_tour_TV2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="Price"
+                android:textColor="@android:color/black"
+                android:fontFamily="@font/montserrat_semi_bold"/>
+            <TextView
+                android:id="@+id/itemRV_tour_TV3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/cityDetail_Detail"
+                android:lineSpacingExtra="8dp"
+                android:maxLines="3"
+                android:ellipsize="end"/>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>
