@@ -20,15 +20,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
 
     private ArrayList<HomeItem> mHomeList;
     Context context;
+    ClickListener clickListener;
 
     Display display;
 
-    public static class HomePackagesViewHolder extends RecyclerView.ViewHolder{
+    public class HomePackagesViewHolder extends RecyclerView.ViewHolder{
         public RoundedImageView mRoundedImageView;
         public TextView mTextView1;
         public TextView mTextView2;
         public ConstraintLayout layout;
-//        public SwipeLayout swipeLayout;
 
         public HomePackagesViewHolder(View itemView) {
             super(itemView);
@@ -37,12 +37,23 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
             mTextView2 = itemView.findViewById(R.id.itemRV_Home_TV2);
             layout = (ConstraintLayout) itemView.findViewById(R.id.layout);
 
-//            swipeLayout = itemView.findViewById(R.id.Swipe_TourListPackages);
-//
-//            //add drag edge.(If the BottomView has 'layout_gravity' attribute, this line is unnecessary)
-//            swipeLayout.addDrag(SwipeLayout.DragEdge.Right, itemView.findViewById(R.id.bottom_wrapper));
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onItemClick(getAdapterPosition());
+                }
+            });
         }
     }
+
+    public interface ClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListner(ClickListener clickListner){
+        this.clickListener = clickListner;
+    }
+
 
     public HomeAdapter(ArrayList<HomeItem> homelist, Context context){
         mHomeList = homelist;
@@ -67,7 +78,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
         if(i == 0){
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                     ConstraintLayout.LayoutParams.WRAP_CONTENT,
-//                    convertpx(328),
                     ConstraintLayout.LayoutParams.WRAP_CONTENT
             );
             params.setMargins(convertpx(16), 0, convertpx(10), 0);
@@ -76,7 +86,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
         else if(i == getItemCount()-1){
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                     ConstraintLayout.LayoutParams.WRAP_CONTENT,
-//                    convertpx(328),
                     ConstraintLayout.LayoutParams.WRAP_CONTENT
             );
             params.setMargins(convertpx(0), 0, convertpx(16), 0);
@@ -85,48 +94,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
         else{
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                     ConstraintLayout.LayoutParams.WRAP_CONTENT,
-//                    convertpx(328),
                     ConstraintLayout.LayoutParams.WRAP_CONTENT
             );
             params.setMargins(convertpx(0), 0, convertpx(10), 0);
             homePackagesViewHolder.layout.setLayoutParams(params);
         }
 
-
-        //set show mode.
-//        homePackagesViewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
-//
-//        homePackagesViewHolder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
-//            @Override
-//            public void onClose(SwipeLayout layout) {
-//                //when the SurfaceView totally cover the BottomView.
-//            }
-//
-//            @Override
-//            public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
-//                //you are swiping.
-//            }
-//
-//            @Override
-//            public void onStartOpen(SwipeLayout layout) {
-//
-//            }
-//
-//            @Override
-//            public void onOpen(SwipeLayout layout) {
-//                //when the BottomView totally show.
-//            }
-//
-//            @Override
-//            public void onStartClose(SwipeLayout layout) {
-//
-//            }
-//
-//            @Override
-//            public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
-//                //when user's hand released.
-//            }
-//        });
     }
 
     public int convertpx(int dp){

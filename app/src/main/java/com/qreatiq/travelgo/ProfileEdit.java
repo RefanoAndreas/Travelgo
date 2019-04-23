@@ -1,6 +1,7 @@
 package com.qreatiq.travelgo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -8,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -22,10 +25,12 @@ import org.json.JSONObject;
 
 public class ProfileEdit extends AppCompatActivity {
 
+    TextInputLayout nameLayout, emailLayout, phoneLayout, passwordLayout, retypePassLayout;
     TextInputEditText name, email, phone, password, retypePass;
     String userID, url;
     SharedPreferences user_id;
     RequestQueue requestQueue;
+    Button saveBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +40,28 @@ public class ProfileEdit extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileEdit.super.onBackPressed();
+            }
+        });
 
-        ((TextInputLayout) findViewById(R.id.TIL_name_profileEdit)).setHint(null);
-        ((TextInputLayout) findViewById(R.id.TIL_email_profileEdit)).setHint(null);
-        ((TextInputLayout) findViewById(R.id.TIL_phone_profileEdit)).setHint(null);
-        ((TextInputLayout) findViewById(R.id.TIL_password_profileEdit)).setHint(null);
-        ((TextInputLayout) findViewById(R.id.TIL_rePassword_profileEdit)).setHint(null);
+        nameLayout = (TextInputLayout) findViewById(R.id.TIL_name_profileEdit);
+        nameLayout.setHint(null);
+
+        emailLayout = (TextInputLayout) findViewById(R.id.TIL_email_profileEdit);
+        emailLayout.setHint(null);
+
+        phoneLayout = (TextInputLayout) findViewById(R.id.TIL_phone_profileEdit);
+        phoneLayout.setHint(null);
+
+        passwordLayout = (TextInputLayout) findViewById(R.id.TIL_password_profileEdit);
+        passwordLayout.setHint(null);
+
+        retypePassLayout = (TextInputLayout) findViewById(R.id.TIL_rePassword_profileEdit);
+        retypePassLayout.setHint(null);
 
         name = (TextInputEditText) findViewById(R.id.TIET_name_profileEdit);
         email = (TextInputEditText) findViewById(R.id.TIET_email_profileEdit);
@@ -54,6 +75,24 @@ public class ProfileEdit extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
 
         getUserInfo();
+
+        saveBtn = (Button)findViewById(R.id.submit_profileEdit);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(password.getText().toString().equals(retypePass.getText().toString())) {
+                    saveEditProfile();
+                }
+                else{
+                    retypePassLayout.setError("Password doesn't match");
+                }
+            }
+        });
+
+    }
+
+    public void goBack(View view){
+        super.onBackPressed();
     }
 
     private void getUserInfo(){
@@ -81,8 +120,43 @@ public class ProfileEdit extends AppCompatActivity {
         });
 
         requestQueue.add(jsonObjectRequest);
+    }
 
+    private void saveEditProfile(){
+        url = link.C_URL+"saveProfile.php";
 
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", userID);
+            jsonObject.put("name", name.getText().toString());
+            jsonObject.put("phone", phone.getText().toString());
+
+            if(!password.getText().toString().isEmpty())
+                jsonObject.put("password", password.getText().toString());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if(response.getString("status").equals("success")){
+                        ProfileEdit.super.onBackPressed();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error",error.getMessage());
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
     }
 
 }

@@ -160,6 +160,7 @@
                     android:id="@+id/cancel_profileEdit"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
+                    android:onClick="goBack"
                     android:layout_height="wrap_content"
                     android:minHeight="48dp"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"

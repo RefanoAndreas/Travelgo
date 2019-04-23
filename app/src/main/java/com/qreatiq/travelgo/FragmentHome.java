@@ -1,5 +1,6 @@
 package com.qreatiq.travelgo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 public class FragmentHome extends Fragment {
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private HomeAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     String url, urlPhoto;
     RequestQueue requestQueue;
@@ -39,27 +40,6 @@ public class FragmentHome extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.activity_home, container, false);
     }
-
-//    public void onViewCreated(View view ,Bundle savedInstanceState) {
-//        super.onCreate(view, savedInstanceState);
-//
-//        ArrayList<HomeItem> homeList = new ArrayList<>();
-//        homeList.add(new HomeItem(R.drawable.background2, "Kuta, Bali", "Bali is an Indonesian island known for ite forested volcanis mountains, ..."));
-//        homeList.add(new HomeItem(R.drawable.background3, "Lombok, NTB", "Lombok is an Indonesian island known for ite forested volcanis mountains, ..."));
-//        homeList.add(new HomeItem(R.drawable.background4, "Komodo, NTT", "Komodo is an Indonesian island known for ite forested volcanis mountains, ..."));
-//        homeList.add(new HomeItem(R.drawable.background5, "Madura, East Java", "Madura is an Indonesian island known for ite forested volcanis mountains, ..."));
-//        homeList.add(new HomeItem(R.drawable.background6, "Bawean, East java", "Bawean is an Indonesian island known for ite forested volcanis mountains, ..."));
-//
-//        mRecyclerView = view.findViewById(R.id.RV_Home);
-//        mRecyclerView.setHasFixedSize(true);
-//        mLayoutManager = new LinearLayoutManager(getActivity());
-//        new LinearSnapHelper().attachToRecyclerView(mRecyclerView);
-//        mAdapter = new HomeAdapter(homeList, getContext());
-//
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        mRecyclerView.setAdapter(mAdapter);
-//    }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -76,6 +56,13 @@ public class FragmentHome extends Fragment {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListner(new HomeAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                startActivity(new Intent(getActivity(), CityDetail.class).putExtra("idLocation", homeList.get(position).getID()));
+            }
+        });
     }
 
     private void getLocation(){
@@ -89,7 +76,8 @@ public class FragmentHome extends Fragment {
                     JSONArray jsonArray = response.getJSONArray("location");
                     for(int x=0; x<jsonArray.length(); x++){
                         homeList.add(new HomeItem(urlPhoto+jsonArray.getJSONObject(x).getString("photo"), jsonArray.getJSONObject(x).getString("name")
-                                , jsonArray.getJSONObject(x).getString("description")));
+                                , jsonArray.getJSONObject(x).getString("description"), jsonArray.getJSONObject(x).getString("id")));
+
                     }
                     mAdapter.notifyDataSetChanged();
                 } catch (JSONException e) {

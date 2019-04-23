@@ -97,6 +97,7 @@
             </LinearLayout>
             
             <TextView
+                android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -117,23 +118,28 @@
                 android:textSize="16dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textColor="@android:color/black"/>
-            
+
+
             <TextView
+                android:id="@+id/cityDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:ellipsize="end"
+                android:maxLines="4"
                 android:text="@string/cityDetail_Detail"
                 android:lineSpacingExtra="8dp"/>
 
             <TextView
+                android:id="@+id/btnExpand"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:text="View less"
+                android:text="View More"
                 android:fontFamily="@font/montserrat_medium"
                 android:textColor="#0E64FF"/>
 

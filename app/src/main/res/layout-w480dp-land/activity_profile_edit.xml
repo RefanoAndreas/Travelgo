@@ -160,6 +160,7 @@
                     app:strokeColor="#0d63fe"
                     android:layout_marginLeft="8dp"
                     android:text="Cancel"
+                    android:onClick="goBack"
                     android:background="#0d63fe"/>
             </LinearLayout>
 
