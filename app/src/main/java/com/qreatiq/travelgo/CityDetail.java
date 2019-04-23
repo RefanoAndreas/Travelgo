@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -30,6 +31,7 @@ import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
+import com.synnapps.carouselview.ViewListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -53,6 +55,7 @@ public class CityDetail extends AppCompatActivity {
     RequestQueue requestQueue;
     TextView locationName, expandBtn, description;
     ObjectAnimator animator;
+    LinearLayout ratingLoc;
 
 
     @Override
@@ -76,6 +79,14 @@ public class CityDetail extends AppCompatActivity {
             }
         });
 
+        ratingLoc = (LinearLayout)findViewById(R.id.rating);
+        ratingLoc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         locationName = (TextView)findViewById(R.id.name);
         description = (TextView) this.findViewById(R.id.cityDesc);
         expandBtn = (TextView) this.findViewById(R.id.btnExpand);
@@ -91,7 +102,6 @@ public class CityDetail extends AppCompatActivity {
                     );
                     animator.setDuration(1000);
                     animator.start();
-//                    description.setMaxLines(Integer.MAX_VALUE);
                 }
                 else{
                     expandBtn.setText("View More");
@@ -100,20 +110,32 @@ public class CityDetail extends AppCompatActivity {
                     );
                     animator.setDuration(1000);
                     animator.start();
-//                    description.setMaxLines(4);
                 }
 
             }
         });
 
-//        description = (TextView) findViewById(R.id.cityDesc);
+        carouselView = (CarouselView) findViewById(R.id.cityDetail_Carousel);
+        carouselView.setViewListener(new ViewListener() {
+            @Override
+            public View setViewForPosition(int position) {
+                View customView = getLayoutInflater().inflate(R.layout.view_custom, null);
+                ImageView imageView = customView.findViewById(R.id.carouselPhoto);
+                try {
+                    Picasso.get().load(link.C_URL_IMAGES+"location/"+locPhoto.get(position).getString("urlPhoto")).into(imageView);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return customView;
+            }
+        });
 
         detailLocation();
-//        getLocationPhoto();
+        getLocationPhoto();
 
-        carouselView = (CarouselView) findViewById(R.id.cityDetail_Carousel);
-        carouselView.setPageCount(sampleImages.length);
-        carouselView.setImageListener(imageListener);
+//        carouselView.setPageCount(sampleImages.length);
+//        carouselView.setImageListener(imageListener);
 
 
         ArrayList<CityDetailItem> cityList = new ArrayList<>();
@@ -139,9 +161,10 @@ public class CityDetail extends AppCompatActivity {
         @Override
         public void setImageForPosition(int position, ImageView imageView) {
             //                Picasso.get().load(link.C_URL_IMAGES+"location/"+locPhoto.get(position).getString("urlPhoto")).placeholder(R.mipmap.ic_launcher).into(imageView);
-            imageView.setImageResource(sampleImages[position]);
+//            imageView.setImageResource(sampleImages[position]);
         }
     };
+
 
     public void getLocationPhoto(){
         url = link.C_URL+"getPhotoLocation.php?id="+location_id;
@@ -157,7 +180,7 @@ public class CityDetail extends AppCompatActivity {
                         locPhoto.add(jsonObject);
                     }
                     carouselView.setPageCount(locPhoto.size());
-                    carouselView.setImageListener(imageListener);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
