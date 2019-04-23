@@ -48,6 +48,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesVi
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.tour_item, viewGroup,false);
         TourPackagesViewHolder tlpvh = new TourPackagesViewHolder(v);
         return tlpvh;
+
     }
 
     @Override

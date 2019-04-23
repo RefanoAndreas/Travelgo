@@ -42,6 +42,7 @@ public class Tour extends AppCompatActivity {
 //        new GravitySnapHelper(Gravity.START).attachToRecyclerView(mRecyclerView);
         mAdapter = new TourAdapter(tourList, this);
 
+
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
     }
