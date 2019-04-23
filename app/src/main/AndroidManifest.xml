@@ -12,13 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CityDetail">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".CityDetail"></activity>
         <activity android:name=".Home" />
         <activity android:name=".BottomNavContainer"></activity>
         <activity
@@ -26,6 +20,11 @@
             android:theme="@style/SplashTheme" />
         <activity android:name=".SignUp" />
         <activity android:name=".LogIn">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".LogSign" />
         <activity

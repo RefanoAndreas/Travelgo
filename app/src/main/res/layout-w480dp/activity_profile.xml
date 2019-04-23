@@ -49,9 +49,9 @@
         app:layout_constraintTop_toBottomOf="@id/username">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/editProfileBtn"
             android:layout_width="match_parent"
             android:layout_height="56dp">
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -165,6 +165,7 @@
             android:background="#cccccc" />
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/logoutBtn"
             android:layout_width="match_parent"
             android:layout_height="56dp">
 

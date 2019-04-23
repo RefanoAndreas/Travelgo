@@ -54,9 +54,9 @@ public class LogIn extends AppCompatActivity {
         userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userIDGet = userID.getString("user_id", "Data not found");
 
-//        if(!userIDGet.equals("Data not found")){
-//            startActivity(new Intent(LogIn.this, BottomNavContainer.class));
-//        }
+        if(!userIDGet.equals("Data not found")){
+            startActivity(new Intent(LogIn.this, BottomNavContainer.class));
+        }
 
         getWindow().setBackgroundDrawableResource(R.drawable.background_splash);
 
@@ -158,6 +158,7 @@ public class LogIn extends AppCompatActivity {
                 try {
 
                     if(response.getString("status").equals("success")){
+                        Log.d("abcde", "ABCDE");
                         userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = userID.edit();
                         editor.putString("user_id", response.getString("data"));
