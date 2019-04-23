@@ -11,7 +11,6 @@ public class TourItem {
         mText1 = text1;
         mText2 = text2;
         mText3 = text3;
-
     }
 
     public int[] getImageCarousel() {

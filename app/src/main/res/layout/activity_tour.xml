@@ -35,7 +35,6 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="16dp"/>
-
                 <EditText
                     android:id="@+id/tour_search"
                     android:layout_width="0dp"
