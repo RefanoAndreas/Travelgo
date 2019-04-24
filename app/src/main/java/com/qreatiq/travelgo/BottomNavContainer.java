@@ -42,7 +42,6 @@ public class BottomNavContainer extends AppCompatActivity {
                             setSupportActionBar(toolbar);
                             getSupportActionBar().setTitle("Test");
                             toolbar.setVisibility(View.VISIBLE);
-
                             break;
                         case R.id.nav_tour:
                             selectedFragment = new FragmentTour();

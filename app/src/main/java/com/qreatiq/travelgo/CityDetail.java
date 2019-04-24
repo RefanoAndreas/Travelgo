@@ -39,6 +39,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+
 public class CityDetail extends AppCompatActivity {
 
     CarouselView carouselView;
@@ -118,6 +119,9 @@ public class CityDetail extends AppCompatActivity {
 
         detailLocation();
         getLocationPhoto();
+
+//        carouselView.setPageCount(sampleImages.length);
+//        carouselView.setImageListener(imageListener);
 
 
         ArrayList<CityDetailItem> cityList = new ArrayList<>();

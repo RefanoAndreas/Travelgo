@@ -21,6 +21,7 @@ public class Tour extends AppCompatActivity {
     int[] sampleImages4 = {R.drawable.background5, R.drawable.background6, R.drawable.background2};
     int[] sampleImages5 = {R.drawable.background6, R.drawable.background2, R.drawable.background3};
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
