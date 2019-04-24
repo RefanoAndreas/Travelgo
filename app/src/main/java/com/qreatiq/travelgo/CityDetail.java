@@ -39,8 +39,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import at.blogc.android.views.ExpandableTextView;
-
 public class CityDetail extends AppCompatActivity {
 
     CarouselView carouselView;
@@ -116,26 +114,10 @@ public class CityDetail extends AppCompatActivity {
         });
 
         carouselView = (CarouselView) findViewById(R.id.cityDetail_Carousel);
-        carouselView.setViewListener(new ViewListener() {
-            @Override
-            public View setViewForPosition(int position) {
-                View customView = getLayoutInflater().inflate(R.layout.view_custom, null);
-                ImageView imageView = customView.findViewById(R.id.carouselPhoto);
-                try {
-                    Picasso.get().load(link.C_URL_IMAGES+"location/"+locPhoto.get(position).getString("urlPhoto")).into(imageView);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                return customView;
-            }
-        });
+        carouselView.setImageListener(imageListener);
 
         detailLocation();
         getLocationPhoto();
-
-//        carouselView.setPageCount(sampleImages.length);
-//        carouselView.setImageListener(imageListener);
 
 
         ArrayList<CityDetailItem> cityList = new ArrayList<>();
@@ -160,8 +142,11 @@ public class CityDetail extends AppCompatActivity {
     ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(int position, ImageView imageView) {
-            //                Picasso.get().load(link.C_URL_IMAGES+"location/"+locPhoto.get(position).getString("urlPhoto")).placeholder(R.mipmap.ic_launcher).into(imageView);
-//            imageView.setImageResource(sampleImages[position]);
+            try {
+                Picasso.get().load(link.C_URL_IMAGES+"location/"+locPhoto.get(position).getString("urlPhoto")).into(imageView);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     };
 
