@@ -28,7 +28,7 @@ import org.json.JSONObject;
 
 public class FragmentProfile extends Fragment {
 
-    ConstraintLayout btnLogout, btnEdtProfile;
+    ConstraintLayout btnLogout, btnEdtProfile, btnTourProfile;
     String userID, url;
     SharedPreferences user_ID;
     TextView name;
@@ -72,6 +72,14 @@ public class FragmentProfile extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), ProfileEdit.class));
+            }
+        });
+
+        btnTourProfile = (ConstraintLayout)getActivity().findViewById(R.id.tourProfileBtn);
+        btnTourProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), TourEdit.class));
             }
         });
 

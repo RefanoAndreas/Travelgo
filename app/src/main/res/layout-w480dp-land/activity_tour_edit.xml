@@ -119,6 +119,7 @@
                 app:boxStrokeWidth="1dp"
                 app:boxBackgroundColor="@android:color/white">
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/TIET_tourDesc_tourEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textMultiLine"

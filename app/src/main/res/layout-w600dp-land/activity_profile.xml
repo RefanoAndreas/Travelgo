@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <android.support.constraint.ConstraintLayout
-
+                        android:id="@+id/editProfileBtn"
                         android:layout_width="match_parent"
                         android:layout_height="56dp">
                         <TextView
@@ -87,6 +87,7 @@
                         android:layout_height="1dp"
                         android:background="#cccccc"/>
                     <android.support.constraint.ConstraintLayout
+                        android:id="@+id/tourProfileBtn"
                         android:layout_width="match_parent"
                         android:layout_height="56dp">
                         <TextView
