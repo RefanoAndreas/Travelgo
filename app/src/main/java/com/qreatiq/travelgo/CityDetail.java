@@ -184,6 +184,7 @@ public class CityDetail extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
+
     public void detailLocation(){
         url = link.C_URL+"getPlaceDetail.php?id="+location_id;
 
