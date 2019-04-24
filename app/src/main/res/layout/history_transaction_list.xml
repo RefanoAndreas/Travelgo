@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp">
+        <TextView
+            android:id="@+id/itemRV_historyTransaction_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nama Paket Perjalanan"
+            android:textSize="16dp"
+            android:textColor="#424242"
+            app:fontFamily="@font/montserrat_semi_bold"
+            android:ellipsize="end"/>
+        <TextView
+            android:id="@+id/itemRV_historyTransaction_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Surabaya"
+            android:layout_marginTop="10dp"
+            android:textSize="14dp"/>
+        <TextView
+            android:id="@+id/itemRV_historyTransaction_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Rp. 2.500.000,00"
+            android:textSize="14dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="16dp"
+            android:background="#E4E7E8"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

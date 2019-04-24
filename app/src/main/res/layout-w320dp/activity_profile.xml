@@ -138,6 +138,7 @@
                     android:layout_height="1dp"
                     android:background="#cccccc"/>
                 <android.support.constraint.ConstraintLayout
+                    android:id="@+id/historyPurchasingBtn"
                     android:layout_width="match_parent"
                     android:layout_height="48dp">
                     <TextView
@@ -163,6 +164,7 @@
                     android:layout_height="1dp"
                     android:background="#cccccc"/>
                 <android.support.constraint.ConstraintLayout
+                    android:id="@+id/historyTransactionBtn"
                     android:layout_width="match_parent"
                     android:layout_height="48dp">
                     <TextView
