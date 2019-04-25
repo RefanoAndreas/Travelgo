@@ -15,7 +15,7 @@
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar_tourCreatePackages"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:padding="16dp">
+        android:layout_margin="16dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,6 +101,88 @@
                     android:layout_height="wrap_content"
                     android:inputType="number"/>
             </android.support.design.widget.TextInputLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Fasilitas"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_marginTop="4dp">
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox_custom"
+                    android:text="Sarapan"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="14dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"/>
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox_custom"
+                    android:text="Kolam Renang"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="14dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_marginTop="8dp">
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox_custom"
+                    android:text="Makan Siang"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="14dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"/>
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox_custom"
+                    android:text="WiFi"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="14dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:layout_marginTop="8dp">
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox_custom"
+                    android:text="Makan Malam"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="14dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"/>
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:button="@drawable/checkbox_custom"
+                    android:text="Asuransi"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textSize="14dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="10dp"/>
+            </LinearLayout>
+
             <android.support.design.button.MaterialButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

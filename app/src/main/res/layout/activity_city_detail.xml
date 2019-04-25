@@ -17,7 +17,7 @@
             android:layout_height="250dp"
             app:titleEnabled="false"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="@color/colorPrimary"
+            app:contentScrim="@android:color/white"
             app:expandedTitleTextAppearance="@android:color/transparent"
             android:fitsSystemWindows="true">
             
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
