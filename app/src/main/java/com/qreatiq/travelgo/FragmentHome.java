@@ -19,6 +19,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
+import com.ethanhua.skeleton.Skeleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +37,8 @@ public class FragmentHome extends Fragment {
     RequestQueue requestQueue;
     ArrayList<HomeItem> homeList = new ArrayList<>();
 
+    RecyclerViewSkeletonScreen skeleton;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -45,8 +49,11 @@ public class FragmentHome extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        BottomNavContainer parent = (BottomNavContainer) getActivity();
+        parent.toolbar.setVisibility(View.GONE);
+
         requestQueue = Volley.newRequestQueue(getActivity());
-        getLocation();
+
 
         mRecyclerView = view.findViewById(R.id.RV_Home);
         mRecyclerView.setHasFixedSize(true);
@@ -63,6 +70,10 @@ public class FragmentHome extends Fragment {
                 startActivity(new Intent(getActivity(), CityDetail.class).putExtra("idLocation", homeList.get(position).getID()));
             }
         });
+
+        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_homelist_item).show();
+
+        getLocation();
     }
 
     private void getLocation(){
@@ -80,6 +91,7 @@ public class FragmentHome extends Fragment {
 
                     }
                     mAdapter.notifyDataSetChanged();
+                    skeleton.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

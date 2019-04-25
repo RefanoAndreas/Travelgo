@@ -53,6 +53,8 @@ public class FragmentTour extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        BottomNavContainer parent = (BottomNavContainer) getActivity();
+        parent.toolbar.setVisibility(View.GONE);
         user_id = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("user_id", "No data found");
 

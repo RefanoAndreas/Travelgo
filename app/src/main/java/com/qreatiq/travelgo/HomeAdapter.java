@@ -37,6 +37,31 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
             mTextView2 = itemView.findViewById(R.id.itemRV_Home_TV2);
             layout = (ConstraintLayout) itemView.findViewById(R.id.layout);
 
+            if(getAdapterPosition() == 0){
+                ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                        ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                        ConstraintLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(convertpx(16), 0, convertpx(10), 0);
+                layout.setLayoutParams(params);
+            }
+            else if(getAdapterPosition() == getItemCount()-1){
+                ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                        ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                        ConstraintLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(convertpx(0), 0, convertpx(16), 0);
+                layout.setLayoutParams(params);
+            }
+            else{
+                ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
+                        ConstraintLayout.LayoutParams.WRAP_CONTENT,
+                        ConstraintLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(convertpx(0), 0, convertpx(10), 0);
+                layout.setLayoutParams(params);
+            }
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -3,13 +3,21 @@ package com.qreatiq.travelgo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -31,6 +39,7 @@ public class SignUp extends AppCompatActivity {
     SharedPreferences userID;
     TextView btnLogin;
     TextInputLayout emailLayout, passwordLayout, retypePassLayout;
+    ConstraintLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +47,7 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         getWindow().setBackgroundDrawableResource(R.drawable.background_splash);
+        layout=(ConstraintLayout) findViewById(R.id.layout);
 
         emailLayout = (TextInputLayout) findViewById(R.id.email_layout);
         emailLayout.setHint(null);
@@ -54,6 +64,7 @@ public class SignUp extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intentLogin = new Intent(SignUp.this, LogIn.class);
                 startActivity(intentLogin);
+                finish();
             }
         });
 
@@ -81,49 +92,102 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void signUp() {
-        url = link.C_URL + "signup.php";
-
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("email", email.getText().toString());
-            jsonObject.put("password", password.getText().toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+        email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onResponse(JSONObject response) {
-                Log.d("responseLogin", response.toString());
-                try {
-
-                    if (response.getString("status").equals("success")) {
-                        userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = userID.edit();
-                        editor.putString("user_id", response.getString("data"));
-                        editor.apply();
-
-                        Intent intentHome = new Intent(SignUp.this, Home.class);
-                        startActivity(intentHome);
-                    } else {
-//                        Toast.makeText(SignUp.this, "User Already Exist", Toast.LENGTH_SHORT).show();
-                        emailLayout.setError("Email already exist");
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("error", error.getMessage());
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                    emailLayout.setError("");
             }
         });
 
-        requestQueue.add(jsonObjectRequest);
+        password.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                    passwordLayout.setError("");
+            }
+        });
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View v = getCurrentFocus();
+
+        if (v != null &&
+                (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) &&
+                v instanceof EditText &&
+                v instanceof TextInputEditText &&
+                !v.getClass().getName().startsWith("android.webkit.")) {
+            int scrcoords[] = new int[2];
+            v.getLocationOnScreen(scrcoords);
+            float x = ev.getRawX() + v.getLeft() - scrcoords[0];
+            float y = ev.getRawY() + v.getTop() - scrcoords[1];
+
+            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom()) {
+
+                link.hideSoftKeyboard(this);
+                v.clearFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    public static boolean isValidEmail(CharSequence target) {
+        return (!TextUtils.isEmpty(target) && Patterns.EMAIL_ADDRESS.matcher(target).matches());
+    }
+
+    private void signUp() {
+        if(email.getText().toString().equals("")){
+            emailLayout.setError("Email is empty");
+        }
+        else if(password.getText().toString().equals("")){
+            passwordLayout.setError("Password is empty");
+        }
+        else if(!isValidEmail(email.getText().toString())){
+            emailLayout.setError("Email is not in email format");
+        }
+        else {
+            url = link.C_URL + "signup.php";
+
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("email", email.getText().toString());
+                jsonObject.put("password", password.getText().toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Log.d("responseLogin", response.toString());
+                    try {
+
+                        if (response.getString("status").equals("success")) {
+                            userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = userID.edit();
+                            editor.putString("user_id", response.getString("data"));
+                            editor.apply();
+
+                            Intent intentHome = new Intent(SignUp.this, Home.class);
+                            startActivity(intentHome);
+                        } else {
+//                        Toast.makeText(SignUp.this, "User Already Exist", Toast.LENGTH_SHORT).show();
+                            emailLayout.setError("Email already exist");
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("error", error.getMessage());
+                }
+            });
+
+            requestQueue.add(jsonObjectRequest);
+        }
 
     }
 }

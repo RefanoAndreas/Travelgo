@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
+    android:id="@+id/layout"
     android:maxWidth="420dp"
     android:maxHeight="720dp"
     tools:context=".SignUp">
@@ -59,6 +60,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:hint="Email"
+                        android:inputType="textEmailAddress"
                         android:textSize="14dp"/>
                 </android.support.design.widget.TextInputLayout>
 

@@ -2,6 +2,8 @@ package com.qreatiq.travelgo;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,6 +57,7 @@ public class CityDetail extends AppCompatActivity {
     TextView locationName, expandBtn, description;
     ObjectAnimator animator;
     LinearLayout ratingLoc;
+    BottomSheetDialog modal;
 
 
     @Override
@@ -82,7 +85,10 @@ public class CityDetail extends AppCompatActivity {
         ratingLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                modal = new BottomSheetDialog(CityDetail.this);
+                View view = View.inflate(CityDetail.this, R.layout.rating_city_detail_modal_fragment, null);
+                modal.setContentView(view);
+                modal.show();
             }
         });
 

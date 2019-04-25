@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -74,6 +76,30 @@ public class ProfileEdit extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 
+        name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                    nameLayout.setError("");
+            }
+        });
+
+        phone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                    phoneLayout.setError("");
+            }
+        });
+
+        retypePass.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus)
+                    retypePassLayout.setError("");
+            }
+        });
+
         getUserInfo();
 
         saveBtn = (Button)findViewById(R.id.submit_profileEdit);
@@ -123,40 +149,69 @@ public class ProfileEdit extends AppCompatActivity {
     }
 
     private void saveEditProfile(){
-        url = link.C_URL+"saveProfile.php";
+        if(name.getText().toString().equals(""))
+            nameLayout.setError("Name is empty");
+        else if(phone.getText().toString().equals(""))
+            phoneLayout.setError("Phone is empty");
+        else {
+            url = link.C_URL + "saveProfile.php";
 
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("id", userID);
-            jsonObject.put("name", name.getText().toString());
-            jsonObject.put("phone", phone.getText().toString());
+            JSONObject jsonObject = new JSONObject();
+            try {
+                jsonObject.put("id", userID);
+                jsonObject.put("name", name.getText().toString());
+                jsonObject.put("phone", phone.getText().toString());
 
-            if(!password.getText().toString().isEmpty())
-                jsonObject.put("password", password.getText().toString());
+                if (!password.getText().toString().isEmpty())
+                    jsonObject.put("password", password.getText().toString());
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    if(response.getString("status").equals("success")){
-                        ProfileEdit.super.onBackPressed();
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    try {
+                        if (response.getString("status").equals("success")) {
+                            ProfileEdit.super.onBackPressed();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
                 }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("error",error.getMessage());
-            }
-        });
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("error", error.getMessage());
+                }
+            });
 
-        requestQueue.add(jsonObjectRequest);
+            requestQueue.add(jsonObjectRequest);
+        }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View v = getCurrentFocus();
+
+        if (v != null &&
+                (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) &&
+                v instanceof EditText &&
+                v instanceof TextInputEditText &&
+                !v.getClass().getName().startsWith("android.webkit.")) {
+            int scrcoords[] = new int[2];
+            v.getLocationOnScreen(scrcoords);
+            float x = ev.getRawX() + v.getLeft() - scrcoords[0];
+            float y = ev.getRawY() + v.getTop() - scrcoords[1];
+
+            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom()) {
+
+                link.hideSoftKeyboard(this);
+                v.clearFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
 }

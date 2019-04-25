@@ -60,6 +60,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Email"
+                        android:inputType="textEmailAddress"
                         android:drawableLeft="@drawable/ic_mail_outline_cccccc_24dp"
                         android:drawablePadding="16dp"
                         android:textSize="14dp"
@@ -136,17 +137,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
 
-                <!--<android.support.design.button.MaterialButton-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="16dp"-->
-                    <!--app:backgroundTint="#3B5998"-->
-                    <!--android:insetTop="0dp"-->
-                    <!--android:insetBottom="0dp"-->
-                    <!--android:text="Facebook"-->
-                    <!--android:textStyle="bold"/>-->
+                <android.support.design.button.MaterialButton
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="facebook"
+                    android:layout_marginTop="16dp"
+                    app:backgroundTint="#3B5998"
+                    app:cornerRadius="6dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="Facebook"
+                    android:textStyle="bold"/>
 
             </LinearLayout>
 
