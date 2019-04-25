@@ -20,6 +20,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -80,6 +81,14 @@ public class CityDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 CityDetail.super.onBackPressed();
+            }
+        });
+
+        btnFindTour = (Button)findViewById(R.id.findTourBtn);
+        btnFindTour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CityDetail.this, BottomNavContainer.class).putExtra("loc_id", location_id));
             }
         });
 

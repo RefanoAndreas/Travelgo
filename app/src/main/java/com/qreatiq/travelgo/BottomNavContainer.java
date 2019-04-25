@@ -1,5 +1,6 @@
 package com.qreatiq.travelgo;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -26,18 +27,27 @@ public class BottomNavContainer extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.nav_bottom);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setVisibility(View.GONE);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentHome()).commit();
+        Intent i = getIntent();
+        fragmentTour = new FragmentTour();
+
+        if(i.hasExtra("loc_id")){
+            id_loc = i.getStringExtra("loc_id");
+            fragmentTour.loc_id = id_loc;
+            bottomNav.setSelectedItemId(R.id.nav_tour);
+//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentHome()).commit();
+        }
+        else
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentHome()).commit();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                    Fragment selectedFragment = null;
 
                     switch (menuItem.getItemId()){
                         case R.id.nav_home:
@@ -48,7 +58,7 @@ public class BottomNavContainer extends AppCompatActivity {
                             toolbar.setVisibility(View.VISIBLE);
                             break;
                         case R.id.nav_tour:
-                            selectedFragment = new FragmentTour();
+                            selectedFragment = fragmentTour;
                             break;
                         case R.id.nav_notification:
                             selectedFragment = new FragmentNotification();
