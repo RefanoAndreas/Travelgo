@@ -18,6 +18,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
+import com.ethanhua.skeleton.Skeleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +36,8 @@ public class TourList extends AppCompatActivity {
     RequestQueue requestQueue;
     ArrayList<TourListItem> tourListPackagesList = new ArrayList<>();
     FloatingActionButton fabAdd;
+
+    RecyclerViewSkeletonScreen skeletonScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +77,8 @@ public class TourList extends AppCompatActivity {
                 startActivity(new Intent(TourList.this, TourCreate.class));
             }
         });
+
+        skeletonScreen = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_tour_list_item_swipe).show();
     }
 
     private void getPackage(){
@@ -90,6 +96,7 @@ public class TourList extends AppCompatActivity {
                                 jsonArray.getJSONObject(x).getString("end_date")));
                         mAdapter.notifyItemInserted(x);
                     }
+                    skeletonScreen.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
