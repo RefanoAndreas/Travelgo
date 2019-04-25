@@ -27,6 +27,7 @@
         android:background="@drawable/shadow_uptodown"/>
     
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabAddTourList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintRight_toRightOf="parent"

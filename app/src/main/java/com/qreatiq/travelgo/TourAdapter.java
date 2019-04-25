@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,8 +23,9 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesVi
 
     private ArrayList<TourItem> mTourPackagesList;
     Context context;
+    ClickListener clickListener;
 
-    public static class TourPackagesViewHolder extends RecyclerView.ViewHolder{
+    public class TourPackagesViewHolder extends RecyclerView.ViewHolder{
         public CarouselView carouselView;
         public TextView mTextView1, mTextView2, mTextView3;
         public FrameLayout layout;
@@ -35,7 +37,22 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesVi
             mTextView2 = itemView.findViewById(R.id.itemRV_tour_TV2);
             mTextView3 = itemView.findViewById(R.id.itemRV_tour_TV3);
             layout = (FrameLayout) itemView.findViewById(R.id.layout);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onItemClick(getAdapterPosition());
+                }
+            });
         }
+    }
+
+    public interface ClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListner(TourAdapter.ClickListener clickListner){
+        this.clickListener = clickListner;
     }
 
     public TourAdapter(ArrayList<TourItem> tourPackageslist, Context context){

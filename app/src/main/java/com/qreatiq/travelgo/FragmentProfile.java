@@ -28,7 +28,7 @@ import org.json.JSONObject;
 
 public class FragmentProfile extends Fragment {
 
-    ConstraintLayout btnLogout, btnEdtProfile, btnTourProfile, btnHistoryTransaction;
+    ConstraintLayout btnLogout, btnEdtProfile, btnTourProfile, btnHistoryTransaction, btnListPackage;
     String userID, url;
     SharedPreferences user_ID;
     TextView name;
@@ -64,6 +64,7 @@ public class FragmentProfile extends Fragment {
                 LoginManager.getInstance().logOut();
 
                 startActivity(new Intent(getActivity(), LogIn.class));
+                getActivity().finish();
             }
         });
 
@@ -88,6 +89,14 @@ public class FragmentProfile extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), HistoryTransaction.class));
+            }
+        });
+
+        btnListPackage = (ConstraintLayout)getActivity().findViewById(R.id.listPackageBtn);
+        btnListPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), TourList.class));
             }
         });
 

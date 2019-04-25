@@ -5,12 +5,14 @@ public class TourItem {
     private String mText1;
     private String mText2;
     private String mText3;
+    private String mID;
 
-    public TourItem(int[] imageCarousel, String text1, String text2, String text3){
+    public TourItem(int[] imageCarousel, String text1, String text2, String text3, String id){
         mImageCarousel = imageCarousel;
         mText1 = text1;
         mText2 = text2;
         mText3 = text3;
+        mID = id;
     }
 
     public int[] getImageCarousel() {
@@ -24,5 +26,8 @@ public class TourItem {
     }
     public String getText3(){
         return mText3;
+    }
+    public String getID(){
+        return mID;
     }
 }

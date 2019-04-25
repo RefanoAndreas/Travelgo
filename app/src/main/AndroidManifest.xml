@@ -12,21 +12,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".HistoryTransaction"
-            android:label="History Transaction">
-
-        </activity>
+        <activity android:name=".TransactionDetail"
+            android:label="Transaction Detail"></activity>
+        <activity
+            android:name=".HistoryTransaction"
+            android:label="History Transaction"></activity>
         <activity android:name=".CityDetail" />
         <activity android:name=".TourDetail"
             android:label="Detail Tour">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Tour"></activity>
-        <activity android:name=".CityDetail"></activity>
         <activity android:name=".Home" />
         <activity android:name=".BottomNavContainer"></activity>
         <activity

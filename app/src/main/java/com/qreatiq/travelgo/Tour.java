@@ -29,11 +29,11 @@ public class Tour extends AppCompatActivity {
 
         ArrayList<TourItem> tourList = new ArrayList<>();
 
-        tourList.add(new TourItem(sampleImages1, "Kuta Bali Tour", "Rp 2.500.000", getResources().getString(R.string.cityDetail_Detail)));
-        tourList.add(new TourItem(sampleImages2, "Lombok NTB Tour", "Rp 3.500.000", getResources().getString(R.string.cityDetail_Detail)));
-        tourList.add(new TourItem(sampleImages3, "Komodo NTT Tour", "Rp 4.500.000", getResources().getString(R.string.cityDetail_Detail)));
-        tourList.add(new TourItem(sampleImages4, "Madura East Java Tour", "Rp 5.500.000", getResources().getString(R.string.cityDetail_Detail)));
-        tourList.add(new TourItem(sampleImages5, "Bawean East Java Tour", "Rp 6.500.000", getResources().getString(R.string.cityDetail_Detail)));
+//        tourList.add(new TourItem(sampleImages1, "Kuta Bali Tour", "Rp 2.500.000", getResources().getString(R.string.cityDetail_Detail)));
+//        tourList.add(new TourItem(sampleImages2, "Lombok NTB Tour", "Rp 3.500.000", getResources().getString(R.string.cityDetail_Detail)));
+//        tourList.add(new TourItem(sampleImages3, "Komodo NTT Tour", "Rp 4.500.000", getResources().getString(R.string.cityDetail_Detail)));
+//        tourList.add(new TourItem(sampleImages4, "Madura East Java Tour", "Rp 5.500.000", getResources().getString(R.string.cityDetail_Detail)));
+//        tourList.add(new TourItem(sampleImages5, "Bawean East Java Tour", "Rp 6.500.000", getResources().getString(R.string.cityDetail_Detail)));
 
         mRecyclerView = findViewById(R.id.tour_RV);
         mRecyclerView.setHasFixedSize(true);

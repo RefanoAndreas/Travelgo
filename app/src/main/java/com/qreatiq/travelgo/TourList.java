@@ -1,10 +1,27 @@
 package com.qreatiq.travelgo;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -12,6 +29,11 @@ public class TourList extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    String url, userID;
+    SharedPreferences user_id;
+    RequestQueue requestQueue;
+    ArrayList<TourListItem> tourListPackagesList = new ArrayList<>();
+    FloatingActionButton fabAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +43,20 @@ public class TourList extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TourList.super.onBackPressed();
+            }
+        });
 
-        ArrayList<TourListItem> tourListPackagesList = new ArrayList<>();
-        tourListPackagesList.add(new TourListItem(R.drawable.background2, "Rodex Tour", "11/04/2019", "12/04/2019"));
-        tourListPackagesList.add(new TourListItem(R.drawable.background3, "Rodex Tour", "11/04/2019", "12/04/2019"));
-        tourListPackagesList.add(new TourListItem(R.drawable.background4, "Rodex Tour", "11/04/2019", "12/04/2019"));
-        tourListPackagesList.add(new TourListItem(R.drawable.background5, "Rodex Tour", "11/04/2019", "12/04/2019"));
-        tourListPackagesList.add(new TourListItem(R.drawable.background6, "Rodex Tour", "11/04/2019", "12/04/2019"));
+        user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userID = user_id.getString("user_id", "No data found");
+
+        requestQueue = Volley.newRequestQueue(this);
+
+        getPackage();
 
         mRecyclerView = findViewById(R.id.RV_tourListPackages);
         mRecyclerView.setHasFixedSize(true);
@@ -36,5 +65,43 @@ public class TourList extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        fabAdd = (FloatingActionButton)findViewById(R.id.fabAddTourList);
+        fabAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TourList.this, TourCreate.class));
+            }
+        });
+    }
+
+    private void getPackage(){
+        url = link.C_URL+"getPackageUser.php?id="+userID;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("package");
+                    for (int x=0; x<jsonArray.length(); x++){
+                        tourListPackagesList.add(new TourListItem(R.drawable.background2,
+                                jsonArray.getJSONObject(x).getString("packageName"),
+                                jsonArray.getJSONObject(x).getString("start_date"),
+                                jsonArray.getJSONObject(x).getString("end_date")));
+                        mAdapter.notifyItemInserted(x);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error",error.getMessage());
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
     }
 }

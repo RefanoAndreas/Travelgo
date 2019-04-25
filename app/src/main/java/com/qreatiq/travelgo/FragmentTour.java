@@ -1,14 +1,29 @@
 package com.qreatiq.travelgo;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -18,6 +33,10 @@ public class FragmentTour extends Fragment {
     private TourAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<TourItem> tourList = new ArrayList<>();
+    RequestQueue requestQueue;
+    String url, userID;
+    SharedPreferences user_id;
+
     int[] sampleImages1 = {R.drawable.background2, R.drawable.background3, R.drawable.background4};
     int[] sampleImages2 = {R.drawable.background3, R.drawable.background4, R.drawable.background5};
     int[] sampleImages3 = {R.drawable.background4, R.drawable.background5, R.drawable.background6};
@@ -34,13 +53,18 @@ public class FragmentTour extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        user_id = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userID = user_id.getString("user_id", "No data found");
 
+        requestQueue = Volley.newRequestQueue(getActivity());
 
-        tourList.add(new TourItem(sampleImages1, "Kuta Bali Tour", "Rp 2.500.000", getResources().getString(R.string.cityDetail_Detail)));
-        tourList.add(new TourItem(sampleImages2, "Lombok NTB Tour", "Rp 3.500.000", getResources().getString(R.string.cityDetail_Detail)));
-        tourList.add(new TourItem(sampleImages3, "Komodo NTT Tour", "Rp 4.500.000", getResources().getString(R.string.cityDetail_Detail)));
-        tourList.add(new TourItem(sampleImages4, "Madura East Java Tour", "Rp 5.500.000", getResources().getString(R.string.cityDetail_Detail)));
-        tourList.add(new TourItem(sampleImages5, "Bawean East Java Tour", "Rp 6.500.000", getResources().getString(R.string.cityDetail_Detail)));
+        getPackage();
+
+//        tourList.add(new TourItem(sampleImages1, "Kuta Bali Tour", "Rp 2.500.000", getResources().getString(R.string.cityDetail_Detail)));
+//        tourList.add(new TourItem(sampleImages2, "Lombok NTB Tour", "Rp 3.500.000", getResources().getString(R.string.cityDetail_Detail)));
+//        tourList.add(new TourItem(sampleImages3, "Komodo NTT Tour", "Rp 4.500.000", getResources().getString(R.string.cityDetail_Detail)));
+//        tourList.add(new TourItem(sampleImages4, "Madura East Java Tour", "Rp 5.500.000", getResources().getString(R.string.cityDetail_Detail)));
+//        tourList.add(new TourItem(sampleImages5, "Bawean East Java Tour", "Rp 6.500.000", getResources().getString(R.string.cityDetail_Detail)));
 
         mRecyclerView = view.findViewById(R.id.tour_RV);
         mRecyclerView.setHasFixedSize(true);
@@ -53,6 +77,12 @@ public class FragmentTour extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
+        mAdapter.setOnItemClickListner(new TourAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                startActivity(new Intent(getActivity(), TourDetail.class).putExtra("idLocation", tourList.get(position).getID()));
+            }
+        });
 
 
 //        ArrayList<TourListItem> tourListPackagesList = new ArrayList<>();
@@ -69,5 +99,35 @@ public class FragmentTour extends Fragment {
 //
 //        mRecyclerView.setLayoutManager(mLayoutManager);
 //        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    private void getPackage(){
+        url = link.C_URL+"getPackage.php";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("package");
+                    for(int x=0; x<jsonArray.length(); x++){
+                        tourList.add(new TourItem(sampleImages1,
+                                jsonArray.getJSONObject(x).getString("location"),
+                                "Rp 2.500.000",
+                                jsonArray.getJSONObject(x).getString("description"),
+                                jsonArray.getJSONObject(x).getString("location_id")));
+                        mAdapter.notifyItemInserted(x);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error",error.getMessage());
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
     }
 }

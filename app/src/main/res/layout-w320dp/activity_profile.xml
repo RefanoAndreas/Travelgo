@@ -113,6 +113,7 @@
                     android:layout_height="1dp"
                     android:background="#cccccc"/>
                 <android.support.constraint.ConstraintLayout
+                    android:id="@+id/listPackageBtn"
                     android:layout_width="match_parent"
                     android:layout_height="48dp">
                     <TextView
