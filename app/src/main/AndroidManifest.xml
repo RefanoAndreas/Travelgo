@@ -23,19 +23,18 @@
             android:label="Detail Tour"/>
         <activity android:name=".Tour"></activity>
         <activity android:name=".Home" />
-        <activity android:name=".BottomNavContainer"></activity>
-        <activity
-            android:name=".SplashActivity"
-            android:theme="@style/SplashTheme" >
+        <activity android:name=".BottomNavContainer">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SplashActivity"
+            android:theme="@style/SplashTheme" />
         <activity android:name=".SignUp" />
         <activity android:name=".LogIn">
-
         </activity>
         <activity android:name=".LogSign" />
         <activity
