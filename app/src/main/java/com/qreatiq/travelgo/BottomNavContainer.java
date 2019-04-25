@@ -13,6 +13,9 @@ import android.view.View;
 public class BottomNavContainer extends AppCompatActivity {
 
     SharedPreferences userID;
+    String id_loc;
+    FragmentTour fragmentTour;
+    Fragment selectedFragment = null;
     Toolbar toolbar;
 
     @Override
@@ -23,8 +26,9 @@ public class BottomNavContainer extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.nav_bottom);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setVisibility(View.GONE);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentHome()).commit();
     }
@@ -38,10 +42,10 @@ public class BottomNavContainer extends AppCompatActivity {
                     switch (menuItem.getItemId()){
                         case R.id.nav_home:
                             selectedFragment = new FragmentHome();
-//                            Toolbar toolbar  = findViewById(R.id.toolbar);
-//                            setSupportActionBar(toolbar);
-//                            getSupportActionBar().setTitle("Test");
-//                            toolbar.setVisibility(View.VISIBLE);
+                            Toolbar toolbar  = findViewById(R.id.toolbar);
+                            setSupportActionBar(toolbar);
+                            getSupportActionBar().setTitle("Test");
+                            toolbar.setVisibility(View.VISIBLE);
                             break;
                         case R.id.nav_tour:
                             selectedFragment = new FragmentTour();

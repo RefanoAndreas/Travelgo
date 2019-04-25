@@ -36,6 +36,7 @@ public class FragmentTour extends Fragment {
     RequestQueue requestQueue;
     String url, userID;
     SharedPreferences user_id;
+    String loc_id="";
 
     int[] sampleImages1 = {R.drawable.background2, R.drawable.background3, R.drawable.background4};
     int[] sampleImages2 = {R.drawable.background3, R.drawable.background4, R.drawable.background5};
@@ -46,6 +47,7 @@ public class FragmentTour extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        tourList.clear();
         return inflater.inflate(R.layout.activity_tour, container, false);
     }
 
@@ -104,7 +106,8 @@ public class FragmentTour extends Fragment {
     }
 
     private void getPackage(){
-        url = link.C_URL+"getPackage.php";
+        url = link.C_URL+"getPackage.php?location="+loc_id;
+        Log.d("urlPackage",url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -113,10 +116,10 @@ public class FragmentTour extends Fragment {
                     JSONArray jsonArray = response.getJSONArray("package");
                     for(int x=0; x<jsonArray.length(); x++){
                         tourList.add(new TourItem(sampleImages1,
-                                jsonArray.getJSONObject(x).getString("location"),
+                                jsonArray.getJSONObject(x).getString("tour"),
                                 "Rp 2.500.000",
                                 jsonArray.getJSONObject(x).getString("description"),
-                                jsonArray.getJSONObject(x).getString("location_id")));
+                                jsonArray.getJSONObject(x).getString("id")));
                         mAdapter.notifyItemInserted(x);
                     }
                 } catch (JSONException e) {
@@ -131,5 +134,11 @@ public class FragmentTour extends Fragment {
         });
 
         requestQueue.add(jsonObjectRequest);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        loc_id = "";
     }
 }

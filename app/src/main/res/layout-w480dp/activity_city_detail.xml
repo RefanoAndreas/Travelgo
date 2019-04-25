@@ -191,6 +191,7 @@
 
     </android.support.v4.widget.NestedScrollView>
     <android.support.design.button.MaterialButton
+        android:id="@+id/findTourBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
