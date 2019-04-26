@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="com.qreatiq.travelgo">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,21 +12,14 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
         <activity android:name=".SearchTour"></activity>
         <activity
             android:name=".TransactionDetail"
             android:label="Transaction Detail" />
-        <activity
-            android:name=".HistoryTransaction"
-            android:label="History Transaction" />
-        <activity android:name=".CityDetail" />
-        <activity
-            android:name=".TourDetail"
-            android:label="Detail Tour" />
-        <activity android:name=".Tour" />
-        <activity android:name=".Home" />
-        <activity android:name=".BottomNavContainer">
+        <activity android:name=".FlightSearch"
+            android:label="Pesan Tiket pesawat">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,10 +27,21 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".HistoryTransaction"
+            android:label="History Transaction" />
+        <activity android:name=".CityDetail" />
+        <activity android:name=".TourDetail"
+            android:label="Detail Tour"/>
+        <activity android:name=".Tour"></activity>
+        <activity android:name=".Home" />
+        <activity android:name=".BottomNavContainer">
+        </activity>
+        <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme" />
         <activity android:name=".SignUp" />
-        <activity android:name=".LogIn"/>
+        <activity android:name=".LogIn">
+        </activity>
         <activity android:name=".LogSign" />
         <activity
             android:name=".TourCreatePackage"
