@@ -65,10 +65,19 @@
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Kuta, Bali"
+                android:text="Trip to Bali"
                 android:fontFamily="@font/montserrat_bold"
                 android:textSize="24dp"
                 android:textColor="@android:color/black"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Managed by Rodex Tour"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="11/04/2019 - 12/04/2019 @ Kuta, Bali"/>
 
             <TextView
                 android:layout_width="match_parent"

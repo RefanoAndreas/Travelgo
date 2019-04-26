@@ -96,7 +96,8 @@ public class CityDetail extends AppCompatActivity {
         ratingLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                RatingCityDetailModalFragment bottomSheetFragment = new RatingCityDetailModalFragment();
+                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
             }
         });
 

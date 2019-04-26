@@ -84,10 +84,10 @@ public class TourEdit extends AppCompatActivity {
         });
 
         name = (TextInputEditText)findViewById(R.id.TIET_tourName_tourEdit);
-        desc = (TextInputEditText)findViewById(R.id.TIET_tourDesc_tourEdit);
+//        desc = (TextInputEditText)findViewById(R.id.TIET_tourDesc_tourEdit);
         telp = (TextInputEditText)findViewById(R.id.TIET_tourPhone_tourEdit);
         name_layout = (TextInputLayout) findViewById(R.id.TIL_tourName_tourEdit);
-        desc_layout = (TextInputLayout)findViewById(R.id.TIL_tourDescription_tourEdit);
+//        desc_layout = (TextInputLayout)findViewById(R.id.TIL_tourDescription_tourEdit);
         telp_layout = (TextInputLayout)findViewById(R.id.TIL_tourPhone_tourEdit);
         layout=(ConstraintLayout) findViewById(R.id.layout);
 

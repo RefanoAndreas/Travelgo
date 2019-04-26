@@ -60,7 +60,24 @@ public class TourList extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 
-        getPackage();
+
+
+        tourListPackagesList.add(new TourListItem(R.drawable.background2,
+                "Bali Tour",
+                "01-01-2019",
+                "01-01-2020"));
+        tourListPackagesList.add(new TourListItem(R.drawable.background2,
+                "Bali Tour",
+                "01-01-2019",
+                "01-01-2020"));
+        tourListPackagesList.add(new TourListItem(R.drawable.background2,
+                "Bali Tour",
+                "01-01-2019",
+                "01-01-2020"));
+        tourListPackagesList.add(new TourListItem(R.drawable.background2,
+                "Bali Tour",
+                "01-01-2019",
+                "01-01-2020"));
 
         mRecyclerView = findViewById(R.id.RV_tourListPackages);
         mRecyclerView.setHasFixedSize(true);
@@ -78,7 +95,8 @@ public class TourList extends AppCompatActivity {
             }
         });
 
-        skeletonScreen = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_tour_list_item_swipe).show();
+//        skeletonScreen = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_tour_list_item_swipe).show();
+//        getPackage();
     }
 
     private void getPackage(){

@@ -298,6 +298,7 @@
                             android:layout_height="90dp"
                             android:layout_gravity="center"
                             app:cardCornerRadius="10dp"
+                            android:onClick="entertainment"
                             android:layout_marginTop="4dp"
                             android:layout_marginBottom="4dp"
                             android:clipToPadding="false">
@@ -359,6 +360,7 @@
                             android:layout_height="90dp"
                             android:layout_gravity="center"
                             app:cardCornerRadius="10dp"
+                            android:onClick="wifi"
                             android:layout_marginTop="4dp"
                             android:layout_marginBottom="4dp"
                             android:clipToPadding="false">

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -75,4 +76,18 @@ public class BottomNavContainer extends AppCompatActivity {
                     return true;
                 }
             };
+
+    public void entertainment(View v){
+        new AlertDialog.Builder(this)
+                .setTitle("Notice")
+                .setMessage("Fitur ini dalam tahap pengembangan")
+                .show();
+    }
+
+    public void wifi(View v){
+        new AlertDialog.Builder(this)
+                .setTitle("Notice")
+                .setMessage("Fitur ini dalam tahap pengembangan")
+                .show();
+    }
 }

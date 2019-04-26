@@ -8,11 +8,14 @@ import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 public class TourCreateAdapter_2 extends RecyclerView.Adapter<TourCreateAdapter_2.TourCreatePackagesViewHolder> {
 
-    private ArrayList<TourCreateItem_2> mTourCreatePackagesList_2;
+    private ArrayList<JSONObject> mTourCreatePackagesList_2;
 
     public static class TourCreatePackagesViewHolder extends RecyclerView.ViewHolder{
         public RoundedImageView mRoundedImageView;
@@ -29,7 +32,7 @@ public class TourCreateAdapter_2 extends RecyclerView.Adapter<TourCreateAdapter_
         }
     }
 
-    public TourCreateAdapter_2(ArrayList<TourCreateItem_2> tourCreatePackagesItem_2){
+    public TourCreateAdapter_2(ArrayList<JSONObject> tourCreatePackagesItem_2){
         mTourCreatePackagesList_2 = tourCreatePackagesItem_2;
     }
 
@@ -42,12 +45,17 @@ public class TourCreateAdapter_2 extends RecyclerView.Adapter<TourCreateAdapter_
 
     @Override
     public void onBindViewHolder(TourCreatePackagesViewHolder tourCreatePackagesViewHolder, int i) {
-        TourCreateItem_2 currentItem = mTourCreatePackagesList_2.get(i);
+        JSONObject currentItem = mTourCreatePackagesList_2.get(i);
 
-        tourCreatePackagesViewHolder.mRoundedImageView.setImageResource(currentItem.getImageResources());
-        tourCreatePackagesViewHolder.mTextView1.setText(currentItem.getText1());
-        tourCreatePackagesViewHolder.mTextView2.setText(currentItem.getText2());
-        tourCreatePackagesViewHolder.mTextView3.setText(currentItem.getText3());
+        try {
+            tourCreatePackagesViewHolder.mRoundedImageView.setImageResource(currentItem.getInt("image"));
+            tourCreatePackagesViewHolder.mTextView1.setText(currentItem.getString("name"));
+            tourCreatePackagesViewHolder.mTextView2.setText(currentItem.getString("start_date"));
+            tourCreatePackagesViewHolder.mTextView3.setText(currentItem.getString("start_date"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
