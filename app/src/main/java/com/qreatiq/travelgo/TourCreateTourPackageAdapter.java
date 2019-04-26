@@ -13,7 +13,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class TourCreateAdapter_2 extends RecyclerView.Adapter<TourCreateAdapter_2.TourCreatePackagesViewHolder> {
+public class TourCreateTourPackageAdapter extends RecyclerView.Adapter<TourCreateTourPackageAdapter.TourCreatePackagesViewHolder> {
 
     private ArrayList<JSONObject> mTourCreatePackagesList_2;
 
@@ -32,7 +32,7 @@ public class TourCreateAdapter_2 extends RecyclerView.Adapter<TourCreateAdapter_
         }
     }
 
-    public TourCreateAdapter_2(ArrayList<JSONObject> tourCreatePackagesItem_2){
+    public TourCreateTourPackageAdapter(ArrayList<JSONObject> tourCreatePackagesItem_2){
         mTourCreatePackagesList_2 = tourCreatePackagesItem_2;
     }
 

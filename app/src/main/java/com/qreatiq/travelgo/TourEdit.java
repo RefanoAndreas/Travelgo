@@ -130,7 +130,7 @@ public class TourEdit extends AppCompatActivity {
                 try {
                     if (!response.isNull("tour")){
                         name.setText(response.getJSONObject("tour").getString("name"));
-                        desc.setText(response.getJSONObject("tour").getString("description"));
+//                        desc.setText(response.getJSONObject("tour").getString("description"));
                         telp.setText(response.getJSONObject("tour").getString("phone"));
                         tour_id = response.getJSONObject("tour").getString("id");
                         Picasso.get()

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.qreatiq.travelgo">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -37,7 +38,7 @@
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme" />
         <activity android:name=".SignUp" />
-        <activity android:name=".LogIn"></activity>
+        <activity android:name=".LogIn"/>
         <activity android:name=".LogSign" />
         <activity
             android:name=".TourCreatePackage"

@@ -34,14 +34,32 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:scrollbars="horizontal">
+                    android:paddingBottom="16dp">
                 </android.support.v7.widget.RecyclerView>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
+                    android:text="Name"/>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/name"/>
+                </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="12dp"
                     android:text="Start Date"/>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -52,7 +70,8 @@
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="date"/>
+                        android:focusable="false"
+                        android:onClick="startDate"/>
                 </android.support.design.widget.TextInputLayout>
                 <TextView
                     android:layout_width="match_parent"
@@ -70,7 +89,8 @@
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="date"/>
+                        android:focusable="false"
+                        android:onClick="endDate"/>
                 </android.support.design.widget.TextInputLayout>
                 <TextView
                     android:layout_width="match_parent"

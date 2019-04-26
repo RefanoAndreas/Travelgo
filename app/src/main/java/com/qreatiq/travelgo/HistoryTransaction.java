@@ -49,7 +49,7 @@ public class HistoryTransaction extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HistoryTransaction.super.onBackPressed();
+                onBackPressed();
             }
         });
 
