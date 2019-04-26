@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class HistoryTransactionListAdapter extends RecyclerView.Adapter<HistoryTransactionListAdapter.HistoryTransactionHolder> {
     ArrayList<JSONObject> historyList;
+    ClickListener clickListener;
 
     public HistoryTransactionListAdapter(ArrayList<JSONObject> historyList){
         this.historyList = historyList;
@@ -34,6 +35,13 @@ public class HistoryTransactionListAdapter extends RecyclerView.Adapter<HistoryT
             mTextView1 = itemView.findViewById(R.id.itemRV_historyTransaction_title);
             mTextView2 = itemView.findViewById(R.id.itemRV_historyTransaction_location);
             mTextView3 = itemView.findViewById(R.id.itemRV_historyTransaction_price);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onItemClick(getAdapterPosition());
+                }
+            });
         }
     }
 
@@ -61,6 +69,14 @@ public class HistoryTransactionListAdapter extends RecyclerView.Adapter<HistoryT
             e.printStackTrace();
         }
 
+    }
+
+    public interface ClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListner(HistoryTransactionListAdapter.ClickListener clickListner){
+        this.clickListener= clickListner;
     }
 
 

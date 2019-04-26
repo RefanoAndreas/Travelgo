@@ -1,6 +1,7 @@
 package com.qreatiq.travelgo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -53,7 +54,14 @@ public class HistoryTransaction extends AppCompatActivity {
             }
         });
 
-        getHistory();
+//        getHistory();
+
+        try {
+            historyList.add(new JSONObject("{\"packageName\": \"Bali Trip\", \"location\": \"Bali\", \"price\": \"1.000.000\"}"));
+            historyList.add(new JSONObject("{\"packageName\": \"Jakarta Trip\", \"location\": \"Jakarta\", \"price\": \"1.000.000\"}"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         mRecyclerView = findViewById(R.id.RV_historyTransaction);
         mRecyclerView.setHasFixedSize(true);
@@ -62,6 +70,15 @@ public class HistoryTransaction extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListner(new HistoryTransactionListAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                startActivity(new Intent(HistoryTransaction.this, TransactionDetail.class));
+            }
+        });
+
+
     }
 
     private void getHistory(){

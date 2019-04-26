@@ -12,9 +12,10 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
-        <activity android:name=".SearchTour"></activity>
+        <activity android:name=".Filter"
+            android:label="Filter"></activity>
+        <activity android:name=".SearchTour" />
         <activity
             android:name=".TransactionDetail"
             android:label="Transaction Detail" />
@@ -30,18 +31,23 @@
             android:name=".HistoryTransaction"
             android:label="History Transaction" />
         <activity android:name=".CityDetail" />
-        <activity android:name=".TourDetail"
-            android:label="Detail Tour"/>
-        <activity android:name=".Tour"></activity>
+        <activity
+            android:name=".TourDetail"
+            android:label="Detail Tour" />
+        <activity android:name=".Tour" />
         <activity android:name=".Home" />
         <activity android:name=".BottomNavContainer">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".SplashActivity"
             android:theme="@style/SplashTheme" />
         <activity android:name=".SignUp" />
-        <activity android:name=".LogIn">
-        </activity>
+        <activity android:name=".LogIn" />
         <activity android:name=".LogSign" />
         <activity
             android:name=".TourCreatePackage"
