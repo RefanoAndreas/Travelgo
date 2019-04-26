@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 public class BottomNavContainer extends AppCompatActivity {
 
@@ -18,13 +19,14 @@ public class BottomNavContainer extends AppCompatActivity {
     FragmentTour fragmentTour;
     Fragment selectedFragment = null;
     Toolbar toolbar;
+    BottomNavigationView bottomNav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav_container);
 
-        BottomNavigationView bottomNav = findViewById(R.id.nav_bottom);
+        bottomNav = findViewById(R.id.nav_bottom);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
 
         toolbar = findViewById(R.id.toolbar);

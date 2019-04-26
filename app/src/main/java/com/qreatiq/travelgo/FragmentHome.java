@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +37,8 @@ public class FragmentHome extends Fragment {
     String url, urlPhoto;
     RequestQueue requestQueue;
     ArrayList<HomeItem> homeList = new ArrayList<>();
+    CardView tourBtn;
+    BottomNavContainer parent;
 
     RecyclerViewSkeletonScreen skeleton;
 
@@ -49,10 +52,18 @@ public class FragmentHome extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        BottomNavContainer parent = (BottomNavContainer) getActivity();
+        parent = (BottomNavContainer) getActivity();
         parent.toolbar.setVisibility(View.GONE);
 
         requestQueue = Volley.newRequestQueue(getActivity());
+
+        tourBtn = (CardView)view.findViewById(R.id.tourBtn);
+        tourBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parent.bottomNav.setSelectedItemId(R.id.nav_tour);
+            }
+        });
 
 
         mRecyclerView = view.findViewById(R.id.RV_Home);

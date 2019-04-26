@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -37,6 +38,7 @@ public class FragmentTour extends Fragment {
     String url, userID;
     SharedPreferences user_id;
     String loc_id="";
+    EditText search;
 
     int[] sampleImages1 = {R.drawable.background2, R.drawable.background3, R.drawable.background4};
     int[] sampleImages2 = {R.drawable.background3, R.drawable.background4, R.drawable.background5};
@@ -52,13 +54,22 @@ public class FragmentTour extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         BottomNavContainer parent = (BottomNavContainer) getActivity();
         parent.toolbar.setVisibility(View.GONE);
         user_id = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("user_id", "No data found");
+
+        search = (EditText)view.findViewById(R.id.tour_search);
+        search.setKeyListener(null);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), SearchTour.class));
+            }
+        });
 
         requestQueue = Volley.newRequestQueue(getActivity());
 

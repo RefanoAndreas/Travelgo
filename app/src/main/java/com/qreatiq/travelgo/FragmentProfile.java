@@ -49,7 +49,7 @@ public class FragmentProfile extends Fragment {
         parent.toolbar.setVisibility(View.VISIBLE);
         parent.toolbar.setTitle("Profil Saya");
 
-        name = (TextView)getActivity().findViewById(R.id.username);
+//        name = (TextView)getActivity().findViewById(R.id.username);
         requestQueue = Volley.newRequestQueue(getActivity());
 
         user_ID = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
@@ -105,32 +105,32 @@ public class FragmentProfile extends Fragment {
             }
         });
 
-        getUserInfo();
+//        getUserInfo();
 
     }
 
-    private void getUserInfo(){
-        url = link.C_URL+"profile.php?id="+userID;
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    if (!response.isNull("user")){
-                        name.setText(response.getJSONObject("user").getString("name"));
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("error",error.getMessage());
-            }
-        });
-
-        requestQueue.add(jsonObjectRequest);
-    }
+//    private void getUserInfo(){
+//        url = link.C_URL+"profile.php?id="+userID;
+//
+//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+//            @Override
+//            public void onResponse(JSONObject response) {
+//                try {
+//                    if (!response.isNull("user")){
+//                        name.setText(response.getJSONObject("user").getString("name"));
+//                    }
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                Log.e("error",error.getMessage());
+//            }
+//        });
+//
+//        requestQueue.add(jsonObjectRequest);
+//    }
 
 }

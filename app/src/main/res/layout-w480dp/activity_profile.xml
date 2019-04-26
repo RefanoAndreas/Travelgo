@@ -26,18 +26,44 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/username"
+    <LinearLayout
+        android:id="@+id/kawan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_marginTop="16dp"
-        android:fontFamily="sans-serif-medium"
-        android:text="John Doe"
-        android:textColor="@android:color/black"
-        android:textSize="20dp"
-        app:layout_constraintLeft_toLeftOf="@id/circleImage"
+        android:background="@drawable/bg_rounded_kawan"
+        app:layout_constraintTop_toBottomOf="@id/circleImage"
         app:layout_constraintRight_toRightOf="@id/circleImage"
-        app:layout_constraintTop_toBottomOf="@id/circleImage" />
+        app:layout_constraintLeft_toLeftOf="@id/circleImage">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="6dp"
+            android:text="Kawan"
+            android:textColor="@android:color/white"
+            android:textSize="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/circleImage"
+            app:layout_constraintRight_toRightOf="@id/circleImage"
+            app:layout_constraintLeft_toLeftOf="@id/circleImage"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="6dp"
+            android:text="Rp 20.000"
+            android:textColor="@android:color/white"
+            android:textSize="10dp"
+            android:fontFamily="@font/montserrat_medium"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,7 +72,7 @@
         android:orientation="vertical"
         android:paddingLeft="16dp"
         app:layout_constraintBottom_toTopOf="@id/bottomNav"
-        app:layout_constraintTop_toBottomOf="@id/username">
+        app:layout_constraintTop_toBottomOf="@id/kawan">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/editProfileBtn"
