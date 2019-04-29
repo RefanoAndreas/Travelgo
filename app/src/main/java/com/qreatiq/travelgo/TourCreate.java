@@ -5,8 +5,10 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -55,6 +58,8 @@ public class TourCreate extends AppCompatActivity {
     BottomSheetDialog bottomSheetDialog;
     Uri filePath;
 
+    TextView no_data;
+
     int CREATE_TOUR_PACKAGE = 1, PICK_FROM_GALLERY = 2, PICK_FROM_CAMERA = 3;
 
     @Override
@@ -67,6 +72,7 @@ public class TourCreate extends AppCompatActivity {
         grid = (GridView) findViewById(R.id.grid);
         start_date = (TextInputEditText) findViewById(R.id.start_date);
         end_date = (TextInputEditText) findViewById(R.id.end_date);
+        no_data = (TextView) findViewById(R.id.no_data);
 
         try {
             photo_array.add(new JSONObject("{\"background\": "+R.drawable.upload_photo+", \"is_button_upload\": true}"));
@@ -90,6 +96,8 @@ public class TourCreate extends AppCompatActivity {
                     View view = LayoutInflater.from(TourCreate.this).inflate(R.layout.media_picker_fragment, null);
                     bottomSheetDialog=new BottomSheetDialog(TourCreate.this);
                     bottomSheetDialog.setContentView(view);
+                    BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
+                    mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     bottomSheetDialog.show();
                 }
             }
@@ -119,6 +127,14 @@ public class TourCreate extends AppCompatActivity {
                 tour_pack_array.remove(position);
                 tour_pack_adapter.notifyItemRemoved(position);
                 tour_pack_adapter.notifyItemRangeChanged(position,tour_pack_array.size());
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        check_tour_packages();
+                    }
+                }, 500);
+
             }
         });
 
@@ -131,6 +147,17 @@ public class TourCreate extends AppCompatActivity {
 
         adapter = new TourCreateFacilitiesAdapter(array,this);
         grid.setAdapter(adapter);
+    }
+
+    public void check_tour_packages(){
+        if(tour_pack_array.size() > 0) {
+            mRecyclerView_2.setVisibility(View.VISIBLE);
+            no_data.setVisibility(View.GONE);
+        }
+        else{
+            mRecyclerView_2.setVisibility(View.GONE);
+            no_data.setVisibility(View.VISIBLE);
+        }
     }
 
     public void camera(View v){
@@ -239,6 +266,7 @@ public class TourCreate extends AppCompatActivity {
 
                     tour_pack_array.add(json);
                     tour_pack_adapter.notifyDataSetChanged();
+                    check_tour_packages();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

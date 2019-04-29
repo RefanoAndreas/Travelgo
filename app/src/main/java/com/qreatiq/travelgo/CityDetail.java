@@ -3,6 +3,7 @@ package com.qreatiq.travelgo;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -63,6 +64,8 @@ public class CityDetail extends AppCompatActivity {
 
     Button btnFindTour;
 
+    BottomSheetDialog bottomSheetDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,8 +99,12 @@ public class CityDetail extends AppCompatActivity {
         ratingLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RatingCityDetailModalFragment bottomSheetFragment = new RatingCityDetailModalFragment();
-                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+                bottomSheetDialog=new BottomSheetDialog(CityDetail.this);
+                View view = View.inflate(CityDetail.this, R.layout.rating_city_detail_modal_fragment, null);
+                bottomSheetDialog.setContentView(view);
+                BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
+                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                bottomSheetDialog.show();
             }
         });
 

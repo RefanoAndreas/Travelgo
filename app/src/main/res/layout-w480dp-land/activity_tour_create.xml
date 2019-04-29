@@ -11,9 +11,9 @@
         layout="@layout/toolbar_elevation"/>
 
     <!--<android.support.v7.widget.Toolbar-->
-        <!--android:id="@+id/toolbar_tourCreatePackages"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
+    <!--android:id="@+id/toolbar_tourCreatePackages"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content">-->
     <!--</android.support.v7.widget.Toolbar>-->
 
     <android.support.v4.widget.NestedScrollView
@@ -29,14 +29,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/RV_tourCreatePackages_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:nestedScrollingEnabled="true"
                     android:paddingTop="16dp"
-                    android:paddingBottom="16dp"
-                    android:scrollbars="horizontal"/>
+                    android:paddingBottom="16dp"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -54,7 +54,6 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/name"/>
                 </android.support.design.widget.TextInputLayout>
-
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -72,6 +71,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
+                        android:id="@+id/start_date"
                         android:onClick="startDate"/>
                 </android.support.design.widget.TextInputLayout>
                 <TextView
@@ -91,8 +91,33 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
+                        android:id="@+id/end_date"
                         android:onClick="endDate"/>
                 </android.support.design.widget.TextInputLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Deskripsi"/>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    app:boxBackgroundColor="@android:color/white">
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:minLines="4"
+                        android:maxLines="10"
+                        android:gravity="top|left"/>
+                </android.support.design.widget.TextInputLayout>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -100,8 +125,6 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="12dp"
                     android:text="Location"/>
-
-
                 <android.support.v7.widget.AppCompatSpinner
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
@@ -113,6 +136,21 @@
                     android:entries="@array/location_array">
                 </android.support.v7.widget.AppCompatSpinner>
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="12dp"
+                    android:text="Facilities"/>
+                <GridView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:numColumns="2"
+                    android:id="@+id/grid" />
+
                 <android.support.design.button.MaterialButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -121,6 +159,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="32dp"
                     android:text="Create Tour Package"
+                    android:onClick="createTourPack"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"/>
 
@@ -141,10 +180,19 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="16dp"
                     android:text="List Package"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No Data Found"
+                    android:visibility="visible"
+                    android:layout_marginBottom="16dp"
+                    android:id="@+id/no_data"
+                    android:gravity="center"/>
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/RV_tourCreatePackages_2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="true"
                     android:scrollbars="none">
                 </android.support.v7.widget.RecyclerView>
             </LinearLayout>

@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -54,6 +55,8 @@ public class TourCreatePackage extends AppCompatActivity {
                 View view = LayoutInflater.from(TourCreatePackage.this).inflate(R.layout.media_picker_fragment, null);
                 bottomSheetDialog=new BottomSheetDialog(TourCreatePackage.this);
                 bottomSheetDialog.setContentView(view);
+                BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
+                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                 bottomSheetDialog.show();
             }
         });

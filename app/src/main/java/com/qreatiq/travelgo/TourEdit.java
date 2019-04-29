@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
@@ -71,17 +72,7 @@ public class TourEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_edit);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        link.setToolbar(this);
 
         name = (TextInputEditText)findViewById(R.id.TIET_tourName_tourEdit);
 //        desc = (TextInputEditText)findViewById(R.id.TIET_tourDesc_tourEdit);
@@ -257,6 +248,8 @@ public class TourEdit extends AppCompatActivity {
         bottomSheetDialog=new BottomSheetDialog(this);
         View view = View.inflate(this, R.layout.media_picker_fragment, null);
         bottomSheetDialog.setContentView(view);
+        BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
+        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         bottomSheetDialog.show();
 //        startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),1);
     }

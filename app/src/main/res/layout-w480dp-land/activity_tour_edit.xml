@@ -48,10 +48,11 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintDimensionRatio="W,4:2"
+                    app:layout_constraintDimensionRatio="W,3:2"
                     android:layout_marginTop="8dp"
                     app:cardCornerRadius="8dp"
                     android:onClick="addMedia"
+                    android:id="@+id/image_container"
                     app:cardPreventCornerOverlap="false">
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
@@ -65,7 +66,7 @@
                             app:riv_corner_radius="8dp"/>
                         <android.support.constraint.ConstraintLayout
                             android:layout_width="match_parent"
-                            android:layout_height="56dp"
+                            android:layout_height="40dp"
                             app:layout_constraintBottom_toBottomOf="parent">
                             <ImageView
                                 android:layout_width="match_parent"
@@ -80,7 +81,7 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintLeft_toLeftOf="parent"
                                 android:textColor="@android:color/white"
-                                android:textSize="16dp"
+                                android:textSize="14dp"
                                 android:fontFamily="sans-serif-medium"/>
                         </android.support.constraint.ConstraintLayout>
                     </android.support.constraint.ConstraintLayout>
@@ -106,7 +107,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+                    android:textSize="14dp"/>
             </android.support.design.widget.TextInputLayout>
 
             <TextView
@@ -131,26 +133,27 @@
             </android.support.design.widget.TextInputLayout>
 
             <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="12dp"-->
-                <!--android:text="Description"/>-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="12dp"-->
+            <!--android:text="Description"/>-->
             <!--<android.support.design.widget.TextInputLayout-->
-                <!--android:id="@+id/TIL_tourDescription_tourEdit"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
-                <!--app:boxStrokeColor="#999999"-->
-                <!--app:boxStrokeWidth="1dp"-->
-                <!--app:boxBackgroundColor="@android:color/white">-->
-                <!--<android.support.design.widget.TextInputEditText-->
-                    <!--android:id="@+id/TIET_tourDesc_tourEdit"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:inputType="textMultiLine"-->
-                    <!--android:minLines="4"-->
-                    <!--android:maxLines="10"-->
-                    <!--android:gravity="top|left"/>-->
+            <!--android:id="@+id/TIL_tourDescription_tourEdit"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+            <!--app:boxStrokeColor="#999999"-->
+            <!--app:boxStrokeWidth="1dp"-->
+            <!--app:boxBackgroundColor="@android:color/white">-->
+            <!--<android.support.design.widget.TextInputEditText-->
+            <!--android:id="@+id/TIET_tourDesc_tourEdit"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:inputType="textMultiLine"-->
+            <!--android:minLines="4"-->
+            <!--android:maxLines="10"-->
+            <!--android:gravity="top|left"-->
+            <!--android:textSize="14dp"/>-->
             <!--</android.support.design.widget.TextInputLayout>-->
 
             <LinearLayout
@@ -167,7 +170,8 @@
                     android:layout_marginRight="8dp"
                     android:text="save changes"
                     android:onClick="submit"
-                    android:background="#0d63fe"/>
+                    android:background="#0d63fe"
+                    android:textSize="12dp"/>
                 <android.support.design.button.MaterialButton
                     android:id="@+id/cancel_tourEdit"
                     android:layout_width="match_parent"
@@ -179,7 +183,8 @@
                     android:layout_marginLeft="8dp"
                     android:text="Cancel"
                     android:onClick="cancel"
-                    android:background="#0d63fe"/>
+                    android:background="#0d63fe"
+                    android:textSize="12dp"/>
             </LinearLayout>
 
         </LinearLayout>

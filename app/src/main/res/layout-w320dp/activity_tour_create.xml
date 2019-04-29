@@ -29,6 +29,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/RV_tourCreatePackages_1"
                     android:layout_width="match_parent"
@@ -179,6 +180,14 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="16dp"
                     android:text="List Package"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="No Data Found"
+                    android:visibility="visible"
+                    android:layout_marginBottom="16dp"
+                    android:id="@+id/no_data"
+                    android:gravity="center"/>
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/RV_tourCreatePackages_2"
                     android:layout_width="match_parent"
