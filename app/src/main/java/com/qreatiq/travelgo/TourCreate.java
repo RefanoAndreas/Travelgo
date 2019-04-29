@@ -3,13 +3,19 @@ package com.qreatiq.travelgo;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.DatePicker;
@@ -19,6 +25,7 @@ import android.widget.GridView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -35,7 +42,7 @@ public class TourCreate extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager_1, mLayoutManager_2;
 
     ArrayList<JSONObject> photo_array = new ArrayList<JSONObject>();
-    TourCreateTourPackageAdapter photo_adapter;
+    TourCreatePhotosAdapter photo_adapter;
 
     ArrayList<JSONObject> tour_pack_array = new ArrayList<JSONObject>();
     TourCreateTourPackageAdapter tour_pack_adapter;
@@ -45,17 +52,17 @@ public class TourCreate extends AppCompatActivity {
     GridView grid;
 
     TextInputEditText start_date,end_date;
+    BottomSheetDialog bottomSheetDialog;
+    Uri filePath;
 
-    int CREATE_TOUR_PACKAGE = 1;
+    int CREATE_TOUR_PACKAGE = 1, PICK_FROM_GALLERY = 2, PICK_FROM_CAMERA = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_create);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        link.setToolbar(this);
 
         grid = (GridView) findViewById(R.id.grid);
         start_date = (TextInputEditText) findViewById(R.id.start_date);
@@ -63,33 +70,40 @@ public class TourCreate extends AppCompatActivity {
 
         try {
             photo_array.add(new JSONObject("{\"background\": "+R.drawable.upload_photo+", \"is_button_upload\": true}"));
-            photo_array.add(new JSONObject("{\"background\": "+R.drawable.background2+", \"is_button_upload\": false}"));
-            photo_array.add(new JSONObject("{\"background\": "+R.drawable.background3+", \"is_button_upload\": false}"));
-            photo_array.add(new JSONObject("{\"background\": "+R.drawable.background4+", \"is_button_upload\": false}"));
-            photo_array.add(new JSONObject("{\"background\": "+R.drawable.background5+", \"is_button_upload\": false}"));
-            photo_array.add(new JSONObject("{\"background\": "+R.drawable.background6+", \"is_button_upload\": false}"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
         mRecyclerView_1 = findViewById(R.id.RV_tourCreatePackages_1);
         mRecyclerView_1.setHasFixedSize(true);
         mLayoutManager_1 = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mAdapter_1 = new TourCreatePhotosAdapter(photo_array);
+        photo_adapter = new TourCreatePhotosAdapter(photo_array);
 
         mRecyclerView_1.setLayoutManager(mLayoutManager_1);
-        mRecyclerView_1.setAdapter(mAdapter_1);
+        mRecyclerView_1.setAdapter(photo_adapter);
+
+        photo_adapter.setOnItemClickListner(new TourCreatePhotosAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                Log.d("position", String.valueOf(position));
+                if(position == 0){
+                    View view = LayoutInflater.from(TourCreate.this).inflate(R.layout.media_picker_fragment, null);
+                    bottomSheetDialog=new BottomSheetDialog(TourCreate.this);
+                    bottomSheetDialog.setContentView(view);
+                    bottomSheetDialog.show();
+                }
+            }
+        });
 
 
-        try {
-            tour_pack_array.add(new JSONObject("{\"image\": "+R.drawable.background2+", \"name\": \"Rodex Tour\", \"start_date\": \"11/04/2019\", \"end_date\": \"12/04/2019\"}"));
-            tour_pack_array.add(new JSONObject("{\"image\": "+R.drawable.background3+", \"name\": \"Rodex Tour\", \"start_date\": \"11/04/2019\", \"end_date\": \"12/04/2019\"}"));
-            tour_pack_array.add(new JSONObject("{\"image\": "+R.drawable.background4+", \"name\": \"Rodex Tour\", \"start_date\": \"11/04/2019\", \"end_date\": \"12/04/2019\"}"));
-            tour_pack_array.add(new JSONObject("{\"image\": "+R.drawable.background5+", \"name\": \"Rodex Tour\", \"start_date\": \"11/04/2019\", \"end_date\": \"12/04/2019\"}"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            tour_pack_array.add(new JSONObject("{\"image\": "+R.drawable.background2+", \"name\": \"Rodex Tour\", \"start_date\": \"11/04/2019\", \"end_date\": \"12/04/2019\"}"));
+//            tour_pack_array.add(new JSONObject("{\"image\": "+R.drawable.background3+", \"name\": \"Rodex Tour\", \"start_date\": \"11/04/2019\", \"end_date\": \"12/04/2019\"}"));
+//            tour_pack_array.add(new JSONObject("{\"image\": "+R.drawable.background4+", \"name\": \"Rodex Tour\", \"start_date\": \"11/04/2019\", \"end_date\": \"12/04/2019\"}"));
+//            tour_pack_array.add(new JSONObject("{\"image\": "+R.drawable.background5+", \"name\": \"Rodex Tour\", \"start_date\": \"11/04/2019\", \"end_date\": \"12/04/2019\"}"));
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
 
         mRecyclerView_2 = findViewById(R.id.RV_tourCreatePackages_2);
         mRecyclerView_2.setHasFixedSize(true);
@@ -98,6 +112,15 @@ public class TourCreate extends AppCompatActivity {
 
         mRecyclerView_2.setLayoutManager(mLayoutManager_2);
         mRecyclerView_2.setAdapter(tour_pack_adapter);
+
+        tour_pack_adapter.setOnTrashClickListner(new TourCreateTourPackageAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                tour_pack_array.remove(position);
+                tour_pack_adapter.notifyItemRemoved(position);
+                tour_pack_adapter.notifyItemRangeChanged(position,tour_pack_array.size());
+            }
+        });
 
         array.add("Kolam Renang");
         array.add("Kolam Renang");
@@ -108,6 +131,16 @@ public class TourCreate extends AppCompatActivity {
 
         adapter = new TourCreateFacilitiesAdapter(array,this);
         grid.setAdapter(adapter);
+    }
+
+    public void camera(View v){
+        startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),PICK_FROM_CAMERA);
+    }
+
+    public void gallery(View v){
+        Intent in =new Intent(Intent.ACTION_PICK);
+        in.setType("image/*");
+        startActivityForResult(in,PICK_FROM_GALLERY);
     }
 
     @Override
@@ -198,18 +231,57 @@ public class TourCreate extends AppCompatActivity {
                     JSONObject data_from_facilities = new JSONObject(data.getStringExtra("data"));
 
                     JSONObject json = new JSONObject();
-                    json.put("image",R.drawable.background2);
+                    json.put("image",(Bitmap) link.StringToBitMap(data_from_facilities.getString("image")));
                     json.put("name",data_from_facilities.getString("name"));
                     json.put("price",data_from_facilities.getString("price"));
                     json.put("start_date","11/04/2019");
                     json.put("end_date","12/04/2019");
 
                     tour_pack_array.add(json);
-                    tour_pack_adapter.notifyItemInserted(tour_pack_array.size());
+                    tour_pack_adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
+            else if(requestCode==PICK_FROM_CAMERA){
+                filePath = data.getData();
+                Bitmap bitmap=(Bitmap) data.getExtras().get("data");
+
+                JSONObject json = new JSONObject();
+                try {
+                    json.put("background",bitmap);
+                    json.put("is_button_upload",false);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                photo_array.add(json);
+                photo_adapter.notifyItemInserted(photo_array.size());
+
+                bottomSheetDialog.hide();
+            }
+            else if(requestCode==PICK_FROM_GALLERY){
+
+                Uri selectedImage = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+
+                    JSONObject json = new JSONObject();
+                    try {
+                        json.put("background",bitmap);
+                        json.put("is_button_upload",false);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    photo_array.add(json);
+                    photo_adapter.notifyItemInserted(photo_array.size());
+
+                } catch (IOException e) {
+                    Log.i("TAG", "Some exception " + e);
+                }
+                bottomSheetDialog.hide();
+            }
+
+
         }
     }
 }

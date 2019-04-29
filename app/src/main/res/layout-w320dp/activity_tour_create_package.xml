@@ -26,6 +26,7 @@
                 <com.makeramen.roundedimageview.RoundedImageView
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:id="@+id/image"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
