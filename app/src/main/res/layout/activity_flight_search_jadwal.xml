@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".FlightSearchJadwal">
 
-    <Toolbar
+    <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
                 android:textSize="12dp"
                 android:textColor="@android:color/white"/>
         </LinearLayout>
-    </Toolbar>
+    </android.support.v7.widget.Toolbar>
 
     <LinearLayout
         android:id="@+id/flightSearchJadwal_menubar"
@@ -55,7 +55,6 @@
             app:iconGravity="start"
             android:text="Sort"
             android:textSize="12dp"
-            android:textAlignment="textStart"
             android:textColor="@android:color/darker_gray"/>
 
         <android.support.design.button.MaterialButton
@@ -75,7 +74,6 @@
             app:iconPadding="8dp"
             app:iconGravity="start"
             android:text="filter"
-            android:textAlignment="textStart"
             android:textColor="@android:color/darker_gray"/>
 
         <android.support.design.button.MaterialButton
@@ -93,7 +91,6 @@
             app:iconGravity="start"
             android:text="date"
             android:textSize="12dp"
-            android:textAlignment="textStart"
             android:textColor="@android:color/darker_gray"/>
 
     </LinearLayout>
