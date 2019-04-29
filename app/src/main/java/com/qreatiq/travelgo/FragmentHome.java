@@ -37,7 +37,7 @@ public class FragmentHome extends Fragment {
     String url, urlPhoto;
     RequestQueue requestQueue;
     ArrayList<HomeItem> homeList = new ArrayList<>();
-    CardView tourBtn;
+    CardView tourBtn, flightBtn;
     BottomNavContainer parent;
 
     RecyclerViewSkeletonScreen skeleton;
@@ -62,6 +62,14 @@ public class FragmentHome extends Fragment {
             @Override
             public void onClick(View v) {
                 parent.bottomNav.setSelectedItemId(R.id.nav_tour);
+            }
+        });
+
+        flightBtn = (CardView)view.findViewById(R.id.flightBtn);
+        flightBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), FlightSearch.class));
             }
         });
 

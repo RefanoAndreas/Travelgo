@@ -14,13 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".FlightSearchJadwal">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
-        <activity android:name=".FlightSearchKelasPesawat" />
+
+
         <activity
             android:name=".Filter"
             android:label="Filter" />
@@ -28,26 +24,26 @@
         <activity
             android:name=".TransactionDetail"
             android:label="Transaction Detail" />
-        <activity
-            android:name=".FlightSearch"
+        <activity android:name=".FlightSearch"
             android:label="Pesan Tiket pesawat">
+        </activity>
+        <activity android:name=".ChangeDateActivity"
+            android:label="Ubah Tanggal">
 
         </activity>
+
         <activity
             android:name=".HistoryTransaction"
             android:label="History Transaction" />
         <activity android:name=".CityDetail" />
+
         <activity
             android:name=".TourDetail"
             android:label="Detail Tour" />
         <activity android:name=".Tour" />
         <activity android:name=".Home" />
         <activity android:name=".BottomNavContainer">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".SplashActivity"

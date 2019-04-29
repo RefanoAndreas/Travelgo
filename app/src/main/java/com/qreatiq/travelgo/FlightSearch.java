@@ -1,6 +1,8 @@
 package com.qreatiq.travelgo;
 
+import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.design.button.MaterialButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -10,6 +12,8 @@ import android.view.View;
 import com.shawnlin.numberpicker.NumberPicker;
 
 public class FlightSearch extends AppCompatActivity {
+
+    MaterialButton searchTicketBtn;
 
 
     @Override
@@ -40,5 +44,14 @@ public class FlightSearch extends AppCompatActivity {
                 kelasPesawatSheet.setStyle(kelasPesawatSheet.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
             }
         });
+
+        searchTicketBtn = (MaterialButton) findViewById(R.id.search_flight);
+        searchTicketBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FlightSearch.this, FlightSearchJadwal.class));
+            }
+        });
+
     }
 }
