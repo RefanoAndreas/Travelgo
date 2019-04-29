@@ -13,13 +13,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Filter"
-            android:label="Filter"></activity>
+        <activity android:name=".FlightSearchJadwal">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".FlightSearchKelasPesawat" />
+        <activity
+            android:name=".Filter"
+            android:label="Filter" />
         <activity android:name=".SearchTour" />
         <activity
             android:name=".TransactionDetail"
             android:label="Transaction Detail" />
-        <activity android:name=".FlightSearch"
+        <activity
+            android:name=".FlightSearch"
             android:label="Pesan Tiket pesawat">
 
         </activity>
@@ -41,13 +51,7 @@
         </activity>
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/SplashTheme" />
         <activity android:name=".SignUp" />
         <activity android:name=".LogIn" />
         <activity android:name=".LogSign" />

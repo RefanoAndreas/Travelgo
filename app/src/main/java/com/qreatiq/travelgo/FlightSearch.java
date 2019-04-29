@@ -11,6 +11,7 @@ import com.shawnlin.numberpicker.NumberPicker;
 
 public class FlightSearch extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +28,16 @@ public class FlightSearch extends AppCompatActivity {
                 FlightSearchJumlahPenumpang jumlahPenumpangSheet = new FlightSearchJumlahPenumpang();
                 jumlahPenumpangSheet.show(getSupportFragmentManager(), "Pilih Jumlah Penumpang");
                 jumlahPenumpangSheet.setStyle(jumlahPenumpangSheet.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
+            }
+        });
+
+        final CardView kelaspesawat = findViewById(R.id.flightSearch_kelaspesawat);
+        kelaspesawat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FlightSearchKelasPesawat kelasPesawatSheet = new FlightSearchKelasPesawat();
+                kelasPesawatSheet.show(getSupportFragmentManager(), "Pilih Kelas Pesawat");
+                kelasPesawatSheet.setStyle(kelasPesawatSheet.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
             }
         });
     }
