@@ -28,7 +28,7 @@ public class FlightSearchJadwal extends AppCompatActivity {
 
         link.setToolbar(this);
 
-        mRecyclerView = findViewById(R.id.RV_chooseDate);
+
         try {
             ticketList.add(new JSONObject("{\"airlines\":\"Singapore Airlines\", " +
                     "\"departTime\":\"07.40\", " +
@@ -50,6 +50,7 @@ public class FlightSearchJadwal extends AppCompatActivity {
             e.printStackTrace();
         }
 
+        mRecyclerView = findViewById(R.id.RV_chooseDate);
         mRecyclerView = findViewById(R.id.RV_ticket_result);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);

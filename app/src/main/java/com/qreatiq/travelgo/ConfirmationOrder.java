@@ -2,17 +2,14 @@ package com.qreatiq.travelgo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
-public class TransactionDetail extends AppCompatActivity {
+public class ConfirmationOrder extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_transaction_detail);
+        setContentView(R.layout.activity_confirmation_order);
 
         link.setToolbar(this);
-
     }
 }

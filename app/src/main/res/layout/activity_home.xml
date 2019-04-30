@@ -233,6 +233,7 @@
                         android:orientation="vertical"
                         android:layout_weight="1">
                         <android.support.v7.widget.CardView
+                            android:id="@+id/hotelBtn"
                             android:layout_width="90dp"
                             android:layout_height="90dp"
                             android:layout_gravity="center"
