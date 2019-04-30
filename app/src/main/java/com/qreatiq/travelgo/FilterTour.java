@@ -1,31 +1,25 @@
 package com.qreatiq.travelgo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 
-import java.util.ArrayList;
+import org.w3c.dom.Text;
 
-public class Filter extends AppCompatActivity {
+public class FilterTour extends AppCompatActivity {
 
-    TextView minPrice, maxPrice;
+    TextView minPrice, maxPrice, seeLocation, seeDuration;
     CrystalRangeSeekbar rangeSeekbar;
-
-    ArrayList<String> arrayTime = new ArrayList<String>();
-    ArrayList<String> arrayTimeArrive = new ArrayList<String>();
-    TimeAdapter adapter;
-    GridView gridDeparture, gridArrival;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
+        setContentView(R.layout.activity_filter_tour);
 
         link.setToolbar(this);
 
@@ -41,17 +35,23 @@ public class Filter extends AppCompatActivity {
             }
         });
 
-        gridDeparture = (GridView) findViewById(R.id.gridDepart);
-        gridArrival = (GridView) findViewById(R.id.gridArrive);
+        seeLocation = (TextView) findViewById(R.id.see_locationBtn);
+        seeLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FilterTour.this, FilterTourLocation.class));
+            }
+        });
 
-        arrayTime.add("00:00 - 11:00");
-        arrayTime.add("11:00 - 15:00");
-        arrayTime.add("15:00 - 18:30");
-        arrayTime.add("18:30 - 23:59");
-
-        adapter = new TimeAdapter(arrayTime,this);
-        gridDeparture.setAdapter(adapter);
-        gridArrival.setAdapter(adapter);
+        seeDuration = (TextView) findViewById(R.id.see_durationBtn);
+        seeDuration.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FilterTourDuration filterTourDuration = new FilterTourDuration();
+                filterTourDuration.show(getSupportFragmentManager(), "Pilih Jangka Waktu");
+                filterTourDuration.setStyle(filterTourDuration.STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
+            }
+        });
 
     }
 }

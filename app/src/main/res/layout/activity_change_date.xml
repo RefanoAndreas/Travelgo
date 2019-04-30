@@ -29,7 +29,7 @@
             </android.support.v7.widget.RecyclerView>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/RV_choose_airlines"
+                android:id="@+id/RV_choose_ticket"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp">

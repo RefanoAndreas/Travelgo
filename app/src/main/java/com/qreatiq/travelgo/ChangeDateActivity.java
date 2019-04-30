@@ -23,6 +23,12 @@ public class ChangeDateActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> dateList = new ArrayList<>();
 
+    private RecyclerView mRecyclerViewTicket;
+    private TicketAdapter mAdapterTicket;
+    private RecyclerView.LayoutManager mLayoutManagerTicket;
+    ArrayList<JSONObject> ticketList = new ArrayList<>();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +54,35 @@ public class ChangeDateActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        try {
+            ticketList.add(new JSONObject("{\"airlines\":\"Cathay Pacific\", " +
+                    "\"departTime\":\"06.20\", " +
+                    "\"duration\":\"2j 20m\", " +
+                    "\"arrivalTime\":\"09.40\", " +
+                    "\"departAirport\":\"CGK\", " +
+                    "\"totalTransit\":\"1 Transit\", " +
+                    "\"arrivalAirport\":\"HKG\", " +
+                    "\"price\":\"3.500.000\"}"));
+            ticketList.add(new JSONObject("{\"airlines\":\"Citilink\", " +
+                    "\"departTime\":\"07.40\", " +
+                    "\"duration\":\"1j 05m\", " +
+                    "\"arrivalTime\":\"08.05\", " +
+                    "\"departAirport\":\"CGK\", " +
+                    "\"totalTransit\":\"0 Transit\", " +
+                    "\"arrivalAirport\":\"SUB\", " +
+                    "\"price\":\"850.000\"}"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mRecyclerViewTicket = findViewById(R.id.RV_choose_ticket);
+        mRecyclerViewTicket.setHasFixedSize(true);
+        mLayoutManagerTicket = new LinearLayoutManager(this);
+        mAdapterTicket = new TicketAdapter(ticketList);
+
+        mRecyclerViewTicket.setLayoutManager(mLayoutManagerTicket);
+        mRecyclerViewTicket.setAdapter(mAdapterTicket);
 
     }
 }

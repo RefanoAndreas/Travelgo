@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:src="@drawable/white"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius_top_left="10dp"
+        app:riv_corner_radius_top_right="10dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#4D0E64FF"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="118dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="15dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Jangka Waktu"
+            android:textSize="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textColor="@android:color/black"
+            android:fontFamily="@font/montserrat_medium"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+            <com.shawnlin.numberpicker.NumberPicker
+                android:id="@+id/tour_duration_np1"
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+                android:layout_weight="3"
+                app:np_orientation="vertical"
+                app:np_fadingEdgeEnabled="false"
+                app:np_dividerThickness="0dp"
+                app:np_dividerDistance="40dp"
+                app:np_wrapSelectorWheel="true"
+                app:np_textSize="14dp"
+                app:np_selectedTextSize="14dp">
+            </com.shawnlin.numberpicker.NumberPicker>
+
+        </LinearLayout>
+        <android.support.design.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="15dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:backgroundTint="@color/colorPrimary"
+            android:text="simpan perubahan"
+            android:fontFamily="@font/montserrat_medium"/>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

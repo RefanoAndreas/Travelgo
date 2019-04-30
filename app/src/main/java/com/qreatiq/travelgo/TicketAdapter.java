@@ -24,17 +24,20 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketHold
     }
 
     public class TicketHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView1;
-        public TextView mTextView2;
-        public TextView mTextView3;
+        public TextView airlinesName, departureTime, duration, arrivalTime, departureAirport, totalTransit, arrivalAirport, ticketPrice;
         public ConstraintLayout layout;
         public Button mButton;
 
         public TicketHolder(@NonNull View itemView) {
             super(itemView);
-            mTextView1 = itemView.findViewById(R.id.TV_day);
-            mTextView2 = itemView.findViewById(R.id.TV_date);
-            mTextView3 = itemView.findViewById(R.id.TV_price);
+            airlinesName = itemView.findViewById(R.id.TV_airlines_name);
+            departureTime = itemView.findViewById(R.id.TV_departTime);
+            duration = itemView.findViewById(R.id.TV_duration);
+            arrivalTime = itemView.findViewById(R.id.TV_arriveTime);
+            departureAirport = itemView.findViewById(R.id.TV_departAirport);
+            totalTransit = itemView.findViewById(R.id.TV_totalTransit);
+            arrivalAirport = itemView.findViewById(R.id.TV_arriveAirport);
+            ticketPrice = itemView.findViewById(R.id.TV_price);
             layout = (ConstraintLayout) itemView.findViewById(R.id.layout);
             mButton = itemView.findViewById(R.id.chooseButton);
         }
@@ -52,9 +55,14 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketHold
         JSONObject jsonObject = ticketList.get(i);
 
         try {
-            ticketHolder.mTextView1.setText(jsonObject.getString("day"));
-            ticketHolder.mTextView2.setText(jsonObject.getString("date"));
-            ticketHolder.mTextView3.setText("Rp. "+jsonObject.getString("price"));
+            ticketHolder.airlinesName.setText(jsonObject.getString("airlines"));
+            ticketHolder.departureTime.setText(jsonObject.getString("departTime"));
+            ticketHolder.duration.setText("Rp. "+jsonObject.getString("duration"));
+            ticketHolder.arrivalTime.setText(jsonObject.getString("arrivalTime"));
+            ticketHolder.departureAirport.setText(jsonObject.getString("departAirport"));
+            ticketHolder.totalTransit.setText("Rp. "+jsonObject.getString("totalTransit"));
+            ticketHolder.arrivalAirport.setText(jsonObject.getString("arrivalAirport"));
+            ticketHolder.ticketPrice.setText("Rp. "+jsonObject.getString("price"));
 
         } catch (JSONException e) {
             e.printStackTrace();

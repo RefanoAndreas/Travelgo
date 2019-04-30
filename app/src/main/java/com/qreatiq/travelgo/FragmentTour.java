@@ -3,6 +3,7 @@ package com.qreatiq.travelgo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -39,6 +41,7 @@ public class FragmentTour extends Fragment {
     SharedPreferences user_id;
     String loc_id="";
     EditText search;
+    ImageView tourFilterBtn;
 
     int[] sampleImages1 = {R.drawable.background2, R.drawable.background3, R.drawable.background4};
     int[] sampleImages2 = {R.drawable.background3, R.drawable.background4, R.drawable.background5};
@@ -99,6 +102,14 @@ public class FragmentTour extends Fragment {
             }
         });
 
+        tourFilterBtn = (ImageView)view.findViewById(R.id.tour_filter);
+        tourFilterBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), FilterTour.class));
+            }
+        });
+
 
 //        ArrayList<TourListItem> tourListPackagesList = new ArrayList<>();
 //        tourListPackagesList.add(new TourListItem(R.drawable.background2, "Rodex Tour", "11/04/2019", "12/04/2019"));
@@ -151,5 +162,9 @@ public class FragmentTour extends Fragment {
     public void onPause() {
         super.onPause();
         loc_id = "";
+    }
+
+    public void viewTourFilter(View v){
+        startActivity(new Intent(getActivity(), FilterTour.class));
     }
 }

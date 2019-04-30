@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/airlines_name"
+                    android:id="@+id/TV_airlines_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -60,13 +60,14 @@
                     android:orientation="vertical"
                     android:layout_marginRight="16dp">
                     <TextView
-
+                        android:id="@+id/TV_departTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="05:10"
                         android:fontFamily="@font/montserrat_semi_bold"
                         android:textColor="@color/colorPrimaryDark"/>
                     <TextView
+                        android:id="@+id/TV_departAirport"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="SUB"
@@ -81,12 +82,14 @@
                     android:orientation="vertical"
                     android:layout_marginRight="16dp">
                     <TextView
+                        android:id="@+id/TV_duration"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="4j 1m"
                         android:fontFamily="@font/montserrat_semi_bold"
                         android:textColor="@color/colorPrimaryDark"/>
                     <TextView
+                        android:id="@+id/TV_totalTransit"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1 Transit"
@@ -101,12 +104,14 @@
                     android:orientation="vertical"
                     android:layout_marginRight="16dp">
                     <TextView
+                        android:id="@+id/TV_arriveTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="16:00"
                         android:fontFamily="@font/montserrat_semi_bold"
                         android:textColor="@color/colorPrimaryDark"/>
                     <TextView
+                        android:id="@+id/TV_arriveAirport"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="KNO"
@@ -120,6 +125,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
+                        android:id="@+id/TV_price"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Rp 1.600.000"

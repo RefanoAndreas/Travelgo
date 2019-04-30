@@ -21,9 +21,7 @@ public class FlightSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flight_search);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        link.setToolbar(this);
 
         final CardView jumlahpenumpang = findViewById(R.id.flightSearch_jumlahPenumpang);
         jumlahpenumpang.setOnClickListener(new View.OnClickListener() {
