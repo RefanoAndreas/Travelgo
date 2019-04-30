@@ -30,6 +30,23 @@
             android:name=".FilterTour"
             android:label="Filter" />
         <activity android:name=".FlightSearchJadwal" />
+        <activity android:name=".D3Eticket"></activity>
+        <activity
+            android:name=".D2NotifikasiDetail"
+            android:label="Detail Notifikasi">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".D1Notifikasi"
+            android:label="Notifikasi" />
+        <activity
+            android:name=".FlightIsiDataPenumpang"
+            android:label="Isi Data Penumpang" />
+        <activity android:name=".FlightSearchJadwal" />
         <activity
             android:name=".Filter"
             android:label="Filter" />
@@ -47,6 +64,7 @@
             android:name=".HistoryTransaction"
             android:label="History Transaction" />
         <activity android:name=".CityDetail" />
+
         <activity
             android:name=".TourDetail"
             android:label="Detail Tour" />
