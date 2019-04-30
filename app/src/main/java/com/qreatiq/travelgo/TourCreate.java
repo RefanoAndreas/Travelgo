@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -258,7 +259,10 @@ public class TourCreate extends AppCompatActivity {
                     JSONObject data_from_facilities = new JSONObject(data.getStringExtra("data"));
 
                     JSONObject json = new JSONObject();
-                    json.put("image",(Bitmap) link.StringToBitMap(data_from_facilities.getString("image")));
+                    if(data_from_facilities.has("image"))
+                        json.put("image",(Bitmap) link.StringToBitMap(data_from_facilities.getString("image")));
+                    else
+                        json.put("image", BitmapFactory.decodeResource(getResources(),R.drawable.background1));
                     json.put("name",data_from_facilities.getString("name"));
                     json.put("price",data_from_facilities.getString("price"));
                     json.put("start_date","11/04/2019");
@@ -285,7 +289,7 @@ public class TourCreate extends AppCompatActivity {
                 photo_array.add(json);
                 photo_adapter.notifyItemInserted(photo_array.size());
 
-                bottomSheetDialog.hide();
+                bottomSheetDialog.dismiss();
             }
             else if(requestCode==PICK_FROM_GALLERY){
 
@@ -306,7 +310,7 @@ public class TourCreate extends AppCompatActivity {
                 } catch (IOException e) {
                     Log.i("TAG", "Some exception " + e);
                 }
-                bottomSheetDialog.hide();
+                bottomSheetDialog.dismiss();
             }
 
 

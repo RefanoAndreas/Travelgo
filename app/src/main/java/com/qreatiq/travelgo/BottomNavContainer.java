@@ -2,6 +2,7 @@ package com.qreatiq.travelgo;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -45,6 +46,11 @@ public class BottomNavContainer extends AppCompatActivity {
         }
         else
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentHome()).commit();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =

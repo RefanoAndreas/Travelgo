@@ -39,16 +39,7 @@ public class ProfileEdit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_edit);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ProfileEdit.super.onBackPressed();
-            }
-        });
+        link.setToolbar(this);
 
         nameLayout = (TextInputLayout) findViewById(R.id.TIL_name_profileEdit);
         nameLayout.setHint(null);

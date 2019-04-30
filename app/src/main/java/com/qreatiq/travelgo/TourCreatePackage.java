@@ -106,7 +106,8 @@ public class TourCreatePackage extends AppCompatActivity {
         else {
             JSONObject json = new JSONObject();
             try {
-                json.put("image", link.BitMapToString(bitmap));
+                if(bitmap != null)
+                    json.put("image", link.BitMapToString(bitmap));
                 json.put("name", name.getText().toString());
                 json.put("price", price.getText().toString());
             } catch (JSONException e) {

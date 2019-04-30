@@ -94,8 +94,9 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:text="Account Profile"
+                        android:text="@string/profile_edit_profile_label"
                         android:textSize="16dp"
+                        android:id="@+id/account_profile"
                         android:textColor="#777777"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -120,8 +121,9 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:text="Tour Profile"
+                        android:text="@string/profile_tour_profile_label"
                         android:textSize="16dp"
+                        android:id="@+id/tour_profile"
                         android:textColor="#777777"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -146,8 +148,9 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:text="List Package"
+                        android:text="@string/profile_list_package_label"
                         android:textSize="16dp"
+                        android:id="@+id/list_package"
                         android:textColor="#777777"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -172,8 +175,9 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:text="History Purchasing"
+                        android:text="@string/profile_history_purchasing_label"
                         android:textSize="16dp"
+                        android:id="@+id/history_purchasing"
                         android:textColor="#777777"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -198,8 +202,9 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:text="History Transaction"
+                        android:text="@string/profile_history_transaction_label"
                         android:textSize="16dp"
+                        android:id="@+id/history_transaction"
                         android:textColor="#777777"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -224,7 +229,8 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:text="Language"
+                        android:text="@string/profile_language_label"
+                        android:id="@+id/language"
                         android:textSize="16dp"
                         android:textColor="#777777"/>
                     <ImageView

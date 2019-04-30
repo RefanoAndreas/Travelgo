@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Travelgo</string>
+    <string name="profile_edit_profile_label" translatable="false">Profil Akun</string>
+    <string name="profile_tour_profile_label">Profil Tur</string>
+    <string name="profile_list_package_label">Daftar Paket</string>
+    <string name="profile_history_purchasing_label">Riwayat Pembelian</string>
+    <string name="profile_history_transaction_label">Riwayat Transaksi</string>
+    <string name="profile_language_label">Bahasa</string>
+</resources>

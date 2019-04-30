@@ -287,7 +287,7 @@ public class TourEdit extends AppCompatActivity {
                 }
             }
 
-            bottomSheetDialog.hide();
+            bottomSheetDialog.dismiss();
         }
     }
 }
