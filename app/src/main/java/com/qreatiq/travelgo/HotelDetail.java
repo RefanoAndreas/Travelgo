@@ -1,5 +1,6 @@
 package com.qreatiq.travelgo;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.CoordinatorLayout;
@@ -9,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -32,7 +34,8 @@ public class HotelDetail extends AppCompatActivity {
     ArrayList<JSONObject> hotelRoomList = new ArrayList<>();
 
     int total_pack = 0, total_price = 0;
-
+    TextView expandBtn, description;
+    ObjectAnimator animator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +110,33 @@ public class HotelDetail extends AppCompatActivity {
                 }
 
 //                set_cart();
+            }
+        });
+
+        description = (TextView) this.findViewById(R.id.hotelDesc);
+        expandBtn = (TextView) this.findViewById(R.id.btnExpand);
+
+
+        expandBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(expandBtn.getText().toString().equals("View More")){
+                    expandBtn.setText("View Less");
+                    animator = ObjectAnimator.ofInt(
+                            description,"maxLines", 500
+                    );
+                    animator.setDuration(1000);
+                    animator.start();
+                }
+                else{
+                    expandBtn.setText("View More");
+                    animator = ObjectAnimator.ofInt(
+                            description,"maxLines", 4
+                    );
+                    animator.setDuration(1000);
+                    animator.start();
+                }
+
             }
         });
 

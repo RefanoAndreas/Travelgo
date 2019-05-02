@@ -1,5 +1,7 @@
 package com.qreatiq.travelgo;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.design.button.MaterialButton;
@@ -11,10 +13,13 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.shawnlin.numberpicker.NumberPicker;
 
@@ -23,6 +28,9 @@ public class FlightSearch extends AppCompatActivity {
     MaterialButton searchTicketBtn;
     Switch flightSwitch;
     LinearLayout tanggalContainer, kembali;
+    TextView DepartCitySearch, ArrivalCitySearch, tanggalBerangkat, tanggalKembali;
+    CardView chooseDate;
+    private int year = 2019, month = 3, day = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +59,22 @@ public class FlightSearch extends AppCompatActivity {
             }
         });
 
+        DepartCitySearch = (TextView)findViewById(R.id.DepartCitySearch);
+        DepartCitySearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FlightSearch.this, SearchFlight.class));
+            }
+        });
+
+        ArrivalCitySearch = (TextView)findViewById(R.id.ArrivalCitySearch);
+        ArrivalCitySearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(FlightSearch.this, SearchFlight.class));
+            }
+        });
+
         searchTicketBtn = (MaterialButton) findViewById(R.id.search_flight);
         searchTicketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,8 +83,8 @@ public class FlightSearch extends AppCompatActivity {
             }
         });
 
-        kembali = findViewById(R.id.TrainSearch_tanggalKembali);
-        tanggalContainer = findViewById(R.id.TrainSearch_tanggalContainer);
+        kembali = findViewById(R.id.FlightSearch_tanggalKembali);
+        tanggalContainer = findViewById(R.id.FlightSearch_tanggalContainer);
 
         tanggalContainer.setWeightSum(1);
         kembali.setVisibility(View.GONE);
@@ -80,6 +104,17 @@ public class FlightSearch extends AppCompatActivity {
             }
         });
 
+        tanggalBerangkat = (TextView)findViewById(R.id.TV_tanggalBerangkat);
+        tanggalKembali = (TextView)findViewById(R.id.TV_tanggalKembali);
+
+    }
+
+    public void startDate(View v){
+        showDialog(999);
+    }
+
+    public void endDate(View v){
+        showDialog(998);
     }
 
     @Override
@@ -103,5 +138,47 @@ public class FlightSearch extends AppCompatActivity {
             }
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    protected Dialog onCreateDialog(int id) {
+        if (id == 999) {
+            DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    showDate(year, month+1, dayOfMonth, "start");
+                }
+            }, year, month, day);
+            dialog.getDatePicker().setMinDate(System.currentTimeMillis());
+            return dialog;
+        }
+        else if (id == 998) {
+            DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    showDate(year, month+1, dayOfMonth, "end");
+                }
+            }, year, month, day);
+            dialog.getDatePicker().setMinDate(System.currentTimeMillis());
+            return dialog;
+        }
+        return null;
+    }
+
+    private void showDate(int year, int month, int day, String type) {
+        if(type == "start")
+            tanggalBerangkat.setText(new StringBuilder()
+                    .append(day < 10 ? "0"+day : day)
+                    .append("/")
+                    .append(month < 10 ? "0"+month : month)
+                    .append("/")
+                    .append(year));
+        else
+            tanggalKembali.setText(new StringBuilder()
+                    .append(day < 10 ? "0"+day : day)
+                    .append("/")
+                    .append(month < 10 ? "0"+month : month)
+                    .append("/")
+                    .append(year));
     }
 }

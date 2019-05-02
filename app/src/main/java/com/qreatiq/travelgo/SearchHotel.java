@@ -3,12 +3,12 @@ package com.qreatiq.travelgo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class SearchFlight extends AppCompatActivity {
+public class SearchHotel extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_flight);
+        setContentView(R.layout.activity_search_hotel);
 
 //        link.setToolbar(this);
     }

@@ -125,16 +125,27 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="12dp"
                     android:text="Location"/>
-                <android.support.v7.widget.AppCompatSpinner
+
+                <!--<android.support.v7.widget.AppCompatSpinner-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="56dp"-->
+                    <!--android:layout_marginRight="16dp"-->
+                    <!--android:layout_marginLeft="16dp"-->
+                    <!--style="@style/SpinnerTheme"-->
+                    <!--android:spinnerMode="dialog"-->
+                    <!--android:prompt="@string/location_prompt"-->
+                    <!--android:entries="@array/location_array">-->
+                <!--</android.support.v7.widget.AppCompatSpinner>-->
+                <com.toptoche.searchablespinnerlibrary.SearchableSpinner
+                    android:id="@+id/spinner"
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginLeft="16dp"
-                    style="@style/SpinnerTheme"
+                    android:entries="@array/location_array"
                     android:spinnerMode="dialog"
-                    android:prompt="@string/location_prompt"
-                    android:entries="@array/location_array">
-                </android.support.v7.widget.AppCompatSpinner>
+                    style="@style/SpinnerTheme"/>
+
 
                 <TextView
                     android:layout_width="match_parent"

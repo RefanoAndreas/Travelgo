@@ -56,12 +56,12 @@
                         android:text="Tujuan"
                         android:textColor="@android:color/white"
                         android:fontFamily="@font/montserrat_medium"/>
-                    <android.support.v7.widget.AppCompatAutoCompleteTextView
+                    <TextView
                         android:id="@+id/TV_searchHotel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rounded_white_10dp"
-                        android:hint="Select"
+                        android:hint="Select Hotel"
                         android:singleLine="true"
                         android:padding="10dp"/>
                 </LinearLayout>
@@ -96,6 +96,7 @@
                             android:src="@drawable/ic_date_range_black_24dp"
                             android:tint="@android:color/darker_gray"/>
                         <LinearLayout
+                            android:id="@+id/hotelSearch_tanggalContainer"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             app:layout_constraintTop_toTopOf="parent"
@@ -106,45 +107,71 @@
                             android:layout_marginRight="16dp"
                             android:layout_marginBottom="16dp"
                             android:layout_marginLeft="56dp"
-                            android:orientation="horizontal"
-                            android:weightSum="2">
+                            android:orientation="vertical">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_weight="1">
-                                <TextView
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:id="@+id/hotelSearch_checkinDate"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Check-in"/>
-                                <TextView
+                                    android:layout_weight="1"
+                                    android:layout_marginRight="4dp"
+                                    android:orientation="vertical"
+                                    android:onClick="startDate">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Check-in"/>
+                                    <TextView
+                                        android:id="@+id/tanggalCheckin"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Sab, 13 Apr 2019"
+                                        android:layout_marginTop="4dp"
+                                        android:textSize="16dp"
+                                        android:fontFamily="@font/montserrat_medium"
+                                        android:textColor="@android:color/black"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:id="@+id/hotelSearch_checkoutDate"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Sab, 13 Apr 2019"
-                                    android:layout_marginTop="4dp"
-                                    android:textSize="16dp"
-                                    android:fontFamily="@font/montserrat_medium"
-                                    android:textColor="@android:color/black"/>
+                                    android:layout_weight="1"
+                                    android:layout_marginLeft="4dp"
+                                    android:orientation="vertical"
+                                    android:onClick="endDate">
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Check-out"/>
+                                    <TextView
+                                        android:id="@+id/tanggalCheckout"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Sab, 20 Apr 2019"
+                                        android:layout_marginTop="4dp"
+                                        android:textSize="16dp"
+                                        android:fontFamily="@font/montserrat_medium"
+                                        android:textColor="@android:color/black"/>
+                                </LinearLayout>
+
                             </LinearLayout>
-
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:layout_weight="1">
+                                android:layout_marginTop="8dp">
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Check-Out"/>
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Sab, 20 Apr 2019"
-                                    android:layout_marginTop="4dp"
-                                    android:textSize="16dp"
+                                    android:text="7 Malam"
+                                    android:textSize="14dp"
                                     android:fontFamily="@font/montserrat_medium"
-                                    android:textColor="@android:color/black"/>
+                                    android:textColor="@android:color/black"
+                                    android:textAlignment="center"/>
                             </LinearLayout>
 
                         </LinearLayout>

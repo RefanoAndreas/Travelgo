@@ -57,7 +57,8 @@
                         android:text="Kota Keberangkatan"
                         android:textColor="@android:color/white"
                         android:fontFamily="@font/montserrat_medium"/>
-                    <android.support.v7.widget.AppCompatAutoCompleteTextView
+                    <TextView
+                        android:id="@+id/DepartCitySearch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rounded_white_10dp"
@@ -71,7 +72,8 @@
                         android:textColor="@android:color/white"
                         android:fontFamily="@font/montserrat_medium"
                         android:layout_marginTop="16dp"/>
-                    <android.support.v7.widget.AppCompatAutoCompleteTextView
+                    <TextView
+                        android:id="@+id/ArrivalCitySearch"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rounded_white_10dp"
@@ -123,6 +125,7 @@
                 </LinearLayout>
 
                 <android.support.v7.widget.CardView
+                    android:id="@+id/card_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
@@ -141,58 +144,69 @@
                             android:layout_marginLeft="16dp"
                             android:src="@drawable/ic_date_range_black_24dp"
                             android:tint="@android:color/darker_gray"/>
+
                         <LinearLayout
-                            android:id="@+id/TrainSearch_tanggalContainer"
+                            android:id="@+id/FlightSearch_tanggalContainer"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:layout_height="44dp"
+                            android:layout_marginLeft="56dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginRight="16dp"
                             android:layout_marginBottom="16dp"
-                            android:layout_marginLeft="56dp"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toTopOf="parent">
+
                             <LinearLayout
-                                android:id="@+id/TrainSearch_tanggalBerangkat"
+                                android:id="@+id/FlightSearch_tanggalBerangkat"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_marginRight="4dp"
+                                android:layout_weight="1"
+                                android:onClick="startDate"
                                 android:orientation="vertical">
+
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Berangkat"/>
+                                    android:text="Berangkat" />
+
                                 <TextView
+                                    android:id="@+id/TV_tanggalBerangkat"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Sab, 13 Apr 2019"
                                     android:layout_marginTop="4dp"
-                                    android:textSize="16dp"
                                     android:fontFamily="@font/montserrat_medium"
-                                    android:textColor="@android:color/black"/>
+                                    android:text="Sab, 13 Apr 2019"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="16dp" />
                             </LinearLayout>
+
                             <LinearLayout
-                                android:id="@+id/TrainSearch_tanggalKembali"
+                                android:id="@+id/FlightSearch_tanggalKembali"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_marginLeft="4dp"
+                                android:layout_weight="1"
+                                android:onClick="endDate"
                                 android:orientation="vertical">
+
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Kembali"/>
+                                    android:text="Kembali" />
+
                                 <TextView
+                                    android:id="@+id/TV_tanggalKembali"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Sab, 13 Apr 2019"
                                     android:layout_marginTop="4dp"
-                                    android:textSize="16dp"
                                     android:fontFamily="@font/montserrat_medium"
-                                    android:textColor="@android:color/black"/>
+                                    android:text="Sab, 13 Apr 2019"
+                                    android:textColor="@android:color/black"
+                                    android:textSize="16dp" />
                             </LinearLayout>
                         </LinearLayout>
                     </android.support.constraint.ConstraintLayout>
