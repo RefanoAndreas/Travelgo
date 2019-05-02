@@ -36,7 +36,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pilih kelas Penerbangan"
+            android:text="Pilih kelas"
             android:textSize="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="24dp"
