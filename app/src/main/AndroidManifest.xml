@@ -14,7 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TrainSearchJadwal"></activity>
+        <activity android:name=".SearchFlight"></activity>
+        <activity android:name=".SearchTrain" />
+        <activity android:name=".FilterTrain" />
+        <activity android:name=".TrainSearchJadwal" />
         <activity
             android:name=".TrainSearch"
             android:label="Pesan Tiket Kereta">
@@ -45,7 +48,7 @@
         <activity android:name=".D3Eticket" />
         <activity
             android:name=".D2NotifikasiDetail"
-            android:label="Detail Notifikasi"></activity>
+            android:label="Detail Notifikasi" />
         <activity
             android:name=".D1Notifikasi"
             android:label="Notifikasi" />
