@@ -175,40 +175,53 @@
                         android:background="#E4E7E8"/>
 
                     <LinearLayout
-                        android:id="@+id/guestData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_margin="16dp">
-                        <TextView
+
+                        <LinearLayout
+                            android:id="@+id/gueastDataLinear"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Tamu"
-                            android:fontFamily="@font/montserrat_medium"/>
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Tamu"
+                                android:fontFamily="@font/montserrat_medium"/>
 
-                        <TextView
-                            android:id="@+id/tamu"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:textSize="14dp"
-                            android:textColor="#263238"
-                            android:text="Ny. ABC"/>
+                            <TextView
+                                android:id="@+id/tamu"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="14dp"
+                                android:textColor="#263238"
+                                android:text="Ny. ABC"/>
+                        </LinearLayout>
 
-                        <TextView
+                        <LinearLayout
+                            android:id="@+id/specialRequestLinear"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Permintaan Khusus"
-                            android:layout_marginTop="10dp"
-                            android:fontFamily="@font/montserrat_medium"/>
-                        <TextView
-                            android:id="@+id/specialRequest"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:textSize="14dp"
-                            android:textColor="#263238"
-                            android:text="Kamar Bebas Rokok"/>
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Permintaan Khusus"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/montserrat_medium"
+                                android:textColor="#0E64FF"/>
+                            <TextView
+                                android:id="@+id/specialRequest"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:textSize="14dp"
+                                android:textColor="#0E64FF"
+                                android:text="Kamar Bebas Rokok"/>
+                        </LinearLayout>
 
                     </LinearLayout>
 

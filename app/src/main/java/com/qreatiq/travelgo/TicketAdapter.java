@@ -18,9 +18,11 @@ import java.util.ArrayList;
 public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketHolder> {
     ArrayList<JSONObject> ticketList;
     Context context;
+    ClickListener clickListener;
 
-    public TicketAdapter(ArrayList<JSONObject> ticketList) {
+    public TicketAdapter(ArrayList<JSONObject> ticketList, Context context) {
         this.ticketList = ticketList;
+        this.context = context;
     }
 
     public class TicketHolder extends RecyclerView.ViewHolder {
@@ -40,6 +42,13 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketHold
             ticketPrice = itemView.findViewById(R.id.TV_price);
             layout = (ConstraintLayout) itemView.findViewById(R.id.layout);
             mButton = itemView.findViewById(R.id.chooseButton);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onItemClick(getAdapterPosition());
+                }
+            });
         }
     }
 
@@ -72,6 +81,14 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketHold
     @Override
     public int getItemCount() {
         return ticketList.size();
+    }
+
+    public interface ClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListner(ClickListener clickListner){
+        this.clickListener= clickListner;
     }
 
 

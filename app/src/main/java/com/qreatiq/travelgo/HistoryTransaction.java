@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class HistoryTransaction extends AppCompatActivity {
     private RecyclerView mRecyclerView;
-    private HistoryTransactionListAdapter mAdapter;
+    private NotifikasiAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> historyList = new ArrayList<>();
     String url, user_ID;
@@ -43,22 +43,17 @@ public class HistoryTransaction extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        link.setToolbar(this);
 
 //        getHistory();
 
         try {
-            historyList.add(new JSONObject("{\"packageName\": \"Bali Trip\", \"location\": \"Bali\", \"price\": \"1.000.000\"}"));
-            historyList.add(new JSONObject("{\"packageName\": \"Jakarta Trip\", \"location\": \"Jakarta\", \"price\": \"1.000.000\"}"));
+            historyList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
+                    "\"route\":\"Surabaya > Jakarta\", " +
+                    "\"infoTrip\":\"Lion Air\", " +
+                    "\"totalPack\":\"2 Penumpang\", " +
+                    "\"routeType\":\"Sekali Jalan\", " +
+                    "\"status\":\"Berhasil\"}"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -66,12 +61,12 @@ public class HistoryTransaction extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.RV_historyTransaction);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new HistoryTransactionListAdapter(historyList);
+        mAdapter = new NotifikasiAdapter(historyList);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnItemClickListner(new HistoryTransactionListAdapter.ClickListener() {
+        mAdapter.setOnItemClickListner(new NotifikasiAdapter.ClickListener() {
             @Override
             public void onItemClick(int position) {
                 startActivity(new Intent(HistoryTransaction.this, TransactionDetail.class));

@@ -1,5 +1,7 @@
 package com.qreatiq.travelgo;
 
+import android.content.Intent;
+import android.support.design.button.MaterialButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -9,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 
 public class TrainSearch extends AppCompatActivity {
+
+    MaterialButton searchTrainBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,5 +61,14 @@ public class TrainSearch extends AppCompatActivity {
                 }
             }
         });
+
+        searchTrainBtn = (MaterialButton) findViewById(R.id.search_train);
+        searchTrainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TrainSearch.this, TrainSearchJadwal.class));
+            }
+        });
+
     }
 }

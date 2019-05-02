@@ -31,6 +31,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
+                        android:id="@+id/TV_date"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="16dp"
@@ -39,6 +40,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="1"/>
                     <android.support.design.chip.Chip
+                        android:id="@+id/CHIP_status"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
                         android:text="Berhasil"
@@ -48,11 +50,13 @@
                         app:chipCornerRadius="4dp"/>
                 </LinearLayout>
                 <TextView
+                    android:id="@+id/TV_route"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Surabaya > Medan"
                     style="@style/SemiBold_42_16dp"/>
                 <TextView
+                    android:id="@+id/TV_infoTrip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Lion Air"/>
@@ -61,12 +65,14 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <TextView
+                        android:id="@+id/TV_total_pack"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:text="1 Penumpang"
                         android:layout_weight="1"
                         android:layout_marginRight="16dp"/>
                     <TextView
+                        android:id="@+id/TV_routeType"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sekali Jalan"

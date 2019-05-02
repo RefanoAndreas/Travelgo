@@ -225,6 +225,7 @@ public class LogIn extends AppCompatActivity {
 
                         Intent intentHome = new Intent(LogIn.this, BottomNavContainer.class);
                         startActivity(intentHome);
+                        finish();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -30,6 +30,7 @@ import com.synnapps.carouselview.ImageListener;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -40,7 +41,7 @@ public class TourDetail extends AppCompatActivity {
     int[] sampleImages = {R.drawable.background2, R.drawable.background3, R.drawable.background4, R.drawable.background5, R.drawable.background6};
     String location_id, url;
     RequestQueue requestQueue;
-    TextView locationName, locationDesc, total_packages_label, total_price_label;
+    TextView locationName, locationDesc, total_packages_label, total_price_label, payPackageBtn;
 
     RecyclerView list;
     ArrayList<JSONObject> array = new ArrayList<>();
@@ -69,6 +70,14 @@ public class TourDetail extends AppCompatActivity {
         scroll = (NestedScrollView) findViewById(R.id.scroll);
         total_packages_label = (TextView) findViewById(R.id.tourDetail_totalPackages);
         total_price_label = (TextView) findViewById(R.id.tourDetail_totalPrice);
+        payPackageBtn = (TextView)findViewById(R.id.payPackageBtn);
+
+        payPackageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TourDetail.this, ConfirmationOrder.class));
+            }
+        });
 
         CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) scroll.getLayoutParams();
         lp.bottomMargin = 0;

@@ -286,6 +286,7 @@
             android:textSize="10dp"
             android:fontFamily="@font/montserrat_bold"/>
         <TextView
+            android:id="@+id/payPackageBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"

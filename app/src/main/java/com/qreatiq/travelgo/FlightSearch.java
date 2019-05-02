@@ -11,14 +11,18 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 
 import com.shawnlin.numberpicker.NumberPicker;
 
 public class FlightSearch extends AppCompatActivity {
 
     MaterialButton searchTicketBtn;
-
+    Switch flightSwitch;
+    LinearLayout tanggalContainer, kembali;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,27 @@ public class FlightSearch extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(FlightSearch.this, FlightSearchJadwal.class));
+            }
+        });
+
+        kembali = findViewById(R.id.TrainSearch_tanggalKembali);
+        tanggalContainer = findViewById(R.id.TrainSearch_tanggalContainer);
+
+        tanggalContainer.setWeightSum(1);
+        kembali.setVisibility(View.GONE);
+        flightSwitch = (Switch)findViewById(R.id.switch_flightSearch);
+        flightSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked){
+//                    tanggalContainer.getWeightSum();
+                    tanggalContainer.setWeightSum(2);
+                    kembali.setVisibility(View.VISIBLE);
+                }else{
+//                    tanggalContainer.getWeightSum();
+                    tanggalContainer.setWeightSum(1);
+                    kembali.setVisibility(View.GONE);
+                }
             }
         });
 

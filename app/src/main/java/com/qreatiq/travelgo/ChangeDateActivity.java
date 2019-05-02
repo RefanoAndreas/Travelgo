@@ -79,10 +79,17 @@ public class ChangeDateActivity extends AppCompatActivity {
         mRecyclerViewTicket = findViewById(R.id.RV_choose_ticket);
         mRecyclerViewTicket.setHasFixedSize(true);
         mLayoutManagerTicket = new LinearLayoutManager(this);
-        mAdapterTicket = new TicketAdapter(ticketList);
+        mAdapterTicket = new TicketAdapter(ticketList, this);
 
         mRecyclerViewTicket.setLayoutManager(mLayoutManagerTicket);
         mRecyclerViewTicket.setAdapter(mAdapterTicket);
+
+        mAdapterTicket.setOnItemClickListner(new TicketAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                startActivity(new Intent(ChangeDateActivity.this, ConfirmationOrder.class));
+            }
+        });
 
     }
 }
