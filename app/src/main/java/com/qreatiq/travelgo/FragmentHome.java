@@ -37,7 +37,7 @@ public class FragmentHome extends Fragment {
     String url, urlPhoto;
     RequestQueue requestQueue;
     ArrayList<HomeItem> homeList = new ArrayList<>();
-    CardView tourBtn, flightBtn, hotelBtn;
+    CardView tourBtn, flightBtn, hotelBtn, trainBtn;
     BottomNavContainer parent;
 
     RecyclerViewSkeletonScreen skeleton;
@@ -78,6 +78,14 @@ public class FragmentHome extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), HotelSearch.class));
+            }
+        });
+
+        trainBtn = (CardView)view.findViewById(R.id.trainBtn);
+        trainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), TrainSearch.class));
             }
         });
 

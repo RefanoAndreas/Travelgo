@@ -1,5 +1,6 @@
 package com.qreatiq.travelgo;
 
+import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,7 +9,7 @@ import android.widget.LinearLayout;
 
 public class ConfirmationOrder extends AppCompatActivity {
 
-    LinearLayout guestData;
+    LinearLayout specialRequestLinear, gueastDataLinear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,8 +18,9 @@ public class ConfirmationOrder extends AppCompatActivity {
 
         link.setToolbar(this);
 
-        guestData = (LinearLayout) findViewById(R.id.guestData);
-        guestData.setOnClickListener(new View.OnClickListener() {
+
+        specialRequestLinear = (LinearLayout) findViewById(R.id.specialRequestLinear);
+        specialRequestLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DialogFragment newFragment = new Special_Order_Hotel();
@@ -26,5 +28,14 @@ public class ConfirmationOrder extends AppCompatActivity {
 
             }
         });
+
+        gueastDataLinear = (LinearLayout) findViewById(R.id.gueastDataLinear);
+        gueastDataLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ConfirmationOrder.this, FlightIsiDataPenumpang.class));
+            }
+        });
+
     }
 }

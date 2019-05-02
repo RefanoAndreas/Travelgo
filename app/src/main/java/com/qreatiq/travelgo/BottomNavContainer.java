@@ -70,8 +70,9 @@ public class BottomNavContainer extends AppCompatActivity {
                             selectedFragment = fragmentTour;
                             break;
                         case R.id.nav_notification:
-                            selectedFragment = new FragmentNotification();
-                            break;
+//                            selectedFragment = new FragmentNotification();
+                            startActivity(new Intent(BottomNavContainer.this, D1Notifikasi.class).putExtra("data", "all"));
+                            return false;
                         case R.id.nav_profile:
                             selectedFragment = new FragmentProfile();
                             break;

@@ -55,10 +55,17 @@ public class FlightSearchJadwal extends AppCompatActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mAdapter = new TicketAdapter(ticketList);
+        mAdapter = new TicketAdapter(ticketList, this);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListner(new TicketAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class));
+            }
+        });
 
     }
 

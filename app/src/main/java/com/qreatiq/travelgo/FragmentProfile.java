@@ -41,7 +41,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class FragmentProfile extends Fragment {
 
-    ConstraintLayout btnLogout, btnEdtProfile, btnTourProfile, btnHistoryTransaction, btnListPackage, btnLanguage;
+    ConstraintLayout btnLogout, btnEdtProfile, btnTourProfile, btnHistoryTransaction, btnListPackage, btnLanguage, btnHistoryPurchasing;
     String userID, url;
     SharedPreferences user_ID;
     TextView name;
@@ -110,11 +110,19 @@ public class FragmentProfile extends Fragment {
             }
         });
 
+        btnHistoryPurchasing = (ConstraintLayout)getActivity().findViewById(R.id.historyPurchasingBtn);
+        btnHistoryPurchasing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), HistoryPurchasing.class).putExtra("data", "purchasing"));
+            }
+        });
+
         btnHistoryTransaction = (ConstraintLayout)getActivity().findViewById(R.id.historyTransactionBtn);
         btnHistoryTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), HistoryTransaction.class));
+                startActivity(new Intent(getActivity(), HistoryTransaction.class).putExtra("data", "transaction"));
             }
         });
 

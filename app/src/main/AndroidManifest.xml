@@ -48,7 +48,7 @@
         <activity android:name=".D3Eticket" />
         <activity
             android:name=".D2NotifikasiDetail"
-            android:label="Detail Notifikasi" />
+            android:label="Detail Notifikasi"></activity>
         <activity
             android:name=".D1Notifikasi"
             android:label="Notifikasi" />

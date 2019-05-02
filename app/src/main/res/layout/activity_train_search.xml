@@ -321,7 +321,7 @@
 
 
     <android.support.design.button.MaterialButton
-        android:id="@+id/search_flight"
+        android:id="@+id/search_train"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
