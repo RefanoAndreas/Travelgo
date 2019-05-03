@@ -71,10 +71,8 @@
         <activity
             android:name=".HistoryTransaction"
             android:label="History Transaction" />
-        <activity
-            android:name=".HistoryPurchasing"
-            android:label="History Purchasing" />
-        <activity android:name=".CityDetail" />
+        <activity android:name=".CityDetail"
+            android:label=""/>
         <activity
             android:name=".TourDetail"
             android:label="Detail Tour" />
