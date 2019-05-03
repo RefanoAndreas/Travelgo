@@ -177,22 +177,22 @@
                     <android.support.design.chip.Chip
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1"
+                        android:text="2"
                         app:chipIcon="@drawable/ic_star_yellow_24dp"/>
                     <android.support.design.chip.Chip
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1"
+                        android:text="3"
                         app:chipIcon="@drawable/ic_star_yellow_24dp"/>
                     <android.support.design.chip.Chip
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1"
+                        android:text="4"
                         app:chipIcon="@drawable/ic_star_yellow_24dp"/>
                     <android.support.design.chip.Chip
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1"
+                        android:text="5"
                         app:chipIcon="@drawable/ic_star_yellow_24dp"/>
                 </android.support.design.chip.ChipGroup>
 
