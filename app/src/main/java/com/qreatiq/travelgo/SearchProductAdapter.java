@@ -52,8 +52,8 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
         JSONObject jsonObject = notifList.get(i);
 
         try {
-            viewHolder.kota.setText(jsonObject.getString("city"));
-            viewHolder.poi.setText(jsonObject.getString("poi"));
+            viewHolder.kota.setText(jsonObject.getString("city_label"));
+            viewHolder.poi.setText(jsonObject.getString("poi_label"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

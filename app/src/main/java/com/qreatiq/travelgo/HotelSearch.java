@@ -19,6 +19,8 @@ public class HotelSearch extends AppCompatActivity {
     TextView TV_searchHotel, tanggalCheckin, tanggalCheckout;
     private int year = 2019, month = 3, day = 10;
 
+    int HOTEL_SEARCH = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +50,9 @@ public class HotelSearch extends AppCompatActivity {
         TV_searchHotel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HotelSearch.this, SearchHotel.class));
+                Intent in = new Intent(HotelSearch.this, SearchFlight.class);
+                in.putExtra("type","hotel");
+                startActivityForResult(in,HOTEL_SEARCH);
             }
         });
 

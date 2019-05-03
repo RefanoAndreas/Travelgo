@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.annotation.Nullable;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.TextInputEditText;
@@ -23,14 +24,21 @@ import android.widget.TextView;
 
 import com.shawnlin.numberpicker.NumberPicker;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class FlightSearch extends BaseActivity {
 
     MaterialButton searchTicketBtn;
     Switch flightSwitch;
-    LinearLayout tanggalContainer, kembali;
+    LinearLayout tanggalContainer, kembali, flightSearch_icon;
     TextView DepartCitySearch, ArrivalCitySearch, tanggalBerangkat, tanggalKembali;
     CardView chooseDate;
     private int year = 2019, month = 3, day = 10;
+
+    int ARRIVAL_CITY = 1, DEPARTURE_CITY = 2;
+
+    JSONObject depart_data,arrive_data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,8 @@ public class FlightSearch extends BaseActivity {
         setContentView(R.layout.activity_flight_search);
 
         link.setToolbar(this);
+
+        flightSearch_icon = (LinearLayout) findViewById(R.id.flightSearch_icon);
 
         final CardView jumlahpenumpang = findViewById(R.id.flightSearch_jumlahPenumpang);
         jumlahpenumpang.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +73,9 @@ public class FlightSearch extends BaseActivity {
         DepartCitySearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FlightSearch.this, SearchFlight.class));
+                Intent in = new Intent(FlightSearch.this, SearchFlight.class);
+                in.putExtra("type","flight");
+                startActivityForResult(in,DEPARTURE_CITY);
             }
         });
 
@@ -71,7 +83,9 @@ public class FlightSearch extends BaseActivity {
         ArrivalCitySearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FlightSearch.this, SearchFlight.class));
+                Intent in = new Intent(FlightSearch.this, SearchFlight.class);
+                in.putExtra("type","flight");
+                startActivityForResult(in,ARRIVAL_CITY);
             }
         });
 
@@ -107,6 +121,24 @@ public class FlightSearch extends BaseActivity {
         tanggalBerangkat = (TextView)findViewById(R.id.TV_tanggalBerangkat);
         tanggalKembali = (TextView)findViewById(R.id.TV_tanggalKembali);
 
+        flightSearch_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                JSONObject json = new JSONObject();
+                json = depart_data;
+                depart_data = arrive_data;
+                arrive_data = json;
+
+                try {
+                    DepartCitySearch.setText(depart_data.getString("poi_label"));
+                    ArrivalCitySearch.setText(arrive_data.getString("poi_label"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
     }
 
     public void startDate(View v){
@@ -115,29 +147,6 @@ public class FlightSearch extends BaseActivity {
 
     public void endDate(View v){
         showDialog(998);
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        View v = getCurrentFocus();
-
-        if (v != null &&
-                (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) &&
-                v instanceof EditText &&
-                v instanceof TextInputEditText &&
-                !v.getClass().getName().startsWith("android.webkit.")) {
-            int scrcoords[] = new int[2];
-            v.getLocationOnScreen(scrcoords);
-            float x = ev.getRawX() + v.getLeft() - scrcoords[0];
-            float y = ev.getRawY() + v.getTop() - scrcoords[1];
-
-            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom()) {
-
-                link.hideSoftKeyboard(this);
-                v.clearFocus();
-            }
-        }
-        return super.dispatchTouchEvent(ev);
     }
 
     @Override
@@ -163,6 +172,27 @@ public class FlightSearch extends BaseActivity {
             return dialog;
         }
         return null;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            try {
+                JSONObject json = new JSONObject(data.getStringExtra("data"));
+                if(requestCode == DEPARTURE_CITY){
+                    depart_data = json;
+                    DepartCitySearch.setText(json.getString("poi_label"));
+                }
+                else if(requestCode == ARRIVAL_CITY){
+                    arrive_data = json;
+                    ArrivalCitySearch.setText(json.getString("poi_label"));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void showDate(int year, int month, int day, String type) {
