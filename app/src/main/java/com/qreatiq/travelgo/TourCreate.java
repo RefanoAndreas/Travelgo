@@ -41,6 +41,7 @@ public class TourCreate extends BaseActivity {
     private Calendar calendar;
     private EditText dateView;
     private int year = 2019, month = 3, day = 10;
+    TextInputEditText location;
 
     MaterialButton create_tour_pack;
 
@@ -77,6 +78,7 @@ public class TourCreate extends BaseActivity {
         end_date = (TextInputEditText) findViewById(R.id.end_date);
         no_data = (TextView) findViewById(R.id.no_data);
         create_tour_pack = (MaterialButton) findViewById(R.id.create_tour_pack);
+        location = (TextInputEditText) findViewById(R.id.location);
 
         try {
             photo_array.add(new JSONObject("{\"background\": "+R.drawable.upload_photo+", \"is_button_upload\": true}"));
@@ -163,6 +165,14 @@ public class TourCreate extends BaseActivity {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(TourCreate.this,TourCreatePackage.class),CREATE_TOUR_PACKAGE);
+            }
+        });
+
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TourCreatePackageLocationModal modal = new TourCreatePackageLocationModal();
+                modal.show(getSupportFragmentManager(),"modal");
             }
         });
     }
