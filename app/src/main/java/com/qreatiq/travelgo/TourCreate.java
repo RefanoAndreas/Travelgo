@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class TourCreate extends AppCompatActivity {
+public class TourCreate extends BaseActivity {
 
     private DatePicker datePicker;
     private Calendar calendar;
@@ -56,7 +56,6 @@ public class TourCreate extends AppCompatActivity {
     GridView grid;
 
     TextInputEditText start_date,end_date;
-    BottomSheetDialog bottomSheetDialog;
     Uri filePath;
 
     TextView no_data;
@@ -92,15 +91,8 @@ public class TourCreate extends AppCompatActivity {
         photo_adapter.setOnItemClickListner(new TourCreatePhotosAdapter.ClickListener() {
             @Override
             public void onItemClick(int position) {
-                Log.d("position", String.valueOf(position));
-                if(position == 0){
-                    View view = LayoutInflater.from(TourCreate.this).inflate(R.layout.media_picker_fragment, null);
-                    bottomSheetDialog=new BottomSheetDialog(TourCreate.this);
-                    bottomSheetDialog.setContentView(view);
-                    BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
-                    mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    bottomSheetDialog.show();
-                }
+                if(position == 0)
+                    call_media_picker();
             }
         });
 
@@ -161,38 +153,7 @@ public class TourCreate extends AppCompatActivity {
         }
     }
 
-    public void camera(View v){
-        startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),PICK_FROM_CAMERA);
-    }
 
-    public void gallery(View v){
-        Intent in =new Intent(Intent.ACTION_PICK);
-        in.setType("image/*");
-        startActivityForResult(in,PICK_FROM_GALLERY);
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        View v = getCurrentFocus();
-
-        if (v != null &&
-                (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) &&
-                v instanceof EditText &&
-                v instanceof TextInputEditText &&
-                !v.getClass().getName().startsWith("android.webkit.")) {
-            int scrcoords[] = new int[2];
-            v.getLocationOnScreen(scrcoords);
-            float x = ev.getRawX() + v.getLeft() - scrcoords[0];
-            float y = ev.getRawY() + v.getTop() - scrcoords[1];
-
-            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom()) {
-
-                link.hideSoftKeyboard(this);
-                v.clearFocus();
-            }
-        }
-        return super.dispatchTouchEvent(ev);
-    }
 
     public void startDate(View v){
         showDialog(999);

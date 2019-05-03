@@ -12,6 +12,8 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,18 +25,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
-public class TourCreatePackage extends AppCompatActivity {
+public class TourCreatePackage extends BaseActivity {
 
     TextInputEditText name,price;
     TextInputLayout name_layout,price_layout;
     ImageView image;
     Bitmap bitmap;
 
-    BottomSheetDialog bottomSheetDialog;
     Uri filePath;
 
     int PICK_FROM_GALLERY = 2, PICK_FROM_CAMERA = 3;
+    Double price_data= Double.valueOf(0);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,24 +55,59 @@ public class TourCreatePackage extends AppCompatActivity {
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view = LayoutInflater.from(TourCreatePackage.this).inflate(R.layout.media_picker_fragment, null);
-                bottomSheetDialog=new BottomSheetDialog(TourCreatePackage.this);
-                bottomSheetDialog.setContentView(view);
-                BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
-                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                bottomSheetDialog.show();
+                call_media_picker();
             }
         });
-    }
 
-    public void camera(View v){
-        startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),PICK_FROM_CAMERA);
-    }
+        price.addTextChangedListener(new TextWatcher() {
+            boolean isManualChange = false;
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    public void gallery(View v){
-        Intent in =new Intent(Intent.ACTION_PICK);
-        in.setType("image/*");
-        startActivityForResult(in,PICK_FROM_GALLERY);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (isManualChange) {
+//                    isManualChange = false;
+                    return;
+                }
+                String input = s.toString().replace("Rp. ","");
+
+                if(!input.equals("")) {
+
+
+                    if(input.charAt(0) == '0')
+                        input = input.substring(0);
+                    DecimalFormat formatter = new DecimalFormat("#,###,###");
+                    String yourFormattedString = formatter.format(Double.parseDouble(input.replace(".", "")));
+                    isManualChange = true;
+                    price.setText(yourFormattedString);
+                    price.setSelection(yourFormattedString.length());
+                    price_data = Double.parseDouble(input.replace(".", ""));
+//                Log.d("data",yourFormattedString);
+                }
+                else{
+                    isManualChange = true;
+                    price.setText("0");
+                    price.setSelection(1);
+                    price_data = Double.valueOf(0);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isManualChange) {
+                    isManualChange = false;
+                    return;
+                }
+
+                isManualChange = true;
+                price.setText("Rp. "+price.getText().toString());
+                price.setSelection(price.getText().toString().length());
+            }
+        });
     }
 
     @Override
@@ -109,7 +147,7 @@ public class TourCreatePackage extends AppCompatActivity {
                 if(bitmap != null)
                     json.put("image", link.BitMapToString(bitmap));
                 json.put("name", name.getText().toString());
-                json.put("price", price.getText().toString());
+                json.put("price", price_data);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -119,28 +157,5 @@ public class TourCreatePackage extends AppCompatActivity {
             setResult(RESULT_OK, in);
             finish();
         }
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        View v = getCurrentFocus();
-
-        if (v != null &&
-                (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) &&
-                v instanceof EditText &&
-                v instanceof TextInputEditText &&
-                !v.getClass().getName().startsWith("android.webkit.")) {
-            int scrcoords[] = new int[2];
-            v.getLocationOnScreen(scrcoords);
-            float x = ev.getRawX() + v.getLeft() - scrcoords[0];
-            float y = ev.getRawY() + v.getTop() - scrcoords[1];
-
-            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom()) {
-
-                link.hideSoftKeyboard(this);
-                v.clearFocus();
-            }
-        }
-        return super.dispatchTouchEvent(ev);
     }
 }

@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 import com.shawnlin.numberpicker.NumberPicker;
 
-public class FlightSearch extends AppCompatActivity {
+public class FlightSearch extends BaseActivity {
 
     MaterialButton searchTicketBtn;
     Switch flightSwitch;

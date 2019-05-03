@@ -49,7 +49,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
-public class TourEdit extends AppCompatActivity {
+public class TourEdit extends BaseActivity {
 
     ImageView imageView;
     TextInputEditText name, desc, telp;
@@ -59,7 +59,6 @@ public class TourEdit extends AppCompatActivity {
     RequestQueue requestQueue;
     Bitmap bitmap;
 
-    BottomSheetDialog bottomSheetDialog;
     Uri filePath;
 
     ConstraintLayout layout;
@@ -140,6 +139,8 @@ public class TourEdit extends AppCompatActivity {
                                     }
                                 });
                     }
+                    else
+                        skeletonScreen.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -221,47 +222,8 @@ public class TourEdit extends AppCompatActivity {
 
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        View v = getCurrentFocus();
-
-        if (v != null &&
-                (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) &&
-                v instanceof EditText &&
-                v instanceof TextInputEditText &&
-                !v.getClass().getName().startsWith("android.webkit.")) {
-            int scrcoords[] = new int[2];
-            v.getLocationOnScreen(scrcoords);
-            float x = ev.getRawX() + v.getLeft() - scrcoords[0];
-            float y = ev.getRawY() + v.getTop() - scrcoords[1];
-
-            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom()) {
-
-                link.hideSoftKeyboard(this);
-                v.clearFocus();
-            }
-        }
-        return super.dispatchTouchEvent(ev);
-    }
-
     public void addMedia(View v){
-        bottomSheetDialog=new BottomSheetDialog(this);
-        View view = View.inflate(this, R.layout.media_picker_fragment, null);
-        bottomSheetDialog.setContentView(view);
-        BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
-        mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        bottomSheetDialog.show();
-//        startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),1);
-    }
-
-    public void camera(View v){
-        startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),1);
-    }
-
-    public void gallery(View v){
-        Intent in =new Intent(Intent.ACTION_PICK);
-        in.setType("image/*");
-        startActivityForResult(in,0);
+        call_media_picker();
     }
 
     @Override
@@ -269,13 +231,13 @@ public class TourEdit extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode==RESULT_OK){
-            if(requestCode==1){
+            if(requestCode==PICK_FROM_CAMERA){
                 filePath = data.getData();
                 bitmap=(Bitmap) data.getExtras().get("data");
 
                 imageView.setImageBitmap(bitmap);
             }
-            else if(requestCode==0){
+            else if(requestCode==PICK_FROM_GALLERY){
 
                 Uri selectedImage = data.getData();
                 try {

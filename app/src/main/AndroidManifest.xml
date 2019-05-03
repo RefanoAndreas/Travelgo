@@ -35,6 +35,9 @@
             android:name=".HotelSearch"
             android:label="Pesan Kamar Hotel" />
         <activity
+            android:name=".HistoryPurchasing"
+            android:label="History Purchasing" />
+        <activity
             android:name=".FilterTourLocation"
             android:label="Lokasi" />
         <activity
