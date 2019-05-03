@@ -14,7 +14,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-public class Filter extends AppCompatActivity {
+public class Filter extends BaseActivity {
 
     TextView minPrice, maxPrice;
     CrystalRangeSeekbar rangeSeekbar;

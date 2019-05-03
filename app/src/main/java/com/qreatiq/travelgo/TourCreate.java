@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.button.MaterialButton;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TextInputEditText;
@@ -40,6 +41,8 @@ public class TourCreate extends BaseActivity {
     private Calendar calendar;
     private EditText dateView;
     private int year = 2019, month = 3, day = 10;
+
+    MaterialButton create_tour_pack;
 
     private RecyclerView mRecyclerView_1, mRecyclerView_2;
     private RecyclerView.Adapter mAdapter_1;
@@ -73,6 +76,7 @@ public class TourCreate extends BaseActivity {
         start_date = (TextInputEditText) findViewById(R.id.start_date);
         end_date = (TextInputEditText) findViewById(R.id.end_date);
         no_data = (TextView) findViewById(R.id.no_data);
+        create_tour_pack = (MaterialButton) findViewById(R.id.create_tour_pack);
 
         try {
             photo_array.add(new JSONObject("{\"background\": "+R.drawable.upload_photo+", \"is_button_upload\": true}"));
@@ -140,6 +144,27 @@ public class TourCreate extends BaseActivity {
 
         adapter = new TourCreateFacilitiesAdapter(array,this);
         grid.setAdapter(adapter);
+
+        start_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(999);
+            }
+        });
+
+        end_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog(998);
+            }
+        });
+
+        create_tour_pack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(TourCreate.this,TourCreatePackage.class),CREATE_TOUR_PACKAGE);
+            }
+        });
     }
 
     public void check_tour_packages(){
@@ -151,16 +176,6 @@ public class TourCreate extends BaseActivity {
             mRecyclerView_2.setVisibility(View.GONE);
             no_data.setVisibility(View.VISIBLE);
         }
-    }
-
-
-
-    public void startDate(View v){
-        showDialog(999);
-    }
-
-    public void endDate(View v){
-        showDialog(998);
     }
 
     @Override
@@ -204,10 +219,6 @@ public class TourCreate extends BaseActivity {
                     .append(month < 10 ? "0"+month : month)
                     .append("/")
                     .append(year));
-    }
-
-    public void createTourPack(View v){
-        startActivityForResult(new Intent(this,TourCreatePackage.class),CREATE_TOUR_PACKAGE);
     }
 
     @Override

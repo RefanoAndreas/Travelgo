@@ -1,15 +1,18 @@
 package com.qreatiq.travelgo;
 
 import android.content.Intent;
+import android.support.design.button.MaterialButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.view.View;
 
 public class FlightIsiDataPenumpang extends AppCompatActivity {
     LinearLayout linearBagasi;
 
+    MaterialButton batal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,5 +29,12 @@ public class FlightIsiDataPenumpang extends AppCompatActivity {
             linearBagasi.setVisibility(View.GONE);
         }
 
+        batal = (MaterialButton) findViewById(R.id.batal);
+        batal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 }

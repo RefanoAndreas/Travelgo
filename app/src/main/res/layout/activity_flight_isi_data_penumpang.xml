@@ -133,6 +133,7 @@
             app:strokeColor="@color/colorPrimary"
             android:insetTop="0dp"
             android:insetBottom="0dp"
+            android:id="@+id/batal"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:text="Batal"/>
     </LinearLayout>
