@@ -68,7 +68,7 @@ public class TourDetailAdapter extends RecyclerView.Adapter<TourDetailAdapter.Vi
             viewHolder.name.setText(currentItem.getString("name"));
             NumberFormat formatter = new DecimalFormat("#,###");
             String formattedNumber = formatter.format(currentItem.getDouble("price"));
-            viewHolder.price.setText(formattedNumber);
+            viewHolder.price.setText("Rp. " + formattedNumber);
 
             viewHolder.remove_quantity.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -47,13 +47,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
 
                 <TextView
                     android:layout_width="match_parent"
@@ -149,16 +151,50 @@
                     android:layout_height="wrap_content"
                     android:text="Bintang"
                     android:textColor="#7D7D7D"
-                    android:textSize="12dp" />
+                    android:textSize="12dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"/>
 
-                <RatingBar
+                <!--<RatingBar-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="10dp"-->
+                    <!--android:numStars="5"-->
+                    <!--android:stepSize="1"-->
+                    <!--android:rating="0"-->
+                    <!--android:layout_gravity="center"/>-->
+
+                <android.support.design.chip.ChipGroup
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:numStars="5"
-                    android:stepSize="1"
-                    android:rating="0"
-                    android:layout_gravity="center"/>
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp">
+                    <android.support.design.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        app:chipIcon="@drawable/ic_star_yellow_24dp"/>
+                    <android.support.design.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        app:chipIcon="@drawable/ic_star_yellow_24dp"/>
+                    <android.support.design.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        app:chipIcon="@drawable/ic_star_yellow_24dp"/>
+                    <android.support.design.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        app:chipIcon="@drawable/ic_star_yellow_24dp"/>
+                    <android.support.design.chip.Chip
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1"
+                        app:chipIcon="@drawable/ic_star_yellow_24dp"/>
+                </android.support.design.chip.ChipGroup>
 
             </LinearLayout>
 

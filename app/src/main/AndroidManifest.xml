@@ -26,7 +26,8 @@
         <activity
             android:name=".ConfirmationOrder"
             android:label="Konfirmasi Pesanan" />
-        <activity android:name=".HotelDetail" />
+        <activity android:name=".HotelDetail"
+            android:label=""/>
         <activity
             android:name=".FilterHotel"
             android:label="Filter" />
