@@ -12,11 +12,11 @@ import org.w3c.dom.Text;
 
 public class ConfirmationOrder extends AppCompatActivity {
 
-    TextView isiDataPeserta, specialRequestAdd;
-    View layout_infoHotel, layout_infoFlight;
+    TextView  isiDataPeserta, specialRequestAdd, guestData;
+    View layout_infoHotel, layout_infoFlight, layout_infoTrain;
     Intent intent;
     String intentString;
-    LinearLayout specialRequestLinear;
+    LinearLayout specialRequestLinear, linear_dataPeserta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,22 +28,35 @@ public class ConfirmationOrder extends AppCompatActivity {
         specialRequestLinear = (LinearLayout)findViewById(R.id.specialRequestLinear);
 
         layout_infoHotel = (View) findViewById(R.id.infoHotelGuest);
-        layout_infoFlight = (View)findViewById(R.id.infoFlightPassenger);
+        layout_infoFlight = (View)findViewById(R.id.infoFlight);
+        layout_infoTrain = (View)findViewById(R.id.infoTrain);
+        guestData = (TextView) findViewById(R.id.dataGuestTV);
+        linear_dataPeserta = (LinearLayout) findViewById(R.id.linear_dataPeserta);
+        isiDataPeserta = (TextView)findViewById(R.id.isiDataPeserta);
 
         intent = getIntent();
         intentString = intent.getStringExtra("origin");
 
         if(intentString.equals("hotel")){
             layout_infoHotel.setVisibility(View.VISIBLE);
+            guestData.setText("Data Tamu");
+            isiDataPeserta.setText("Isi data tamu");
         }
         else if(intentString.equals("flight")){
             layout_infoFlight.setVisibility(View.VISIBLE);
             specialRequestLinear.setVisibility(View.GONE);
+            guestData.setText("Data Penumpang");
+            isiDataPeserta.setText("Isi data penumpang");
+        }
+        else{
+            layout_infoTrain.setVisibility(View.VISIBLE);
+            specialRequestLinear.setVisibility(View.GONE);
+            guestData.setText("Data Penumpang");
+            isiDataPeserta.setText("Isi data penumpang");
         }
 
 
-        isiDataPeserta = (TextView) findViewById(R.id.isiDataPeserta);
-        isiDataPeserta.setOnClickListener(new View.OnClickListener() {
+        linear_dataPeserta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ConfirmationOrder.this, FlightIsiDataPenumpang.class).putExtra("packageName", "flight"));

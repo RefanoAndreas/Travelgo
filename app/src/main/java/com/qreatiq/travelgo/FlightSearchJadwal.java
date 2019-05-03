@@ -32,7 +32,7 @@ public class FlightSearchJadwal extends AppCompatActivity {
         link.setToolbar(this);
 
         Intent i = getIntent();
-        String intentString = i.getStringExtra("origin");
+        final String intentString = i.getStringExtra("origin");
         String tanggalBerangkat = i.getStringExtra("tanggal_berangkat");
 
         tripInfo = (TextView)findViewById(R.id.tripInfo);
@@ -57,7 +57,7 @@ public class FlightSearchJadwal extends AppCompatActivity {
         mAdapter.setOnItemClickListner(new TicketAdapter.ClickListener() {
             @Override
             public void onItemClick(int position) {
-                startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class).putExtra("origin", "flight"));
+                startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class).putExtra("origin", intentString));
             }
         });
 

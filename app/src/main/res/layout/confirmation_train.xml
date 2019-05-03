@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Rincian Pesawat"
+            android:text="Rincian Kereta"
             android:textColor="#424242"
             android:textSize="16dp"
             android:layout_marginBottom="16dp"
@@ -36,7 +36,7 @@
                 android:id="@+id/TV_routeInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Surabaya -> Jakarta"
+                android:text="Gambir -> Jakarta"
                 android:fontFamily="@font/montserrat_medium"/>
 
             <TextView
@@ -60,7 +60,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_flight_takeoff_black_24dp"/>
+                        android:src="@drawable/ic_train_black_24dp"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -69,21 +69,26 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/TV_airlines_name"
+                            android:id="@+id/TV_train_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Lion Air"
+                            android:text="Argo Parahyangan 24"
                             style="@style/SemiBold_42_16dp"/>
+                        <TextView
+                            android:id="@+id/TV_train_class"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Kelas Ekonomi (C)"/>
                         <TextView
                             android:id="@+id/TV_infoTripDate"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Kamis, 11 Apr 2019 . 05:15 - SUB Surabaya"/>
+                            android:text="Kamis, 11 Apr 2019 . 10:30 - GMR Jakarta"/>
                         <TextView
                             android:id="@+id/TV_infoOriginDeparture"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Bandara Juanda International Airport"/>
+                            android:text="Stasiun Gambir"/>
 
                         <TextView
                             android:layout_width="match_parent"
@@ -108,7 +113,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_flight_land_black_24dp"/>
+                        android:src="@drawable/ic_train_black_24dp"/>
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -120,13 +125,14 @@
                             android:id="@+id/TV_infoTripDate1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Kamis, 11 Apr 2019 . 06:00 - CGK Jakarta"/>
+                            android:text="Kamis, 11 Apr 2019 . 13:39 - BD Bandung"/>
                         <TextView
                             android:id="@+id/TV_infoArrival"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Bandara Cengkareng Jakarta"
+                            android:text="Stasiun Bandung"
                             android:layout_marginBottom="32dp"/>
+
 
                     </LinearLayout>
                 </LinearLayout>

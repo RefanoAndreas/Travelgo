@@ -33,8 +33,13 @@
                     layout="@layout/confirmation_hotel"
                     android:visibility="gone"/>
                 <include
-                    android:id="@+id/infoFlightPassenger"
+                    android:id="@+id/infoFlight"
                     layout="@layout/confirmation_flight"
+                    android:visibility="gone"/>
+
+                <include
+                    android:id="@+id/infoTrain"
+                    layout="@layout/confirmation_train"
                     android:visibility="gone"/>
 
             </android.support.v7.widget.CardView>
@@ -51,6 +56,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/dataGuestTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Data Tamu"
@@ -87,16 +93,40 @@
                                 android:layout_weight="1"
                                 android:textSize="14dp"
                                 android:textColor="#263238"
-                                android:text="Ny. ABC"/>
+                                android:text="ABC"/>
 
-                            <TextView
-                                android:id="@+id/isiDataPeserta"
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="1dp"
+                                android:background="@android:color/darker_gray"
+                                android:layout_marginBottom="16dp"
+                                android:layout_marginTop="16dp"/>
+
+                            <LinearLayout
+                                android:id="@+id/linear_dataPeserta"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Isi data peserta"
-                                android:layout_marginTop="8dp"
-                                android:textColor="@color/colorPrimary"
-                                android:fontFamily="@font/montserrat_semi_bold"/>
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+                                <TextView
+                                    android:id="@+id/isiDataPeserta"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Isi data peserta"
+                                    android:textColor="@color/colorPrimary"
+                                    android:fontFamily="@font/montserrat_semi_bold"
+                                    android:layout_weight="1"/>
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text=">"
+                                    android:gravity="right"
+                                    android:textColor="@color/colorPrimary"
+                                    android:fontFamily="@font/montserrat_semi_bold"
+                                    android:layout_weight="1"/>
+
+
+                            </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout

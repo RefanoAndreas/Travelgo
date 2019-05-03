@@ -8,19 +8,23 @@ import android.app.Activity;
 import android.support.design.button.MaterialButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class HotelSearch extends AppCompatActivity {
 
     MaterialButton searchBtn;
-    TextView TV_searchHotel, tanggalCheckin, tanggalCheckout;
+    TextView TV_searchHotel, tanggalCheckin, tanggalCheckout, duration;
     private int year = 2019, month = 3, day = 10;
+    Calendar checkin, checkout;
 
     int HOTEL_SEARCH = 1;
 
@@ -41,8 +45,12 @@ public class HotelSearch extends AppCompatActivity {
             }
         });
 
+
         tanggalCheckin = (TextView)findViewById(R.id.tanggalCheckin);
         tanggalCheckout = (TextView)findViewById(R.id.tanggalCheckout);
+
+        checkin = Calendar.getInstance();
+        checkout = Calendar.getInstance();
 
         searchBtn = (MaterialButton)findViewById(R.id.search_hotel);
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +69,8 @@ public class HotelSearch extends AppCompatActivity {
                 startActivityForResult(in,HOTEL_SEARCH);
             }
         });
+
+        duration = (TextView) findViewById(R.id.TV_duration);
 
 
     }
@@ -84,6 +94,9 @@ public class HotelSearch extends AppCompatActivity {
                     Date date = new Date(year, month, dayOfMonth-1);
                     String dayOfWeek = simpledateformat.format(date);
                     String monthOfYear = simplemonth.format(date);
+                    checkin.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    checkin.set(Calendar.MONTH, month);
+                    checkin.set(Calendar.YEAR, year);
                     showDate(year, monthOfYear, dayOfMonth, dayOfWeek, "start");
                 }
             }, year, month, day);
@@ -99,6 +112,9 @@ public class HotelSearch extends AppCompatActivity {
                     Date date = new Date(year, month, dayOfMonth-1);
                     String dayOfWeek = simpledateformat.format(date);
                     String monthOfYear = simplemonth.format(date);
+                    checkout.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    checkout.set(Calendar.MONTH, month);
+                    checkout.set(Calendar.YEAR, year);
                     showDate(year, monthOfYear, dayOfMonth, dayOfWeek, "end");
                 }
             }, year, month, day);
@@ -118,15 +134,22 @@ public class HotelSearch extends AppCompatActivity {
                     .append(month)
                     .append(" ")
                     .append(year));
-        else
+        else {
             tanggalCheckout.setText(new StringBuilder()
                     .append(dayOfWeek)
                     .append(", ")
-                    .append(date < 10 ? "0"+date : date)
+                    .append(date < 10 ? "0" + date : date)
                     .append(" ")
                     .append(month)
                     .append(" ")
                     .append(year));
+
+        }
+        long diff = checkout.getTimeInMillis() - checkin.getTimeInMillis();
+        long days = diff / (24 * 60 * 60 * 1000);
+        duration.setText(String.valueOf(days) + " Malam");
+
+
     }
 
 }
