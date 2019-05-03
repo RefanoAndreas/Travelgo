@@ -14,14 +14,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SearchHotel"></activity>
+        <activity android:name=".Sort"></activity>
+        <activity android:name=".SearchHotel" />
         <activity android:name=".SearchFlight" />
         <activity android:name=".SearchTrain" />
         <activity android:name=".FilterTrain" />
         <activity android:name=".TrainSearchJadwal" />
         <activity
             android:name=".TrainSearch"
-            android:label="Pesan Tiket Kereta"></activity>
+            android:label="Pesan Tiket Kereta" />
         <activity
             android:name=".ConfirmationOrder"
             android:label="Konfirmasi Pesanan" />
