@@ -51,7 +51,7 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:icon="@drawable/ic_sort_black_24dp"
             app:iconTint="@android:color/darker_gray"
-            app:iconPadding="8dp"
+
             app:iconGravity="start"
             android:text="Sort"
             android:textSize="12dp"
@@ -71,9 +71,12 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:icon="@drawable/ic_filter_list_black_24dp"
             app:iconTint="@android:color/darker_gray"
-            app:iconPadding="8dp"
             app:iconGravity="start"
             android:text="filter"
+            app:iconPadding="0dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="2dp"
+            android:gravity="center"
             android:textColor="@android:color/darker_gray"/>
 
         <android.support.design.button.MaterialButton
@@ -89,7 +92,6 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:icon="@drawable/ic_date_range_black_24dp"
             app:iconTint="@android:color/darker_gray"
-            app:iconPadding="8dp"
             app:iconGravity="start"
             android:text="date"
             android:textSize="12dp"

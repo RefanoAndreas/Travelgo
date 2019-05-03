@@ -3,6 +3,7 @@ package com.qreatiq.travelgo;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
@@ -75,13 +76,15 @@ public class TourDetail extends AppCompatActivity {
         payPackageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TourDetail.this, ConfirmationOrder.class));
+                startActivity(new Intent(TourDetail.this, TransactionDetail.class));
             }
         });
 
         CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) scroll.getLayoutParams();
         lp.bottomMargin = 0;
         scroll.setLayoutParams(lp);
+
+        scroll.getParent().requestChildFocus(scroll, scroll);
 
         list = (RecyclerView) findViewById(R.id.tourDetail_RV);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -126,7 +129,6 @@ public class TourDetail extends AppCompatActivity {
                 }
                 if(total_pack == 0) {
                     layout_pay.setVisibility(View.GONE);
-
                     CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) scroll.getLayoutParams();
                     lp.bottomMargin = 0;
                     scroll.setLayoutParams(lp);

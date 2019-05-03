@@ -57,17 +57,17 @@ public class ChangeDateActivity extends AppCompatActivity {
 
         try {
             ticketList.add(new JSONObject("{\"airlines\":\"Cathay Pacific\", " +
-                    "\"departTime\":\"06.20\", " +
+                    "\"departTime\":\"06:20\", " +
                     "\"duration\":\"2j 20m\", " +
-                    "\"arrivalTime\":\"09.40\", " +
+                    "\"arrivalTime\":\"09:40\", " +
                     "\"departAirport\":\"CGK\", " +
                     "\"totalTransit\":\"1 Transit\", " +
                     "\"arrivalAirport\":\"HKG\", " +
                     "\"price\":\"3.500.000\"}"));
             ticketList.add(new JSONObject("{\"airlines\":\"Citilink\", " +
-                    "\"departTime\":\"07.40\", " +
+                    "\"departTime\":\"07:40\", " +
                     "\"duration\":\"1j 05m\", " +
-                    "\"arrivalTime\":\"08.05\", " +
+                    "\"arrivalTime\":\"08:05\", " +
                     "\"departAirport\":\"CGK\", " +
                     "\"totalTransit\":\"0 Transit\", " +
                     "\"arrivalAirport\":\"SUB\", " +

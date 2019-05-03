@@ -57,7 +57,7 @@ public class HotelDetail extends AppCompatActivity {
         chooseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HotelDetail.this, ConfirmationOrder.class));
+                startActivity(new Intent(HotelDetail.this, ConfirmationOrder.class).putExtra("origin", "hotel"));
             }
         });
 

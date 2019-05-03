@@ -45,15 +45,21 @@
             android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/linearBagasi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="Bagasi Penumpang"
         android:textSize="16dp"
+
+        android:layout_marginBottom="10dp"
         android:textColor="@color/c42"
         android:fontFamily="@font/montserrat_semi_bold"/>
 
@@ -61,9 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#E6E8FF"
-        android:layout_marginRight="16dp"
-        android:layout_marginLeft="16dp">
+        android:background="#E6E8FF">
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -101,6 +105,7 @@
             android:fontFamily="@font/montserrat_semi_bold"
             android:textColor="@android:color/black"/>
     </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
     
     <LinearLayout
         android:layout_width="match_parent"

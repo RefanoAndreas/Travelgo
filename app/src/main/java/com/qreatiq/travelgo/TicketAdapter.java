@@ -13,6 +13,8 @@ import android.widget.TextView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketHolder> {
@@ -66,12 +68,16 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketHold
         try {
             ticketHolder.airlinesName.setText(jsonObject.getString("airlines"));
             ticketHolder.departureTime.setText(jsonObject.getString("departTime"));
-            ticketHolder.duration.setText("Rp. "+jsonObject.getString("duration"));
+            ticketHolder.duration.setText(jsonObject.getString("duration"));
             ticketHolder.arrivalTime.setText(jsonObject.getString("arrivalTime"));
             ticketHolder.departureAirport.setText(jsonObject.getString("departAirport"));
-            ticketHolder.totalTransit.setText("Rp. "+jsonObject.getString("totalTransit"));
+            ticketHolder.totalTransit.setText(jsonObject.getString("totalTransit"));
             ticketHolder.arrivalAirport.setText(jsonObject.getString("arrivalAirport"));
-            ticketHolder.ticketPrice.setText("Rp. "+jsonObject.getString("price"));
+
+            DecimalFormat formatter = new DecimalFormat("#,###,###");
+            String formattedNumber = formatter.format(Double.parseDouble(jsonObject.getString("price").replace(".", "")));
+
+            ticketHolder.ticketPrice.setText("Rp. "+formattedNumber);
 
         } catch (JSONException e) {
             e.printStackTrace();

@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar_transactionDetail"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintBottom_toTopOf="@+id/submit_transaction">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,14 +84,14 @@
                                 android:textSize="14dp"
                                 android:textColor="#7D7D7D"
                                 android:text="Lokasi"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_marginTop="10dp"
-                                android:textSize="14dp"
-                                android:textColor="#7D7D7D"
-                                android:text="Peserta"/>
+                            <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_weight="1"-->
+                                <!--android:layout_marginTop="10dp"-->
+                                <!--android:textSize="14dp"-->
+                                <!--android:textColor="#7D7D7D"-->
+                                <!--android:text="Peserta"/>-->
                         </LinearLayout>
 
                         <LinearLayout
@@ -130,14 +130,6 @@
                                 android:textSize="14dp"
                                 android:textColor="#263238"
                                 android:text="Labuan Bajo, NTT"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:layout_marginTop="10dp"
-                                android:textSize="14dp"
-                                android:textColor="#263238"
-                                android:text=""/>
                         </LinearLayout>
 
                     </LinearLayout>
@@ -146,7 +138,70 @@
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#E4E7E8"
-                        android:layout_marginTop="24dp"/>
+                        android:layout_marginTop="16dp"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Data Peserta"
+                            android:textColor="#424242"
+                            android:textSize="16dp"
+                            android:layout_margin="16dp"
+                            android:fontFamily="@font/montserrat_semi_bold"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="#E4E7E8"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_margin="16dp">
+
+                            <LinearLayout
+                                android:id="@+id/gueastDataLinear"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="Peserta"
+                                    android:fontFamily="@font/montserrat_medium"/>
+
+                                <TextView
+                                    android:id="@+id/tamu"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:textSize="14dp"
+                                    android:textColor="#263238"
+                                    android:text="Ny. ABC"/>
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/isiDataPeserta"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Isi data peserta"
+                                android:layout_marginTop="16dp"
+                                android:textColor="@color/colorPrimary"
+                                android:fontFamily="@font/montserrat_semi_bold"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#E4E7E8"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -228,6 +283,17 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.button.MaterialButton
+        android:id="@+id/submit_transaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:insetBottom="0dp"
+        android:insetTop="0dp"
+        android:text="Submit"
+        app:cornerRadius="0dp"/>
 
 
     <View

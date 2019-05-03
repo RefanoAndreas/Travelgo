@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -26,6 +27,9 @@ import com.shawnlin.numberpicker.NumberPicker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class FlightSearch extends BaseActivity {
 
@@ -89,11 +93,16 @@ public class FlightSearch extends BaseActivity {
             }
         });
 
+        tanggalBerangkat = (TextView)findViewById(R.id.TV_tanggalBerangkat);
+        tanggalKembali = (TextView)findViewById(R.id.TV_tanggalKembali);
+
         searchTicketBtn = (MaterialButton) findViewById(R.id.search_flight);
         searchTicketBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(FlightSearch.this, FlightSearchJadwal.class));
+                startActivity(new Intent(FlightSearch.this, FlightSearchJadwal.class)
+                        .putExtra("origin", "flight")
+                        .putExtra("tanggal_berangkat", tanggalBerangkat.getText()));
             }
         });
 
@@ -150,12 +159,40 @@ public class FlightSearch extends BaseActivity {
     }
 
     @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        View v = getCurrentFocus();
+
+        if (v != null &&
+                (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) &&
+                v instanceof EditText &&
+                v instanceof TextInputEditText &&
+                !v.getClass().getName().startsWith("android.webkit.")) {
+            int scrcoords[] = new int[2];
+            v.getLocationOnScreen(scrcoords);
+            float x = ev.getRawX() + v.getLeft() - scrcoords[0];
+            float y = ev.getRawY() + v.getTop() - scrcoords[1];
+
+            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom()) {
+
+                link.hideSoftKeyboard(this);
+                v.clearFocus();
+            }
+        }
+        return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
     protected Dialog onCreateDialog(int id) {
         if (id == 999) {
             DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    showDate(year, month+1, dayOfMonth, "start");
+                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
+                    SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
+                    Date date = new Date(year, month, dayOfMonth-1);
+                    String dayOfWeek = simpledateformat.format(date);
+                    String monthOfYear = simplemonth.format(date);
+                    showDate(year, monthOfYear, dayOfMonth, dayOfWeek, "start");
                 }
             }, year, month, day);
             dialog.getDatePicker().setMinDate(System.currentTimeMillis());
@@ -165,7 +202,12 @@ public class FlightSearch extends BaseActivity {
             DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    showDate(year, month+1, dayOfMonth, "end");
+                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
+                    SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
+                    Date date = new Date(year, month, dayOfMonth-1);
+                    String dayOfWeek = simpledateformat.format(date);
+                    String monthOfYear = simplemonth.format(date);
+                    showDate(year, monthOfYear, dayOfMonth, dayOfWeek, "end");
                 }
             }, year, month, day);
             dialog.getDatePicker().setMinDate(System.currentTimeMillis());
@@ -195,20 +237,24 @@ public class FlightSearch extends BaseActivity {
         }
     }
 
-    private void showDate(int year, int month, int day, String type) {
+    private void showDate(int year, String month, int date, String dayOfWeek, String type) {
         if(type == "start")
             tanggalBerangkat.setText(new StringBuilder()
-                    .append(day < 10 ? "0"+day : day)
-                    .append("/")
-                    .append(month < 10 ? "0"+month : month)
-                    .append("/")
+                    .append(dayOfWeek)
+                    .append(", ")
+                    .append(date < 10 ? "0"+date : date)
+                    .append(" ")
+                    .append(month)
+                    .append(" ")
                     .append(year));
         else
             tanggalKembali.setText(new StringBuilder()
-                    .append(day < 10 ? "0"+day : day)
-                    .append("/")
-                    .append(month < 10 ? "0"+month : month)
-                    .append("/")
+                    .append(dayOfWeek)
+                    .append(", ")
+                    .append(date < 10 ? "0"+date : date)
+                    .append(" ")
+                    .append(month)
+                    .append(" ")
                     .append(year));
     }
 }

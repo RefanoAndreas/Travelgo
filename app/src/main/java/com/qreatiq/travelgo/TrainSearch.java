@@ -16,6 +16,9 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -80,11 +83,16 @@ public class TrainSearch extends AppCompatActivity {
             }
         });
 
+        tanggalBerangkat = (TextView)findViewById(R.id.TV_tanggalBerangkat);
+        tanggalKembali = (TextView)findViewById(R.id.TV_tanggalKembali);
+
         searchTrainBtn = (MaterialButton) findViewById(R.id.search_train);
         searchTrainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TrainSearch.this, TrainSearchJadwal.class));
+                startActivity(new Intent(TrainSearch.this, FlightSearchJadwal.class)
+                        .putExtra("origin", "train")
+                        .putExtra("tanggal_berangkat", tanggalBerangkat.getText()));
             }
         });
 
@@ -144,7 +152,12 @@ public class TrainSearch extends AppCompatActivity {
             DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    showDate(year, month+1, dayOfMonth, "start");
+                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
+                    SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
+                    Date date = new Date(year, month, dayOfMonth-1);
+                    String dayOfWeek = simpledateformat.format(date);
+                    String monthOfYear = simplemonth.format(date);
+                    showDate(year, monthOfYear, dayOfMonth, dayOfWeek, "start");
                 }
             }, year, month, day);
             dialog.getDatePicker().setMinDate(System.currentTimeMillis());
@@ -154,7 +167,12 @@ public class TrainSearch extends AppCompatActivity {
             DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    showDate(year, month+1, dayOfMonth, "end");
+                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
+                    SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
+                    Date date = new Date(year, month, dayOfMonth-1);
+                    String dayOfWeek = simpledateformat.format(date);
+                    String monthOfYear = simplemonth.format(date);
+                    showDate(year, monthOfYear, dayOfMonth, dayOfWeek, "end");
                 }
             }, year, month, day);
             dialog.getDatePicker().setMinDate(System.currentTimeMillis());
@@ -184,20 +202,24 @@ public class TrainSearch extends AppCompatActivity {
         }
     }
 
-    private void showDate(int year, int month, int day, String type) {
+    private void showDate(int year, String month, int date, String dayOfWeek, String type) {
         if(type == "start")
             tanggalBerangkat.setText(new StringBuilder()
-                    .append(day < 10 ? "0"+day : day)
-                    .append("/")
-                    .append(month < 10 ? "0"+month : month)
-                    .append("/")
+                    .append(dayOfWeek)
+                    .append(", ")
+                    .append(date < 10 ? "0"+date : date)
+                    .append(" ")
+                    .append(month)
+                    .append(" ")
                     .append(year));
         else
             tanggalKembali.setText(new StringBuilder()
-                    .append(day < 10 ? "0"+day : day)
-                    .append("/")
-                    .append(month < 10 ? "0"+month : month)
-                    .append("/")
+                    .append(dayOfWeek)
+                    .append(", ")
+                    .append(date < 10 ? "0"+date : date)
+                    .append(" ")
+                    .append(month)
+                    .append(" ")
                     .append(year));
     }
 }

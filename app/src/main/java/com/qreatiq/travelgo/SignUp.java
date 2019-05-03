@@ -26,6 +26,17 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.Login;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,6 +51,8 @@ public class SignUp extends AppCompatActivity {
     TextView btnLogin;
     TextInputLayout emailLayout, passwordLayout, retypePassLayout;
     ConstraintLayout layout;
+    LoginButton loginButton;
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +120,48 @@ public class SignUp extends AppCompatActivity {
                     passwordLayout.setError("");
             }
         });
+
+        loginButton = (LoginButton) findViewById(R.id.login_button_fb);
+        loginButton.setReadPermissions("email");
+
+
+        callbackManager = CallbackManager.Factory.create();
+
+        LoginManager.getInstance().registerCallback(callbackManager,
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        // App code
+                        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+                        boolean isLoggedIn = accessToken != null && !accessToken.isExpired();
+
+                        GraphRequest request = GraphRequest.newMeRequest(
+                                accessToken,
+                                new GraphRequest.GraphJSONObjectCallback() {
+                                    @Override
+                                    public void onCompleted(JSONObject object, GraphResponse response) {
+                                        loginFB(object);
+                                    }
+                                }
+                        );
+
+                        Bundle parameters = new Bundle();
+                        parameters.putString("fields", "id, name, link, email");
+                        request.setParameters(parameters);
+                        request.executeAsync();
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        // App code
+                    }
+
+                    @Override
+                    public void onError(FacebookException exception) {
+                        // App code
+                    }
+                });
     }
 
     @Override
@@ -130,6 +185,12 @@ public class SignUp extends AppCompatActivity {
             }
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public static boolean isValidEmail(CharSequence target) {
@@ -169,8 +230,9 @@ public class SignUp extends AppCompatActivity {
                             editor.putString("user_id", response.getString("data"));
                             editor.apply();
 
-                            Intent intentHome = new Intent(SignUp.this, Home.class);
+                            Intent intentHome = new Intent(SignUp.this, BottomNavContainer.class);
                             startActivity(intentHome);
+                            finish();
                         } else {
 //                        Toast.makeText(SignUp.this, "User Already Exist", Toast.LENGTH_SHORT).show();
                             emailLayout.setError("Email already exist");
@@ -188,6 +250,51 @@ public class SignUp extends AppCompatActivity {
 
             requestQueue.add(jsonObjectRequest);
         }
+    }
+
+    public void facebook(View v){
+        loginButton.performClick();
+    }
+
+    private void loginFB(JSONObject object){
+        url = link.C_URL+"login.php";
+
+        try {
+            object.put("login", "facebook");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.d("responseLogin", response.toString());
+                try {
+
+                    if(response.getString("status").equals("success")){
+                        Log.d("abcde", "ABCDE");
+                        userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = userID.edit();
+                        editor.putString("user_id", response.getString("data"));
+                        editor.apply();
+
+                        Intent intentHome = new Intent(SignUp.this, BottomNavContainer.class);
+                        startActivity(intentHome);
+                        finish();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("error",error.getMessage());
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
 
     }
+
 }

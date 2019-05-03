@@ -8,6 +8,8 @@ import android.widget.TextView;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class FilterTrain extends AppCompatActivity {
@@ -34,8 +36,13 @@ public class FilterTrain extends AppCompatActivity {
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
             public void valueChanged(Number minValue, Number maxValue) {
-                minPrice.setText(String.valueOf(minValue));
-                maxPrice.setText(String.valueOf(maxValue));
+                NumberFormat formatter = new DecimalFormat("#,###");
+                String formattedNumber = formatter.format(minValue);
+                minPrice.setText("Rp. "+formattedNumber);
+
+                NumberFormat formatter1 = new DecimalFormat("#,###");
+                String formattedNumber1 = formatter1.format(maxValue);
+                maxPrice.setText("Rp. "+formattedNumber1);
             }
         });
 

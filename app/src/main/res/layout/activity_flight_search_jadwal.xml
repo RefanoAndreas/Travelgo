@@ -24,6 +24,7 @@
                 android:textSize="20dp"
                 android:fontFamily="@font/montserrat_medium"/>
             <TextView
+                android:id="@+id/tripInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Kam, 11 Apr 2019, 1 Pax, Ekonomi"
@@ -51,7 +52,6 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:icon="@drawable/ic_sort_black_24dp"
             app:iconTint="@android:color/darker_gray"
-            app:iconPadding="8dp"
             app:iconGravity="start"
             android:text="Sort"
             android:textSize="12dp"
@@ -71,8 +71,9 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:icon="@drawable/ic_filter_list_black_24dp"
             app:iconTint="@android:color/darker_gray"
-            app:iconPadding="8dp"
             app:iconGravity="start"
+            android:paddingLeft="8dp"
+            android:paddingRight="2dp"
             android:text="filter"
             android:textColor="@android:color/darker_gray"/>
 
@@ -89,7 +90,6 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:icon="@drawable/ic_date_range_black_24dp"
             app:iconTint="@android:color/darker_gray"
-            app:iconPadding="8dp"
             app:iconGravity="start"
             android:text="date"
             android:textSize="12dp"

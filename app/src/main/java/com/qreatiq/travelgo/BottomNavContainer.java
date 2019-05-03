@@ -49,6 +49,11 @@ public class BottomNavContainer extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        getSupportFragmentManager().popBackStack();
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }

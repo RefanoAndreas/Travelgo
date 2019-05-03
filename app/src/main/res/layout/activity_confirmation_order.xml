@@ -28,125 +28,14 @@
                 app:cardCornerRadius="0dp"
                 android:layout_marginBottom="16dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Pesanan Anda"
-                        android:textColor="#424242"
-                        android:textSize="16dp"
-                        android:layout_margin="16dp"
-                        android:fontFamily="@font/montserrat_semi_bold"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="#E4E7E8"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_margin="16dp">
-
-                        <TextView
-                            android:id="@+id/hotelName_order"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="JW Marriott Hotel Surabaya"
-                            android:fontFamily="@font/montserrat_medium"/>
-
-                        <TextView
-                            android:id="@+id/roomType"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Superior Room"
-                            android:textColor="@android:color/black"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginBottom="10dp"/>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:weightSum="2">
-
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Check-in"
-                                android:layout_weight="1"/>
-                            <TextView
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Check-out"
-                                android:gravity="right"
-                                android:layout_weight="1"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:weightSum="2"
-                            android:layout_marginTop="10dp">
-
-                            <TextView
-                                android:id="@+id/checkInDate"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:textSize="14dp"
-                                android:textColor="#263238"
-                                android:text="Selasa, 30 April 2019"/>
-                            <TextView
-                                android:id="@+id/checkOutDate"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:gravity="right"
-                                android:textSize="14dp"
-                                android:textColor="#263238"
-                                android:text="Sabtu, 04 Mei 2019"/>
-
-                        </LinearLayout>
-
-                        <TextView
-                            android:id="@+id/totalGuestOrder"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="2 Tamu, 1 Kamar (21m)"
-                            android:layout_marginTop="16dp"
-                            android:textColor="#263238"/>
-                        <TextView
-                            android:id="@+id/bedType"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Tipe Bed : King Size Bed"
-                            android:textColor="#263238"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Wi-Fi Gratis"
-                            android:textColor="#263238"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Termasuk Sarapan"
-                            android:textColor="#263238"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Non-Refundable"
-                            android:textColor="#263238"/>
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                <include
+                    android:id="@+id/infoHotelGuest"
+                    layout="@layout/confirmation_hotel"
+                    android:visibility="gone"/>
+                <include
+                    android:id="@+id/infoFlightPassenger"
+                    layout="@layout/confirmation_flight"
+                    android:visibility="gone"/>
 
             </android.support.v7.widget.CardView>
 
@@ -199,13 +88,24 @@
                                 android:textSize="14dp"
                                 android:textColor="#263238"
                                 android:text="Ny. ABC"/>
+
+                            <TextView
+                                android:id="@+id/isiDataPeserta"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Isi data peserta"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/colorPrimary"
+                                android:fontFamily="@font/montserrat_semi_bold"/>
                         </LinearLayout>
 
                         <LinearLayout
                             android:id="@+id/specialRequestLinear"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
                             android:orientation="vertical">
+
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -221,6 +121,15 @@
                                 android:textSize="14dp"
                                 android:textColor="#0E64FF"
                                 android:text="Kamar Bebas Rokok"/>
+
+                            <TextView
+                                android:id="@+id/specialRequestAdd"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Tambah Permintaan Khusus"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/colorPrimary"
+                                android:fontFamily="@font/montserrat_semi_bold"/>
                         </LinearLayout>
 
                     </LinearLayout>

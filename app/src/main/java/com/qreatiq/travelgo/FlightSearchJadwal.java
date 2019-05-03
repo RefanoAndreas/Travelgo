@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +22,7 @@ public class FlightSearchJadwal extends AppCompatActivity {
     private TicketAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> ticketList = new ArrayList<>();
+    TextView tripInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,33 +31,24 @@ public class FlightSearchJadwal extends AppCompatActivity {
 
         link.setToolbar(this);
 
+        Intent i = getIntent();
+        String intentString = i.getStringExtra("origin");
+        String tanggalBerangkat = i.getStringExtra("tanggal_berangkat");
 
-        try {
-            ticketList.add(new JSONObject("{\"airlines\":\"Singapore Airlines\", " +
-                    "\"departTime\":\"07.40\", " +
-                    "\"duration\":\"2j 20m\", " +
-                    "\"arrivalTime\":\"11.00\", " +
-                    "\"departAirport\":\"SUB\", " +
-                    "\"totalTransit\":\"0 Transit\", " +
-                    "\"arrivalAirport\":\"SIN\", " +
-                    "\"price\":\"2.500.000\"}"));
-            ticketList.add(new JSONObject("{\"airlines\":\"Garuda Indonesia\", " +
-                    "\"departTime\":\"07.40\", " +
-                    "\"duration\":\"1j 05m\", " +
-                    "\"arrivalTime\":\"08.05\", " +
-                    "\"departAirport\":\"SUB\", " +
-                    "\"totalTransit\":\"0 Transit\", " +
-                    "\"arrivalAirport\":\"CGK\", " +
-                    "\"price\":\"950.000\"}"));
-        } catch (JSONException e) {
-            e.printStackTrace();
+        tripInfo = (TextView)findViewById(R.id.tripInfo);
+        tripInfo.setText(tanggalBerangkat+", 1 Pax, Ekonomi");
+
+        if(intentString.equals("flight")){
+            flightData();
+        }
+        else{
+            trainData();
         }
 
         mRecyclerView = findViewById(R.id.RV_chooseDate);
         mRecyclerView = findViewById(R.id.RV_ticket_result);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mAdapter = new TicketAdapter(ticketList, this);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -63,7 +57,7 @@ public class FlightSearchJadwal extends AppCompatActivity {
         mAdapter.setOnItemClickListner(new TicketAdapter.ClickListener() {
             @Override
             public void onItemClick(int position) {
-                startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class));
+                startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class).putExtra("origin", "flight"));
             }
         });
 
@@ -75,5 +69,43 @@ public class FlightSearchJadwal extends AppCompatActivity {
 
     public void viewChangeDate(View v){
         startActivity(new Intent(FlightSearchJadwal.this, ChangeDateActivity.class));
+    }
+
+    public void flightData(){
+        try {
+            ticketList.add(new JSONObject("{\"airlines\":\"Singapore Airlines\", " +
+                    "\"departTime\":\"07:40\", " +
+                    "\"duration\":\"2j 20m\", " +
+                    "\"arrivalTime\":\"11:00\", " +
+                    "\"departAirport\":\"SUB\", " +
+                    "\"totalTransit\":\"0 Transit\", " +
+                    "\"arrivalAirport\":\"SIN\", " +
+                    "\"price\":\"2.500.000\"}"));
+            ticketList.add(new JSONObject("{\"airlines\":\"Garuda Indonesia\", " +
+                    "\"departTime\":\"07:40\", " +
+                    "\"duration\":\"2j 20m\", " +
+                    "\"arrivalTime\":\"11:00\", " +
+                    "\"departAirport\":\"SUB\", " +
+                    "\"totalTransit\":\"0 Transit\", " +
+                    "\"arrivalAirport\":\"SIN\", " +
+                    "\"price\":\"2.500.000\"}"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void trainData(){
+        try {
+            ticketList.add(new JSONObject("{\"airlines\":\"Mutiara\", " +
+                    "\"departTime\":\"07:40\", " +
+                    "\"duration\":\"2j 20m\", " +
+                    "\"arrivalTime\":\"11:00\", " +
+                    "\"departAirport\":\"SUB\", " +
+                    "\"totalTransit\":\"0 Transit\", " +
+                    "\"arrivalAirport\":\"JKT\", " +
+                    "\"price\":\"150.000\"}"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

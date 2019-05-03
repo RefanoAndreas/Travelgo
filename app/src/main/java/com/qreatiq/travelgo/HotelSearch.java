@@ -13,6 +13,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class HotelSearch extends AppCompatActivity {
 
     MaterialButton searchBtn;
@@ -38,11 +41,14 @@ public class HotelSearch extends AppCompatActivity {
             }
         });
 
+        tanggalCheckin = (TextView)findViewById(R.id.tanggalCheckin);
+        tanggalCheckout = (TextView)findViewById(R.id.tanggalCheckout);
+
         searchBtn = (MaterialButton)findViewById(R.id.search_hotel);
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HotelSearch.this, HotelSearchResult.class));
+                startActivity(new Intent(HotelSearch.this, HotelSearchResult.class).putExtra("tanggal_berangkat", tanggalCheckin.getText()));
             }
         });
 
@@ -56,8 +62,7 @@ public class HotelSearch extends AppCompatActivity {
             }
         });
 
-        tanggalCheckin = (TextView)findViewById(R.id.tanggalCheckin);
-        tanggalCheckout = (TextView)findViewById(R.id.tanggalCheckout);
+
     }
 
     public void startDate(View v){
@@ -74,7 +79,12 @@ public class HotelSearch extends AppCompatActivity {
             DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    showDate(year, month+1, dayOfMonth, "start");
+                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
+                    SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
+                    Date date = new Date(year, month, dayOfMonth-1);
+                    String dayOfWeek = simpledateformat.format(date);
+                    String monthOfYear = simplemonth.format(date);
+                    showDate(year, monthOfYear, dayOfMonth, dayOfWeek, "start");
                 }
             }, year, month, day);
             dialog.getDatePicker().setMinDate(System.currentTimeMillis());
@@ -84,7 +94,12 @@ public class HotelSearch extends AppCompatActivity {
             DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    showDate(year, month+1, dayOfMonth, "end");
+                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
+                    SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
+                    Date date = new Date(year, month, dayOfMonth-1);
+                    String dayOfWeek = simpledateformat.format(date);
+                    String monthOfYear = simplemonth.format(date);
+                    showDate(year, monthOfYear, dayOfMonth, dayOfWeek, "end");
                 }
             }, year, month, day);
             dialog.getDatePicker().setMinDate(System.currentTimeMillis());
@@ -93,20 +108,24 @@ public class HotelSearch extends AppCompatActivity {
         return null;
     }
 
-    private void showDate(int year, int month, int day, String type) {
+    private void showDate(int year, String month, int date, String dayOfWeek, String type) {
         if(type == "start")
             tanggalCheckin.setText(new StringBuilder()
-                    .append(day < 10 ? "0"+day : day)
-                    .append("/")
-                    .append(month < 10 ? "0"+month : month)
-                    .append("/")
+                    .append(dayOfWeek)
+                    .append(", ")
+                    .append(date < 10 ? "0"+date : date)
+                    .append(" ")
+                    .append(month)
+                    .append(" ")
                     .append(year));
         else
             tanggalCheckout.setText(new StringBuilder()
-                    .append(day < 10 ? "0"+day : day)
-                    .append("/")
-                    .append(month < 10 ? "0"+month : month)
-                    .append("/")
+                    .append(dayOfWeek)
+                    .append(", ")
+                    .append(date < 10 ? "0"+date : date)
+                    .append(" ")
+                    .append(month)
+                    .append(" ")
                     .append(year));
     }
 
