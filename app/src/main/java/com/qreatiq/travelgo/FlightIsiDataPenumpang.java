@@ -14,7 +14,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 public class FlightIsiDataPenumpang extends BaseActivity {
-    LinearLayout linearBagasi, titleName_layout, idNo_layout, pasporNo_layout;
+    LinearLayout linearBagasi, titleName_layout, idNo_layout, pasporNo_layout, email_layout, phone_layout;
     MaterialButton batal;
     TextView titleData;
 
@@ -34,21 +34,32 @@ public class FlightIsiDataPenumpang extends BaseActivity {
         titleName_layout = (LinearLayout) findViewById(R.id.titleName_layout);
         idNo_layout = (LinearLayout)findViewById(R.id.idNo_layout);
         pasporNo_layout = (LinearLayout)findViewById(R.id.pasporNo_layout);
+        email_layout = (LinearLayout) findViewById(R.id.email_layout);
+        phone_layout = (LinearLayout) findViewById(R.id.phone_layout);
 
         if(intentString.equals("tour") || intentString.equals("hotel")){
             getSupportActionBar().setTitle("Isi Data Tamu");
             titleData.setText("Data Tamu");
             linearBagasi.setVisibility(View.GONE);
-            titleName_layout.setVisibility(View.GONE);
+//            titleName_layout.setVisibility(View.GONE);
             idNo_layout.setVisibility(View.GONE);
             pasporNo_layout.setVisibility(View.GONE);
+
+            if(!intentString.equals("hotel")) {
+                email_layout.setVisibility(View.GONE);
+                phone_layout.setVisibility(View.GONE);
+            }
         }
         else if(intentString.equals("flight")){
             idNo_layout.setVisibility(View.GONE);
+            email_layout.setVisibility(View.GONE);
+            phone_layout.setVisibility(View.GONE);
         }
         else if(intentString.equals("train")){
             linearBagasi.setVisibility(View.GONE);
             pasporNo_layout.setVisibility(View.GONE);
+            email_layout.setVisibility(View.GONE);
+            phone_layout.setVisibility(View.GONE);
         }
 
         batal = (MaterialButton) findViewById(R.id.batal);

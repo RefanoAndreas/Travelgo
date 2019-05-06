@@ -95,7 +95,9 @@ public class TourList extends BaseActivity {
                         new UnderlayButtonClickListener() {
                             @Override
                             public void onClick(int pos) {
-
+                                tourListPackagesList.remove(pos);
+                                mAdapter.notifyItemRemoved(pos);
+                                mAdapter.notifyItemRangeRemoved(pos,tourListPackagesList.size());
                             }
                         },
                         TourList.this)
