@@ -143,6 +143,7 @@
                 android:layout_margin="16dp"
                 android:orientation="horizontal">
                 <TextView
+                    android:id="@+id/TV_eTicket"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:text="Surabaya > Jakarta"
