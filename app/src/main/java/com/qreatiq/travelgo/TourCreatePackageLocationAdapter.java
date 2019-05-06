@@ -26,10 +26,12 @@ public class TourCreatePackageLocationAdapter extends RecyclerView.Adapter<TourC
         public TextView text;
         LinearLayout content_layout;
         CardView layout;
+        View itemView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             text = (TextView) itemView.findViewById(R.id.text);
+            this.itemView = itemView;
         }
     }
 
@@ -55,6 +57,13 @@ public class TourCreatePackageLocationAdapter extends RecyclerView.Adapter<TourC
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
         viewHolder.text.setText(arrayList.get(i));
+
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onItemClick(i);
+            }
+        });
     }
 
     @Override

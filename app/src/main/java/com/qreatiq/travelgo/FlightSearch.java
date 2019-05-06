@@ -42,7 +42,7 @@ public class FlightSearch extends BaseActivity {
 
     int ARRIVAL_CITY = 1, DEPARTURE_CITY = 2;
 
-    JSONObject depart_data,arrive_data;
+    JSONObject depart_data = new JSONObject(),arrive_data = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,16 +133,18 @@ public class FlightSearch extends BaseActivity {
         flightSearch_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSONObject json = new JSONObject();
-                json = depart_data;
-                depart_data = arrive_data;
-                arrive_data = json;
+                if(!depart_data.toString().equals("") && !arrive_data.toString().equals("")) {
+                    JSONObject json = new JSONObject();
+                    json = depart_data;
+                    depart_data = arrive_data;
+                    arrive_data = json;
 
-                try {
-                    DepartCitySearch.setText(depart_data.getString("poi_label"));
-                    ArrivalCitySearch.setText(arrive_data.getString("poi_label"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    try {
+                        DepartCitySearch.setText(depart_data.getString("poi_label"));
+                        ArrivalCitySearch.setText(arrive_data.getString("poi_label"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
@@ -156,29 +158,6 @@ public class FlightSearch extends BaseActivity {
 
     public void endDate(View v){
         showDialog(998);
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        View v = getCurrentFocus();
-
-        if (v != null &&
-                (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) &&
-                v instanceof EditText &&
-                v instanceof TextInputEditText &&
-                !v.getClass().getName().startsWith("android.webkit.")) {
-            int scrcoords[] = new int[2];
-            v.getLocationOnScreen(scrcoords);
-            float x = ev.getRawX() + v.getLeft() - scrcoords[0];
-            float y = ev.getRawY() + v.getTop() - scrcoords[1];
-
-            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom()) {
-
-                link.hideSoftKeyboard(this);
-                v.clearFocus();
-            }
-        }
-        return super.dispatchTouchEvent(ev);
     }
 
     @Override

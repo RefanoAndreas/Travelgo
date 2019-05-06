@@ -31,7 +31,7 @@ public class TrainSearch extends AppCompatActivity {
 
     int ARRIVAL_CITY = 1, DEPARTURE_CITY = 2;
 
-    JSONObject depart_data,arrive_data;
+    JSONObject depart_data = new JSONObject(),arrive_data = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,16 +122,18 @@ public class TrainSearch extends AppCompatActivity {
         flightSearch_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSONObject json = new JSONObject();
-                json = depart_data;
-                depart_data = arrive_data;
-                arrive_data = json;
+                if(!depart_data.toString().equals("") && !arrive_data.toString().equals("")) {
+                    JSONObject json = new JSONObject();
+                    json = depart_data;
+                    depart_data = arrive_data;
+                    arrive_data = json;
 
-                try {
-                    searchStasiunBerangkat.setText(depart_data.getString("poi_label"));
-                    searchStasiunTujuan.setText(arrive_data.getString("poi_label"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    try {
+                        searchStasiunBerangkat.setText(depart_data.getString("poi_label"));
+                        searchStasiunTujuan.setText(arrive_data.getString("poi_label"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }

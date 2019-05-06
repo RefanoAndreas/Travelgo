@@ -144,6 +144,61 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:id="@+id/kelas"
+            android:layout_marginTop="30dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Kelas"
+                android:textColor="#7D7D7D"
+                android:textSize="12dp" />
+            <android.support.design.chip.ChipGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
+
+                <android.support.design.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ekonomi"
+                    android:textColor="#424242"
+                    android:textSize="12dp"
+                    app:chipBackgroundColor="@android:color/white"
+                    app:chipCornerRadius="10dp"
+                    app:chipStrokeColor="#707070"
+                    app:chipStrokeWidth="1dp" />
+                <android.support.design.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bisnis"
+                    android:textColor="#424242"
+                    android:textSize="12dp"
+                    app:chipBackgroundColor="@android:color/white"
+                    app:chipCornerRadius="10dp"
+                    app:chipStrokeColor="#707070"
+                    app:chipStrokeWidth="1dp" />
+
+                <android.support.design.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Eksekutif"
+                    android:textColor="#424242"
+                    android:textSize="12dp"
+                    app:chipBackgroundColor="@android:color/white"
+                    app:chipCornerRadius="10dp"
+                    app:chipStrokeColor="#707070"
+                    app:chipStrokeWidth="1dp" />
+
+            </android.support.design.chip.ChipGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/transit"
             android:layout_marginTop="30dp">
 
             <TextView

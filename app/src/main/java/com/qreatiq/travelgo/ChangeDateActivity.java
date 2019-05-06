@@ -37,11 +37,121 @@ public class ChangeDateActivity extends AppCompatActivity {
         link.setToolbar(this);
 
         try {
-            dateList.add(new JSONObject("{\"day\": \"Senin\", \"date\": \"29 Apr 2019\", \"price\": \"1.000.000\"}"));
-            dateList.add(new JSONObject("{\"day\": \"Selasa\", \"date\": \"30 Apr 2019\", \"price\": \"2.000.000\"}"));
-            dateList.add(new JSONObject("{\"day\": \"Rabu\", \"date\": \"01 Mei 2019\", \"price\": \"3.000.000\"}"));
-            dateList.add(new JSONObject("{\"day\": \"Kamis\", \"date\": \"02 Mei 2019\", \"price\": \"4.000.000\"}"));
-            dateList.add(new JSONObject("{\"day\": \"Jumat\", \"date\": \"03 Mei 2019\", \"price\": \"5.000.000\"}"));
+            dateList.add(new JSONObject("{\"day\": \"Senin\", \"date\": \"29 Apr 2019\", \"price\": \"1.000.000\", " +
+                    "\"data\": [" +
+                        "{" +
+                            "\"airlines\":\"Cathay Pacific\", " +
+                            "\"departTime\":\"06:20\", " +
+                            "\"duration\":\"2j 20m\", " +
+                            "\"arrivalTime\":\"09:40\", " +
+                            "\"departAirport\":\"CGK\", " +
+                            "\"totalTransit\":\"1 Transit\", " +
+                            "\"arrivalAirport\":\"HKG\", " +
+                            "\"price\":\"3.500.000\"," +
+                        "}," +
+                        "{" +
+                            "\"airlines\":\"Citilink\", " +
+                            "\"departTime\":\"07:40\", " +
+                            "\"duration\":\"1j 05m\", " +
+                            "\"arrivalTime\":\"08:05\", " +
+                            "\"departAirport\":\"CGK\", " +
+                            "\"totalTransit\":\"0 Transit\", " +
+                            "\"arrivalAirport\":\"SUB\", " +
+                            "\"price\":\"850.000\"," +
+                        "}," +
+                    "]}"));
+            dateList.add(new JSONObject("{\"day\": \"Selasa\", \"date\": \"30 Apr 2019\", \"price\": \"2.000.000\"," +
+                    "\"data\": [" +
+                        "{" +
+                            "\"airlines\":\"Cathay Pacific\", " +
+                            "\"departTime\":\"06:20\", " +
+                            "\"duration\":\"2j 20m\", " +
+                            "\"arrivalTime\":\"09:40\", " +
+                            "\"departAirport\":\"CGK\", " +
+                            "\"totalTransit\":\"1 Transit\", " +
+                            "\"arrivalAirport\":\"HKG\", " +
+                            "\"price\":\"3.500.000\"," +
+                        "}," +
+                        "{" +
+                            "\"airlines\":\"Citilink\", " +
+                            "\"departTime\":\"07:40\", " +
+                            "\"duration\":\"1j 05m\", " +
+                            "\"arrivalTime\":\"08:05\", " +
+                            "\"departAirport\":\"CGK\", " +
+                            "\"totalTransit\":\"0 Transit\", " +
+                            "\"arrivalAirport\":\"SUB\", " +
+                            "\"price\":\"850.000\"," +
+                        "}," +
+                    "]}"));
+            dateList.add(new JSONObject("{\"day\": \"Rabu\", \"date\": \"01 Mei 2019\", \"price\": \"3.000.000\"," +
+                    "\"data\": [" +
+                        "{" +
+                            "\"airlines\":\"Cathay Pacific\", " +
+                            "\"departTime\":\"06:20\", " +
+                            "\"duration\":\"2j 20m\", " +
+                            "\"arrivalTime\":\"09:40\", " +
+                            "\"departAirport\":\"CGK\", " +
+                            "\"totalTransit\":\"1 Transit\", " +
+                            "\"arrivalAirport\":\"HKG\", " +
+                            "\"price\":\"3.500.000\"," +
+                        "}," +
+                        "{" +
+                            "\"airlines\":\"Citilink\", " +
+                            "\"departTime\":\"07:40\", " +
+                            "\"duration\":\"1j 05m\", " +
+                            "\"arrivalTime\":\"08:05\", " +
+                            "\"departAirport\":\"CGK\", " +
+                            "\"totalTransit\":\"0 Transit\", " +
+                            "\"arrivalAirport\":\"SUB\", " +
+                            "\"price\":\"850.000\"," +
+                        "}," +
+                    "]}"));
+            dateList.add(new JSONObject("{\"day\": \"Kamis\", \"date\": \"02 Mei 2019\", \"price\": \"4.000.000\"," +
+                    "\"data\": [" +
+                        "{" +
+                            "\"airlines\":\"Cathay Pacific\", " +
+                            "\"departTime\":\"06:20\", " +
+                            "\"duration\":\"2j 20m\", " +
+                            "\"arrivalTime\":\"09:40\", " +
+                            "\"departAirport\":\"CGK\", " +
+                            "\"totalTransit\":\"1 Transit\", " +
+                            "\"arrivalAirport\":\"HKG\", " +
+                            "\"price\":\"3.500.000\"," +
+                        "}," +
+                        "{" +
+                            "\"airlines\":\"Citilink\", " +
+                            "\"departTime\":\"07:40\", " +
+                            "\"duration\":\"1j 05m\", " +
+                            "\"arrivalTime\":\"08:05\", " +
+                            "\"departAirport\":\"CGK\", " +
+                            "\"totalTransit\":\"0 Transit\", " +
+                            "\"arrivalAirport\":\"SUB\", " +
+                            "\"price\":\"850.000\"," +
+                        "}," +
+                    "]}"));
+            dateList.add(new JSONObject("{\"day\": \"Jumat\", \"date\": \"03 Mei 2019\", \"price\": \"5.000.000\"," +
+                    "\"data\": [" +
+                        "{" +
+                            "\"airlines\":\"Cathay Pacific\", " +
+                            "\"departTime\":\"06:20\", " +
+                            "\"duration\":\"2j 20m\", " +
+                            "\"arrivalTime\":\"09:40\", " +
+                            "\"departAirport\":\"CGK\", " +
+                            "\"totalTransit\":\"1 Transit\", " +
+                            "\"arrivalAirport\":\"HKG\", " +
+                            "\"price\":\"3.500.000\"," +
+                        "}," +
+                        "{" +
+                            "\"airlines\":\"Citilink\", " +
+                            "\"departTime\":\"07:40\", " +
+                            "\"duration\":\"1j 05m\", " +
+                            "\"arrivalTime\":\"08:05\", " +
+                            "\"departAirport\":\"CGK\", " +
+                            "\"totalTransit\":\"0 Transit\", " +
+                            "\"arrivalAirport\":\"SUB\", " +
+                            "\"price\":\"850.000\"," +
+                        "}," +
+                    "]}"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -52,26 +162,14 @@ public class ChangeDateActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mAdapter = new ChangeDateAdapter(dateList, this);
 
+
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.scrollToPosition((dateList.size()/2)-1);
 
         try {
-            ticketList.add(new JSONObject("{\"airlines\":\"Cathay Pacific\", " +
-                    "\"departTime\":\"06:20\", " +
-                    "\"duration\":\"2j 20m\", " +
-                    "\"arrivalTime\":\"09:40\", " +
-                    "\"departAirport\":\"CGK\", " +
-                    "\"totalTransit\":\"1 Transit\", " +
-                    "\"arrivalAirport\":\"HKG\", " +
-                    "\"price\":\"3.500.000\"}"));
-            ticketList.add(new JSONObject("{\"airlines\":\"Citilink\", " +
-                    "\"departTime\":\"07:40\", " +
-                    "\"duration\":\"1j 05m\", " +
-                    "\"arrivalTime\":\"08:05\", " +
-                    "\"departAirport\":\"CGK\", " +
-                    "\"totalTransit\":\"0 Transit\", " +
-                    "\"arrivalAirport\":\"SUB\", " +
-                    "\"price\":\"850.000\"}"));
+            for(int x=0;x<dateList.get(0).getJSONArray("data").length();x++)
+                ticketList.add(dateList.get(0).getJSONArray("data").getJSONObject(x));
         } catch (JSONException e) {
             e.printStackTrace();
         }

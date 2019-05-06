@@ -17,7 +17,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class FlightSearchJadwal extends AppCompatActivity {
+public class FlightSearchJadwal extends BaseActivity {
 
     private RecyclerView mRecyclerView;
     private TicketAdapter mAdapter;
@@ -27,6 +27,9 @@ public class FlightSearchJadwal extends AppCompatActivity {
     LinearLayout flightSearchJadwal_menubar;
     MaterialButton dateBtn;
 
+    Intent i;
+    String intentString;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +37,9 @@ public class FlightSearchJadwal extends AppCompatActivity {
 
         link.setToolbar(this);
 
-        Intent i = getIntent();
-        final String intentString = i.getStringExtra("origin");
+        i = getIntent();
+        intentString = i.getStringExtra("origin");
+
         String tanggalBerangkat = i.getStringExtra("tanggal_berangkat");
 
         tripInfo = (TextView)findViewById(R.id.tripInfo);
@@ -73,7 +77,7 @@ public class FlightSearchJadwal extends AppCompatActivity {
     }
 
     public void viewFilter(View v){
-        startActivity(new Intent(FlightSearchJadwal.this, Filter.class));
+        startActivity(new Intent(FlightSearchJadwal.this, Filter.class).putExtra("type",intentString));
     }
 
     public void viewChangeDate(View v){

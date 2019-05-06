@@ -179,7 +179,6 @@ public class TourEdit extends BaseActivity {
                 json.put("id", user_ID);
                 json.put("name", name.getText().toString());
                 json.put("phone", telp.getText().toString());
-                json.put("description", desc.getText().toString());
                 if (bitmap != null)
                     json.put("image", getStringFile(bitmap));
             } catch (JSONException e) {

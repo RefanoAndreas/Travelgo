@@ -1,10 +1,12 @@
 package com.qreatiq.travelgo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
@@ -24,6 +26,10 @@ public class Filter extends BaseActivity {
     TimeAdapter adapter;
     GridView gridDeparture, gridArrival;
 
+    LinearLayout kelas,transit;
+
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,9 +37,13 @@ public class Filter extends BaseActivity {
 
         link.setToolbar(this);
 
+        intent = getIntent();
+
         rangeSeekbar = (CrystalRangeSeekbar)findViewById(R.id.rangeSeekbarPrice);
         minPrice = (TextView)findViewById(R.id.minimumPrice);
         maxPrice = (TextView)findViewById(R.id.maximumPrice);
+        kelas = (LinearLayout) findViewById(R.id.kelas);
+        transit = (LinearLayout) findViewById(R.id.transit);
 
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
@@ -60,5 +70,13 @@ public class Filter extends BaseActivity {
         gridDeparture.setAdapter(adapter);
         gridArrival.setAdapter(adapter);
 
+        if(intent.getStringExtra("type").equals("flight")){
+            kelas.setVisibility(View.GONE);
+            transit.setVisibility(View.VISIBLE);
+        }
+        else{
+            transit.setVisibility(View.GONE);
+            kelas.setVisibility(View.VISIBLE);
+        }
     }
 }

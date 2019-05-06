@@ -80,11 +80,11 @@ public class TourCreatePackage extends BaseActivity {
                     if(input.charAt(0) == '0')
                         input = input.substring(0);
                     DecimalFormat formatter = new DecimalFormat("#,###,###");
-                    String yourFormattedString = formatter.format(Double.parseDouble(input.replace(".", "")));
+                    String yourFormattedString = formatter.format(Double.parseDouble(input.replace(",", "")));
                     isManualChange = true;
                     price.setText(yourFormattedString);
                     price.setSelection(yourFormattedString.length());
-                    price_data = Double.parseDouble(input.replace(".", ""));
+                    price_data = Double.parseDouble(input.replace(",", ""));
 //                Log.d("data",yourFormattedString);
                 }
                 else{
