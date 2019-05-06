@@ -1,11 +1,13 @@
 package com.qreatiq.travelgo;
 
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.design.button.MaterialButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import org.json.JSONException;
@@ -20,6 +22,7 @@ public class HotelSearchResult extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> hotelList = new ArrayList<>();
     MaterialButton filterBtn;
+    int SORT = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +65,16 @@ public class HotelSearchResult extends AppCompatActivity {
     }
 
     public void sortView(View v){
-        startActivity(new Intent(HotelSearchResult.this, Sort.class).putExtra("origin", "hotel"));
+        startActivityForResult(new Intent(HotelSearchResult.this, Sort.class).putExtra("origin", "hotel"), SORT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
+            if(requestCode == SORT){
+                Log.d("data", data.getStringExtra("sort"));
+            }
+        }
     }
 }

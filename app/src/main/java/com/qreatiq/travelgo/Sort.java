@@ -44,7 +44,10 @@ public class Sort extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String sort = sortItem[position];
-                onBackPressed();
+                Intent i = new Intent();
+                i.putExtra("sort", sort);
+                setResult(RESULT_OK, i);
+                finish();
             }
         });
 
