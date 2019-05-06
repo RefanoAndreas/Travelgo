@@ -50,53 +50,61 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="16dp">
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/TV_train_name"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_train_black_24dp"/>
+                        android:text="Argo Parahyangan 24"
+                        android:layout_marginLeft="40dp"
+                        style="@style/SemiBold_42_16dp"/>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_train_black_24dp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/TV_train_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Argo Parahyangan 24"
-                            style="@style/SemiBold_42_16dp"/>
-                        <TextView
-                            android:id="@+id/TV_train_class"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Kelas Ekonomi (C)"/>
-                        <TextView
-                            android:id="@+id/TV_infoTripDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Kamis, 11 Apr 2019 . 10:30 - GMR Jakarta"/>
-                        <TextView
-                            android:id="@+id/TV_infoOriginDeparture"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Stasiun Gambir"/>
+                            <TextView
+                                android:id="@+id/TV_train_class"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Kelas Ekonomi (C)"/>
+                            <TextView
+                                android:id="@+id/TV_infoTripDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Kamis, 11 Apr 2019 . 10:30 - GMR Jakarta"/>
+                            <TextView
+                                android:id="@+id/TV_infoOriginDeparture"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Stasiun Gambir"/>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="45 Menit"
-                            android:layout_marginTop="24dp"
-                            android:layout_marginBottom="24dp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="45 Menit"
+                                android:layout_marginTop="24dp"
+                                android:layout_marginBottom="24dp"/>
 
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

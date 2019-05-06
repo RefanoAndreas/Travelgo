@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Sort"></activity>
+        <activity android:name=".DetailTourTransaction"></activity>
+        <activity android:name=".Sort" />
         <activity android:name=".SearchHotel" />
         <activity android:name=".SearchFlight" />
         <activity android:name=".SearchTrain" />
@@ -26,8 +27,9 @@
         <activity
             android:name=".ConfirmationOrder"
             android:label="Konfirmasi Pesanan" />
-        <activity android:name=".HotelDetail"
-            android:label=""/>
+        <activity
+            android:name=".HotelDetail"
+            android:label="" />
         <activity
             android:name=".FilterHotel"
             android:label="Filter" />
@@ -70,9 +72,10 @@
             android:label="Ubah Tanggal" />
         <activity
             android:name=".HistoryTransaction"
-            android:label="History Transaction" />
-        <activity android:name=".CityDetail"
-            android:label=""/>
+            android:label="History Sales" />
+        <activity
+            android:name=".CityDetail"
+            android:label="" />
         <activity
             android:name=".TourDetail"
             android:label="Detail Tour" />

@@ -28,7 +28,7 @@
     <string name="profile_tour_profile_label">Tour Profile</string>
     <string name="profile_list_package_label">List Package</string>
     <string name="profile_history_purchasing_label">History Purchasing</string>
-    <string name="profile_history_transaction_label">History Transaction</string>
+    <string name="profile_history_transaction_label">History Sales</string>
     <string name="profile_language_label">Language</string>
 
     <string-array name="titleName">
@@ -37,6 +37,23 @@
         <item>Tuan</item>
         <item>Nyonya</item>
         <item>Nona</item>
+    </string-array>
+
+    <string-array name="sort_flight_train">
+        <item>Berangkat paling awal</item>
+        <item>Berangkat paling akhir</item>
+        <item>Tiba paling awal</item>
+        <item>Tiba paling akhir</item>
+        <item>Harga tertinggi</item>
+        <item>Harga terendah</item>
+    </string-array>
+    <string-array name="sort_hotel">
+        <item>Popularitas</item>
+        <item>Bintang 5-1</item>
+        <item>Bintang 1-5</item>
+        <item>Nilai Ulasan</item>
+        <item>Harga tertinggi</item>
+        <item>Harga terendah</item>
     </string-array>
 
 </resources>

@@ -33,42 +33,63 @@ public class D1Notifikasi extends AppCompatActivity {
         intent = getIntent();
         dataIntent = intent.getStringExtra("data");
 
-        if(dataIntent.equals("history")){
+        if(dataIntent.equals("sales")){
+            getSupportActionBar().setTitle("History Sales");
+        }
+        else if(dataIntent.equals("purchasing")){
             getSupportActionBar().setTitle("History Purchasing");
         }
 
         try {
-            notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
-                    "\"route\":\"Surabaya > Jakarta\", " +
-                    "\"infoTrip\":\"Lion Air\", " +
-                    "\"totalPack\":\"2 Penumpang\", " +
-                    "\"routeType\":\"Sekali Jalan\", " +
-                    "\"type\":\"flight\", " +
-                    "\"status\":\"Dipesan\"}"));
+            if(!dataIntent.equals("sales")) {
+                notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
+                        "\"route\":\"Surabaya > Jakarta\", " +
+                        "\"infoTrip\":\"Lion Air\", " +
+                        "\"totalPack\":\"2 Penumpang\", " +
+                        "\"routeType\":\"Sekali Jalan\", " +
+                        "\"type\":\"flight\", " +
+                        "\"status\":\"Berhasil\"}"));
 
-            notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
-                    "\"route\":\"Surabaya > Jakarta\", " +
-                    "\"infoTrip\":\"Argo Parahyangan\", " +
-                    "\"totalPack\":\"1 Penumpang\", " +
-                    "\"routeType\":\"Pulang Pergi\", " +
-                    "\"type\":\"train\", " +
-                    "\"status\":\"Berhasil\"}"));
+                notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
+                        "\"route\":\"Surabaya > Jakarta\", " +
+                        "\"infoTrip\":\"Argo Parahyangan\", " +
+                        "\"totalPack\":\"1 Penumpang\", " +
+                        "\"routeType\":\"Pulang Pergi\", " +
+                        "\"type\":\"train\", " +
+                        "\"status\":\"Berhasil\"}"));
 
-            notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
-                    "\"route\":\"Surabaya > Jakarta\", " +
-                    "\"infoTrip\":\"Hotel ABC\", " +
-                    "\"totalPack\":\"2 Mei 2019 - 3 Mei 2019\", " +
-                    "\"routeType\":\"1 Malam\", " +
-                    "\"type\":\"hotel\", " +
-                    "\"status\":\"Berhasil\"}"));
+                notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
+                        "\"route\":\"Surabaya\", " +
+                        "\"infoTrip\":\"Hotel ABCDE\", " +
+                        "\"totalPack\":\"2 Mei 2019 - 3 Mei 2019\", " +
+                        "\"routeType\":\"1 Malam\", " +
+                        "\"type\":\"hotel\", " +
+                        "\"status\":\"Berhasil\"}"));
+            }
+            if(dataIntent.equals("all") || dataIntent.equals("sales")) {
+                notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
+                        "\"route\":\"Labuan Bajo Trip\", " +
+                        "\"infoTrip\":\"Tour ABCDE\", " +
+                        "\"totalPack\":\"2 Mei 2019 - 3 Mei 2019\", " +
+                        "\"routeType\":\"1 Malam\", " +
+                        "\"type\":\"tour\", " +
+                        "\"status\":\"Dipesan\"}"));
+                notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
+                        "\"route\":\"Labuan Bajo Trip\", " +
+                        "\"infoTrip\":\"Tour ABCDE\", " +
+                        "\"totalPack\":\"2 Mei 2019 - 3 Mei 2019\", " +
+                        "\"routeType\":\"1 Malam\", " +
+                        "\"type\":\"tour\", " +
+                        "\"status\":\"Dipesan\"}"));
+                notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
+                        "\"route\":\"Labuan Bajo Trip\", " +
+                        "\"infoTrip\":\"Tour ABCDE\", " +
+                        "\"totalPack\":\"2 Mei 2019 - 3 Mei 2019\", " +
+                        "\"routeType\":\"1 Malam\", " +
+                        "\"type\":\"tour\", " +
+                        "\"status\":\"Dipesan\"}"));
+            }
 
-            notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
-                    "\"route\":\"Labuan Bajo Trip\", " +
-                    "\"infoTrip\":\"Tour ABCDE\", " +
-                    "\"totalPack\":\"2 Mei 2019 - 3 Mei 2019\", " +
-                    "\"routeType\":\"1 Malam\", " +
-                    "\"type\":\"tour\", " +
-                    "\"status\":\"Berhasil\"}"));
 
 
         } catch (JSONException e) {
@@ -91,7 +112,7 @@ public class D1Notifikasi extends AppCompatActivity {
                         if (notifList.get(position).getString("status").equals("Berhasil")) {
                             startActivity(new Intent(D1Notifikasi.this, TransactionDetail.class).putExtra("origin", "history"));
                         } else {
-                            startActivity(new Intent(D1Notifikasi.this, D2NotifikasiDetail.class));
+                            startActivity(new Intent(D1Notifikasi.this, DetailTourTransaction.class));
                         }
                     }
                     else{

@@ -114,7 +114,7 @@ public class FragmentProfile extends Fragment {
         btnHistoryPurchasing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), D1Notifikasi.class).putExtra("data", "history"));
+                startActivity(new Intent(getActivity(), D1Notifikasi.class).putExtra("data", "purchasing"));
             }
         });
 
@@ -122,7 +122,7 @@ public class FragmentProfile extends Fragment {
         btnHistoryTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), HistoryTransaction.class).putExtra("data", "transaction"));
+                startActivity(new Intent(getActivity(), D1Notifikasi.class).putExtra("data", "sales"));
             }
         });
 

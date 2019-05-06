@@ -14,7 +14,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 public class FlightIsiDataPenumpang extends BaseActivity {
-    LinearLayout linearBagasi, titleName_layout, idNo_layout;
+    LinearLayout linearBagasi, titleName_layout, idNo_layout, pasporNo_layout;
     MaterialButton batal;
     TextView titleData;
 
@@ -33,6 +33,7 @@ public class FlightIsiDataPenumpang extends BaseActivity {
         titleData = (TextView)findViewById(R.id.titleData);
         titleName_layout = (LinearLayout) findViewById(R.id.titleName_layout);
         idNo_layout = (LinearLayout)findViewById(R.id.idNo_layout);
+        pasporNo_layout = (LinearLayout)findViewById(R.id.pasporNo_layout);
 
         if(intentString.equals("tour") || intentString.equals("hotel")){
             getSupportActionBar().setTitle("Isi Data Tamu");
@@ -40,12 +41,14 @@ public class FlightIsiDataPenumpang extends BaseActivity {
             linearBagasi.setVisibility(View.GONE);
             titleName_layout.setVisibility(View.GONE);
             idNo_layout.setVisibility(View.GONE);
+            pasporNo_layout.setVisibility(View.GONE);
         }
         else if(intentString.equals("flight")){
             idNo_layout.setVisibility(View.GONE);
         }
         else if(intentString.equals("train")){
-            titleName_layout.setVisibility(View.GONE);
+            linearBagasi.setVisibility(View.GONE);
+            pasporNo_layout.setVisibility(View.GONE);
         }
 
         batal = (MaterialButton) findViewById(R.id.batal);

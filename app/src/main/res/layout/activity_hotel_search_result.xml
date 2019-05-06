@@ -41,6 +41,7 @@
         android:layout_marginTop="16dp"
         android:weightSum="2">
         <android.support.design.button.MaterialButton
+            android:id="@+id/sort_button"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
@@ -55,6 +56,7 @@
             app:iconGravity="start"
             android:text="Sort"
             android:textSize="12dp"
+            android:onClick="sortView"
             android:textColor="@android:color/darker_gray"/>
 
         <android.support.design.button.MaterialButton

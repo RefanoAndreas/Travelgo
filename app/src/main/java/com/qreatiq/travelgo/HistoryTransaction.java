@@ -36,16 +36,9 @@ public class HistoryTransaction extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_history_transaction);
-
-        userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-        user_ID = userID.getString("user_id", "No Data Found");
-
-        requestQueue = Volley.newRequestQueue(this);
+        setContentView(R.layout.activity_history_purchasing);
 
         link.setToolbar(this);
-
-//        getHistory();
 
         try {
             historyList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
@@ -69,37 +62,9 @@ public class HistoryTransaction extends AppCompatActivity {
         mAdapter.setOnItemClickListner(new NotifikasiAdapter.ClickListener() {
             @Override
             public void onItemClick(int position) {
-                startActivity(new Intent(HistoryTransaction.this, TransactionDetail.class).putExtra("origin", "history"));
+                startActivity(new Intent(HistoryTransaction.this, D2NotifikasiDetail.class).putExtra("origin", "history"));
             }
         });
-
-
-    }
-
-    private void getHistory(){
-        url = link.C_URL+"getInvoice.php?id="+user_ID;
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray jsonArray = response.getJSONArray("data");
-                    for (int x=0; x<jsonArray.length(); x++){
-                        historyList.add(jsonArray.getJSONObject(x));
-                        mAdapter.notifyItemInserted(x);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("error",error.getMessage());
-            }
-        });
-
-        requestQueue.add(jsonObjectRequest);
 
     }
 }

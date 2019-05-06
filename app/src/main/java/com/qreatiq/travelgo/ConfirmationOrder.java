@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ public class ConfirmationOrder extends AppCompatActivity {
     Intent intent;
     String intentString;
     LinearLayout specialRequestLinear, linear_dataPeserta;
+    CardView card_dataPemesan;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class ConfirmationOrder extends AppCompatActivity {
         guestData = (TextView) findViewById(R.id.dataGuestTV);
         linear_dataPeserta = (LinearLayout) findViewById(R.id.linear_dataPeserta);
         isiDataPeserta = (TextView)findViewById(R.id.isiDataPeserta);
+        card_dataPemesan = (CardView)findViewById(R.id.data_pemesan_card);
 
         intent = getIntent();
         intentString = intent.getStringExtra("origin");
@@ -41,6 +44,7 @@ public class ConfirmationOrder extends AppCompatActivity {
             layout_infoHotel.setVisibility(View.VISIBLE);
             guestData.setText("Data Tamu");
             isiDataPeserta.setText("Isi data tamu");
+            card_dataPemesan.setVisibility(View.GONE);
         }
         else if(intentString.equals("flight")){
             layout_infoFlight.setVisibility(View.VISIBLE);

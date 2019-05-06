@@ -50,48 +50,56 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="16dp">
-                    <ImageView
-                        android:layout_width="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/TV_airlines_name"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_flight_takeoff_black_24dp"/>
+                        android:text="Lion Air"
+                        android:layout_marginLeft="40dp"
+                        style="@style/SemiBold_42_16dp"/>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:orientation="vertical">
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_flight_takeoff_black_24dp"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:orientation="vertical">
 
-                        <TextView
-                            android:id="@+id/TV_airlines_name"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Lion Air"
-                            style="@style/SemiBold_42_16dp"/>
-                        <TextView
-                            android:id="@+id/TV_infoTripDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Kamis, 11 Apr 2019 . 05:15 - SUB Surabaya"/>
-                        <TextView
-                            android:id="@+id/TV_infoOriginDeparture"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Bandara Juanda International Airport"/>
+                            <TextView
+                                android:id="@+id/TV_infoTripDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Kamis, 11 Apr 2019 . 05:15 - SUB Surabaya"/>
+                            <TextView
+                                android:id="@+id/TV_infoOriginDeparture"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Bandara Juanda International Airport"/>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="45 Menit"
-                            android:layout_marginTop="24dp"
-                            android:layout_marginBottom="24dp"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="45 Menit"
+                                android:layout_marginTop="24dp"
+                                android:layout_marginBottom="24dp"/>
 
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

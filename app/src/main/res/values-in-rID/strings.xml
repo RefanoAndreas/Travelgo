@@ -5,6 +5,6 @@
     <string name="profile_tour_profile_label">Profil Tur</string>
     <string name="profile_list_package_label">Daftar Paket</string>
     <string name="profile_history_purchasing_label">Riwayat Pembelian</string>
-    <string name="profile_history_transaction_label">Riwayat Transaksi</string>
+    <string name="profile_history_transaction_label">Riwayat Penjualan</string>
     <string name="profile_language_label">Bahasa</string>
 </resources>

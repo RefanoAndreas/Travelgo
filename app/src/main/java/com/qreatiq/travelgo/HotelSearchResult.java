@@ -60,4 +60,8 @@ public class HotelSearchResult extends AppCompatActivity {
     public void viewFilter(View v){
         startActivity(new Intent(HotelSearchResult.this, FilterHotel.class));
     }
+
+    public void sortView(View v){
+        startActivity(new Intent(HotelSearchResult.this, Sort.class).putExtra("origin", "hotel"));
+    }
 }
