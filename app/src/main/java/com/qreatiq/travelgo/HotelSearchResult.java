@@ -22,7 +22,7 @@ public class HotelSearchResult extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> hotelList = new ArrayList<>();
     MaterialButton filterBtn;
-    int SORT = 10;
+    int SORT = 10, FILTER = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +61,7 @@ public class HotelSearchResult extends AppCompatActivity {
     }
 
     public void viewFilter(View v){
-        startActivity(new Intent(HotelSearchResult.this, FilterHotel.class));
+        startActivityForResult(new Intent(HotelSearchResult.this, Filter.class).putExtra("type", "hotel"), FILTER);
     }
 
     public void sortView(View v){
@@ -74,6 +74,9 @@ public class HotelSearchResult extends AppCompatActivity {
         if(resultCode == RESULT_OK){
             if(requestCode == SORT){
                 Log.d("data", data.getStringExtra("sort"));
+            }
+            else if(requestCode == FILTER){
+                Log.d("data", data.getStringExtra("filter"));
             }
         }
     }

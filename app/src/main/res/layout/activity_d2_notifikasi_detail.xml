@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginLeft="8dp"
-                        android:text="Rabu, 10 April 2019"
+                        android:text="Kamis, 2 Mei 2019"
                         android:textColor="@android:color/black"
                         android:fontFamily="@font/montserrat_medium"/>
                 </LinearLayout>
@@ -107,7 +107,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginLeft="8dp"
-                        android:text="Rp. 800.000"
+                        android:text="Rp. 1.500.000"
                         android:textColor="@android:color/black"
                         android:fontFamily="@font/montserrat_medium"/>
                 </LinearLayout>
@@ -145,7 +145,31 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Surabaya > Medan"
+                    android:text="Surabaya > Jakarta"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="16dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_chevron_right_777777_24dp"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/cE4"/>
+
+            <LinearLayout
+                android:id="@+id/eTicketLayout1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Jakarta > Surabaya"
                     android:layout_weight="1"
                     android:layout_gravity="center"
                     android:layout_marginRight="16dp"/>

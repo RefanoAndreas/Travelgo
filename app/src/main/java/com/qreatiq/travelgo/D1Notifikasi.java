@@ -59,21 +59,14 @@ public class D1Notifikasi extends AppCompatActivity {
                         "\"status\":\"Berhasil\"}"));
 
                 notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
-                        "\"route\":\"Surabaya\", " +
-                        "\"infoTrip\":\"Hotel ABCDE\", " +
+                        "\"route\":\"Labuan Bajo Trip\", " +
+                        "\"infoTrip\":\"Tour ABCDE\", " +
                         "\"totalPack\":\"2 Mei 2019 - 3 Mei 2019\", " +
                         "\"routeType\":\"1 Malam\", " +
                         "\"type\":\"tour\", " +
                         "\"status\":\"Berhasil\"}"));
             }
             if(dataIntent.equals("all") || dataIntent.equals("sales")) {
-                notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
-                        "\"route\":\"Labuan Bajo Trip\", " +
-                        "\"infoTrip\":\"Tour ABCDE\", " +
-                        "\"totalPack\":\"2 Mei 2019 - 3 Mei 2019\", " +
-                        "\"routeType\":\"1 Malam\", " +
-                        "\"type\":\"tour\", " +
-                        "\"status\":\"Dipesan\"}"));
                 notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
                         "\"route\":\"Labuan Bajo Trip\", " +
                         "\"infoTrip\":\"Tour ABCDE\", " +
@@ -116,7 +109,8 @@ public class D1Notifikasi extends AppCompatActivity {
                         }
                     }
                     else{
-                        startActivity(new Intent(D1Notifikasi.this, D2NotifikasiDetail.class));
+                        startActivity(new Intent(D1Notifikasi.this, D2NotifikasiDetail.class)
+                                .putExtra("routeType", notifList.get(position).getString("routeType")));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

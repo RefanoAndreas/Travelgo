@@ -29,7 +29,7 @@ public class FlightSearchJadwal extends AppCompatActivity {
     MaterialButton dateBtn;
     String intentString;
     Intent intent;
-    int SORT = 10;
+    int SORT = 10, FILTER = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +77,7 @@ public class FlightSearchJadwal extends AppCompatActivity {
     }
 
     public void viewFilter(View v){
-        startActivity(new Intent(FlightSearchJadwal.this, Filter.class));
+        startActivityForResult(new Intent(FlightSearchJadwal.this, Filter.class).putExtra("type", "flight"), FILTER);
     }
 
     public void viewChangeDate(View v){
@@ -132,6 +132,8 @@ public class FlightSearchJadwal extends AppCompatActivity {
         if(resultCode == RESULT_OK){
             if(requestCode == SORT){
                 Log.d("data", data.getStringExtra("sort"));
+            }
+            else if(requestCode == FILTER){
             }
         }
     }
