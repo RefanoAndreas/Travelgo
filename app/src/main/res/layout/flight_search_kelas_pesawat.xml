@@ -75,6 +75,7 @@
             android:layout_marginBottom="15dp"
             android:insetTop="0dp"
             android:insetBottom="0dp"
+            android:id="@+id/submit"
             android:backgroundTint="@color/colorPrimary"
             android:text="simpan perubahan"
             android:fontFamily="@font/montserrat_medium"/>

@@ -102,7 +102,7 @@
             android:label="Create Packages" />
         <activity
             android:name=".TourList"
-            android:label="List Tour Packages" />
+            android:label="@string/manifest_tour_list_title" />
         <activity
             android:name=".TourEdit"
             android:label="Edit Tour" />

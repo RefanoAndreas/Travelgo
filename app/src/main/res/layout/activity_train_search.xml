@@ -312,6 +312,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Ekonomi"
                                 android:layout_marginTop="4dp"
+                                android:id="@+id/kelas"
                                 android:textSize="16dp"
                                 android:fontFamily="@font/montserrat_medium"
                                 android:textColor="@android:color/black"/>

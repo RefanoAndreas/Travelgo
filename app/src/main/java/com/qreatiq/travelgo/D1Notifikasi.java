@@ -63,7 +63,7 @@ public class D1Notifikasi extends AppCompatActivity {
                         "\"infoTrip\":\"Hotel ABCDE\", " +
                         "\"totalPack\":\"2 Mei 2019 - 3 Mei 2019\", " +
                         "\"routeType\":\"1 Malam\", " +
-                        "\"type\":\"hotel\", " +
+                        "\"type\":\"tour\", " +
                         "\"status\":\"Berhasil\"}"));
             }
             if(dataIntent.equals("all") || dataIntent.equals("sales")) {

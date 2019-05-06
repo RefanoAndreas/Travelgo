@@ -157,6 +157,9 @@ public class FragmentProfile extends Fragment {
                         history_purchasing.setText(resources.getString(R.string.profile_history_purchasing_label));
                         history_transaction.setText(resources.getString(R.string.profile_history_transaction_label));
                         language.setText(resources.getString(R.string.profile_language_label));
+                        BottomNavContainer parent = (BottomNavContainer) getActivity();
+                        parent.edit_base_shared_pref.putString("lang","en");
+                        parent.edit_base_shared_pref.commit();
                         alertDialog.dismiss();
                     }
                 });
@@ -172,6 +175,10 @@ public class FragmentProfile extends Fragment {
                         history_purchasing.setText(resources.getString(R.string.profile_history_purchasing_label));
                         history_transaction.setText(resources.getString(R.string.profile_history_transaction_label));
                         language.setText(resources.getString(R.string.profile_language_label));
+
+                        BottomNavContainer parent = (BottomNavContainer) getActivity();
+                        parent.edit_base_shared_pref.putString("lang","in");
+                        parent.edit_base_shared_pref.commit();
                         alertDialog.dismiss();
                     }
                 });

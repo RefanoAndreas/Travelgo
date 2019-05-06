@@ -30,6 +30,13 @@
     <string name="profile_history_purchasing_label">History Purchasing</string>
     <string name="profile_history_transaction_label">History Sales</string>
     <string name="profile_language_label">Language</string>
+    <string name="manifest_tour_list_title">List Tour Packages</string>
+    <string name="tour_edit_title">Tour Profile</string>
+    <string name="image_label">Image</string>
+    <string name="name_label">Name</string>
+    <string name="phone_label">Phone</string>
+    <string name="save_label">Save Changes</string>
+    <string name="cancel_label">Cancel</string>
 
     <string-array name="titleName">
         <item>Bapak</item>

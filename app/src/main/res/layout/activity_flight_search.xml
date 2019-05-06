@@ -325,6 +325,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Ekonomi"
+                                android:id="@+id/kelas"
                                 android:layout_marginTop="4dp"
                                 android:textSize="16dp"
                                 android:fontFamily="@font/montserrat_medium"

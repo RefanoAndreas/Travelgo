@@ -14,7 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-public class BottomNavContainer extends AppCompatActivity {
+public class BottomNavContainer extends BaseActivity {
 
     SharedPreferences userID;
     String id_loc;
@@ -63,6 +63,7 @@ public class BottomNavContainer extends AppCompatActivity {
                 @Override
                 public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
 
+                    changeLang(base_shared_pref.getString("lang","en"));
                     switch (menuItem.getItemId()){
                         case R.id.nav_home:
                             selectedFragment = new FragmentHome();

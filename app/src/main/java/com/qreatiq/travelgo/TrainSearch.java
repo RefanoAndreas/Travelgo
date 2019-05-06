@@ -26,7 +26,7 @@ public class TrainSearch extends AppCompatActivity {
 
     MaterialButton searchTrainBtn;
     LinearLayout flightSearch_icon;
-    TextView searchStasiunBerangkat, searchStasiunTujuan, tanggalBerangkat, tanggalKembali;
+    TextView searchStasiunBerangkat, searchStasiunTujuan, tanggalBerangkat, tanggalKembali, kelas;
     private int year = 2019, month = 3, day = 10;
 
     int ARRIVAL_CITY = 1, DEPARTURE_CITY = 2;
@@ -41,6 +41,7 @@ public class TrainSearch extends AppCompatActivity {
         link.setToolbar(this);
 
         flightSearch_icon = (LinearLayout) findViewById(R.id.flightSearch_icon);
+        kelas = (TextView) findViewById(R.id.kelas);
 
         final CardView jumlahpenumpang = findViewById(R.id.TrainSearch_jumlahPenumpang);
         jumlahpenumpang.setOnClickListener(new View.OnClickListener() {

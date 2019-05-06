@@ -3,12 +3,16 @@ package com.qreatiq.travelgo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 
@@ -26,8 +30,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class TourList extends AppCompatActivity {
+public class TourList extends BaseActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -75,8 +80,28 @@ public class TourList extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new TourListAdapter(tourListPackagesList);
 
+
+
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(this,mRecyclerView) {
+            @Override
+            public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
+                underlayButtons.add(new UnderlayButton("",
+                        R.drawable.ic_delete_ff4444_24dp,
+                        Color.parseColor("#FFFFFF"),
+                        Color.parseColor("#FF3C30"),
+                        new UnderlayButtonClickListener() {
+                            @Override
+                            public void onClick(int pos) {
+
+                            }
+                        },
+                        TourList.this)
+                );
+            }
+        };
 
         fabAdd = (FloatingActionButton)findViewById(R.id.fabAddTourList);
         fabAdd.setOnClickListener(new View.OnClickListener() {

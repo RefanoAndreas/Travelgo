@@ -1,22 +1,53 @@
 package com.qreatiq.travelgo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import java.util.Locale;
+
 public class BaseActivity extends AppCompatActivity {
 
     int PICK_FROM_CAMERA = 3, PICK_FROM_GALLERY = 2;
     BottomSheetDialog bottomSheetDialog;
+
+    SharedPreferences base_shared_pref;
+    SharedPreferences.Editor edit_base_shared_pref;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        base_shared_pref = getApplicationContext().getSharedPreferences("user_id",MODE_PRIVATE);
+        edit_base_shared_pref = base_shared_pref.edit();
+        changeLang(base_shared_pref.getString("lang","en"));
+    }
+
+    public void changeLang(String lang) {
+        if (lang.equalsIgnoreCase(""))
+            return;
+        Locale myLocale = new Locale(lang);
+        Locale.setDefault(myLocale);
+        android.content.res.Configuration config = new android.content.res.Configuration();
+        config.locale = myLocale;
+        getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
+
+    }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {

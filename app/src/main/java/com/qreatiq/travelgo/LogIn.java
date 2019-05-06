@@ -51,7 +51,7 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class LogIn extends AppCompatActivity {
+public class LogIn extends BaseActivity {
 
     TextInputEditText email, password;
     TextView signUpBtn;
@@ -172,28 +172,6 @@ public class LogIn extends AppCompatActivity {
         loginButton.performClick();
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        View v = getCurrentFocus();
-
-        if (v != null &&
-                (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) &&
-                v instanceof EditText &&
-                v instanceof TextInputEditText &&
-                !v.getClass().getName().startsWith("android.webkit.")) {
-            int scrcoords[] = new int[2];
-            v.getLocationOnScreen(scrcoords);
-            float x = ev.getRawX() + v.getLeft() - scrcoords[0];
-            float y = ev.getRawY() + v.getTop() - scrcoords[1];
-
-            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom()) {
-
-                link.hideSoftKeyboard(this);
-                v.clearFocus();
-            }
-        }
-        return super.dispatchTouchEvent(ev);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -36,7 +36,7 @@ public class FlightSearch extends BaseActivity {
     MaterialButton searchTicketBtn;
     Switch flightSwitch;
     LinearLayout tanggalContainer, kembali, flightSearch_icon;
-    TextView DepartCitySearch, ArrivalCitySearch, tanggalBerangkat, tanggalKembali;
+    TextView DepartCitySearch, ArrivalCitySearch, tanggalBerangkat, tanggalKembali, kelas;
     CardView chooseDate;
     private int year = 2019, month = 3, day = 10;
 
@@ -52,6 +52,7 @@ public class FlightSearch extends BaseActivity {
         link.setToolbar(this);
 
         flightSearch_icon = (LinearLayout) findViewById(R.id.flightSearch_icon);
+        kelas = (TextView) findViewById(R.id.kelas);
 
         final CardView jumlahpenumpang = findViewById(R.id.flightSearch_jumlahPenumpang);
         jumlahpenumpang.setOnClickListener(new View.OnClickListener() {

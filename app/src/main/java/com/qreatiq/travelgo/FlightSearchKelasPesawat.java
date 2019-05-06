@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.button.MaterialButton;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -18,6 +19,9 @@ import com.shawnlin.numberpicker.NumberPicker;
 public class FlightSearchKelasPesawat extends BottomSheetDialogFragment {
 
     String[] data = {"Ekonomi", "Bisnis", "First Class"};
+    MaterialButton submit;
+    NumberPicker numberPicker;
+    FlightSearch parent;
 
     @Nullable
     @Override
@@ -26,11 +30,29 @@ public class FlightSearchKelasPesawat extends BottomSheetDialogFragment {
 
         View v = inflater.inflate(R.layout.flight_search_kelas_pesawat, container, false);
 
-        NumberPicker numberPicker = (NumberPicker) v.findViewById(R.id.flightSearch_kelaspesawat_np1);
+        submit = (MaterialButton) v.findViewById(R.id.submit);
+        parent = (FlightSearch) getActivity();
+
+        numberPicker = (NumberPicker) v.findViewById(R.id.flightSearch_kelaspesawat_np1);
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(data.length);
         numberPicker.setDisplayedValues(data);
-        numberPicker.setValue(2);
+
+        for(int x=0;x<data.length;x++){
+            if(data[x] == parent.kelas.getText()){
+                numberPicker.setValue(x+1);
+                break;
+            }
+        }
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                parent.kelas.setText(data[numberPicker.getValue()-1]);
+                dismiss();
+            }
+        });
 
         getDialog().setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
