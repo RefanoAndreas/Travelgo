@@ -114,7 +114,7 @@ public class FragmentProfile extends Fragment {
         btnHistoryPurchasing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), HistoryPurchasing.class).putExtra("data", "purchasing"));
+                startActivity(new Intent(getActivity(), D1Notifikasi.class).putExtra("data", "history"));
             }
         });
 

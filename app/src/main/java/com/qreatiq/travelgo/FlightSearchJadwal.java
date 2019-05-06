@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.json.JSONException;
@@ -23,6 +24,8 @@ public class FlightSearchJadwal extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> ticketList = new ArrayList<>();
     TextView tripInfo;
+    LinearLayout flightSearchJadwal_menubar;
+    MaterialButton dateBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,12 @@ public class FlightSearchJadwal extends AppCompatActivity {
 
         tripInfo = (TextView)findViewById(R.id.tripInfo);
         tripInfo.setText(tanggalBerangkat+", 1 Pax, Ekonomi");
+
+        dateBtn = (MaterialButton)findViewById(R.id.dateBtn);
+        flightSearchJadwal_menubar = (LinearLayout)findViewById(R.id.flightSearchJadwal_menubar);
+
+        flightSearchJadwal_menubar.setWeightSum(2);
+        dateBtn.setVisibility(View.GONE);
 
         if(intentString.equals("flight")){
             flightData();

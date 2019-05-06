@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,12 +55,7 @@ public class HotelDetail extends AppCompatActivity {
         });
 
         chooseBtn = (MaterialButton)findViewById(R.id.chooseRoomBtn);
-        chooseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HotelDetail.this, ConfirmationOrder.class).putExtra("origin", "hotel"));
-            }
-        });
+
 
         try {
             hotelRoomList.add(new JSONObject("{\"name\": \"Deluxe Room\",\"price\": 1000000}"));
@@ -137,6 +133,15 @@ public class HotelDetail extends AppCompatActivity {
                     animator.start();
                 }
 
+            }
+        });
+
+        chooseBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(total_pack != 0){
+                    startActivity(new Intent(HotelDetail.this, ConfirmationOrder.class).putExtra("origin", "hotel"));
+                }
             }
         });
 

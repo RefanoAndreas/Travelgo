@@ -53,7 +53,7 @@ public class HistoryPurchasing extends AppCompatActivity {
         mAdapter.setOnItemClickListner(new NotifikasiAdapter.ClickListener() {
             @Override
             public void onItemClick(int position) {
-                startActivity(new Intent(HistoryPurchasing.this, TransactionDetail.class));
+                startActivity(new Intent(HistoryPurchasing.this, D2NotifikasiDetail.class).putExtra("origin", "history"));
             }
         });
 

@@ -59,7 +59,7 @@ public class ConfirmationOrder extends AppCompatActivity {
         linear_dataPeserta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ConfirmationOrder.this, FlightIsiDataPenumpang.class).putExtra("packageName", "flight"));
+                startActivity(new Intent(ConfirmationOrder.this, FlightIsiDataPenumpang.class).putExtra("packageName", intentString));
             }
         });
 

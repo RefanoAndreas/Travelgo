@@ -1,11 +1,13 @@
 package com.qreatiq.travelgo;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.chip.Chip;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
@@ -32,6 +34,7 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.No
         public TextView mTextView4;
         public TextView mTextView5;
         public Chip mChip1;
+        public ImageView notifIcon;
 
         public NotifikasiHolder(@NonNull View itemView) {
             super(itemView);
@@ -41,6 +44,7 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.No
             mTextView4 = itemView.findViewById(R.id.TV_total_pack);
             mTextView5 = itemView.findViewById(R.id.TV_routeType);
             mChip1 = itemView.findViewById(R.id.CHIP_status);
+            notifIcon = itemView.findViewById(R.id.notifIcon);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -69,6 +73,26 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.No
             notifikasiHolder.mTextView4.setText(jsonObject.getString("totalPack"));
             notifikasiHolder.mTextView5.setText(jsonObject.getString("routeType"));
             notifikasiHolder.mChip1.setText(jsonObject.getString("status"));
+
+            if(jsonObject.getString("status").equals("Berhasil")){
+                notifikasiHolder.mChip1.setChipBackgroundColorResource(R.color.colorPrimary);
+            }
+            else{
+                notifikasiHolder.mChip1.setChipBackgroundColorResource(R.color.colorYellow);
+                notifikasiHolder.mChip1.setTextColor(Color.parseColor("#424242"));
+            }
+
+            if(jsonObject.getString("type").equals("flight")){
+                notifikasiHolder.notifIcon.setImageResource(R.drawable.ic_flight_takeoff_black_24dp);
+            }
+            else if(jsonObject.getString("type").equals("train")){
+                notifikasiHolder.notifIcon.setImageResource(R.drawable.ic_train_black_24dp);
+            }
+            else if(jsonObject.getString("type").equals("hotel") || jsonObject.getString("type").equals("tour")){
+                notifikasiHolder.notifIcon.setImageResource(R.drawable.ic_location_city_black_24dp);
+            }
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

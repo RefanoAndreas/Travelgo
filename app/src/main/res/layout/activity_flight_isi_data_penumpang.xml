@@ -14,8 +14,8 @@
         android:layout_height="4dp"
         android:background="@drawable/shadow_uptodown"/>
 
-
     <TextView
+        android:id="@+id/titleData"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
@@ -24,12 +24,39 @@
         android:textColor="@color/c42"
         android:fontFamily="@font/montserrat_semi_bold"/>
 
+    <LinearLayout
+        android:id="@+id/titleName_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Titel"
+            android:textSize="12dp"/>
+
+        <Spinner
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/spinner"
+            android:entries="@array/titleName">
+
+        </Spinner>
+
+    </LinearLayout>
+
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:text="Nama penumpang"
+        android:text="Nama"
         android:textSize="12dp"/>
 
     <android.support.design.widget.TextInputLayout
@@ -44,6 +71,37 @@
             android:layout_height="wrap_content"
             android:singleLine="true"/>
     </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/idNo_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No. ID"
+            android:textSize="12dp"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/TIL_idNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/TIET_idNO"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="KTP / Paspor"/>
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearBagasi"

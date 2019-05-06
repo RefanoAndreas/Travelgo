@@ -69,7 +69,7 @@ public class HistoryTransaction extends AppCompatActivity {
         mAdapter.setOnItemClickListner(new NotifikasiAdapter.ClickListener() {
             @Override
             public void onItemClick(int position) {
-                startActivity(new Intent(HistoryTransaction.this, TransactionDetail.class));
+                startActivity(new Intent(HistoryTransaction.this, TransactionDetail.class).putExtra("origin", "history"));
             }
         });
 

@@ -30,4 +30,13 @@
     <string name="profile_history_purchasing_label">History Purchasing</string>
     <string name="profile_history_transaction_label">History Transaction</string>
     <string name="profile_language_label">Language</string>
+
+    <string-array name="titleName">
+        <item>Bapak</item>
+        <item>Ibu</item>
+        <item>Tuan</item>
+        <item>Nyonya</item>
+        <item>Nona</item>
+    </string-array>
+
 </resources>

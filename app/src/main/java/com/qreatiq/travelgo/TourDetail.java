@@ -76,7 +76,7 @@ public class TourDetail extends AppCompatActivity {
         payPackageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TourDetail.this, TransactionDetail.class));
+                startActivity(new Intent(TourDetail.this, TransactionDetail.class).putExtra("origin", "pay"));
             }
         });
 

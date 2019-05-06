@@ -120,8 +120,8 @@ public class ProfileEdit extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 try {
                     if (!response.isNull("user")){
-                        name.setText(response.getJSONObject("user").isNull("name") ? response.getJSONObject("user").getString("name") : "");
-                        email.setText(response.getJSONObject("user").isNull("email") ? response.getJSONObject("user").getString("email") : "");
+                        name.setText(!response.getJSONObject("user").isNull("name") ? response.getJSONObject("user").getString("name") : "");
+                        email.setText(!response.getJSONObject("user").isNull("email") ? response.getJSONObject("user").getString("email") : "");
                         if(!response.getJSONObject("user").isNull("phone"))
                             phone.setText(response.getJSONObject("user").getString("phone"));
                     }
