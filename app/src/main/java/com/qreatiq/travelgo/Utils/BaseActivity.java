@@ -1,4 +1,4 @@
-package com.qreatiq.travelgo;
+package com.qreatiq.travelgo.Utils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,15 +19,21 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.qreatiq.travelgo.R;
+
 import java.util.Locale;
 
 public class BaseActivity extends AppCompatActivity {
 
-    int PICK_FROM_CAMERA = 3, PICK_FROM_GALLERY = 2;
-    BottomSheetDialog bottomSheetDialog;
+    public int PICK_FROM_CAMERA = 3, PICK_FROM_GALLERY = 2;
+    public BottomSheetDialog bottomSheetDialog;
 
-    SharedPreferences base_shared_pref;
-    SharedPreferences.Editor edit_base_shared_pref;
+    public SharedPreferences base_shared_pref;
+    public SharedPreferences.Editor edit_base_shared_pref;
+
+    public RequestQueue requestQueue;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,6 +42,8 @@ public class BaseActivity extends AppCompatActivity {
         base_shared_pref = getApplicationContext().getSharedPreferences("user_id",MODE_PRIVATE);
         edit_base_shared_pref = base_shared_pref.edit();
         changeLang(base_shared_pref.getString("lang","en"));
+
+        requestQueue = Volley.newRequestQueue(this);
     }
 
     public void changeLang(String lang) {

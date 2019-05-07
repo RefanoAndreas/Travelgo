@@ -4,15 +4,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+
+import com.qreatiq.travelgo.Utils.BaseActivity;
 
 public class BottomNavContainer extends BaseActivity {
 
@@ -23,6 +24,8 @@ public class BottomNavContainer extends BaseActivity {
     Toolbar toolbar;
     BottomNavigationView bottomNav;
 
+    ConstraintLayout layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +33,7 @@ public class BottomNavContainer extends BaseActivity {
 
         bottomNav = findViewById(R.id.nav_bottom);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
+        layout = (ConstraintLayout) findViewById(R.id.layout);
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

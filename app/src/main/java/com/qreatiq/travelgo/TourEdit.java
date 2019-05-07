@@ -7,21 +7,15 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.android.volley.AuthFailureError;
@@ -38,6 +32,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ethanhua.skeleton.Skeleton;
 import com.ethanhua.skeleton.ViewSkeletonScreen;
+import com.qreatiq.travelgo.Utils.BaseActivity;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -48,6 +43,8 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TourEdit extends BaseActivity {
 
@@ -56,7 +53,6 @@ public class TourEdit extends BaseActivity {
     TextInputLayout name_layout, desc_layout, telp_layout;
     String url, user_ID, tour_id;
     SharedPreferences userID;
-    RequestQueue requestQueue;
     Bitmap bitmap;
 
     Uri filePath;
@@ -80,8 +76,6 @@ public class TourEdit extends BaseActivity {
 //        desc_layout = (TextInputLayout)findViewById(R.id.TIL_tourDescription_tourEdit);
         telp_layout = (TextInputLayout)findViewById(R.id.TIL_tourPhone_tourEdit);
         layout=(ConstraintLayout) findViewById(R.id.layout);
-
-        requestQueue = Volley.newRequestQueue(this);
 
         userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         user_ID = userID.getString("user_id", "Data not found");
@@ -135,7 +129,7 @@ public class TourEdit extends BaseActivity {
 
                                     @Override
                                     public void onError(Exception e) {
-
+                                        skeletonScreen.hide();
                                     }
                                 });
                     }
@@ -148,9 +142,38 @@ public class TourEdit extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("error",error.getMessage());
+                CoordinatorLayout layout=(CoordinatorLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+                skeletonScreen.hide();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                return headers;
+            }
+        };
 
         requestQueue.add(jsonObjectRequest);
 

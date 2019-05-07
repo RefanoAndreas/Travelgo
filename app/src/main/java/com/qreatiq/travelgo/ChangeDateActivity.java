@@ -10,13 +10,14 @@ import android.view.Gravity;
 import android.view.View;
 
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
+import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class ChangeDateActivity extends AppCompatActivity {
+public class ChangeDateActivity extends BaseActivity {
 
     private RecyclerView mRecyclerView;
     private ChangeDateAdapter mAdapter;

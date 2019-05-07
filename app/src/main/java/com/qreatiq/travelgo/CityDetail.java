@@ -33,6 +33,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
+import com.qreatiq.travelgo.Utils.BaseActivity;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -45,7 +46,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 
-public class CityDetail extends AppCompatActivity {
+public class CityDetail extends BaseActivity {
 
     CarouselView carouselView;
     int[] sampleImages = {R.drawable.background2, R.drawable.background3, R.drawable.background4, R.drawable.background5, R.drawable.background6};

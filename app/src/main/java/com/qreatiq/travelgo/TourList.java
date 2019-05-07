@@ -5,14 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.View;
 
@@ -23,7 +18,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
-import com.ethanhua.skeleton.Skeleton;
+import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -90,7 +85,7 @@ public class TourList extends BaseActivity {
             public void instantiateUnderlayButton(RecyclerView.ViewHolder viewHolder, List<UnderlayButton> underlayButtons) {
                 underlayButtons.add(new UnderlayButton("",
                         R.drawable.ic_delete_ff4444_24dp,
-                        Color.parseColor("#FFFFFF"),
+                        Color.parseColor("#FFFFFFFF"),
                         Color.parseColor("#FF3C30"),
                         new UnderlayButtonClickListener() {
                             @Override

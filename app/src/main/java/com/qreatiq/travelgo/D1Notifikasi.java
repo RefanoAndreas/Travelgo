@@ -8,12 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import com.qreatiq.travelgo.Utils.BaseActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class D1Notifikasi extends AppCompatActivity {
+public class D1Notifikasi extends BaseActivity {
 
     Intent intent;
     String dataIntent;

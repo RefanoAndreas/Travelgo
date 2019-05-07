@@ -1,37 +1,38 @@
 package com.qreatiq.travelgo;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
+import com.qreatiq.travelgo.Utils.BaseActivity;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ProfileEdit extends AppCompatActivity {
+public class ProfileEdit extends BaseActivity {
 
     TextInputLayout nameLayout, emailLayout, phoneLayout, passwordLayout, retypePassLayout;
     TextInputEditText name, email, phone, password, retypePass;
     String userID, url;
     SharedPreferences user_id;
-    RequestQueue requestQueue;
+
     Button saveBtn;
 
     @Override
@@ -64,8 +65,6 @@ public class ProfileEdit extends AppCompatActivity {
 
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("user_id", "Data not found");
-
-        requestQueue = Volley.newRequestQueue(this);
 
         name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -132,7 +131,28 @@ public class ProfileEdit extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("error",error.getMessage());
+                CoordinatorLayout layout=(CoordinatorLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
 
@@ -180,29 +200,6 @@ public class ProfileEdit extends AppCompatActivity {
 
             requestQueue.add(jsonObjectRequest);
         }
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        View v = getCurrentFocus();
-
-        if (v != null &&
-                (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_MOVE) &&
-                v instanceof EditText &&
-                v instanceof TextInputEditText &&
-                !v.getClass().getName().startsWith("android.webkit.")) {
-            int scrcoords[] = new int[2];
-            v.getLocationOnScreen(scrcoords);
-            float x = ev.getRawX() + v.getLeft() - scrcoords[0];
-            float y = ev.getRawY() + v.getTop() - scrcoords[1];
-
-            if (x < v.getLeft() || x > v.getRight() || y < v.getTop() || y > v.getBottom()) {
-
-                link.hideSoftKeyboard(this);
-                v.clearFocus();
-            }
-        }
-        return super.dispatchTouchEvent(ev);
     }
 
 }

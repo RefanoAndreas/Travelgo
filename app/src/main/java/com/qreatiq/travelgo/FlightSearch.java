@@ -3,27 +3,18 @@ package com.qreatiq.travelgo;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.support.annotation.Nullable;
 import android.support.design.button.MaterialButton;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.shawnlin.numberpicker.NumberPicker;
+import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
