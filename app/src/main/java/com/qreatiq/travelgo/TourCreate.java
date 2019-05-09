@@ -37,6 +37,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 import com.squareup.picasso.Callback;
@@ -218,6 +219,7 @@ public class TourCreate extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    array.clear();
                     for(int x=0; x<response.getJSONArray("facilities").length(); x++){
                         array.add(response.getJSONArray("facilities").getJSONObject(x).getString("name"));
                     }
@@ -401,24 +403,34 @@ public class TourCreate extends BaseActivity {
 
         JSONObject json = new JSONObject();
         try {
-            json.put("background", photo_array);
-            json.put("tripPack", tour_pack_array);
+            JSONArray array = new JSONArray();
+
+            for(int x=0;x<photo_array.size();x++)
+                array.put(x,photo_array.get(x));
+
+            JSONArray array1 = new JSONArray();
+
+            for(int x=0;x<tour_pack_array.size();x++)
+                array1.put(x,tour_pack_array.get(x));
+
+            json.put("background", array);
+            json.put("tripPack", array1);
             json.put("trip_name", tripName.getText());
             json.put("trip_desc", tripDesc.getText());
             json.put("start_date", start_date.getText());
             json.put("end_date", end_date.getText());
             json.put("location_id", location_id);
-            logLargeString(json.toString());
+//            logLargeString(json.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-
+        Log.d("data",json.toString());
+        Log.d("auth",userID);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
+                Log.d("data",response.toString());
             }
         }, new Response.ErrorListener() {
             @Override
