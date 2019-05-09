@@ -12,6 +12,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -29,6 +30,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public int PICK_FROM_CAMERA = 3, PICK_FROM_GALLERY = 2;
     public BottomSheetDialog bottomSheetDialog;
+    public Toolbar toolbar;
 
     public SharedPreferences base_shared_pref;
     public SharedPreferences.Editor edit_base_shared_pref;
@@ -44,6 +46,19 @@ public class BaseActivity extends AppCompatActivity {
         changeLang(base_shared_pref.getString("lang","en"));
 
         requestQueue = Volley.newRequestQueue(this);
+    }
+
+    public void set_toolbar(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     public void changeLang(String lang) {

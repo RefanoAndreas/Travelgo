@@ -20,7 +20,6 @@ public class BottomNavContainer extends BaseActivity {
     String id_loc;
     FragmentTour fragmentTour;
     Fragment selectedFragment = null;
-    Toolbar toolbar;
     BottomNavigationView bottomNav;
 
     ConstraintLayout layout;
@@ -34,8 +33,7 @@ public class BottomNavContainer extends BaseActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListener);
         layout = (ConstraintLayout) findViewById(R.id.layout);
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        set_toolbar();
         toolbar.setVisibility(View.GONE);
 
         Intent i = getIntent();

@@ -35,7 +35,7 @@ public class ChangeDateActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_date);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         try {
             dateList.add(new JSONObject("{\"day\": \"Senin\", \"date\": \"29 Apr 2019\", \"price\": \"1.000.000\", " +

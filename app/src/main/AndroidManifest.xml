@@ -14,7 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DetailTourTransaction"></activity>
+        <activity android:name=".DatePickerActivity" android:label="Pick Date">
+
+        </activity>
+        <activity android:name=".DetailTourTransaction" />
         <activity android:name=".Sort" />
         <activity android:name=".SearchHotel" />
         <activity android:name=".SearchFlight" />

@@ -37,11 +37,12 @@ import com.facebook.login.Login;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SignUp extends AppCompatActivity {
+public class SignUp extends BaseActivity {
 
     TextInputEditText email, password, retypePass;
     Button btnSignUp;
@@ -89,8 +90,6 @@ public class SignUp extends AppCompatActivity {
 
         retypePass = ((TextInputEditText) findViewById(R.id.retype_password_input));
         retypePass.setHint("Re-Type Password");
-
-        requestQueue = Volley.newRequestQueue(this);
 
         btnSignUp = (Button) findViewById(R.id.signUpBtn);
         btnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -259,6 +258,13 @@ public class SignUp extends AppCompatActivity {
     private void loginFB(JSONObject object){
         url = link.C_URL+"loginFB";
 
+        try {
+            object.put("login", "facebook");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("data",object.toString());
+        Log.d("url",url);
         Log.d("facebook", object.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object, new Response.Listener<JSONObject>() {
@@ -271,8 +277,7 @@ public class SignUp extends AppCompatActivity {
                         editor.putString("access_token", response.getString("access_token"));
                         editor.apply();
 
-                        Intent intentHome = new Intent(SignUp.this, BottomNavContainer.class);
-                        startActivity(intentHome);
+                        startActivity(new Intent(SignUp.this, BottomNavContainer.class));
                         finish();
                     }
                 } catch (JSONException e) {
