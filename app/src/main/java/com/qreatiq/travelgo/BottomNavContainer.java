@@ -17,7 +17,6 @@ import com.qreatiq.travelgo.Utils.BaseActivity;
 
 public class BottomNavContainer extends BaseActivity {
 
-    SharedPreferences userID;
     String id_loc;
     FragmentTour fragmentTour;
     Fragment selectedFragment = null;

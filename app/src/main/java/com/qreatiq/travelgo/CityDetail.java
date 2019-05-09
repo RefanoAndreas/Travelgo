@@ -1,11 +1,16 @@
 package com.qreatiq.travelgo;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,9 +31,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -44,6 +55,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class CityDetail extends BaseActivity {
@@ -56,12 +69,16 @@ public class CityDetail extends BaseActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    String location_id, url, urlGetImg;
+    String location_id, url, urlPhoto;
     RequestQueue requestQueue;
     TextView locationName, expandBtn, description;
     ObjectAnimator animator;
     LinearLayout ratingLoc;
     BottomSheetDialog modal;
+    String userID;
+    SharedPreferences user_id;
+    ArrayList<JSONObject> cityList = new ArrayList<>();
+
 
     Button btnFindTour;
 
@@ -87,6 +104,9 @@ public class CityDetail extends BaseActivity {
                 CityDetail.super.onBackPressed();
             }
         });
+
+        user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userID = user_id.getString("access_token", "Data not found");
 
         btnFindTour = (Button)findViewById(R.id.findTourBtn);
         btnFindTour.setOnClickListener(new View.OnClickListener() {
@@ -141,19 +161,17 @@ public class CityDetail extends BaseActivity {
         carouselView.setImageListener(imageListener);
 
         detailLocation();
-        getLocationPhoto();
+//        getLocationPhoto();
 
 //        carouselView.setPageCount(sampleImages.length);
 //        carouselView.setImageListener(imageListener);
 
 
-        ArrayList<CityDetailItem> cityList = new ArrayList<>();
-
-        cityList.add(new CityDetailItem(R.drawable.background2, "Kuta, Bali"));
-        cityList.add(new CityDetailItem(R.drawable.background3, "Lombok, NTB"));
-        cityList.add(new CityDetailItem(R.drawable.background4, "Komodo, NTT"));
-        cityList.add(new CityDetailItem(R.drawable.background5, "Madura, East Java"));
-        cityList.add(new CityDetailItem(R.drawable.background6, "Bawean, East java"));
+//        cityList.add(new CityDetailItem(R.drawable.background2, "Kuta, Bali"));
+//        cityList.add(new CityDetailItem(R.drawable.background3, "Lombok, NTB"));
+//        cityList.add(new CityDetailItem(R.drawable.background4, "Komodo, NTT"));
+//        cityList.add(new CityDetailItem(R.drawable.background5, "Madura, East Java"));
+//        cityList.add(new CityDetailItem(R.drawable.background6, "Bawean, East java"));
 
         mRecyclerView = findViewById(R.id.RV_cityDetail);
         mRecyclerView.setHasFixedSize(true);
@@ -170,7 +188,8 @@ public class CityDetail extends BaseActivity {
         @Override
         public void setImageForPosition(int position, ImageView imageView) {
             try {
-                Picasso.get().load(link.C_URL_IMAGES+"location/"+locPhoto.get(position).getString("urlPhoto")).into(imageView);
+                urlPhoto = link.C_URL_IMAGES+"location?image="+locPhoto.get(position).getString("urlPhoto")+"&mime="+locPhoto.get(position).getString("mimePhoto");
+                Picasso.get().load(urlPhoto).into(imageView);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -179,7 +198,7 @@ public class CityDetail extends BaseActivity {
 
 
     public void getLocationPhoto(){
-        url = link.C_URL+"getPhotoLocation.php?id="+location_id;
+        url = link.C_URL+"locationDetail?id="+location_id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -200,7 +219,28 @@ public class CityDetail extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("error",error.getMessage());
+                String message="";
+                CoordinatorLayout layout=(CoordinatorLayout) findViewById(R.id.layout);
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
 
@@ -209,16 +249,38 @@ public class CityDetail extends BaseActivity {
 
 
     public void detailLocation(){
-        url = link.C_URL+"getPlaceDetail.php?id="+location_id;
+        url = link.C_URL+"locationDetail?id="+location_id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if(response.getString("status").equals("success")){
-                        locationName.setText(response.getJSONObject("data").getString("name"));
-                        description.setText(response.getJSONObject("data").getString("description"));
+                    JSONArray jsonArray = response.getJSONArray("photo");
+
+                    for(int x=0;x<jsonArray.length();x++){
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("urlPhoto", jsonArray.getJSONObject(x).getString("urlPhoto"));
+                        jsonObject.put("mimePhoto", jsonArray.getJSONObject(x).getString("mimePhoto"));
+                        locPhoto.add(jsonObject);
+                        carouselView.setPageCount(locPhoto.size());
                     }
+
+                    locationName.setText(response.getJSONObject("location").getString("name"));
+                    description.setText(response.getJSONObject("location").getString("description"));
+
+                    JSONArray jsonArrayVisitPlace = response.getJSONArray("visit_place");
+
+                    for(int x=0;x<jsonArrayVisitPlace.length();x++){
+                        urlPhoto = link.C_URL_IMAGES+"location?image="+jsonArrayVisitPlace.getJSONObject(x)
+                                .getString("urlPhoto")+"&mime="+jsonArrayVisitPlace.getJSONObject(x)
+                                .getString("mimePhoto");
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("photo", urlPhoto);
+                        jsonObject.put("name", jsonArrayVisitPlace.getJSONObject(x).getString("name"));
+                        cityList.add(jsonObject);
+                    }
+                    mAdapter.notifyDataSetChanged();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -226,9 +288,39 @@ public class CityDetail extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("error",error.getMessage());
+                CoordinatorLayout layout=(CoordinatorLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", userID);
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+        };
 
         requestQueue.add(jsonObjectRequest);
 

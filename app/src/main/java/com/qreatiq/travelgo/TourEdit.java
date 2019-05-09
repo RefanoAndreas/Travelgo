@@ -78,7 +78,9 @@ public class TourEdit extends BaseActivity {
         layout=(ConstraintLayout) findViewById(R.id.layout);
 
         userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-        user_ID = userID.getString("user_id", "Data not found");
+        user_ID = userID.getString("access_token", "Data not found");
+
+        Log.d("tokenUser", user_ID);
 
         name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -105,20 +107,24 @@ public class TourEdit extends BaseActivity {
     }
 
     public void getTourInfo(){
-        url = link.C_URL+"getUserTour.php?id="+user_ID;
-        Log.d("tourURL", url);
+        url = link.C_URL+"tourProfile";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     if (!response.isNull("tour")){
-                        name.setText(response.getJSONObject("tour").getString("name"));
+                        JSONObject respon = response.getJSONObject("tour");
+
+                        name.setText(respon.getString("name"));
 //                        desc.setText(response.getJSONObject("tour").getString("description"));
-                        telp.setText(response.getJSONObject("tour").getString("phone"));
-                        tour_id = response.getJSONObject("tour").getString("id");
+                        telp.setText(respon.getString("phone"));
+                        tour_id = respon.getString("id");
+
+                        Log.d("urlPhoto", link.C_URL_IMAGES + "tour?image=" + respon.getString("urlPhoto")+"&mime="+respon.getString("mimePhoto"));
+
                         Picasso.get()
-                                .load(link.C_URL_IMAGES + "tour/" + response.getJSONObject("tour").getString("url_photo"))
+                                .load(link.C_URL_IMAGES + "tour?image=" + respon.getString("urlPhoto")+"&mime="+respon.getString("mimePhoto"))
                                 .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
                                 .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
                                 .into(imageView, new Callback() {
@@ -126,7 +132,6 @@ public class TourEdit extends BaseActivity {
                                     public void onSuccess() {
                                         skeletonScreen.hide();
                                     }
-
                                     @Override
                                     public void onError(Exception e) {
                                         skeletonScreen.hide();
@@ -142,7 +147,7 @@ public class TourEdit extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                CoordinatorLayout layout=(CoordinatorLayout) findViewById(R.id.layout);
+                ConstraintLayout layout=(ConstraintLayout) findViewById(R.id.layout);
                 String message="";
                 if (error instanceof NetworkError) {
                     message="Network Error";
@@ -171,6 +176,8 @@ public class TourEdit extends BaseActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
+                headers.put("Accept", "application/json");
+                headers.put("Authorization", user_ID);
                 return headers;
             }
         };
@@ -199,7 +206,7 @@ public class TourEdit extends BaseActivity {
         else {
             JSONObject json = new JSONObject();
             try {
-                json.put("id", user_ID);
+                json.put("id", tour_id);
                 json.put("name", name.getText().toString());
                 json.put("phone", telp.getText().toString());
                 if (bitmap != null)
@@ -208,13 +215,16 @@ public class TourEdit extends BaseActivity {
                 e.printStackTrace();
             }
 
-            url = link.C_URL + "saveTour.php";
+            logLargeString(json.toString());
+
+            url = link.C_URL + "saveTourProfile";
 //        Log.d("data", json.toString());
 //        Log.d("url", url);
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
+
                     onBackPressed();
                 }
             }, new Response.ErrorListener() {
@@ -237,11 +247,29 @@ public class TourEdit extends BaseActivity {
                     Snackbar snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
-            });
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("Accept", "application/json");
+                    headers.put("Authorization", user_ID);
+                    return headers;
+                }
+            };
 
             requestQueue.add(jsonObjectRequest);
         }
 
+    }
+
+    public void logLargeString(String str) {
+        if(str.length() > 3000) {
+            Log.i("LOG", str.substring(0, 3000));
+            logLargeString(str.substring(3000));
+        } else {
+            Log.i("LOG", str); // continuation
+        }
     }
 
     public void addMedia(View v){

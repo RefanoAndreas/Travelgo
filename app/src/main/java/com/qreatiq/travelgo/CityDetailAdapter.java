@@ -2,6 +2,7 @@ package com.qreatiq.travelgo;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -11,50 +12,60 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class CityDetailAdapter extends RecyclerView.Adapter<CityDetailAdapter.CityDetailPackagesViewHolder> {
 
-    private ArrayList<CityDetailItem> mCityDetailPackagesList;
+    ArrayList<JSONObject> CityDetailItem;
+    HomeAdapter.ClickListener clickListener;
     Context context;
 
-    public static class CityDetailPackagesViewHolder extends RecyclerView.ViewHolder{
+    public CityDetailAdapter(ArrayList<JSONObject> CityDetailItem, Context context){
+        this.CityDetailItem = CityDetailItem;
+        this.context = context;
+    }
+
+    public class CityDetailPackagesViewHolder extends RecyclerView.ViewHolder {
         public RoundedImageView mRoundedImageView;
         public TextView mTextView1;
         public ConstraintLayout layout;
 
-        public CityDetailPackagesViewHolder(View itemView) {
+        public CityDetailPackagesViewHolder(@NonNull View itemView) {
             super(itemView);
+
             mRoundedImageView = itemView.findViewById(R.id.itemRV_cityDetail_RIV);
             mTextView1 = itemView.findViewById(R.id.itemRV_cityDetail_TV);
             layout = (ConstraintLayout) itemView.findViewById(R.id.layout);
+
         }
     }
 
-    public CityDetailAdapter(ArrayList<CityDetailItem> cityDetailPackageslist, Context context){
-        mCityDetailPackagesList = cityDetailPackageslist;
-        this.context = context;
-    }
-
+    @NonNull
     @Override
-    public CityDetailPackagesViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public CityDetailPackagesViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.city_detail_item, viewGroup,false);
-        CityDetailPackagesViewHolder tlpvh = new CityDetailPackagesViewHolder(v);
-        return tlpvh;
+        return new CityDetailPackagesViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(CityDetailPackagesViewHolder cityDetailPackagesViewHolder, int i) {
-        CityDetailItem currentItem = mCityDetailPackagesList.get(i);
+    public void onBindViewHolder(@NonNull CityDetailPackagesViewHolder cityDetailPackagesViewHolder, int i) {
+        JSONObject jsonObject = CityDetailItem.get(i);
 
-        cityDetailPackagesViewHolder.mRoundedImageView.setImageResource(currentItem.getImageResources());
-        cityDetailPackagesViewHolder.mTextView1.setText(currentItem.getText1());
+        try {
+            Picasso.get().load(jsonObject.getString("photo")).placeholder(R.mipmap.ic_launcher).into(cityDetailPackagesViewHolder.mRoundedImageView);
+            cityDetailPackagesViewHolder.mTextView1.setText(jsonObject.getString("name"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         if(i == 0){
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                     ConstraintLayout.LayoutParams.WRAP_CONTENT,
-//                    convertpx(328),
                     ConstraintLayout.LayoutParams.WRAP_CONTENT
             );
             params.setMargins(convertpx(16), 0, 0, 0);
@@ -63,7 +74,6 @@ public class CityDetailAdapter extends RecyclerView.Adapter<CityDetailAdapter.Ci
         else if(i == getItemCount()-1){
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                     ConstraintLayout.LayoutParams.WRAP_CONTENT,
-//                    convertpx(328),
                     ConstraintLayout.LayoutParams.WRAP_CONTENT
             );
             params.setMargins(convertpx(16), 0, convertpx(16), 0);
@@ -72,7 +82,6 @@ public class CityDetailAdapter extends RecyclerView.Adapter<CityDetailAdapter.Ci
         else{
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                     ConstraintLayout.LayoutParams.WRAP_CONTENT,
-//                    convertpx(328),
                     ConstraintLayout.LayoutParams.WRAP_CONTENT
             );
             params.setMargins(convertpx(16), 0, 0, 0);
@@ -92,6 +101,7 @@ public class CityDetailAdapter extends RecyclerView.Adapter<CityDetailAdapter.Ci
 
     @Override
     public int getItemCount() {
-        return mCityDetailPackagesList.size();
+        return CityDetailItem.size();
     }
+
 }

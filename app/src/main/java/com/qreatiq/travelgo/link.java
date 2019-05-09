@@ -19,8 +19,8 @@ import java.io.ByteArrayOutputStream;
 
 public class link {
 
-    public static String C_URL = "http://travelgo.propertigo.id/api/";
-    public static String C_URL_IMAGES = "http://travelgo.propertigo.id/images/";
+    public static String C_URL = "http://travelgolaravel.propertigo.id/api/";
+    public static String C_URL_IMAGES = "http://travelgolaravel.propertigo.id/api/images/";
 
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =

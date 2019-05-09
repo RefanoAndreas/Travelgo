@@ -2,6 +2,7 @@ package com.qreatiq.travelgo;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
@@ -25,6 +26,9 @@ import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProfileEdit extends BaseActivity {
 
@@ -64,7 +68,7 @@ public class ProfileEdit extends BaseActivity {
         retypePass = (TextInputEditText) findViewById(R.id.TIET_rePassword_profileEdit);
 
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-        userID = user_id.getString("user_id", "Data not found");
+        userID = user_id.getString("access_token", "Data not found");
 
         name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -112,17 +116,18 @@ public class ProfileEdit extends BaseActivity {
     }
 
     private void getUserInfo(){
-        url = link.C_URL+"profile.php?id="+userID;
+        url = link.C_URL+"profile";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    Log.d("data", response.toString());
                     if (!response.isNull("user")){
                         name.setText(!response.getJSONObject("user").isNull("name") ? response.getJSONObject("user").getString("name") : "");
                         email.setText(!response.getJSONObject("user").isNull("email") ? response.getJSONObject("user").getString("email") : "");
-                        if(!response.getJSONObject("user").isNull("phone"))
-                            phone.setText(response.getJSONObject("user").getString("phone"));
+                        if(!response.getJSONObject("user").isNull("phone_number"))
+                            phone.setText(response.getJSONObject("user").getString("phone_number"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -131,7 +136,7 @@ public class ProfileEdit extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                CoordinatorLayout layout=(CoordinatorLayout) findViewById(R.id.layout);
+                ConstraintLayout layout=(ConstraintLayout) findViewById(R.id.layout);
                 String message="";
                 if (error instanceof NetworkError) {
                     message="Network Error";
@@ -154,7 +159,16 @@ public class ProfileEdit extends BaseActivity {
                 Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", userID);
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+        };
 
         requestQueue.add(jsonObjectRequest);
     }
@@ -165,11 +179,10 @@ public class ProfileEdit extends BaseActivity {
         else if(phone.getText().toString().equals(""))
             phoneLayout.setError("Phone is empty");
         else {
-            url = link.C_URL + "saveProfile.php";
+            url = link.C_URL + "profile";
 
             JSONObject jsonObject = new JSONObject();
             try {
-                jsonObject.put("id", userID);
                 jsonObject.put("name", name.getText().toString());
                 jsonObject.put("phone", phone.getText().toString());
 
@@ -194,9 +207,39 @@ public class ProfileEdit extends BaseActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.e("error", error.getMessage());
+                    ConstraintLayout layout=(ConstraintLayout) findViewById(R.id.layout);
+                    String message="";
+                    if (error instanceof NetworkError) {
+                        message="Network Error";
+                    }
+                    else if (error instanceof ServerError) {
+                        message="Server Error";
+                    }
+                    else if (error instanceof AuthFailureError) {
+                        message="Authentication Error";
+                    }
+                    else if (error instanceof ParseError) {
+                        message="Parse Error";
+                    }
+                    else if (error instanceof NoConnectionError) {
+                        message="Connection Missing";
+                    }
+                    else if (error instanceof TimeoutError) {
+                        message="Server Timeout Reached";
+                    }
+                    Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
-            });
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("Authorization", userID);
+                    headers.put("Accept", "application/json");
+                    return headers;
+                }
+            };
 
             requestQueue.add(jsonObjectRequest);
         }

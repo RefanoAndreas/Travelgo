@@ -208,7 +208,7 @@ public class SignUp extends AppCompatActivity {
             emailLayout.setError("Email is not in email format");
         }
         else {
-            url = link.C_URL + "signup.php";
+            url = link.C_URL + "signup";
 
             JSONObject jsonObject = new JSONObject();
             try {
@@ -227,7 +227,7 @@ public class SignUp extends AppCompatActivity {
                         if (response.getString("status").equals("success")) {
                             userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = userID.edit();
-                            editor.putString("user_id", response.getString("data"));
+                            editor.putString("access_token", response.getJSONObject("access_token").getString("token_type")+" "+response.getJSONObject("access_token").getString("access_token"));
                             editor.apply();
 
                             Intent intentHome = new Intent(SignUp.this, BottomNavContainer.class);
@@ -257,25 +257,18 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void loginFB(JSONObject object){
-        url = link.C_URL+"login.php";
+        url = link.C_URL+"loginFB";
 
-        try {
-            object.put("login", "facebook");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Log.d("facebook", object.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("responseLogin", response.toString());
                 try {
-
                     if(response.getString("status").equals("success")){
-                        Log.d("abcde", "ABCDE");
                         userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = userID.edit();
-                        editor.putString("user_id", response.getString("data"));
+                        editor.putString("access_token", response.getString("access_token"));
                         editor.apply();
 
                         Intent intentHome = new Intent(SignUp.this, BottomNavContainer.class);

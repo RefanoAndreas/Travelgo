@@ -53,7 +53,9 @@ public class TourCreateTourPackageAdapter extends RecyclerView.Adapter<TourCreat
         JSONObject currentItem = mTourCreatePackagesList_2.get(i);
 
         try {
-            tourCreatePackagesViewHolder.mRoundedImageView.setImageBitmap((Bitmap) currentItem.get("image"));
+            if(currentItem.get("image") != null)
+                tourCreatePackagesViewHolder.mRoundedImageView.setImageBitmap((Bitmap) currentItem.get("image"));
+
             tourCreatePackagesViewHolder.mTextView1.setText(currentItem.getString("name"));
             tourCreatePackagesViewHolder.mTextView2.setText(currentItem.getString("start_date"));
             tourCreatePackagesViewHolder.mTextView3.setText(currentItem.getString("start_date"));

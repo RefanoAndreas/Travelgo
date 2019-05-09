@@ -19,7 +19,7 @@ import java.util.ArrayList;
 
 public class TourCreatePackageLocationAdapter extends RecyclerView.Adapter<TourCreatePackageLocationAdapter.ViewHolder> {
 
-    private ArrayList<String> arrayList;
+    private ArrayList<JSONObject> arrayList;
     ClickListener clickListener;
 
     public class ViewHolder extends RecyclerView.ViewHolder{
@@ -43,7 +43,7 @@ public class TourCreatePackageLocationAdapter extends RecyclerView.Adapter<TourC
         this.clickListener= clickListner;
     }
 
-    public TourCreatePackageLocationAdapter(ArrayList<String> arrayList){
+    public TourCreatePackageLocationAdapter(ArrayList<JSONObject> arrayList){
         this.arrayList = arrayList;
     }
 
@@ -56,7 +56,14 @@ public class TourCreatePackageLocationAdapter extends RecyclerView.Adapter<TourC
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, final int i) {
-        viewHolder.text.setText(arrayList.get(i));
+//        viewHolder.text.setText(arrayList.get(i));
+        JSONObject jsonObject = arrayList.get(i);
+
+        try {
+            viewHolder.text.setText(jsonObject.getString("name"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,10 +1,11 @@
 package com.qreatiq.travelgo;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -36,17 +37,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FragmentHome extends Fragment {
 
-    private RecyclerView mRecyclerView;
-    private HomeAdapter mAdapter;
+    RecyclerView mRecyclerView;
+    HomeAdapter mAdapter;
+    ArrayList<JSONObject> homeList = new ArrayList<JSONObject>();
     private RecyclerView.LayoutManager mLayoutManager;
-    String url, urlPhoto;
+
+    String url, urlPhoto, userID;
+    SharedPreferences user_id;
     RequestQueue requestQueue;
-    ArrayList<HomeItem> homeList = new ArrayList<>();
     CardView tourBtn, flightBtn, hotelBtn, trainBtn;
     BottomNavContainer parent;
+
+    FilterTourLocationAdapter adapter;
 
     RecyclerViewSkeletonScreen skeleton;
 
@@ -97,6 +104,8 @@ public class FragmentHome extends Fragment {
             }
         });
 
+        user_id = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userID = user_id.getString("access_token", "Data not found");
 
         mRecyclerView = view.findViewById(R.id.RV_Home);
         mRecyclerView.setHasFixedSize(true);
@@ -110,7 +119,12 @@ public class FragmentHome extends Fragment {
         mAdapter.setOnItemClickListner(new HomeAdapter.ClickListener() {
             @Override
             public void onItemClick(int position) {
-                startActivity(new Intent(getActivity(), CityDetail.class).putExtra("idLocation", homeList.get(position).getID()));
+                try {
+                    startActivity(new Intent(getActivity(), CityDetail.class).putExtra("idLocation", homeList.get(position).getString("location_id")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+//                startActivity(new Intent(getActivity(), CityDetail.class).putExtra("idLocation", homeList.get(position).getID()));location_description
             }
         });
 
@@ -120,9 +134,7 @@ public class FragmentHome extends Fragment {
     }
 
     private void getLocation(){
-        url = link.C_URL+"getLocation.php";
-        urlPhoto = link.C_URL_IMAGES+"location/";
-        Log.d("url",url);
+        url = link.C_URL+"home/locationList";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -130,8 +142,22 @@ public class FragmentHome extends Fragment {
                 try {
                     JSONArray jsonArray = response.getJSONArray("location");
                     for(int x=0; x<jsonArray.length(); x++){
-                        homeList.add(new HomeItem(urlPhoto+jsonArray.getJSONObject(x).getString("photo"), jsonArray.getJSONObject(x).getString("name")
-                                , jsonArray.getJSONObject(x).getString("description"), jsonArray.getJSONObject(x).getString("id")));
+//                        homeList.add(new JSONObject(urlPhoto+jsonArray.getJSONObject(x).getString("urlPhoto")
+//                                +"&mime="+jsonArray.getJSONObject(x).getString("mimePhoto"), jsonArray.getJSONObject(x).getString("name")
+//                                , jsonArray.getJSONObject(x).getString("description"), jsonArray.getJSONObject(x).getString("id")));
+
+                        urlPhoto = link.C_URL_IMAGES+"location?image="+jsonArray.getJSONObject(x).getString("urlPhoto")+"&mime="+jsonArray.getJSONObject(x).getString("mimePhoto");
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("location_photo", urlPhoto);
+                        jsonObject.put("location_name", jsonArray.getJSONObject(x).getString("name"));
+                        jsonObject.put("location_description", jsonArray.getJSONObject(x).getString("description"));
+                        jsonObject.put("location_id", jsonArray.getJSONObject(x).getString("id"));
+                        homeList.add(jsonObject);
+
+//                        homeList.add(new JSONObject("{\"locationPhoto\": "+urlPhoto+", " +
+//                                "\"location_name\": "+jsonArray.getJSONObject(x).getString("name")+", " +
+//                                "\"location_description\": "+jsonArray.getJSONObject(x).getString("description")+", " +
+//                                "\"location_description\": "+jsonArray.getJSONObject(x).getString("description")+""}"));
 
                     }
                     mAdapter.notifyDataSetChanged();
@@ -166,7 +192,16 @@ public class FragmentHome extends Fragment {
                 snackbar.show();
                 skeleton.hide();
             }
-        });
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", userID);
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+        };
 
         requestQueue.add(jsonObjectRequest);
     }

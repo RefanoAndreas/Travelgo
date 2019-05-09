@@ -163,25 +163,18 @@ public class LogIn extends BaseActivity {
     }
 
     private void loginFB(JSONObject object){
-        url = link.C_URL+"login.php";
+        url = link.C_URL+"loginFB";
 
-        try {
-            object.put("login", "facebook");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        Log.d("facebook", object.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("responseLogin", response.toString());
                 try {
-
                     if(response.getString("status").equals("success")){
-                        Log.d("abcde", "ABCDE");
                         userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = userID.edit();
-                        editor.putString("user_id", response.getString("data"));
+                        editor.putString("access_token", response.getString("access_token"));
                         editor.apply();
 
                         Intent intentHome = new Intent(LogIn.this, BottomNavContainer.class);
@@ -210,7 +203,6 @@ public class LogIn extends BaseActivity {
 
     private void login(){
 
-
         if(email.getText().toString().equals("")){
             emailLayout.setError("Email is empty");
         }
@@ -221,13 +213,12 @@ public class LogIn extends BaseActivity {
             emailLayout.setError("Email is not in email format");
         }
         else {
-            url = link.C_URL + "login.php";
+            url = link.C_URL + "login";
 
             JSONObject jsonObject = new JSONObject();
             try {
                 jsonObject.put("email", email.getText().toString());
                 jsonObject.put("password", password.getText().toString());
-                jsonObject.put("login", "form");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -239,8 +230,9 @@ public class LogIn extends BaseActivity {
 
                         if (response.getString("status").equals("success")) {
                             userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+//                            Log.d("tokenAccess", response.getString("access_token"));
                             SharedPreferences.Editor editor = userID.edit();
-                            editor.putString("user_id", response.getString("data"));
+                            editor.putString("access_token", response.getJSONObject("access_token").getString("token_type")+" "+response.getJSONObject("access_token").getString("access_token"));
                             editor.apply();
 
                             Intent intentHome = new Intent(LogIn.this, BottomNavContainer.class);

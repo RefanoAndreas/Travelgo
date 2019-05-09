@@ -22,7 +22,7 @@
             android:scaleType="centerCrop"
             app:riv_corner_radius_bottom_left="8dp"
             app:riv_corner_radius_top_left="8dp"
-            android:src="@drawable/background1"/>
+            android:src="@drawable/no_image_available"/>
 
         <LinearLayout
             android:id="@+id/container"

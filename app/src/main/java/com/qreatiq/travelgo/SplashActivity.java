@@ -17,7 +17,7 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-        userIDGet = userID.getString("user_id", "Data not found");
+        userIDGet = userID.getString("access_token", "Data not found");
 
         if(!userIDGet.equals("Data not found")){
             startActivity(new Intent(this, BottomNavContainer.class));
