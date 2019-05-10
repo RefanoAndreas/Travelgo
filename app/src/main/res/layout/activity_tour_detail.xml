@@ -74,6 +74,7 @@
                 android:textColor="@android:color/black"/>
 
             <TextView
+                android:id="@+id/TV_tour_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Managed by Rodex Tour"/>

@@ -143,7 +143,7 @@ public class TourCreatePackageLocationModal extends DialogFragment {
     }
 
     private void locationList(){
-        url = link.C_URL+"getLocationList";
+        url = link.C_URL+"location";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

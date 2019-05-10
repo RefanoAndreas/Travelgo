@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,9 +20,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -42,7 +49,7 @@ public class TourDetail extends AppCompatActivity {
     int[] sampleImages = {R.drawable.background2, R.drawable.background3, R.drawable.background4, R.drawable.background5, R.drawable.background6};
     String location_id, url;
     RequestQueue requestQueue;
-    TextView locationName, locationDesc, total_packages_label, total_price_label, payPackageBtn;
+    TextView locationName, locationDesc, total_packages_label, total_price_label, payPackageBtn, TV_tour_name;
 
     RecyclerView list;
     ArrayList<JSONObject> array = new ArrayList<>();
@@ -72,6 +79,7 @@ public class TourDetail extends AppCompatActivity {
         total_packages_label = (TextView) findViewById(R.id.tourDetail_totalPackages);
         total_price_label = (TextView) findViewById(R.id.tourDetail_totalPrice);
         payPackageBtn = (TextView)findViewById(R.id.payPackageBtn);
+        TV_tour_name = (TextView)findViewById(R.id.TV_tour_name);
 
         payPackageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,7 +167,7 @@ public class TourDetail extends AppCompatActivity {
         carouselView = (CarouselView) findViewById(R.id.tourDetail_Carousel);
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);
-//        detailLocation();
+        detailLocation();
 //        getLocationPhoto();
     }
 
@@ -193,16 +201,18 @@ public class TourDetail extends AppCompatActivity {
     }
 
     public void detailLocation(){
-        url = link.C_URL+"getPlaceDetail.php?id="+location_id;
+        url = link.C_URL+"tour/trip/detail?id="+location_id;
+
+        Log.d("url", url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    if(response.getString("status").equals("success")){
-                        locationName.setText(response.getJSONObject("data").getString("name"));
-                        locationDesc.setText(response.getJSONObject("data").getString("description"));
-                    }
+                    JSONObject jsonObject = response.getJSONObject("trip");
+                    locationName.setText(jsonObject.getString("name"));
+                    TV_tour_name.setText(jsonObject.getString("tour_name"));
+                    locationDesc.setText(jsonObject.getString("description"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -210,7 +220,29 @@ public class TourDetail extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("error",error.getMessage());
+                CoordinatorLayout layout=(CoordinatorLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
             }
         });
 

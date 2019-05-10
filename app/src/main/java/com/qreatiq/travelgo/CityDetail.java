@@ -45,6 +45,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.qreatiq.travelgo.Utils.BaseActivity;
+import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -54,9 +55,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
 
 
 public class CityDetail extends BaseActivity {
@@ -161,17 +166,7 @@ public class CityDetail extends BaseActivity {
         carouselView.setImageListener(imageListener);
 
         detailLocation();
-//        getLocationPhoto();
 
-//        carouselView.setPageCount(sampleImages.length);
-//        carouselView.setImageListener(imageListener);
-
-
-//        cityList.add(new CityDetailItem(R.drawable.background2, "Kuta, Bali"));
-//        cityList.add(new CityDetailItem(R.drawable.background3, "Lombok, NTB"));
-//        cityList.add(new CityDetailItem(R.drawable.background4, "Komodo, NTT"));
-//        cityList.add(new CityDetailItem(R.drawable.background5, "Madura, East Java"));
-//        cityList.add(new CityDetailItem(R.drawable.background6, "Bawean, East java"));
 
         mRecyclerView = findViewById(R.id.RV_cityDetail);
         mRecyclerView.setHasFixedSize(true);
@@ -187,9 +182,28 @@ public class CityDetail extends BaseActivity {
     ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(int position, ImageView imageView) {
+            OkHttpClient client = new OkHttpClient.Builder()
+                    .addInterceptor(new Interceptor() {
+                        @Override
+                        public okhttp3.Response intercept(Chain chain) throws IOException {
+                            okhttp3.Request newRequest = null;
+                            newRequest = chain.request().newBuilder()
+                                    .addHeader("Content-Type", "application/json")
+                                    .addHeader("Accept", "application/json")
+                                    .addHeader("Authorization", userID)
+                                    .build();
+                            return chain.proceed(newRequest);
+                        }
+                    })
+                    .build();
+
+            Picasso picasso = new Picasso.Builder(CityDetail.this)
+                    .downloader(new OkHttp3Downloader(client))
+                    .build();
+
             try {
                 urlPhoto = link.C_URL_IMAGES+"location?image="+locPhoto.get(position).getString("urlPhoto")+"&mime="+locPhoto.get(position).getString("mimePhoto");
-                Picasso.get().load(urlPhoto).into(imageView);
+                picasso.load(urlPhoto).placeholder(R.mipmap.ic_launcher).into(imageView);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -197,59 +211,9 @@ public class CityDetail extends BaseActivity {
     };
 
 
-    public void getLocationPhoto(){
-        url = link.C_URL+"locationDetail?id="+location_id;
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray jsonArray = response.getJSONArray("photo");
-                    for (int x=0; x<jsonArray.length();x++){
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("urlPhoto", jsonArray.getJSONObject(x).getString("urlPhoto"));
-                        locPhoto.add(jsonObject);
-                    }
-                    carouselView.setPageCount(locPhoto.size());
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                String message="";
-                CoordinatorLayout layout=(CoordinatorLayout) findViewById(R.id.layout);
-                if (error instanceof NetworkError) {
-                    message="Network Error";
-                }
-                else if (error instanceof ServerError) {
-                    message="Server Error";
-                }
-                else if (error instanceof AuthFailureError) {
-                    message="Authentication Error";
-                }
-                else if (error instanceof ParseError) {
-                    message="Parse Error";
-                }
-                else if (error instanceof NoConnectionError) {
-                    message="Connection Missing";
-                }
-                else if (error instanceof TimeoutError) {
-                    message="Server Timeout Reached";
-                }
-                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
-                snackbar.show();
-            }
-        });
-
-        requestQueue.add(jsonObjectRequest);
-    }
-
 
     public void detailLocation(){
-        url = link.C_URL+"locationDetail?id="+location_id;
+        url = link.C_URL+"cityDetail?id="+location_id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -277,6 +241,8 @@ public class CityDetail extends BaseActivity {
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("photo", urlPhoto);
                         jsonObject.put("name", jsonArrayVisitPlace.getJSONObject(x).getString("name"));
+
+                        jsonObject.put("user", userID);
                         cityList.add(jsonObject);
                     }
                     mAdapter.notifyDataSetChanged();

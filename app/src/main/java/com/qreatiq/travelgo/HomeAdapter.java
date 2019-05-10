@@ -1,7 +1,9 @@
 package com.qreatiq.travelgo;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -14,12 +16,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesViewHolder> {
 
@@ -88,10 +98,34 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
 
     @Override
     public void onBindViewHolder(@NonNull HomePackagesViewHolder homePackagesViewHolder, int i) {
-        JSONObject jsonObject = mHomeList.get(i);
+        final JSONObject jsonObject = mHomeList.get(i);
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request newRequest = null;
+                        try {
+                            newRequest = chain.request().newBuilder()
+                                    .addHeader("Content-Type", "application/json")
+                                    .addHeader("Accept", "application/json")
+                                    .addHeader("Authorization", jsonObject.getString("user"))
+                                    .build();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        return chain.proceed(newRequest);
+                    }
+                })
+                .build();
+
+        Picasso picasso = new Picasso.Builder(context)
+                .downloader(new OkHttp3Downloader(client))
+                .build();
+
 
         try {
-            Picasso.get().load(jsonObject.getString("location_photo")).placeholder(R.mipmap.ic_launcher).into(homePackagesViewHolder.mRoundedImageView);
+            picasso.load(jsonObject.getString("location_photo")).placeholder(R.mipmap.ic_launcher).into(homePackagesViewHolder.mRoundedImageView);
 
             homePackagesViewHolder.mTextView1.setText(jsonObject.getString("location_name"));
             homePackagesViewHolder.mTextView2.setText(jsonObject.getString("location_description"));

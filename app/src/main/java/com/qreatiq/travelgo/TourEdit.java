@@ -217,7 +217,7 @@ public class TourEdit extends BaseActivity {
 
             logLargeString(json.toString());
 
-            url = link.C_URL + "saveTourProfile";
+            url = link.C_URL + "tourProfile";
 //        Log.d("data", json.toString());
 //        Log.d("url", url);
 

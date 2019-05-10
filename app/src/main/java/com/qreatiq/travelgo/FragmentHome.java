@@ -134,7 +134,7 @@ public class FragmentHome extends Fragment {
     }
 
     private void getLocation(){
-        url = link.C_URL+"home/locationList";
+        url = link.C_URL+"home";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -142,22 +142,15 @@ public class FragmentHome extends Fragment {
                 try {
                     JSONArray jsonArray = response.getJSONArray("location");
                     for(int x=0; x<jsonArray.length(); x++){
-//                        homeList.add(new JSONObject(urlPhoto+jsonArray.getJSONObject(x).getString("urlPhoto")
-//                                +"&mime="+jsonArray.getJSONObject(x).getString("mimePhoto"), jsonArray.getJSONObject(x).getString("name")
-//                                , jsonArray.getJSONObject(x).getString("description"), jsonArray.getJSONObject(x).getString("id")));
-
                         urlPhoto = link.C_URL_IMAGES+"location?image="+jsonArray.getJSONObject(x).getString("urlPhoto")+"&mime="+jsonArray.getJSONObject(x).getString("mimePhoto");
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("location_photo", urlPhoto);
                         jsonObject.put("location_name", jsonArray.getJSONObject(x).getString("name"));
                         jsonObject.put("location_description", jsonArray.getJSONObject(x).getString("description"));
                         jsonObject.put("location_id", jsonArray.getJSONObject(x).getString("id"));
-                        homeList.add(jsonObject);
 
-//                        homeList.add(new JSONObject("{\"locationPhoto\": "+urlPhoto+", " +
-//                                "\"location_name\": "+jsonArray.getJSONObject(x).getString("name")+", " +
-//                                "\"location_description\": "+jsonArray.getJSONObject(x).getString("description")+", " +
-//                                "\"location_description\": "+jsonArray.getJSONObject(x).getString("description")+""}"));
+                        jsonObject.put("user", userID);
+                        homeList.add(jsonObject);
 
                     }
                     mAdapter.notifyDataSetChanged();

@@ -42,13 +42,16 @@ public class FragmentTour extends Fragment {
     private RecyclerView mRecyclerView;
     private TourAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    ArrayList<TourItem> tourList = new ArrayList<>();
+    ArrayList<JSONObject> tourList = new ArrayList<>();
     RequestQueue requestQueue;
     String url, userID;
     SharedPreferences user_id;
     String loc_id="";
     EditText search;
     ImageView tourFilterBtn;
+
+    Intent intent;
+    String intentString;
 
     BottomNavContainer parent;
 
@@ -85,13 +88,13 @@ public class FragmentTour extends Fragment {
 
         requestQueue = Volley.newRequestQueue(getActivity());
 
-//        getPackage();
+        getTrip();
 
-        tourList.add(new TourItem(sampleImages1, "Kuta Bali Tour", "Rp 2.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
-        tourList.add(new TourItem(sampleImages2, "Lombok NTB Tour", "Rp 3.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
-        tourList.add(new TourItem(sampleImages3, "Komodo NTT Tour", "Rp 4.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
-        tourList.add(new TourItem(sampleImages4, "Madura East Java Tour", "Rp 5.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
-        tourList.add(new TourItem(sampleImages5, "Bawean East Java Tour", "Rp 6.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
+//        tourList.add(new TourItem(sampleImages1, "Kuta Bali Tour", "Rp 2.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
+//        tourList.add(new TourItem(sampleImages2, "Lombok NTB Tour", "Rp 3.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
+//        tourList.add(new TourItem(sampleImages3, "Komodo NTT Tour", "Rp 4.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
+//        tourList.add(new TourItem(sampleImages4, "Madura East Java Tour", "Rp 5.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
+//        tourList.add(new TourItem(sampleImages5, "Bawean East Java Tour", "Rp 6.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
 
         mRecyclerView = view.findViewById(R.id.tour_RV);
         mRecyclerView.setHasFixedSize(true);
@@ -107,7 +110,11 @@ public class FragmentTour extends Fragment {
         mAdapter.setOnItemClickListner(new TourAdapter.ClickListener() {
             @Override
             public void onItemClick(int position) {
-                startActivity(new Intent(getActivity(), TourDetail.class).putExtra("idLocation", tourList.get(position).getID()));
+                try {
+                    startActivity(new Intent(getActivity(), TourDetail.class).putExtra("idLocation", tourList.get(position).getString("id")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -119,38 +126,35 @@ public class FragmentTour extends Fragment {
             }
         });
 
-
-//        ArrayList<TourListItem> tourListPackagesList = new ArrayList<>();
-//        tourListPackagesList.add(new TourListItem(R.drawable.background2, "Rodex Tour", "11/04/2019", "12/04/2019"));
-//        tourListPackagesList.add(new TourListItem(R.drawable.background3, "Rodex Tour", "11/04/2019", "12/04/2019"));
-//        tourListPackagesList.add(new TourListItem(R.drawable.background4, "Rodex Tour", "11/04/2019", "12/04/2019"));
-//        tourListPackagesList.add(new TourListItem(R.drawable.background5, "Rodex Tour", "11/04/2019", "12/04/2019"));
-//        tourListPackagesList.add(new TourListItem(R.drawable.background6, "Rodex Tour", "11/04/2019", "12/04/2019"));
-//
-//        mRecyclerView = view.findViewById(R.id.RV_tourListPackages);
-//        mRecyclerView.setHasFixedSize(true);
-//        mLayoutManager = new LinearLayoutManager(getActivity());
-//        mAdapter = new TourListAdapter(tourListPackagesList);
-//
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        mRecyclerView.setAdapter(mAdapter);
     }
 
-    private void getPackage(){
-        url = link.C_URL+"getPackage.php?location="+loc_id;
-        Log.d("urlPackage",url);
+    private void getTrip(){
+        url = link.C_URL+"tour/trip?loc_id="+parent.fragmentTour.loc_id;
+
+        Log.d("linkURL", url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONArray jsonArray = response.getJSONArray("package");
+                    JSONArray jsonArray = response.getJSONArray("trip");
                     for(int x=0; x<jsonArray.length(); x++){
-                        tourList.add(new TourItem(sampleImages1,
-                                jsonArray.getJSONObject(x).getString("tour"),
-                                "Rp 2.500.000",
-                                jsonArray.getJSONObject(x).getString("description"),
-                                jsonArray.getJSONObject(x).getString("id")));
+
+                        JSONObject jsonObject = new JSONObject();
+
+                        jsonObject.put("photo", jsonArray.getJSONObject(x).getJSONArray("photo"));
+                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
+                        jsonObject.put("trip_name", jsonArray.getJSONObject(x).getString("name"));
+                        jsonObject.put("trip_price", jsonArray.getJSONObject(x).getString("price"));
+                        jsonObject.put("trip_description", jsonArray.getJSONObject(x).getString("description"));
+
+                        tourList.add(jsonObject);
+
+//                        tourList.add(new TourItem(sampleImages1,
+//                                jsonArray.getJSONObject(x).getString("tour"),
+//                                "Rp 2.500.000",
+//                                jsonArray.getJSONObject(x).getString("description"),
+//                                jsonArray.getJSONObject(x).getString("id")));
                         mAdapter.notifyItemInserted(x);
                     }
                 } catch (JSONException e) {

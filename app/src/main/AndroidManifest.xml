@@ -82,7 +82,6 @@
         <activity
             android:name=".TourDetail"
             android:label="Detail Tour" />
-        <activity android:name=".Tour" />
         <activity android:name=".Home" />
         <activity android:name=".BottomNavContainer" />
         <activity

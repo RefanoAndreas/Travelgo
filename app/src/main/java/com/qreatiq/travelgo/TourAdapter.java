@@ -14,14 +14,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 
 public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesViewHolder> {
 
-    private ArrayList<TourItem> mTourPackagesList;
+    private ArrayList<JSONObject> mTourPackagesList;
     Context context;
     ClickListener clickListener;
 
@@ -55,7 +63,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesVi
         this.clickListener = clickListner;
     }
 
-    public TourAdapter(ArrayList<TourItem> tourPackageslist, Context context){
+    public TourAdapter(ArrayList<JSONObject> tourPackageslist, Context context){
         mTourPackagesList = tourPackageslist;
         this.context = context;
     }
@@ -69,19 +77,51 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesVi
 
     @Override
     public void onBindViewHolder(final TourPackagesViewHolder tourPackagesViewHolder, int i) {
-        final TourItem currentItem = mTourPackagesList.get(i);
+        final JSONObject jsonObject = mTourPackagesList.get(i);
 
-        tourPackagesViewHolder.mTextView1.setText(currentItem.getText1());
-        tourPackagesViewHolder.mTextView2.setText(currentItem.getText2());
-        tourPackagesViewHolder.mTextView3.setText(currentItem.getText3());
-        tourPackagesViewHolder.carouselView.setPageCount(currentItem.getImageCarousel().length);
+//        tourPackagesViewHolder.mTextView1.setText(currentItem.getText1());
+//        tourPackagesViewHolder.mTextView2.setText(currentItem.getText2());
+//        tourPackagesViewHolder.mTextView3.setText(currentItem.getText3());
+//        tourPackagesViewHolder.carouselView.setPageCount(currentItem.getImageCarousel().length);
+//
+//        tourPackagesViewHolder.carouselView.setImageListener(new ImageListener() {
+//            @Override
+//            public void setImageForPosition(int position, ImageView imageView) {
+//                imageView.setImageResource(currentItem.getImageCarousel()[position]);
+//            }
+//        });
 
-        tourPackagesViewHolder.carouselView.setImageListener(new ImageListener() {
-            @Override
-            public void setImageForPosition(int position, ImageView imageView) {
-                imageView.setImageResource(currentItem.getImageCarousel()[position]);
-            }
-        });
+        try {
+            tourPackagesViewHolder.mTextView1.setText(jsonObject.getString("trip_name"));
+
+            NumberFormat formatter = new DecimalFormat("#,###");
+            String formattedNumber = formatter.format(Double.parseDouble(jsonObject.getString("trip_price")));
+            tourPackagesViewHolder.mTextView2.setText("Rp. " + formattedNumber);
+
+            tourPackagesViewHolder.mTextView3.setText(jsonObject.getString("trip_description"));
+
+            tourPackagesViewHolder.carouselView.setPageCount(jsonObject.getJSONArray("photo").length());
+            tourPackagesViewHolder.carouselView.setImageListener(new ImageListener() {
+                @Override
+                public void setImageForPosition(int position, ImageView imageView) {
+                    try {
+
+                        Picasso.get()
+                                .load(link.C_URL_IMAGES + "trip?image=" + jsonObject.getJSONArray("photo").getJSONObject(position).getString("urlPhoto")
+                                        +"&mime="+jsonObject.getJSONArray("photo").getJSONObject(position).getString("mimePhoto"))
+                                .placeholder(R.mipmap.ic_launcher)
+                                .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                                .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
+                                .into(imageView);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         if(i == 0){
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(

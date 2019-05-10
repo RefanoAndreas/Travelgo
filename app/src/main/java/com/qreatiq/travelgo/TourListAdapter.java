@@ -1,5 +1,7 @@
 package com.qreatiq.travelgo;
 
+import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,14 +12,35 @@ import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourListPackagesViewHolder> {
 
-    private ArrayList<TourListItem> mTourListPackagesList;
+    ArrayList<JSONObject> tripList;
+    Context context;
 
-    public static class TourListPackagesViewHolder extends RecyclerView.ViewHolder{
+    public TourListAdapter(ArrayList<JSONObject> tripList, Context context){
+        this.tripList = tripList;
+        this.context = context;
+    }
+
+    public class TourListPackagesViewHolder extends RecyclerView.ViewHolder {
         public RoundedImageView mRoundedImageView;
         public TextView mTextView1;
         public TextView mTextView2;
@@ -26,8 +49,9 @@ public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourLi
         ConstraintLayout view_foreground;
         RelativeLayout view_background;
 
-        public TourListPackagesViewHolder(View itemView) {
+        public TourListPackagesViewHolder(@NonNull View itemView) {
             super(itemView);
+
             mRoundedImageView = itemView.findViewById(R.id.itemRV_RIV_tourListPackages);
             mTextView1 = itemView.findViewById(R.id.itemRV_TV_title_tourListPackages);
             mTextView2 = itemView.findViewById(R.id.itemRV_TV_dateFrom_tourListPackages);
@@ -35,72 +59,38 @@ public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourLi
 
             view_foreground = itemView.findViewById(R.id.view_foreground);
             view_background = itemView.findViewById(R.id.view_background);
-
-//            swipeLayout = itemView.findViewById(R.id.Swipe_TourListPackages);
-
-            //add drag edge.(If the BottomView has 'layout_gravity' attribute, this line is unnecessary)
-//            swipeLayout.addDrag(SwipeLayout.DragEdge.Right, itemView.findViewById(R.id.bottom_wrapper));
         }
     }
 
-    public TourListAdapter(ArrayList<TourListItem> tourListPackageslist){
-        mTourListPackagesList = tourListPackageslist;
-    }
-
+    @NonNull
     @Override
-    public TourListPackagesViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public TourListAdapter.TourListPackagesViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.tourlist_itemswipe, viewGroup,false);
-        TourListPackagesViewHolder tlpvh = new TourListPackagesViewHolder(v);
-        return tlpvh;
+        return new TourListPackagesViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(TourListPackagesViewHolder tourListPackagesViewHolder, int i) {
-        TourListItem currentItem = mTourListPackagesList.get(i);
+    public void onBindViewHolder(@NonNull TourListAdapter.TourListPackagesViewHolder tourListPackagesViewHolder, int i) {
+        final JSONObject jsonObject = tripList.get(i);
 
-        tourListPackagesViewHolder.mRoundedImageView.setImageResource(currentItem.getImageResources());
-        tourListPackagesViewHolder.mTextView1.setText(currentItem.getText1());
-        tourListPackagesViewHolder.mTextView2.setText(currentItem.getText2());
-        tourListPackagesViewHolder.mTextView3.setText(currentItem.getText3());
 
-        //set show mode.
-//        tourListPackagesViewHolder.swipeLayout.setShowMode(SwipeLayout.ShowMode.LayDown);
-//
-//        tourListPackagesViewHolder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
-//            @Override
-//            public void onClose(SwipeLayout layout) {
-//                //when the SurfaceView totally cover the BottomView.
-//            }
-//
-//            @Override
-//            public void onUpdate(SwipeLayout layout, int leftOffset, int topOffset) {
-//                //you are swiping.
-//            }
-//
-//            @Override
-//            public void onStartOpen(SwipeLayout layout) {
-//
-//            }
-//
-//            @Override
-//            public void onOpen(SwipeLayout layout) {
-//                //when the BottomView totally show.
-//            }
-//
-//            @Override
-//            public void onStartClose(SwipeLayout layout) {
-//
-//            }
-//
-//            @Override
-//            public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
-//                //when user's hand released.
-//            }
-//        });
+        try {
+            Picasso.get().load(jsonObject.getString("photo")).placeholder(R.mipmap.ic_launcher).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE).into(tourListPackagesViewHolder.mRoundedImageView);
+
+            tourListPackagesViewHolder.mTextView1.setText(jsonObject.getString("trip_name"));
+            tourListPackagesViewHolder.mTextView2.setText(jsonObject.getString("start_date"));
+            tourListPackagesViewHolder.mTextView3.setText(jsonObject.getString("end_date"));
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mTourListPackagesList.size();
+        return tripList.size();
     }
+
 }
