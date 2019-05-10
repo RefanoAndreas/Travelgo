@@ -27,6 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
+import com.ethanhua.skeleton.Skeleton;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONArray;
@@ -62,7 +63,7 @@ public class TourList extends BaseActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 
-        getTrip();
+
 
         mRecyclerView = findViewById(R.id.RV_tourListPackages);
         mRecyclerView.setHasFixedSize(true);
@@ -100,11 +101,18 @@ public class TourList extends BaseActivity {
             }
         });
 
-//        skeletonScreen = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_tour_list_item_swipe).show();
+        skeletonScreen = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_tour_list_item_swipe).show();
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getTrip();
+    }
+
     private void getTrip(){
+        tourListPackagesList.clear();
         url = link.C_URL+"trip";
 
         Log.d("token", userID);
@@ -124,14 +132,18 @@ public class TourList extends BaseActivity {
                                 +"&mime="+jsonArray.getJSONObject(x).getString("mimePhoto");
                         jsonObject.put("photo", urlPhoto);
                         jsonObject.put("trip_name", jsonArray.getJSONObject(x).getString("name"));
-                        jsonObject.put("start_date", jsonArray.getJSONObject(x).getString("start_date"));
-                        jsonObject.put("end_date", jsonArray.getJSONObject(x).getString("end_date"));
+                        jsonObject.put("start_date", jsonArray.getJSONObject(x).getString("start_date_display"));
+                        jsonObject.put("end_date", jsonArray.getJSONObject(x).getString("end_date_display"));
 
                         tourListPackagesList.add(jsonObject);
-                        mAdapter.notifyItemInserted(x);
-                        mAdapter.notifyItemRangeChanged(x, tourListPackagesList.size()-1);
+                        if(x != 0)
+                            mAdapter.notifyItemInserted(x);
+                        else
+                            mAdapter.notifyDataSetChanged();
+//                        mAdapter.notifyItemRangeChanged(x, tourListPackagesList.size());
                     }
-//                    skeletonScreen.hide();
+
+                    skeletonScreen.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

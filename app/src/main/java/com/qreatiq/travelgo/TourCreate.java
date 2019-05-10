@@ -2,6 +2,7 @@ package com.qreatiq.travelgo;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -79,7 +80,7 @@ public class TourCreate extends BaseActivity {
     ArrayList<JSONObject> tour_pack_array = new ArrayList<JSONObject>();
     TourCreateTourPackageAdapter tour_pack_adapter;
 
-    ArrayList<String> array = new ArrayList<String>();
+    ArrayList<JSONObject> array = new ArrayList<JSONObject>();
     TourCreateFacilitiesAdapter adapter;
     GridView grid;
 
@@ -98,7 +99,7 @@ public class TourCreate extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_create);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("access_token", "Data not found");
@@ -115,6 +116,9 @@ public class TourCreate extends BaseActivity {
         layout=(ConstraintLayout) findViewById(R.id.layout);
         tripName = (TextInputEditText)findViewById(R.id.name);
         tripDesc = (TextInputEditText)findViewById(R.id.tripDescription);
+
+        adapter = new TourCreateFacilitiesAdapter(array,TourCreate.this);
+        grid.setAdapter(adapter);
 
         try {
             photo_array.add(new JSONObject("{\"background\": "+R.drawable.upload_photo+", \"is_button_upload\": true}"));
@@ -210,6 +214,20 @@ public class TourCreate extends BaseActivity {
                 createTrip();
             }
         });
+
+        adapter.setOnItemClickListner(new TourCreateFacilitiesAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, boolean isChecked) {
+                JSONObject json = array.get(position);
+                try {
+                    json.put("checked",isChecked);
+                    array.set(position,json);
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void getFacilities(){
@@ -221,10 +239,13 @@ public class TourCreate extends BaseActivity {
                 try {
                     array.clear();
                     for(int x=0; x<response.getJSONArray("facilities").length(); x++){
-                        array.add(response.getJSONArray("facilities").getJSONObject(x).getString("name"));
+                        JSONObject json = new JSONObject();
+                        json.put("name",response.getJSONArray("facilities").getJSONObject(x).getString("name"));
+                        json.put("id",response.getJSONArray("facilities").getJSONObject(x).getString("id"));
+                        json.put("checked",false);
+                        array.add(json);
                     }
-                    adapter = new TourCreateFacilitiesAdapter(array,TourCreate.this);
-                    grid.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -403,18 +424,21 @@ public class TourCreate extends BaseActivity {
 
         JSONObject json = new JSONObject();
         try {
-            JSONArray array = new JSONArray();
+            JSONArray array_background = new JSONArray(photo_array.toString());
+            JSONArray array_trip_pack = new JSONArray(tour_pack_array.toString());
 
-            for(int x=0;x<photo_array.size();x++)
-                array.put(x,photo_array.get(x));
+            JSONArray array_facilities = new JSONArray();
+            int counter = 0;
+            for(int x=0;x<array.size();x++){
+                if(array.get(x).getBoolean("checked")) {
+                    array_facilities.put(counter, array.get(x));
+                    counter++;
+                }
+            }
 
-            JSONArray array1 = new JSONArray();
-
-            for(int x=0;x<tour_pack_array.size();x++)
-                array1.put(x,tour_pack_array.get(x));
-
-            json.put("background", array);
-            json.put("tripPack", array1);
+            json.put("background", array_background);
+            json.put("tripPack", array_trip_pack);
+            json.put("facilities", array_facilities);
             json.put("trip_name", tripName.getText());
             json.put("trip_desc", tripDesc.getText());
             json.put("start_date", start_date.getText());
@@ -424,17 +448,35 @@ public class TourCreate extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        final ProgressDialog loading = new ProgressDialog(this);
+        loading.setMax(100);
+        loading.setTitle("Registering");
+        loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        loading.setCancelable(false);
+        loading.setProgress(0);
+        loading.show();
+
         Log.d("data",json.toString());
         Log.d("auth",userID);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Log.d("data",response.toString());
+                try {
+                    loading.dismiss();
+                    if(response.getString("status").equals("success")){
+                        onBackPressed();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
+
                 String message = "";
                 if (error instanceof NetworkError) {
                     message = "Network Error";

@@ -6,16 +6,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class TourCreateFacilitiesAdapter extends BaseAdapter {
 
-    ArrayList<String> array;
+    ArrayList<JSONObject> array;
     Context context;
-    public TourCreateFacilitiesAdapter(ArrayList<String> array, Context context){
+    ClickListener clickListener;
+
+    public TourCreateFacilitiesAdapter(ArrayList<JSONObject> array, Context context){
         this.array = array;
         this.context = context;
+    }
+
+    public void setOnItemClickListner(ClickListener clickListner){
+        this.clickListener= clickListner;
     }
 
     @Override
@@ -34,7 +44,7 @@ public class TourCreateFacilitiesAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(context);
@@ -42,8 +52,22 @@ public class TourCreateFacilitiesAdapter extends BaseAdapter {
         }
 
         AppCompatCheckBox checkBox = (AppCompatCheckBox) convertView.findViewById(R.id.checkbox);
-        checkBox.setText(this.array.get(position));
+        try {
+            checkBox.setText(this.array.get(position).getString("name"));
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    clickListener.onItemClick(position,isChecked);
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         return convertView;
+    }
+
+    public interface ClickListener{
+        void onItemClick(int position,boolean isChecked);
     }
 }
