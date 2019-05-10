@@ -145,7 +145,7 @@ public class FragmentTour extends Fragment {
                         jsonObject.put("photo", jsonArray.getJSONObject(x).getJSONArray("photo"));
                         jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
                         jsonObject.put("trip_name", jsonArray.getJSONObject(x).getString("name"));
-                        jsonObject.put("trip_price", jsonArray.getJSONObject(x).getString("price"));
+                        jsonObject.put("trip_price", jsonArray.getJSONObject(x).getString("trip_price"));
                         jsonObject.put("trip_description", jsonArray.getJSONObject(x).getString("description"));
 
                         tourList.add(jsonObject);

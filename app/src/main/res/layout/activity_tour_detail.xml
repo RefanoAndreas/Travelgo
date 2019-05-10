@@ -79,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:text="Managed by Rodex Tour"/>
             <TextView
+                android:id="@+id/TV_trip_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="11/04/2019 - 12/04/2019 @ Kuta, Bali"/>

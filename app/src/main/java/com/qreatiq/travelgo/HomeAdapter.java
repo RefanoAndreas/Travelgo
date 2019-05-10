@@ -100,32 +100,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
     public void onBindViewHolder(@NonNull HomePackagesViewHolder homePackagesViewHolder, int i) {
         final JSONObject jsonObject = mHomeList.get(i);
 
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request newRequest = null;
-                        try {
-                            newRequest = chain.request().newBuilder()
-                                    .addHeader("Content-Type", "application/json")
-                                    .addHeader("Accept", "application/json")
-                                    .addHeader("Authorization", jsonObject.getString("user"))
-                                    .build();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        return chain.proceed(newRequest);
-                    }
-                })
-                .build();
-
-        Picasso picasso = new Picasso.Builder(context)
-                .downloader(new OkHttp3Downloader(client))
-                .build();
-
-
         try {
-            picasso.load(jsonObject.getString("location_photo")).placeholder(R.mipmap.ic_launcher).into(homePackagesViewHolder.mRoundedImageView);
+            Picasso.get().load(jsonObject.getString("location_photo")).placeholder(R.mipmap.ic_launcher).into(homePackagesViewHolder.mRoundedImageView);
 
             homePackagesViewHolder.mTextView1.setText(jsonObject.getString("location_name"));
             homePackagesViewHolder.mTextView2.setText(jsonObject.getString("location_description"));

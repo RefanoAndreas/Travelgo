@@ -100,6 +100,7 @@
                             android:orientation="vertical"
                             android:layout_weight="1">
                             <TextView
+                                android:id="@+id/TV_status_transaction"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -107,6 +108,7 @@
                                 android:textColor="#0DD32C"
                                 android:text="Success"/>
                             <TextView
+                                android:id="@+id/TV_buy_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -115,6 +117,7 @@
                                 android:textColor="#263238"
                                 android:text="05/08/2019"/>
                             <TextView
+                                android:id="@+id/TV_trip_date"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -123,6 +126,7 @@
                                 android:textColor="#263238"
                                 android:text="02/09/2019 - 02/10/2019"/>
                             <TextView
+                                android:id="@+id/TV_trip_location"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -208,14 +212,21 @@
                         android:layout_height="wrap_content"
                         android:padding="16dp"
                         android:orientation="vertical">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textColor="#7D7D7D"
-                        android:text="Paket Perjalanan"/>
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#7D7D7D"
+                            android:text="Paket Perjalanan"/>
 
-                    <include
-                        layout="@layout/transaction_detail_item"/>
+                        <!--<include-->
+                            <!--layout="@layout/transaction_detail_item"/>-->
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/RV_tripPack"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                        </android.support.v7.widget.RecyclerView>
+
 
                     </LinearLayout>
 
@@ -238,6 +249,7 @@
                             android:fontFamily="@font/montserrat_semi_bold"
                             android:layout_weight="1"/>
                         <TextView
+                            android:id="@+id/TV_total_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Rp. 2.500.000"
@@ -269,6 +281,7 @@
                         android:textColor="#424242"
                         android:layout_weight="1"/>
                     <TextView
+                        android:id="@+id/TV_tour_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="08123456789"

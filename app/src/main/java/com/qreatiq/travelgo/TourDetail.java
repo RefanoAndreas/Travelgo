@@ -47,9 +47,11 @@ import java.util.ArrayList;
 public class TourDetail extends AppCompatActivity {
     CarouselView carouselView;
     int[] sampleImages = {R.drawable.background2, R.drawable.background3, R.drawable.background4, R.drawable.background5, R.drawable.background6};
-    String location_id, url;
+    String location_id, url, urlPhoto;
     RequestQueue requestQueue;
-    TextView locationName, locationDesc, total_packages_label, total_price_label, payPackageBtn, TV_tour_name;
+    TextView locationName, locationDesc, total_packages_label, total_price_label, payPackageBtn;
+    TextView TV_trip_date, TV_tour_name;
+    String trip_date, trip_location, tour_phone;
 
     RecyclerView list;
     ArrayList<JSONObject> array = new ArrayList<>();
@@ -80,13 +82,7 @@ public class TourDetail extends AppCompatActivity {
         total_price_label = (TextView) findViewById(R.id.tourDetail_totalPrice);
         payPackageBtn = (TextView)findViewById(R.id.payPackageBtn);
         TV_tour_name = (TextView)findViewById(R.id.TV_tour_name);
-
-        payPackageBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(TourDetail.this, TransactionDetail.class).putExtra("origin", "pay"));
-            }
-        });
+        TV_trip_date = (TextView)findViewById(R.id.TV_trip_date);
 
         CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) scroll.getLayoutParams();
         lp.bottomMargin = 0;
@@ -98,16 +94,10 @@ public class TourDetail extends AppCompatActivity {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         list.setLayoutManager(mLayoutManager);
 
-        try {
-            array.add(new JSONObject("{\"name\": \"Bali Tour\",\"price\": 456464}"));
-            array.add(new JSONObject("{\"name\": \"Bali Tour\",\"price\": 123}"));
-            array.add(new JSONObject("{\"name\": \"Bali Tour\",\"price\": 789798}"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         adapter = new TourDetailAdapter(array);
         list.setAdapter(adapter);
+
+        detailLocation();
 
         adapter.setOnChangeQuantityListener(new TourDetailAdapter.ClickListener() {
             @Override
@@ -162,13 +152,28 @@ public class TourDetail extends AppCompatActivity {
             }
         });
 
+
+        payPackageBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(TourDetail.this, TransactionDetail.class)
+                        .putExtra("origin", "pay")
+                        .putExtra("trip_pack", array.toString())
+                        .putExtra("trip_date", trip_date)
+                        .putExtra("trip_location", trip_location)
+                        .putExtra("total_price", total_price)
+                        .putExtra("tour_phone", tour_phone)
+                );
+            }
+        });
+
         link.setToolbar(this);
 
         carouselView = (CarouselView) findViewById(R.id.tourDetail_Carousel);
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);
-        detailLocation();
-//        getLocationPhoto();
+
     }
 
     public void set_cart(){
@@ -195,11 +200,6 @@ public class TourDetail extends AppCompatActivity {
         }
     };
 
-    public void getLocationPhoto(){
-        url = link.C_URL+"getPhotoLocation.php?id="+location_id;
-
-    }
-
     public void detailLocation(){
         url = link.C_URL+"tour/trip/detail?id="+location_id;
 
@@ -211,8 +211,31 @@ public class TourDetail extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = response.getJSONObject("trip");
                     locationName.setText(jsonObject.getString("name"));
-                    TV_tour_name.setText(jsonObject.getString("tour_name"));
+                    TV_tour_name.setText("Managed by "+jsonObject.getString("tour_name"));
+                    TV_trip_date.setText(jsonObject.getString("trip_date")+" @ "+jsonObject.getString("location_trip"));
                     locationDesc.setText(jsonObject.getString("description"));
+
+                    tour_phone = jsonObject.getString("tour_phone");
+
+                    trip_date = jsonObject.getString("trip_date");
+                    trip_location = jsonObject.getString("location_trip");
+
+                    for (int x=0; x<jsonObject.getJSONArray("trip_pack").length();x++){
+                        JSONArray jsonArray = jsonObject.getJSONArray("trip_pack");
+
+                        JSONObject jsonObject1 = new JSONObject();
+                        urlPhoto = link.C_URL_IMAGES+"trip-pack?image="
+                                +jsonArray.getJSONObject(x).getString("urlPhoto")
+                                +"&mime="+jsonArray.getJSONObject(x).getString("mimePhoto");
+
+                        jsonObject1.put("id", jsonArray.getJSONObject(x).getString("id"));
+                        jsonObject1.put("photo", urlPhoto);
+                        jsonObject1.put("name", jsonArray.getJSONObject(x).getString("name"));
+                        jsonObject1.put("price", jsonArray.getJSONObject(x).getString("price"));
+                        array.add(jsonObject1);
+                    }
+                    adapter.notifyDataSetChanged();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
