@@ -56,7 +56,7 @@ public class TourList extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_list);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("access_token", "No data found");
@@ -113,7 +113,7 @@ public class TourList extends BaseActivity {
 
     private void getTrip(){
         tourListPackagesList.clear();
-        url = link.C_URL+"trip";
+        url = C_URL+"trip";
 
         Log.d("token", userID);
 

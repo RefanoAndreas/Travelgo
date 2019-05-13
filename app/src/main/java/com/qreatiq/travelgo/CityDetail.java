@@ -75,7 +75,6 @@ public class CityDetail extends BaseActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     String location_id, url, urlPhoto;
-    RequestQueue requestQueue;
     TextView locationName, expandBtn, description;
     ObjectAnimator animator;
     LinearLayout ratingLoc;
@@ -96,8 +95,6 @@ public class CityDetail extends BaseActivity {
 
         Intent i = getIntent();
         location_id = i.getStringExtra("idLocation");
-
-        requestQueue = Volley.newRequestQueue(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -213,7 +210,7 @@ public class CityDetail extends BaseActivity {
 
 
     public void detailLocation(){
-        url = link.C_URL+"cityDetail?id="+location_id;
+        url = C_URL+"cityDetail?id="+location_id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

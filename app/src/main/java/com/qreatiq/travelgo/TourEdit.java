@@ -67,7 +67,7 @@ public class TourEdit extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_edit);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         name = (TextInputEditText)findViewById(R.id.TIET_tourName_tourEdit);
 //        desc = (TextInputEditText)findViewById(R.id.TIET_tourDesc_tourEdit);
@@ -107,7 +107,7 @@ public class TourEdit extends BaseActivity {
     }
 
     public void getTourInfo(){
-        url = link.C_URL+"tourProfile";
+        url = C_URL+"tourProfile";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -217,7 +217,7 @@ public class TourEdit extends BaseActivity {
 
             logLargeString(json.toString());
 
-            url = link.C_URL + "tourProfile";
+            url = C_URL + "tourProfile";
 //        Log.d("data", json.toString());
 //        Log.d("url", url);
 

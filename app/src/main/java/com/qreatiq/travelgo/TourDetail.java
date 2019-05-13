@@ -32,6 +32,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.qreatiq.travelgo.Utils.BaseActivity;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
@@ -44,7 +45,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-public class TourDetail extends AppCompatActivity {
+public class TourDetail extends BaseActivity {
     CarouselView carouselView;
     int[] sampleImages = {R.drawable.background2, R.drawable.background3, R.drawable.background4, R.drawable.background5, R.drawable.background6};
     String location_id, url, urlPhoto;
@@ -68,6 +69,8 @@ public class TourDetail extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_detail);
+
+        set_toolbar();
 
         Intent i = getIntent();
         location_id = i.getStringExtra("idLocation");
@@ -186,8 +189,6 @@ public class TourDetail extends AppCompatActivity {
             }
         });
 
-        link.setToolbar(this);
-
         carouselView = (CarouselView) findViewById(R.id.tourDetail_Carousel);
         carouselView.setPageCount(sampleImages.length);
         carouselView.setImageListener(imageListener);
@@ -219,7 +220,7 @@ public class TourDetail extends AppCompatActivity {
     };
 
     public void detailLocation(){
-        url = link.C_URL+"tour/trip/detail?id="+location_id;
+        url = C_URL+"tour/trip/detail?id="+location_id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
