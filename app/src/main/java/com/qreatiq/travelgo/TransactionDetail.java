@@ -210,12 +210,10 @@ public class TransactionDetail extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Log.d("json", jsonObject.toString());
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
+                startActivity(new Intent(TransactionDetail.this, BottomNavContainer.class));
             }
         }, new Response.ErrorListener() {
             @Override
