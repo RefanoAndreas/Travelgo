@@ -43,7 +43,7 @@ public class FlightSearch extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flight_search);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         flightSearch_icon = (LinearLayout) findViewById(R.id.flightSearch_icon);
         kelas = (TextView) findViewById(R.id.kelas);

@@ -49,7 +49,6 @@ public class FragmentHome extends Fragment {
 
     String url, urlPhoto, userID;
     SharedPreferences user_id;
-    RequestQueue requestQueue;
     CardView tourBtn, flightBtn, hotelBtn, trainBtn;
     BottomNavContainer parent;
 
@@ -69,8 +68,6 @@ public class FragmentHome extends Fragment {
 
         parent = (BottomNavContainer) getActivity();
         parent.toolbar.setVisibility(View.GONE);
-
-        requestQueue = Volley.newRequestQueue(getActivity());
 
         tourBtn = (CardView)view.findViewById(R.id.tourBtn);
         tourBtn.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +131,7 @@ public class FragmentHome extends Fragment {
     }
 
     private void getLocation(){
-        url = link.C_URL+"home";
+        url = parent.C_URL+"home";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -196,6 +193,6 @@ public class FragmentHome extends Fragment {
             }
         };
 
-        requestQueue.add(jsonObjectRequest);
+        parent.requestQueue.add(jsonObjectRequest);
     }
 }

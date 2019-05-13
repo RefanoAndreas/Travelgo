@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.w3c.dom.Text;
 
@@ -19,7 +20,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class FilterTour extends AppCompatActivity {
+public class FilterTour extends BaseActivity {
 
     TextView minPrice, maxPrice, seeLocation, seeDuration, startDate, endDate;
     CrystalRangeSeekbar rangeSeekbar;
@@ -30,7 +31,7 @@ public class FilterTour extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_tour);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         rangeSeekbar = (CrystalRangeSeekbar)findViewById(R.id.rangeSeekbarPrice);
         minPrice = (TextView)findViewById(R.id.minimumPrice);

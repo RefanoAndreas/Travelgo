@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.qreatiq.travelgo.Utils.BaseActivity;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
@@ -23,7 +24,7 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-public class HotelDetail extends AppCompatActivity {
+public class HotelDetail extends BaseActivity {
 
     CarouselView carouselView;
     int[] sampleImages = {R.drawable.background2, R.drawable.background3, R.drawable.background4, R.drawable.background5, R.drawable.background6};
@@ -43,7 +44,7 @@ public class HotelDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel_detail);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         carouselView = (CarouselView) findViewById(R.id.hotel_Carousel);
         carouselView.setPageCount(sampleImages.length);

@@ -43,7 +43,6 @@ public class FragmentTour extends Fragment {
     private TourAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> tourList = new ArrayList<>();
-    RequestQueue requestQueue;
     String url, userID;
     SharedPreferences user_id;
     String loc_id="";
@@ -86,8 +85,6 @@ public class FragmentTour extends Fragment {
             }
         });
 
-        requestQueue = Volley.newRequestQueue(getActivity());
-
         getTrip();
 
 //        tourList.add(new TourItem(sampleImages1, "Kuta Bali Tour", "Rp 2.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
@@ -129,7 +126,7 @@ public class FragmentTour extends Fragment {
     }
 
     private void getTrip(){
-        url = link.C_URL+"tour/trip?loc_id="+parent.fragmentTour.loc_id;
+        url = parent.C_URL+"tour/trip?loc_id="+parent.fragmentTour.loc_id;
 
         Log.d("linkURL", url);
 
@@ -188,7 +185,7 @@ public class FragmentTour extends Fragment {
             }
         });
 
-        requestQueue.add(jsonObjectRequest);
+        parent.requestQueue.add(jsonObjectRequest);
     }
 
     @Override

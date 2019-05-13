@@ -15,6 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,7 +23,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class HistoryPurchasing extends AppCompatActivity {
+public class HistoryPurchasing extends BaseActivity {
 
     private RecyclerView mRecyclerView;
     private NotifikasiAdapter mAdapter;
@@ -30,7 +31,6 @@ public class HistoryPurchasing extends AppCompatActivity {
     ArrayList<JSONObject> historyList = new ArrayList<>();
     String url, user_ID;
     SharedPreferences userID;
-    RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +40,7 @@ public class HistoryPurchasing extends AppCompatActivity {
         userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         user_ID = userID.getString("user_id", "No Data Found");
 
-        requestQueue = Volley.newRequestQueue(this);
-
-        link.setToolbar(this);
+        set_toolbar();
 
 //        getHistory();
 
@@ -76,7 +74,7 @@ public class HistoryPurchasing extends AppCompatActivity {
     }
 
     private void getHistory(){
-        url = link.C_URL+"getInvoice.php?id="+user_ID;
+        url = C_URL+"getInvoice.php?id="+user_ID;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

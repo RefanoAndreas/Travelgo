@@ -24,7 +24,7 @@ public class FilterTourLocation extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_tour_location);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         gridViewLocation = (GridView) findViewById(R.id.GV_selectLocation);
         tour_search = (EditText) findViewById(R.id.tour_search);

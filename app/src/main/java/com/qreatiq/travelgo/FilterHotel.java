@@ -6,11 +6,12 @@ import android.widget.TextView;
 
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-public class FilterHotel extends AppCompatActivity {
+public class FilterHotel extends BaseActivity {
 
     TextView minPrice, maxPrice;
     CrystalRangeSeekbar rangeSeekbar;
@@ -20,7 +21,7 @@ public class FilterHotel extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter_hotel);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         rangeSeekbar = (CrystalRangeSeekbar)findViewById(R.id.rangeSeekbarPrice);
         minPrice = (TextView)findViewById(R.id.minimumPrice);

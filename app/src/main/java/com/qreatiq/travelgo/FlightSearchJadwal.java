@@ -13,12 +13,14 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.qreatiq.travelgo.Utils.BaseActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class FlightSearchJadwal extends AppCompatActivity {
+public class FlightSearchJadwal extends BaseActivity {
 
     private RecyclerView mRecyclerView;
     private TicketAdapter mAdapter;
@@ -36,7 +38,7 @@ public class FlightSearchJadwal extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_flight_search_jadwal);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         intent = getIntent();
         intentString = intent.getStringExtra("origin");

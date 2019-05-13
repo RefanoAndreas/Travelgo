@@ -46,6 +46,7 @@ public class FragmentProfile extends Fragment {
     SharedPreferences user_ID;
     TextView name;
     RequestQueue requestQueue;
+    BottomNavContainer parent;
 
     TextView account_profile,tour_profile,list_package,history_purchasing,history_transaction,language;
 
@@ -64,7 +65,6 @@ public class FragmentProfile extends Fragment {
         parent.toolbar.setTitle("Profil Saya");
 
 //        name = (TextView)getActivity().findViewById(R.id.username);
-        requestQueue = Volley.newRequestQueue(getActivity());
 
         account_profile = (TextView) view.findViewById(R.id.account_profile);
         tour_profile = (TextView) view.findViewById(R.id.tour_profile);

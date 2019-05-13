@@ -17,6 +17,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,7 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class HistoryTransaction extends AppCompatActivity {
+public class HistoryTransaction extends BaseActivity {
     private RecyclerView mRecyclerView;
     private NotifikasiAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -38,7 +39,7 @@ public class HistoryTransaction extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history_purchasing);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         try {
             historyList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
