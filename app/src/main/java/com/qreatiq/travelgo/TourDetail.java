@@ -32,6 +32,9 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -48,7 +51,7 @@ import java.util.ArrayList;
 public class TourDetail extends BaseActivity {
     CarouselView carouselView;
     int[] sampleImages = {R.drawable.background2, R.drawable.background3, R.drawable.background4, R.drawable.background5, R.drawable.background6};
-    String location_id, url, urlPhoto;
+    String trip_id, url, urlPhoto;
     RequestQueue requestQueue;
     TextView locationName, locationDesc, total_packages_label, total_price_label, payPackageBtn;
     TextView TV_trip_date, TV_tour_name;
@@ -58,12 +61,18 @@ public class TourDetail extends BaseActivity {
     ArrayList<JSONObject> array = new ArrayList<>();
     TourDetailAdapter adapter;
 
+    ArrayList<JSONObject> arrayPhoto = new ArrayList<>();
+
     NestedScrollView scroll;
     CoordinatorLayout layout;
 
     ConstraintLayout layout_pay;
 
     int total_pack = 0, total_price = 0;
+
+    ArrayList<JSONObject> arrayFacilities = new ArrayList<>();
+    TourDetailFacilitiesAdapter adapterFacilities;
+    GridView gridFacilities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +82,8 @@ public class TourDetail extends BaseActivity {
         set_toolbar();
 
         Intent i = getIntent();
-        location_id = i.getStringExtra("idLocation");
+        trip_id = i.getStringExtra("trip_id");
+        Log.d("id", trip_id);
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -93,12 +103,20 @@ public class TourDetail extends BaseActivity {
 
         scroll.getParent().requestChildFocus(scroll, scroll);
 
+        gridFacilities = (GridView) findViewById(R.id.GV_facilities);
+
+        adapterFacilities = new TourDetailFacilitiesAdapter(arrayFacilities,this);
+        gridFacilities.setAdapter(adapterFacilities);
+
         list = (RecyclerView) findViewById(R.id.tourDetail_RV);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         list.setLayoutManager(mLayoutManager);
 
         adapter = new TourDetailAdapter(array);
         list.setAdapter(adapter);
+
+        carouselView = (CarouselView) findViewById(R.id.tourDetail_Carousel);
+        carouselView.setImageListener(imageListener);
 
         detailLocation();
 
@@ -215,13 +233,23 @@ public class TourDetail extends BaseActivity {
     ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(int position, ImageView imageView) {
-            imageView.setImageResource(sampleImages[position]);
+//            imageView.setImageResource(sampleImages[position]);
+            try {
+                Picasso.get()
+                        .load(link.C_URL_IMAGES + "trip?image=" + arrayPhoto.get(position).getString("urlPhoto")
+                                +"&mime="+arrayPhoto.get(position).getString("mimePhoto"))
+                        .placeholder(R.mipmap.ic_launcher)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                        .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
+                        .into(imageView);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     };
 
     public void detailLocation(){
-        url = C_URL+"tour/trip/detail?id="+location_id;
-
+        url = link.C_URL+"tour/trip/detail?id="+trip_id;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -236,6 +264,18 @@ public class TourDetail extends BaseActivity {
 
                     trip_date = jsonObject.getString("trip_date");
                     trip_location = jsonObject.getString("location_trip");
+
+                    for(int x=0; x<jsonObject.getJSONArray("photo").length();x++){
+                        JSONArray jsonArray = jsonObject.getJSONArray("photo");
+
+                        JSONObject jsonObject1 = new JSONObject();
+
+                        jsonObject1.put("urlPhoto", jsonArray.getJSONObject(x).getString("urlPhoto"));
+                        jsonObject1.put("mimePhoto", jsonArray.getJSONObject(x).getString("mimePhoto"));
+
+                        arrayPhoto.add(jsonObject1);
+                    }
+                    carouselView.setPageCount(arrayPhoto.size());
 
                     for (int x=0; x<jsonObject.getJSONArray("trip_pack").length();x++){
                         JSONArray jsonArray = jsonObject.getJSONArray("trip_pack");
@@ -253,6 +293,17 @@ public class TourDetail extends BaseActivity {
                         array.add(jsonObject1);
                     }
                     adapter.notifyDataSetChanged();
+
+                    for(int x=0; x<jsonObject.getJSONArray("facilities").length();x++){
+                        JSONObject jsonObject1 = jsonObject.getJSONArray("facilities").getJSONObject(x).getJSONObject("facilities");
+
+                        JSONObject jsonObject2 = new JSONObject();
+                        jsonObject2.put("name", jsonObject1.getString("name"));
+                        Log.d("facilities", jsonObject2.toString());
+
+                        arrayFacilities.add(jsonObject2);
+                    }
+                    adapterFacilities.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();

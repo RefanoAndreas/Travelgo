@@ -108,7 +108,8 @@ public class FragmentTour extends Fragment {
             @Override
             public void onItemClick(int position) {
                 try {
-                    startActivity(new Intent(getActivity(), TourDetail.class).putExtra("idLocation", tourList.get(position).getString("id")));
+                    Log.d("id", tourList.get(position).getString("id"));
+                    startActivity(new Intent(getActivity(), TourDetail.class).putExtra("trip_id", tourList.get(position).getString("id")));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
