@@ -58,7 +58,7 @@
             android:name=".D1Notifikasi"
             android:label="Notifikasi" />
         <activity
-            android:name=".FlightIsiDataPenumpang"
+            android:name=".DataPenumpang"
             android:label="Isi Data Penumpang" />
         <activity
             android:name=".Filter"

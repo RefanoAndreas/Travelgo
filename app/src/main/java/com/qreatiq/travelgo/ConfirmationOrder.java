@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class ConfirmationOrder extends AppCompatActivity {
 
     TextView  isiDataPeserta, specialRequestAdd, guestData;
@@ -63,7 +61,7 @@ public class ConfirmationOrder extends AppCompatActivity {
         linear_dataPeserta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ConfirmationOrder.this, FlightIsiDataPenumpang.class).putExtra("packageName", intentString));
+                startActivity(new Intent(ConfirmationOrder.this, DataPenumpang.class).putExtra("packageName", intentString));
             }
         });
 

@@ -178,15 +178,14 @@
                                     android:layout_height="wrap_content"
                                     android:text="Peserta"
                                     android:fontFamily="@font/montserrat_medium"/>
+                                <android.support.v7.widget.RecyclerView
+                                    android:id="@+id/RV_participant"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="80dp"
+                                    android:layout_marginTop="10dp"
+                                    android:visibility="gone">
 
-                                <TextView
-                                    android:id="@+id/tamu"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_weight="1"
-                                    android:textSize="14dp"
-                                    android:textColor="#263238"
-                                    android:text="Ny. ABC"/>
+                                </android.support.v7.widget.RecyclerView>
                             </LinearLayout>
 
                             <TextView

@@ -3,19 +3,16 @@ package com.qreatiq.travelgo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.button.MaterialButton;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -40,7 +37,6 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -64,6 +60,13 @@ public class TransactionDetail extends AppCompatActivity {
     TransactionDetailAdapter mAdapter;
     ArrayList<JSONObject> tripPackList = new ArrayList<JSONObject>();
     private RecyclerView.LayoutManager mLayoutManager;
+
+    RecyclerView mRecyclerViewParticipant;
+    ParticipantListAdapter mAdapterParticipant;
+    ArrayList<JSONObject> ParticipantList = new ArrayList<JSONObject>();
+    private RecyclerView.LayoutManager mLayoutManagerParticipant;
+
+    int DATA_PENUMPANG = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,8 +96,8 @@ public class TransactionDetail extends AppCompatActivity {
         isiDataPeserta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TransactionDetail.this, FlightIsiDataPenumpang.class)
-                        .putExtra("packageName", "tour"));
+                startActivityForResult(new Intent(TransactionDetail.this, DataPenumpang.class)
+                        .putExtra("packageName", "tour"), DATA_PENUMPANG);
             }
         });
 
@@ -105,6 +108,14 @@ public class TransactionDetail extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerViewParticipant = findViewById(R.id.RV_participant);
+        mRecyclerViewParticipant.setHasFixedSize(true);
+        mLayoutManagerParticipant = new LinearLayoutManager(this);
+        mAdapterParticipant = new ParticipantListAdapter(ParticipantList, this);
+
+        mRecyclerViewParticipant.setLayoutManager(mLayoutManagerParticipant);
+        mRecyclerViewParticipant.setAdapter(mAdapterParticipant);
 
         if (intentString.equals("history")){
             isiDataPeserta.setVisibility(View.GONE);
@@ -119,7 +130,37 @@ public class TransactionDetail extends AppCompatActivity {
             detailPayment();
         }
 
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submit();
+            }
+        });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK) {
+            if (requestCode == DATA_PENUMPANG) {
+                mRecyclerViewParticipant.setVisibility(View.VISIBLE);
+                try {
+                    JSONObject data_penumpang= new JSONObject(data.getStringExtra("data"));
+
+                    ParticipantList.add(data_penumpang);
+
+                    if(ParticipantList.size() > 1)
+                        mAdapterParticipant.notifyItemInserted(ParticipantList.size());
+                    else
+                        mAdapterParticipant.notifyDataSetChanged();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     private void detailPayment(){
@@ -140,7 +181,6 @@ public class TransactionDetail extends AppCompatActivity {
 
         try {
             JSONArray jsonArray = new JSONArray(trip_pack);
-            Log.d("jsonarray", jsonArray.toString());
             for(int x=0; x<jsonArray.length();x++){
                 JSONObject jsonObject1 = new JSONObject();
 
@@ -150,10 +190,72 @@ public class TransactionDetail extends AppCompatActivity {
 
                 tripPackList.add(jsonObject1);
             }
-            Log.d("trippack", tripPackList.toString());
             mAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void submit(){
+        url = link.C_URL+"tour-invoice";
+
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            JSONArray participant = new JSONArray(ParticipantList.toString());
+            JSONArray jsonArray = new JSONArray(trip_pack);
+            jsonObject.put("participant", participant);
+            jsonObject.put("trip_pack", jsonArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("json", jsonObject.toString());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout=(ConstraintLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", userID);
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+        };
+
+        requestQueue.add(jsonObjectRequest);
+
+
     }
 }

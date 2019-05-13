@@ -102,6 +102,12 @@ public class TourDetail extends AppCompatActivity {
         adapter.setOnChangeQuantityListener(new TourDetailAdapter.ClickListener() {
             @Override
             public void onAddClick(int quantity, int position) {
+                try {
+                    array.get(position).put("qty",quantity);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 total_pack++;
                 try {
                     total_price += array.get(position).getDouble("price");
@@ -119,6 +125,12 @@ public class TourDetail extends AppCompatActivity {
 
             @Override
             public void onRemoveQuantityClick(int quantity, int position) {
+                try {
+                    array.get(position).put("qty",quantity);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 total_pack--;
                 try {
                     total_price -= array.get(position).getDouble("price");
@@ -136,6 +148,12 @@ public class TourDetail extends AppCompatActivity {
 
             @Override
             public void onAddQuantityClick(int quantity, int position) {
+                try {
+                    array.get(position).put("qty",quantity);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
                 total_pack++;
                 try {
                     total_price += array.get(position).getDouble("price");
@@ -156,7 +174,7 @@ public class TourDetail extends AppCompatActivity {
         payPackageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.d("trippack", array.toString());
                 startActivity(new Intent(TourDetail.this, TransactionDetail.class)
                         .putExtra("origin", "pay")
                         .putExtra("trip_pack", array.toString())
@@ -203,8 +221,6 @@ public class TourDetail extends AppCompatActivity {
     public void detailLocation(){
         url = link.C_URL+"tour/trip/detail?id="+location_id;
 
-        Log.d("url", url);
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -232,6 +248,7 @@ public class TourDetail extends AppCompatActivity {
                         jsonObject1.put("photo", urlPhoto);
                         jsonObject1.put("name", jsonArray.getJSONObject(x).getString("name"));
                         jsonObject1.put("price", jsonArray.getJSONObject(x).getString("price"));
+                        jsonObject1.put("qty", 0);
                         array.add(jsonObject1);
                     }
                     adapter.notifyDataSetChanged();

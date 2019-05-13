@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".FlightIsiDataPenumpang">
+    tools:context=".DataPenumpang">
 
     <include
         layout="@layout/toolbar_elevation"/>
@@ -39,6 +39,7 @@
             android:textSize="12dp"/>
 
         <Spinner
+            android:id="@+id/spinner_titel"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginTop="5dp"
@@ -67,6 +68,7 @@
         android:layout_marginTop="5dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <android.support.design.widget.TextInputEditText
+            android:id="@+id/TIET_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:singleLine="true"/>
@@ -266,6 +268,7 @@
         android:weightSum="2">
 
         <android.support.design.button.MaterialButton
+            android:id="@+id/submitBtn"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_weight="1"
