@@ -127,8 +127,6 @@ public class SearchFlight extends BaseActivity {
                                 if (!array.get(x).getString("poi").contains(s.toString().toLowerCase()) &&
                                         !array.get(x).getString("city").contains(s.toString().toLowerCase())) {
                                     array.remove(x);
-//                                    adapter.notifyItemRemoved(x);
-//                                    adapter.notifyItemRangeChanged(x, array.size());
                                     flag = false;
                                     break;
                                 }

@@ -264,8 +264,6 @@ public abstract class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallba
 
             x = cWidth / 2f - 20;
             y = cHeight / 2f - 20;
-//            Log.d("x", String.valueOf(x));
-//            Log.d("y", String.valueOf(y));
             c.drawBitmap(bitmap,rect.left + x, rect.top + y, p);
 
             clickRegion = rect;

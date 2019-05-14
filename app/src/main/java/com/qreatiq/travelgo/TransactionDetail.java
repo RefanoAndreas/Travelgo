@@ -27,6 +27,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +41,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TransactionDetail extends AppCompatActivity {
+public class TransactionDetail extends BaseActivity {
 
     TextView isiDataPeserta;
     Intent intent;
@@ -73,7 +74,7 @@ public class TransactionDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_transaction_detail);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("access_token", "Data not found");

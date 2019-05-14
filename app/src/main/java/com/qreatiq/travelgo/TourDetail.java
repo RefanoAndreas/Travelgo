@@ -1,6 +1,8 @@
 package com.qreatiq.travelgo;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
@@ -17,6 +19,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -55,7 +58,8 @@ public class TourDetail extends BaseActivity {
     RequestQueue requestQueue;
     TextView locationName, locationDesc, total_packages_label, total_price_label, payPackageBtn;
     TextView TV_trip_date, TV_tour_name;
-    String trip_date, trip_location, tour_phone;
+    String trip_date, trip_location, tour_phone, userID;
+    SharedPreferences user_id;
 
     RecyclerView list;
     ArrayList<JSONObject> array = new ArrayList<>();
@@ -83,7 +87,9 @@ public class TourDetail extends BaseActivity {
 
         Intent i = getIntent();
         trip_id = i.getStringExtra("trip_id");
-        Log.d("id", trip_id);
+
+        user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userID = user_id.getString("access_token", "Data not found");
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -195,21 +201,22 @@ public class TourDetail extends BaseActivity {
         payPackageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("trippack", array.toString());
-                startActivity(new Intent(TourDetail.this, TransactionDetail.class)
-                        .putExtra("origin", "pay")
-                        .putExtra("trip_pack", array.toString())
-                        .putExtra("trip_date", trip_date)
-                        .putExtra("trip_location", trip_location)
-                        .putExtra("total_price", total_price)
-                        .putExtra("tour_phone", tour_phone)
-                );
+
+                if(!userID.equals("Data not found")) {
+                    startActivity(new Intent(TourDetail.this, TransactionDetail.class)
+                            .putExtra("origin", "pay")
+                            .putExtra("trip_pack", array.toString())
+                            .putExtra("trip_date", trip_date)
+                            .putExtra("trip_location", trip_location)
+                            .putExtra("total_price", total_price)
+                            .putExtra("tour_phone", tour_phone)
+                    );
+                }
+                else{
+                    startActivity(new Intent(TourDetail.this, LogIn.class));
+                }
             }
         });
-
-        carouselView = (CarouselView) findViewById(R.id.tourDetail_Carousel);
-        carouselView.setPageCount(sampleImages.length);
-        carouselView.setImageListener(imageListener);
 
     }
 
@@ -299,7 +306,6 @@ public class TourDetail extends BaseActivity {
 
                         JSONObject jsonObject2 = new JSONObject();
                         jsonObject2.put("name", jsonObject1.getString("name"));
-                        Log.d("facilities", jsonObject2.toString());
 
                         arrayFacilities.add(jsonObject2);
                     }

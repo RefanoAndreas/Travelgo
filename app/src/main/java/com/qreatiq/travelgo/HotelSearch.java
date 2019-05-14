@@ -14,12 +14,14 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.qreatiq.travelgo.Utils.BaseActivity;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class HotelSearch extends AppCompatActivity {
+public class HotelSearch extends BaseActivity {
 
     MaterialButton searchBtn;
     TextView TV_searchHotel, tanggalCheckin, tanggalCheckout, duration;
@@ -33,7 +35,7 @@ public class HotelSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel_search);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         final CardView tamuHotel = findViewById(R.id.hotelSearch_TamuKamar);
         tamuHotel.setOnClickListener(new View.OnClickListener() {

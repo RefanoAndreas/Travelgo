@@ -121,7 +121,6 @@ public class FragmentHome extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-//                startActivity(new Intent(getActivity(), CityDetail.class).putExtra("idLocation", homeList.get(position).getID()));location_description
             }
         });
 

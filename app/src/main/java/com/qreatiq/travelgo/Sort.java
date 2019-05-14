@@ -10,7 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class Sort extends AppCompatActivity {
+import com.qreatiq.travelgo.Utils.BaseActivity;
+
+public class Sort extends BaseActivity {
 
     ListView LV_sortItem;
     Intent intent;
@@ -23,7 +25,7 @@ public class Sort extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sort);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         intent = getIntent();
         intentString = intent.getStringExtra("origin");

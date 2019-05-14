@@ -115,8 +115,6 @@ public class TourList extends BaseActivity {
         tourListPackagesList.clear();
         url = C_URL+"trip";
 
-        Log.d("token", userID);
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -126,7 +124,6 @@ public class TourList extends BaseActivity {
                     for (int x=0; x<jsonArray.length(); x++){
                         JSONObject jsonObject = new JSONObject();
 
-                        Log.d("responJson", jsonArray.toString());
                         urlPhoto = link.C_URL_IMAGES+"trip?image="
                                 +jsonArray.getJSONObject(x).getString("urlPhoto")
                                 +"&mime="+jsonArray.getJSONObject(x).getString("mimePhoto");

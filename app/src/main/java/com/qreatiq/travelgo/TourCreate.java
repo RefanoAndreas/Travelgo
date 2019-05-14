@@ -457,9 +457,6 @@ public class TourCreate extends BaseActivity {
         loading.setProgress(0);
         loading.show();
 
-        Log.d("data",json.toString());
-        Log.d("auth",userID);
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

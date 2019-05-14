@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class ConfirmationOrder extends AppCompatActivity {
+import com.qreatiq.travelgo.Utils.BaseActivity;
+
+public class ConfirmationOrder extends BaseActivity {
 
     TextView  isiDataPeserta, specialRequestAdd, guestData;
     View layout_infoHotel, layout_infoFlight, layout_infoTrain;
@@ -23,7 +25,7 @@ public class ConfirmationOrder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirmation_order);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         specialRequestLinear = (LinearLayout)findViewById(R.id.specialRequestLinear);
 

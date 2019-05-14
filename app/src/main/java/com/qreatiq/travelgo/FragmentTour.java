@@ -43,8 +43,7 @@ public class FragmentTour extends Fragment {
     private TourAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> tourList = new ArrayList<>();
-    String url, userID;
-    SharedPreferences user_id;
+    String url;
     String loc_id="";
     EditText search;
     ImageView tourFilterBtn;
@@ -53,12 +52,6 @@ public class FragmentTour extends Fragment {
     String intentString;
 
     BottomNavContainer parent;
-
-    int[] sampleImages1 = {R.drawable.background2, R.drawable.background3, R.drawable.background4};
-    int[] sampleImages2 = {R.drawable.background3, R.drawable.background4, R.drawable.background5};
-    int[] sampleImages3 = {R.drawable.background4, R.drawable.background5, R.drawable.background6};
-    int[] sampleImages4 = {R.drawable.background5, R.drawable.background6, R.drawable.background2};
-    int[] sampleImages5 = {R.drawable.background6, R.drawable.background2, R.drawable.background3};
 
     @Nullable
     @Override
@@ -73,8 +66,6 @@ public class FragmentTour extends Fragment {
 
         parent = (BottomNavContainer) getActivity();
         parent.toolbar.setVisibility(View.GONE);
-        user_id = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
-        userID = user_id.getString("user_id", "No data found");
 
         search = (EditText)view.findViewById(R.id.tour_search);
         search.setKeyListener(null);
@@ -87,18 +78,10 @@ public class FragmentTour extends Fragment {
 
         getTrip();
 
-//        tourList.add(new TourItem(sampleImages1, "Kuta Bali Tour", "Rp 2.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
-//        tourList.add(new TourItem(sampleImages2, "Lombok NTB Tour", "Rp 3.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
-//        tourList.add(new TourItem(sampleImages3, "Komodo NTT Tour", "Rp 4.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
-//        tourList.add(new TourItem(sampleImages4, "Madura East Java Tour", "Rp 5.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
-//        tourList.add(new TourItem(sampleImages5, "Bawean East Java Tour", "Rp 6.500.000", getResources().getString(R.string.cityDetail_Detail), "1"));
-
         mRecyclerView = view.findViewById(R.id.tour_RV);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
-//        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAdapter = new TourAdapter(tourList, getActivity());
-//        mAdapter = new TourAdapter(tourList, this);
 
 
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -108,7 +91,6 @@ public class FragmentTour extends Fragment {
             @Override
             public void onItemClick(int position) {
                 try {
-                    Log.d("id", tourList.get(position).getString("id"));
                     startActivity(new Intent(getActivity(), TourDetail.class).putExtra("trip_id", tourList.get(position).getString("id")));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -129,8 +111,6 @@ public class FragmentTour extends Fragment {
     private void getTrip(){
         url = parent.C_URL+"tour/trip?loc_id="+parent.fragmentTour.loc_id;
 
-        Log.d("linkURL", url);
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -148,11 +128,6 @@ public class FragmentTour extends Fragment {
 
                         tourList.add(jsonObject);
 
-//                        tourList.add(new TourItem(sampleImages1,
-//                                jsonArray.getJSONObject(x).getString("tour"),
-//                                "Rp 2.500.000",
-//                                jsonArray.getJSONObject(x).getString("description"),
-//                                jsonArray.getJSONObject(x).getString("id")));
                         mAdapter.notifyItemInserted(x);
                     }
                 } catch (JSONException e) {

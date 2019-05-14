@@ -64,8 +64,6 @@ public class FragmentProfile extends Fragment {
         parent.toolbar.setVisibility(View.VISIBLE);
         parent.toolbar.setTitle("Profil Saya");
 
-//        name = (TextView)getActivity().findViewById(R.id.username);
-
         account_profile = (TextView) view.findViewById(R.id.account_profile);
         tour_profile = (TextView) view.findViewById(R.id.tour_profile);
         list_package = (TextView) view.findViewById(R.id.list_package);
@@ -89,7 +87,7 @@ public class FragmentProfile extends Fragment {
                 FacebookSdk.sdkInitialize(getActivity());
                 LoginManager.getInstance().logOut();
 
-                startActivity(new Intent(getActivity(), LogIn.class));
+                startActivity(new Intent(getActivity(), BottomNavContainer.class));
                 getActivity().finish();
             }
         });
@@ -185,8 +183,6 @@ public class FragmentProfile extends Fragment {
             }
         });
 
-//        getUserInfo();
-
     }
 
     public void setLocale(String lang) {
@@ -209,29 +205,5 @@ public class FragmentProfile extends Fragment {
         getActivity().overridePendingTransition(0, 0);
         startActivity(intent);
     }
-
-//    private void getUserInfo(){
-//        url = link.C_URL+"profile.php?id="+userID;
-//
-//        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
-//            @Override
-//            public void onResponse(JSONObject response) {
-//                try {
-//                    if (!response.isNull("user")){
-//                        name.setText(response.getJSONObject("user").getString("name"));
-//                    }
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.e("error",error.getMessage());
-//            }
-//        });
-//
-//        requestQueue.add(jsonObjectRequest);
-//    }
 
 }

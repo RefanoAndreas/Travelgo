@@ -63,8 +63,6 @@ public class FilterTourLocation extends BaseActivity {
 
                         if (!arrayLocation.get(x).toLowerCase().contains(s.toString().toLowerCase())) {
                             arrayLocation.remove(x);
-//                                    adapter.notifyItemRemoved(x);
-//                                    adapter.notifyItemRangeChanged(x, array.size());
                             flag = false;
                             break;
                         }

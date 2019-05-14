@@ -27,8 +27,6 @@ public class SearchTour extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_tour);
 
-
-
         ArrayList<SearchTourSpotList> spotList = new ArrayList<>();
 
         spotList.add(new SearchTourSpotList(R.drawable.background2, "Kuta, Bali"));
@@ -40,7 +38,6 @@ public class SearchTour extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.RV_spotWisata);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-//        new LinearSnapHelper().attachToRecyclerView(mRecyclerView);
         new GravitySnapHelper(Gravity.START).attachToRecyclerView(mRecyclerView);
         mAdapter = new SearchTourSpotAdapter(spotList, this);
 

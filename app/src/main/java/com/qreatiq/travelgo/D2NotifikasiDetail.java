@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class D2NotifikasiDetail extends AppCompatActivity {
+import com.qreatiq.travelgo.Utils.BaseActivity;
+
+public class D2NotifikasiDetail extends BaseActivity {
 
     LinearLayout eTicketLayout, eTicketLayout1;
     Intent i;
@@ -20,7 +22,7 @@ public class D2NotifikasiDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_d2_notifikasi_detail);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         eTicketLayout = (LinearLayout)findViewById(R.id.eTicketLayout);
         eTicketLayout1 = (LinearLayout)findViewById(R.id.eTicketLayout1);

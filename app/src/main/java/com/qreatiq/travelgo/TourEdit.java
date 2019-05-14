@@ -80,8 +80,6 @@ public class TourEdit extends BaseActivity {
         userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         user_ID = userID.getString("access_token", "Data not found");
 
-        Log.d("tokenUser", user_ID);
-
         name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -117,11 +115,8 @@ public class TourEdit extends BaseActivity {
                         JSONObject respon = response.getJSONObject("tour");
 
                         name.setText(respon.getString("name"));
-//                        desc.setText(response.getJSONObject("tour").getString("description"));
                         telp.setText(respon.getString("phone"));
                         tour_id = respon.getString("id");
-
-                        Log.d("urlPhoto", link.C_URL_IMAGES + "tour?image=" + respon.getString("urlPhoto")+"&mime="+respon.getString("mimePhoto"));
 
                         Picasso.get()
                                 .load(link.C_URL_IMAGES + "tour?image=" + respon.getString("urlPhoto")+"&mime="+respon.getString("mimePhoto"))
@@ -218,8 +213,6 @@ public class TourEdit extends BaseActivity {
             logLargeString(json.toString());
 
             url = C_URL + "tourProfile";
-//        Log.d("data", json.toString());
-//        Log.d("url", url);
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
                 @Override

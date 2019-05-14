@@ -27,7 +27,7 @@ public class DataPenumpang extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_penumpang);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         Intent i = getIntent();
         String intentString = i.getStringExtra("packageName");
@@ -48,7 +48,6 @@ public class DataPenumpang extends BaseActivity {
             getSupportActionBar().setTitle("Isi Data Tamu");
             titleData.setText("Data Tamu");
             linearBagasi.setVisibility(View.GONE);
-//            titleName_layout.setVisibility(View.GONE);
             idNo_layout.setVisibility(View.GONE);
             pasporNo_layout.setVisibility(View.GONE);
 

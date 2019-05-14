@@ -111,11 +111,9 @@ public class FlightSearch extends BaseActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked){
-//                    tanggalContainer.getWeightSum();
                     tanggalContainer.setWeightSum(2);
                     kembali.setVisibility(View.VISIBLE);
                 }else{
-//                    tanggalContainer.getWeightSum();
                     tanggalContainer.setWeightSum(1);
                     kembali.setVisibility(View.GONE);
                 }

@@ -10,12 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
+import com.qreatiq.travelgo.Utils.BaseActivity;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class HotelSearchResult extends AppCompatActivity {
+public class HotelSearchResult extends BaseActivity {
 
     private RecyclerView mRecyclerView;
     private HotelListAdapter mAdapter;
@@ -29,7 +31,7 @@ public class HotelSearchResult extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hotel_search_result);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         try {
             hotelList.add(new JSONObject("{\"hotelName\": \"Fave Hotel\", " +
@@ -73,10 +75,10 @@ public class HotelSearchResult extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
             if(requestCode == SORT){
-                Log.d("data", data.getStringExtra("sort"));
+
             }
             else if(requestCode == FILTER){
-                Log.d("data", data.getStringExtra("filter"));
+
             }
         }
     }

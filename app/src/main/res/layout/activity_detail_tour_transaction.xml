@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout"
     tools:context=".DetailTourTransaction">
 
     <include
@@ -39,8 +40,7 @@
                     android:id="@+id/TV_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Budi"/>
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -61,8 +61,7 @@
                     android:id="@+id/TV_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="0812345645"/>
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -83,8 +82,7 @@
                     android:id="@+id/TV_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Labuan Bajo, NTT"/>
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 
@@ -105,31 +103,30 @@
                     android:id="@+id/TV_trip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Labuan Bajo"/>
+                    android:layout_weight="1"/>
 
             </LinearLayout>
-            <LinearLayout
-                android:id="@+id/linear_price"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2"
-                android:layout_marginTop="16dp">
+            <!--<LinearLayout-->
+                <!--android:id="@+id/linear_price"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:weightSum="2"-->
+                <!--android:layout_marginTop="16dp">-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Harga"/>
-                <TextView
-                    android:id="@+id/TV_price"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Rp. 500.000"/>
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="Harga"/>-->
+                <!--<TextView-->
+                    <!--android:id="@+id/TV_price"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="Rp. 500.000"/>-->
 
-            </LinearLayout>
+            <!--</LinearLayout>-->
 
             <LinearLayout
                 android:id="@+id/linear_date"
@@ -148,8 +145,7 @@
                     android:id="@+id/TV_date"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="02/05/2019 - 09/05/2019"/>
+                    android:layout_weight="1"/>
 
             </LinearLayout>
             <LinearLayout
@@ -165,27 +161,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Peserta"/>
-                <LinearLayout
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/RV_participant"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
+                    android:layout_height="80dp"
+                    android:layout_marginTop="10dp"
                     android:layout_weight="1">
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Budi"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Ani"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Rhoma"/>
-                </LinearLayout>
+
+                </android.support.v7.widget.RecyclerView>
 
             </LinearLayout>
 
@@ -206,8 +190,7 @@
                     android:id="@+id/TV_price_total"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Rp. 500.000"/>
+                    android:layout_weight="1"/>
 
             </LinearLayout>
 

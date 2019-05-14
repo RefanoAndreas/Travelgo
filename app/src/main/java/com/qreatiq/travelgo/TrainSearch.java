@@ -16,13 +16,15 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.qreatiq.travelgo.Utils.BaseActivity;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class TrainSearch extends AppCompatActivity {
+public class TrainSearch extends BaseActivity {
 
     MaterialButton searchTrainBtn;
     LinearLayout flightSearch_icon;
@@ -38,7 +40,7 @@ public class TrainSearch extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_train_search);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         flightSearch_icon = (LinearLayout) findViewById(R.id.flightSearch_icon);
         kelas = (TextView) findViewById(R.id.kelas);

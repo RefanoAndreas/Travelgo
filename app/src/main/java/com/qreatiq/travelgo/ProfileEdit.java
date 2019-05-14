@@ -44,7 +44,7 @@ public class ProfileEdit extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_edit);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         nameLayout = (TextInputLayout) findViewById(R.id.TIL_name_profileEdit);
         nameLayout.setHint(null);
@@ -122,7 +122,6 @@ public class ProfileEdit extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    Log.d("data", response.toString());
                     if (!response.isNull("user")){
                         name.setText(!response.getJSONObject("user").isNull("name") ? response.getJSONObject("user").getString("name") : "");
                         email.setText(!response.getJSONObject("user").isNull("email") ? response.getJSONObject("user").getString("email") : "");

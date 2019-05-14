@@ -1,5 +1,6 @@
 package com.qreatiq.travelgo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -17,7 +18,8 @@ import com.qreatiq.travelgo.Utils.BaseActivity;
 
 public class BottomNavContainer extends BaseActivity {
 
-    String id_loc;
+    String id_loc, userID;
+    SharedPreferences user_id;
     FragmentTour fragmentTour;
     Fragment selectedFragment = null;
     BottomNavigationView bottomNav;
@@ -28,6 +30,9 @@ public class BottomNavContainer extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav_container);
+
+        user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userID = user_id.getString("access_token", "Data not found");
 
         bottomNav = findViewById(R.id.nav_bottom);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -43,7 +48,6 @@ public class BottomNavContainer extends BaseActivity {
             id_loc = i.getStringExtra("loc_id");
             fragmentTour.loc_id = id_loc;
             bottomNav.setSelectedItemId(R.id.nav_tour);
-//            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentHome()).commit();
         }
         else
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentHome()).commit();
@@ -77,12 +81,22 @@ public class BottomNavContainer extends BaseActivity {
                             selectedFragment = fragmentTour;
                             break;
                         case R.id.nav_notification:
-//                            selectedFragment = new FragmentNotification();
-                            startActivity(new Intent(BottomNavContainer.this, D1Notifikasi.class).putExtra("data", "all"));
+                            if(!userID.equals("Data not found")) {
+                                startActivity(new Intent(BottomNavContainer.this, D1Notifikasi.class).putExtra("data", "all"));
+                            }
+                            else{
+                                startActivity(new Intent(BottomNavContainer.this, LogIn.class));
+                            }
                             return false;
                         case R.id.nav_profile:
-                            selectedFragment = new FragmentProfile();
-                            break;
+                            if(!userID.equals("Data not found")) {
+                                selectedFragment = new FragmentProfile();
+                                break;
+                            }
+                            else{
+                                startActivity(new Intent(BottomNavContainer.this, LogIn.class));
+                                return false;
+                            }
                     }
 
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();

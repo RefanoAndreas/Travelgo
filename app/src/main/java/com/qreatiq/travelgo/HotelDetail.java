@@ -82,8 +82,6 @@ public class HotelDetail extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-//                set_cart();
             }
 
             @Override
@@ -94,7 +92,6 @@ public class HotelDetail extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-//                set_cart();
             }
 
             @Override
@@ -105,8 +102,6 @@ public class HotelDetail extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-//                set_cart();
             }
         });
 
@@ -146,13 +141,6 @@ public class HotelDetail extends BaseActivity {
             }
         });
 
-    }
-
-    public void set_cart(){
-//        total_packages_label.setText(String.valueOf(total_pack)+" Package"+(total_pack > 0 ? "s" : ""));
-//        NumberFormat formatter = new DecimalFormat("#,###");
-//        String formattedNumber = formatter.format(total_price);
-//        total_price_label.setText("Rp. "+formattedNumber);
     }
 
 }

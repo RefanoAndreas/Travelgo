@@ -133,7 +133,7 @@ public class FlightSearchJadwal extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
             if(requestCode == SORT){
-                Log.d("data", data.getStringExtra("sort"));
+
             }
             else if(requestCode == FILTER){
             }

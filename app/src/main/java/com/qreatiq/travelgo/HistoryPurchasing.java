@@ -42,8 +42,6 @@ public class HistoryPurchasing extends BaseActivity {
 
         set_toolbar();
 
-//        getHistory();
-
         try {
             historyList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
                     "\"route\":\"Surabaya > Jakarta\", " +

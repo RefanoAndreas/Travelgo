@@ -220,7 +220,6 @@ public class SignUp extends BaseActivity {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Log.d("responseLogin", response.toString());
                     try {
 
                         if (response.getString("status").equals("success")) {
@@ -263,10 +262,6 @@ public class SignUp extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("data",object.toString());
-        Log.d("url",url);
-        Log.d("facebook", object.toString());
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

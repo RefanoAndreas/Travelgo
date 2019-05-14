@@ -16,16 +16,16 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-        userIDGet = userID.getString("access_token", "Data not found");
+//        userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+//        userIDGet = userID.getString("access_token", "Data not found");
+        startActivity(new Intent(this, BottomNavContainer.class));
+        finish();
 
-        if(!userIDGet.equals("Data not found")){
-            startActivity(new Intent(this, BottomNavContainer.class));
-            finish();
-        }
-        else{
-            startActivity(new Intent(this, LogSign.class));
-            finish();
-        }
+//        if(!userIDGet.equals("Data not found")){
+//        }
+//        else{
+//            startActivity(new Intent(this, LogSign.class));
+//            finish();
+//        }
     }
 }

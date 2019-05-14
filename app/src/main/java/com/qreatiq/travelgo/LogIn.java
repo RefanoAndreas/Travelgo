@@ -165,8 +165,6 @@ public class LogIn extends BaseActivity {
     private void loginFB(JSONObject object){
         url = link.C_URL+"loginFB";
 
-        Log.d("facebook", object.toString());
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -230,7 +228,6 @@ public class LogIn extends BaseActivity {
 
                         if (response.getString("status").equals("success")) {
                             userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-//                            Log.d("tokenAccess", response.getString("access_token"));
                             SharedPreferences.Editor editor = userID.edit();
                             editor.putString("access_token", response.getJSONObject("access_token").getString("token_type")+" "+response.getJSONObject("access_token").getString("access_token"));
                             editor.apply();
@@ -241,7 +238,6 @@ public class LogIn extends BaseActivity {
                         } else if (response.getString("status").equals("invalid email")) {
                             emailLayout.setError("Invalid Email");
                         } else {
-//                        Toast.makeText(LogIn.this, "Email/Password wrong", Toast.LENGTH_SHORT).show();
                             passwordLayout.setError("Invalid Password");
                         }
                     } catch (JSONException e) {

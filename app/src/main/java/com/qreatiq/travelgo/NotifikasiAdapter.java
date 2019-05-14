@@ -68,13 +68,11 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.No
 
         try {
             notifikasiHolder.mTextView1.setText(jsonObject.getString("date"));
-            notifikasiHolder.mTextView2.setText(jsonObject.getString("route"));
+            notifikasiHolder.mTextView2.setText(jsonObject.getString("destination"));
             notifikasiHolder.mTextView3.setText(jsonObject.getString("infoTrip"));
-            notifikasiHolder.mTextView4.setText(jsonObject.getString("totalPack"));
-            notifikasiHolder.mTextView5.setText(jsonObject.getString("routeType"));
             notifikasiHolder.mChip1.setText(jsonObject.getString("status"));
 
-            if(jsonObject.getString("status").equals("Berhasil")){
+            if(jsonObject.getString("status").equals("berhasil")){
                 notifikasiHolder.mChip1.setChipBackgroundColorResource(R.color.colorPrimary);
             }
             else{
@@ -84,12 +82,18 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.No
 
             if(jsonObject.getString("type").equals("flight")){
                 notifikasiHolder.notifIcon.setImageResource(R.drawable.ic_flight_takeoff_black_24dp);
+                notifikasiHolder.mTextView4.setText(jsonObject.getString("totalPack"));
+                notifikasiHolder.mTextView5.setText(jsonObject.getString("routeType"));
             }
             else if(jsonObject.getString("type").equals("train")){
                 notifikasiHolder.notifIcon.setImageResource(R.drawable.ic_train_black_24dp);
+                notifikasiHolder.mTextView4.setText(jsonObject.getString("totalPack"));
+                notifikasiHolder.mTextView5.setText(jsonObject.getString("routeType"));
             }
             else if(jsonObject.getString("type").equals("hotel") || jsonObject.getString("type").equals("tour")){
                 notifikasiHolder.notifIcon.setImageResource(R.drawable.ic_location_city_black_24dp);
+                notifikasiHolder.mTextView4.setText(jsonObject.getString("trip_date"));
+                notifikasiHolder.mTextView5.setText(jsonObject.getString("duration"));
             }
 
 

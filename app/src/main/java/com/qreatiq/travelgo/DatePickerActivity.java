@@ -50,10 +50,6 @@ public class DatePickerActivity extends BaseActivity {
         try {
             start_date = format.parse(intent.getStringExtra("start_date"));
             end_date = format.parse(intent.getStringExtra("end_date"));
-            Log.d("date", String.valueOf(start_date.getDate()));
-            Log.d("date", String.valueOf(start_date.getMonth()));
-            Log.d("date", String.valueOf(start_date.getYear()));
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -81,7 +77,6 @@ public class DatePickerActivity extends BaseActivity {
                 dateSelected.clear();
                 for(int x=0; x<dates.size(); x++)
                     dateSelected.add(dates.get(x).getDay()+"-"+dates.get(x).getMonth()+"-"+dates.get(x).getYear());
-//                Log.d("data",dateSelected.toString());
             }
         });
 

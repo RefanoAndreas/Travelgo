@@ -10,6 +10,5 @@ public class SearchTrain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_train);
 
-//        link.setToolbar(this);
     }
 }

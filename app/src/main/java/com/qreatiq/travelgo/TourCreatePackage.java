@@ -39,7 +39,7 @@ public class TourCreatePackage extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tour_create_package);
 
-        link.setToolbar(this);
+        set_toolbar();
 
         name = (TextInputEditText) findViewById(R.id.name);
         price = (TextInputEditText) findViewById(R.id.price);
@@ -64,7 +64,6 @@ public class TourCreatePackage extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (isManualChange) {
-//                    isManualChange = false;
                     return;
                 }
                 String input = s.toString().replace("Rp. ","");
@@ -80,7 +79,6 @@ public class TourCreatePackage extends BaseActivity {
                     price.setText(yourFormattedString);
                     price.setSelection(yourFormattedString.length());
                     price_data = Double.parseDouble(input.replace(",", ""));
-//                Log.d("data",yourFormattedString);
                 }
                 else{
                     isManualChange = true;

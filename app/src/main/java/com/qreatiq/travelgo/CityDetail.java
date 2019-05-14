@@ -82,10 +82,7 @@ public class CityDetail extends BaseActivity {
     String userID;
     SharedPreferences user_id;
     ArrayList<JSONObject> cityList = new ArrayList<>();
-
-
     Button btnFindTour;
-
     BottomSheetDialog bottomSheetDialog;
 
     @Override
@@ -163,7 +160,6 @@ public class CityDetail extends BaseActivity {
         carouselView.setImageListener(imageListener);
 
         detailLocation();
-
 
         mRecyclerView = findViewById(R.id.RV_cityDetail);
         mRecyclerView.setHasFixedSize(true);
@@ -274,16 +270,7 @@ public class CityDetail extends BaseActivity {
                 Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Authorization", userID);
-                headers.put("Accept", "application/json");
-                return headers;
-            }
-        };
+        });
 
         requestQueue.add(jsonObjectRequest);
 

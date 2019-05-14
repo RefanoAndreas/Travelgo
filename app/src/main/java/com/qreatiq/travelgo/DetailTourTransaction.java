@@ -1,15 +1,170 @@
 package com.qreatiq.travelgo;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.widget.TextView;
 
-public class DetailTourTransaction extends AppCompatActivity {
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.qreatiq.travelgo.Utils.BaseActivity;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+public class DetailTourTransaction extends BaseActivity {
+
+    Intent intent;
+    String dataIntent, url, userID;
+    SharedPreferences user_id;
+    TextView name, phone, location, trip, trip_date, total_price;
+    RecyclerView mRecyclerViewParticipant;
+    ParticipantListAdapter mAdapterParticipant;
+    ArrayList<JSONObject> ParticipantList = new ArrayList<JSONObject>();
+    private RecyclerView.LayoutManager mLayoutManagerParticipant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_tour_transaction);
 
-        link.setToolbar(this);
+        set_toolbar();
+
+        intent = getIntent();
+        dataIntent = intent.getStringExtra("inv_id");
+
+        user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userID = user_id.getString("access_token", "Data not found");
+
+        name = (TextView)findViewById(R.id.TV_name);
+        phone = (TextView)findViewById(R.id.TV_phone);
+        location = (TextView)findViewById(R.id.TV_location);
+        trip = (TextView)findViewById(R.id.TV_trip);
+        trip_date = (TextView)findViewById(R.id.TV_date);
+        total_price = (TextView)findViewById(R.id.TV_price_total);
+
+
+        mRecyclerViewParticipant = findViewById(R.id.RV_participant);
+        mRecyclerViewParticipant.setHasFixedSize(true);
+        mLayoutManagerParticipant = new LinearLayoutManager(this);
+        mAdapterParticipant = new ParticipantListAdapter(ParticipantList, this);
+
+        mRecyclerViewParticipant.setLayoutManager(mLayoutManagerParticipant);
+        mRecyclerViewParticipant.setAdapter(mAdapterParticipant);
+
+        detail();
+    }
+
+    private void detail(){
+        url = link.C_URL+"history/detail?id="+dataIntent;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    name.setText(response.getJSONObject("user").getString("name"));
+                    if(!response.getJSONObject("user").isNull("phone_number"))
+                        phone.setText(response.getJSONObject("user").getString("phone_number"));
+                    else
+                        phone.setText("");
+
+                    JSONObject jsonInvoice = response.getJSONObject("invoice");
+
+                    for(int x=0; x<jsonInvoice.getJSONArray("detail").getJSONObject(0).getJSONObject("sales_tour").getJSONArray("participant").length();x++){
+                        JSONObject jsonParticipant = jsonInvoice.getJSONArray("detail").getJSONObject(0).getJSONObject("sales_tour").getJSONArray("participant").getJSONObject(x);
+
+                        JSONObject jsonObject = new JSONObject();
+
+                        jsonObject.put("title", jsonParticipant.getString("title"));
+                        jsonObject.put("name", jsonParticipant.getString("name"));
+                        Log.d("respon", jsonObject.toString());
+
+                        ParticipantList.add(jsonObject);
+
+                        if(x == 0)
+                            mAdapterParticipant.notifyItemInserted(ParticipantList.size());
+                        else
+                            mAdapterParticipant.notifyDataSetChanged();
+                    }
+
+                    JSONObject jsonTripPack = jsonInvoice.getJSONArray("detail")
+                                        .getJSONObject(0)
+                                        .getJSONObject("sales_tour")
+                                        .getJSONArray("detail")
+                                        .getJSONObject(0)
+                                        .getJSONObject("trip_pack");
+
+                    trip_date.setText(jsonTripPack.getJSONObject("trip").getString("trip_date"));
+                    location.setText(jsonTripPack.getJSONObject("trip").getJSONObject("city").getString("name"));
+                    trip.setText(jsonTripPack.getJSONObject("trip").getString("name"));
+
+                    NumberFormat formatter = new DecimalFormat("#,###");
+                    String formattedNumber = formatter.format(response.getDouble("price"));
+                    total_price.setText("Rp. "+formattedNumber);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout=(ConstraintLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", userID);
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+        };
+
+        requestQueue.add(jsonObjectRequest);
     }
 }
