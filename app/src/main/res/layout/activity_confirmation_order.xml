@@ -164,53 +164,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
-                            <TextView
+
+                            <android.support.v7.widget.RecyclerView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Tamu"
-                                android:fontFamily="@font/montserrat_medium"/>
+                                android:id="@+id/list_pax"/>
 
-                            <TextView
-                                android:id="@+id/tamu"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:textSize="14dp"
-                                android:textColor="#263238"
-                                android:text="ABC"/>
-
-                            <View
-                                android:layout_width="match_parent"
-                                android:layout_height="1dp"
-                                android:background="@android:color/darker_gray"
-                                android:layout_marginBottom="16dp"
-                                android:layout_marginTop="16dp"/>
-
-                            <LinearLayout
-                                android:id="@+id/linear_dataPeserta"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal"
-                                android:weightSum="2">
-                                <TextView
-                                    android:id="@+id/isiDataPeserta"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Isi data peserta"
-                                    android:textColor="@color/colorPrimary"
-                                    android:fontFamily="@font/montserrat_semi_bold"
-                                    android:layout_weight="1"/>
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text=">"
-                                    android:gravity="right"
-                                    android:textColor="@color/colorPrimary"
-                                    android:fontFamily="@font/montserrat_semi_bold"
-                                    android:layout_weight="1"/>
-
-
-                            </LinearLayout>
                         </LinearLayout>
 
                         <LinearLayout

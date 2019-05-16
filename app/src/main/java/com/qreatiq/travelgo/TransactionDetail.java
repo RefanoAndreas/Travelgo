@@ -105,6 +105,7 @@ public class TransactionDetail extends BaseActivity {
         mRecyclerView = findViewById(R.id.RV_tripPack);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager.setAutoMeasureEnabled(true);
         mAdapter = new TransactionDetailAdapter(tripPackList, this);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -214,7 +215,10 @@ public class TransactionDetail extends BaseActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                startActivity(new Intent(TransactionDetail.this, BottomNavContainer.class));
+                Intent in = new Intent(TransactionDetail.this, BottomNavContainer.class);
+                in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(in);
+                finish();
             }
         }, new Response.ErrorListener() {
             @Override

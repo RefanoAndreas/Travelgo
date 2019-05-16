@@ -3,6 +3,7 @@ package com.qreatiq.travelgo;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,8 @@ import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
@@ -24,7 +27,9 @@ public class FilterTour extends BaseActivity {
 
     TextView minPrice, maxPrice, seeLocation, seeDuration, startDate, endDate;
     CrystalRangeSeekbar rangeSeekbar;
-    private int year = 2019, month = 3, day = 10;
+    private int year = 2019, month = 3, day = 10, START_DATE = 3, END_DATE = 4;
+
+    Date start_date = new Date(),end_date = new Date();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +79,21 @@ public class FilterTour extends BaseActivity {
     }
 
     public void startDate(View v){
-        showDialog(999);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        Intent in = new Intent(this,DatePickerActivity.class);
+        in.putExtra("start_date",format.format(start_date));
+        in.putExtra("end_date",format.format(end_date));
+        startActivityForResult(in,START_DATE);
     }
 
     public void endDate(View v){
-        showDialog(998);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        Intent in = new Intent(this,DatePickerActivity.class);
+        in.putExtra("start_date",format.format(start_date));
+        in.putExtra("end_date",format.format(end_date));
+        startActivityForResult(in,END_DATE);
     }
 
     @Override
@@ -130,4 +145,38 @@ public class FilterTour extends BaseActivity {
                     .append(year));
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            if(requestCode == START_DATE || requestCode == END_DATE){
+                try {
+                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
+                    SimpleDateFormat simplemonth = new SimpleDateFormat("mmm");
+
+                    JSONArray json = new JSONArray(data.getStringExtra("date"));
+
+                    String array0 = json.getString(0);
+                    start_date = new Date(Integer.parseInt(array0.split("-")[2]),
+                            Integer.parseInt(array0.split("-")[1])-1,
+                            Integer.parseInt(array0.split("-")[0]));
+                    String start_dayOfWeek = simpledateformat.format(start_date);
+                    String start_monthOfYear = simplemonth.format(start_date);
+
+                    String last_array = json.getString(json.length()-1);
+                    end_date = new Date(Integer.parseInt(last_array.split("-")[2]),
+                            Integer.parseInt(last_array.split("-")[1])-1,
+                            Integer.parseInt(last_array.split("-")[0]));
+                    String end_dayOfWeek = simpledateformat.format(end_date);
+                    String end_monthOfYear = simplemonth.format(end_date);
+
+                    showDate(start_date.getYear(),Integer.parseInt(start_monthOfYear),start_date.getDate(),start_monthOfYear,"start");
+                    showDate(end_date.getYear(),Integer.parseInt(end_monthOfYear),end_date.getDate(),end_monthOfYear,"end");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

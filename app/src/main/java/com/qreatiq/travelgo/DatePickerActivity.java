@@ -1,6 +1,7 @@
 package com.qreatiq.travelgo;
 
 import android.content.Intent;
+import android.os.Parcel;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.button.MaterialButton;
@@ -14,6 +15,7 @@ import android.widget.CalendarView;
 
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
 import com.prolificinteractive.materialcalendarview.OnRangeSelectedListener;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
@@ -33,7 +35,7 @@ public class DatePickerActivity extends BaseActivity {
     CoordinatorLayout layout;
     Calendar calendar = Calendar.getInstance();
     boolean flag=true;
-    ArrayList<String> dateSelected = new ArrayList<String>();
+    ArrayList<Long> dateSelected = new ArrayList<Long>();
     Date start_date,end_date;
 
     @Override
@@ -47,12 +49,9 @@ public class DatePickerActivity extends BaseActivity {
 //        long date = calendar.getTime().getTime();
         Intent intent = getIntent();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            start_date = format.parse(intent.getStringExtra("start_date"));
-            end_date = format.parse(intent.getStringExtra("end_date"));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        start_date = new Date(intent.getLongExtra("start_date",0));
+        if(intent.getBooleanExtra("isReturn",false))
+            end_date = new Date(intent.getLongExtra("end_date",0));
 
         submit = (MaterialButton) findViewById(R.id.submit);
         layout = (CoordinatorLayout) findViewById(R.id.layout);
@@ -60,23 +59,43 @@ public class DatePickerActivity extends BaseActivity {
         calendarView.state().edit()
                 .setMinimumDate(CalendarDay.from(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH)))
                 .commit();
-        calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_RANGE);
+        if(intent.getBooleanExtra("isReturn",false)) {
+            calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_RANGE);
+            calendarView.selectRange(
+                    CalendarDay.from(start_date.getYear(),start_date.getMonth()+1,start_date.getDate()),
+                    CalendarDay.from(end_date.getYear(),end_date.getMonth()+1,end_date.getDate()));
+        }
+        else {
+            calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_SINGLE);
+            calendarView.setSelectedDate(CalendarDay.from(start_date.getYear(),start_date.getMonth()+1,start_date.getDate()));
+        }
 
-        calendarView.selectRange(
-                CalendarDay.from(start_date.getYear(),start_date.getMonth()+1,start_date.getDate()),
-                CalendarDay.from(end_date.getYear(),end_date.getMonth()+1,end_date.getDate()));
         calendarView.setCurrentDate(CalendarDay.from(start_date.getYear(),start_date.getMonth()+1,start_date.getDate()));
 
         format = new SimpleDateFormat("d-M-yyyy");
-        dateSelected.add(format.format(start_date));
-        dateSelected.add(format.format(end_date));
+        dateSelected.add(start_date.getTime());
+        if(intent.getBooleanExtra("isReturn",false))
+            dateSelected.add(end_date.getTime());
+
+        calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
+            @Override
+            public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
+                dateSelected.clear();
+                Date d = new Date(date.getYear(),date.getMonth()-1,date.getDay());
+                dateSelected.add(d.getTime());
+            }
+        });
 
         calendarView.setOnRangeSelectedListener(new OnRangeSelectedListener() {
             @Override
             public void onRangeSelected(@NonNull MaterialCalendarView widget, @NonNull List<CalendarDay> dates) {
                 dateSelected.clear();
-                for(int x=0; x<dates.size(); x++)
-                    dateSelected.add(dates.get(x).getDay()+"-"+dates.get(x).getMonth()+"-"+dates.get(x).getYear());
+
+                for(int x=0; x<dates.size(); x++) {
+                    Date d = new Date(dates.get(x).getYear(),dates.get(x).getMonth()-1,dates.get(x).getDay());
+                    dateSelected.add(d.getTime());
+                }
+                Log.d("data",dateSelected.toString());
             }
         });
 

@@ -2,7 +2,9 @@ package com.qreatiq.travelgo;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.button.MaterialButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,12 +15,25 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FlightSearchJadwal extends BaseActivity {
 
@@ -26,12 +41,16 @@ public class FlightSearchJadwal extends BaseActivity {
     private TicketAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> ticketList = new ArrayList<>();
-    TextView tripInfo;
+    TextView tripInfo,title;
     LinearLayout flightSearchJadwal_menubar;
     MaterialButton dateBtn;
     String intentString;
     Intent intent;
     int SORT = 10, FILTER = 20;
+
+    Date date;
+
+    JSONObject origin,destination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,23 +61,42 @@ public class FlightSearchJadwal extends BaseActivity {
 
         intent = getIntent();
         intentString = intent.getStringExtra("origin");
-        String tanggalBerangkat = intent.getStringExtra("tanggal_berangkat");
+        if(!intent.getBooleanExtra("isOpposite",false))
+            date = new Date(intent.getLongExtra("tanggal_berangkat",0));
+        else
+            date = new Date(intent.getLongExtra("tanggal_kembali",0));
+        int adult_pax = intent.getIntExtra("adult",0);
+        int child_pax = intent.getIntExtra("child",0);
+        int infant_pax = intent.getIntExtra("infant",0);
+        String kelas = intent.getStringExtra("kelas");
+        try {
+            origin = new JSONObject(intent.getStringExtra("depart_data"));
+            destination = new JSONObject(intent.getStringExtra("arrive_data"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         tripInfo = (TextView)findViewById(R.id.tripInfo);
-        tripInfo.setText(tanggalBerangkat+", 1 Pax, Ekonomi");
+        title = (TextView) findViewById(R.id.title);
+
+        SimpleDateFormat format = new SimpleDateFormat("M");
+        tripInfo.setText((date.getDate() < 10 ? "0"+date.getDate() : date.getDate())+"/"+format.format(date)+"/"+date.getYear()+", "+
+                String.valueOf(adult_pax)+" Dewasa, "+
+                String.valueOf(child_pax)+" Anak, "+
+                String.valueOf(infant_pax)+" Bayi, "+
+                kelas);
+
+        try {
+            title.setText(origin.getString("code")+" > "+destination.getString("code"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         dateBtn = (MaterialButton)findViewById(R.id.dateBtn);
         flightSearchJadwal_menubar = (LinearLayout)findViewById(R.id.flightSearchJadwal_menubar);
 
         flightSearchJadwal_menubar.setWeightSum(2);
         dateBtn.setVisibility(View.GONE);
-
-        if(intentString.equals("flight")){
-            flightData();
-        }
-        else{
-            trainData();
-        }
 
         mRecyclerView = findViewById(R.id.RV_chooseDate);
         mRecyclerView = findViewById(R.id.RV_ticket_result);
@@ -72,9 +110,71 @@ public class FlightSearchJadwal extends BaseActivity {
         mAdapter.setOnItemClickListner(new TicketAdapter.ClickListener() {
             @Override
             public void onItemClick(int position) {
-                startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class).putExtra("origin", intentString));
+                if(intentString.equals("flight")) {
+                    if(intent.getBooleanExtra("isReturn",false)) {
+                        if (!intent.getBooleanExtra("isOpposite", false)) {
+                            startActivity(new Intent(FlightSearchJadwal.this, FlightSearchJadwal.class)
+                                    .putExtra("origin", intentString)
+                                    .putExtra("depart_data", destination.toString())
+                                    .putExtra("arrive_data", origin.toString())
+                                    .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
+                                    .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
+                                    .putExtra("adult", intent.getIntExtra("adult", 0))
+                                    .putExtra("child", intent.getIntExtra("child", 0))
+                                    .putExtra("infant", intent.getIntExtra("infant", 0))
+                                    .putExtra("kelas", intent.getStringExtra("kelas"))
+                                    .putExtra("isReturn", true)
+                                    .putExtra("isOpposite", true)
+                                    .putExtra("depart_ticket",ticketList.get(position).toString())
+                            );
+                        } else {
+                            startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class)
+                                    .putExtra("origin", intentString)
+                                    .putExtra("depart_data", destination.toString())
+                                    .putExtra("arrive_data", origin.toString())
+                                    .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
+                                    .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
+                                    .putExtra("adult", intent.getIntExtra("adult", 0))
+                                    .putExtra("child", intent.getIntExtra("child", 0))
+                                    .putExtra("infant", intent.getIntExtra("infant", 0))
+                                    .putExtra("kelas", intent.getStringExtra("kelas"))
+                                    .putExtra("isReturn", true)
+                                    .putExtra("isOpposite", true)
+                                    .putExtra("depart_ticket",intent.getStringExtra("depart_ticket"))
+                                    .putExtra("return_ticket",ticketList.get(position).toString())
+                            );
+                        }
+                    }
+                    else{
+                        startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class)
+                                .putExtra("origin", intentString)
+                                .putExtra("depart_data", origin.toString())
+                                .putExtra("arrive_data", destination.toString())
+                                .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
+                                .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
+                                .putExtra("adult", intent.getIntExtra("adult", 0))
+                                .putExtra("child", intent.getIntExtra("child", 0))
+                                .putExtra("infant", intent.getIntExtra("infant", 0))
+                                .putExtra("kelas", intent.getStringExtra("kelas"))
+                                .putExtra("isReturn", false)
+                                .putExtra("depart_ticket",ticketList.get(position).toString())
+                        );
+                    }
+                }
+                else{
+                    startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class)
+                            .putExtra("origin", intentString)
+                    );
+                }
             }
         });
+
+        if(intentString.equals("flight")){
+            flightData();
+        }
+        else{
+            trainData();
+        }
 
     }
 
@@ -87,26 +187,77 @@ public class FlightSearchJadwal extends BaseActivity {
     }
 
     public void flightData(){
+        String url = null;
         try {
-            ticketList.add(new JSONObject("{\"airlines\":\"Singapore Airlines\", " +
-                    "\"departTime\":\"07:40\", " +
-                    "\"duration\":\"2j 20m\", " +
-                    "\"arrivalTime\":\"11:00\", " +
-                    "\"departAirport\":\"SUB\", " +
-                    "\"totalTransit\":\"0 Transit\", " +
-                    "\"arrivalAirport\":\"SIN\", " +
-                    "\"price\":\"2.500.000\"}"));
-            ticketList.add(new JSONObject("{\"airlines\":\"Garuda Indonesia\", " +
-                    "\"departTime\":\"07:40\", " +
-                    "\"duration\":\"2j 20m\", " +
-                    "\"arrivalTime\":\"11:00\", " +
-                    "\"departAirport\":\"SUB\", " +
-                    "\"totalTransit\":\"0 Transit\", " +
-                    "\"arrivalAirport\":\"SIN\", " +
-                    "\"price\":\"2.500.000\"}"));
+            url = C_URL+"flight/search?origin="+origin.getString("code")+
+                    "&destination="+destination.getString("code");
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("data");
+                    for(int x=0; x<jsonArray.length(); x++){
+                        JSONObject jsonObject = new JSONObject();
+
+                        jsonObject.put("airlines", jsonArray.getJSONObject(x).getString("airlines"));
+                        jsonObject.put("departTime", jsonArray.getJSONObject(x).getString("time_depart"));
+                        jsonObject.put("arrivalTime", jsonArray.getJSONObject(x).getString("time_arrive"));
+                        jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));
+                        jsonObject.put("departAirport", origin.getString("code"));
+                        jsonObject.put("arrivalAirport", destination.getString("code"));
+                        if(jsonArray.getJSONObject(x).getInt("transit") > 1)
+                            jsonObject.put("totalTransit", jsonArray.getJSONObject(x).getString("transit")+
+                                    (jsonArray.getJSONObject(x).getInt("transit") > 2 ? " Transits" : " Transit")
+                            );
+                        else
+                            jsonObject.put("totalTransit", "Langsung");
+                        jsonObject.put("price", jsonArray.getJSONObject(x).getString("price"));
+
+                        ticketList.add(jsonObject);
+
+                        if(x==0)
+                            mAdapter.notifyDataSetChanged();
+                        else
+                            mAdapter.notifyItemInserted(x);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
     }
 
     public void trainData(){

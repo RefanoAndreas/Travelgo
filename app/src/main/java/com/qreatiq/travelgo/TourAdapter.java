@@ -13,7 +13,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ethanhua.skeleton.Skeleton;
+import com.ethanhua.skeleton.ViewSkeletonScreen;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -32,6 +35,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesVi
     private ArrayList<JSONObject> mTourPackagesList;
     Context context;
     ClickListener clickListener;
+    ViewSkeletonScreen skeleton;
 
     public class TourPackagesViewHolder extends RecyclerView.ViewHolder{
         public CarouselView carouselView;
@@ -78,6 +82,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesVi
     @Override
     public void onBindViewHolder(final TourPackagesViewHolder tourPackagesViewHolder, int i) {
         final JSONObject jsonObject = mTourPackagesList.get(i);
+//        skeleton = Skeleton.bind(tourPackagesViewHolder.carouselView).load(R.layout.skeleton_tour_edit).show();
 
 //        tourPackagesViewHolder.mTextView1.setText(currentItem.getText1());
 //        tourPackagesViewHolder.mTextView2.setText(currentItem.getText2());
@@ -101,6 +106,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesVi
             tourPackagesViewHolder.mTextView3.setText(jsonObject.getString("trip_description"));
 
             tourPackagesViewHolder.carouselView.setPageCount(jsonObject.getJSONArray("photo").length());
+//            skeleton.hide();
             tourPackagesViewHolder.carouselView.setImageListener(new ImageListener() {
                 @Override
                 public void setImageForPosition(int position, ImageView imageView) {
@@ -112,7 +118,17 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesVi
                                 .placeholder(R.mipmap.ic_launcher)
                                 .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
                                 .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
-                                .into(imageView);
+                                .into(imageView, new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+//                                        skeleton.hide();
+                                    }
+
+                                    @Override
+                                    public void onError(Exception e) {
+//                                        skeleton.hide();
+                                    }
+                                });
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.button.MaterialButton;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
@@ -14,7 +15,14 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
+import com.shawnlin.numberpicker.NumberPicker;
+
 public class FlightSearchJumlahPenumpang extends BottomSheetDialogFragment {
+
+    NumberPicker adult,child,infant;
+    FlightSearch parent;
+    MaterialButton submit;
+    int adult_data = 1, child_data = 0, infant_data = 0;
 
     @Nullable
     @Override
@@ -36,5 +44,56 @@ public class FlightSearchJumlahPenumpang extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        parent = (FlightSearch) getActivity();
+
+        adult = (NumberPicker) view.findViewById(R.id.adult);
+        child = (NumberPicker) view.findViewById(R.id.child);
+        infant = (NumberPicker) view.findViewById(R.id.infant);
+        submit = (MaterialButton) view.findViewById(R.id.submit);
+
+        adult_data = parent.adult;
+        child_data = parent.child;
+        infant_data = parent.infant;
+
+        adult.setValue(parent.adult);
+        child.setValue(parent.child);
+        infant.setValue(parent.infant);
+
+        adult.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                adult_data = newVal;
+            }
+        });
+
+        child.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                child_data = newVal;
+            }
+        });
+
+        infant.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                infant_data = newVal;
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parent.adult = adult_data;
+                parent.child = child_data;
+                parent.infant = infant_data;
+
+                parent.adult_label.setText(String.valueOf(parent.adult)+" Dewasa");
+                parent.child_label.setText(String.valueOf(parent.child)+" Anak");
+                parent.infant_label.setText(String.valueOf(parent.infant)+" Bayi");
+
+                dismiss();
+            }
+        });
     }
 }

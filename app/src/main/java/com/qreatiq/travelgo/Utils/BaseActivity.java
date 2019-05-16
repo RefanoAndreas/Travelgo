@@ -49,6 +49,7 @@ public class BaseActivity extends AppCompatActivity {
 
         base_shared_pref = getApplicationContext().getSharedPreferences("user_id",MODE_PRIVATE);
         edit_base_shared_pref = base_shared_pref.edit();
+//        edit_base_shared_pref.remove("flight.last_search").commit();
         changeLang(base_shared_pref.getString("lang","en"));
 
         requestQueue = Volley.newRequestQueue(this);
@@ -76,6 +77,10 @@ public class BaseActivity extends AppCompatActivity {
         config.locale = myLocale;
         getBaseContext().getResources().updateConfiguration(config,getBaseContext().getResources().getDisplayMetrics());
 
+    }
+
+    public String capitalizeString(String myString){
+        return myString.substring(0,1).toUpperCase() + myString.substring(1);
     }
 
     public String BitMapToString(Bitmap bitmap){

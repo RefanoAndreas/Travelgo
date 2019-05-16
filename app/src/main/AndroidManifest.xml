@@ -22,7 +22,6 @@
         <activity android:name=".SearchHotel" />
         <activity android:name=".SearchFlight" />
         <activity android:name=".SearchTrain" />
-        <activity android:name=".FilterTrain" />
         <activity android:name=".TrainSearchJadwal" />
         <activity
             android:name=".TrainSearch"

@@ -35,6 +35,7 @@
                 android:textColor="@color/colorPrimary"
                 android:layout_weight="1"
                 android:textSize="12dp"
+                android:id="@+id/reset"
                 android:fontFamily="@font/montserrat_medium"/>
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
@@ -131,10 +132,10 @@
                 app:bar_highlight_color="#163E7F"
                 app:corner_radius="10"
                 app:data_type="_integer"
-                app:gap="200000"
+                app:gap="0"
                 app:left_thumb_color="#0E64FF"
-                app:max_value="3000000"
-                app:min_value="300000"
+                app:max_value="300000000"
+                app:min_value="0"
                 app:right_thumb_image="@drawable/crystalrange_rightthumb"
                 app:left_thumb_image="@drawable/crystalrange_leftthumb"/>
 
@@ -156,6 +157,7 @@
             <android.support.design.chip.ChipGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/kelas_group"
                 android:layout_marginTop="10dp">
 
                 <android.support.design.chip.Chip
@@ -164,6 +166,7 @@
                     android:text="Ekonomi"
                     android:textColor="#424242"
                     android:textSize="12dp"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     app:chipBackgroundColor="@android:color/white"
                     app:chipCornerRadius="10dp"
                     app:chipStrokeColor="#707070"
@@ -174,6 +177,7 @@
                     android:text="Bisnis"
                     android:textColor="#424242"
                     android:textSize="12dp"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     app:chipBackgroundColor="@android:color/white"
                     app:chipCornerRadius="10dp"
                     app:chipStrokeColor="#707070"
@@ -185,6 +189,7 @@
                     android:text="Eksekutif"
                     android:textColor="#424242"
                     android:textSize="12dp"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     app:chipBackgroundColor="@android:color/white"
                     app:chipCornerRadius="10dp"
                     app:chipStrokeColor="#707070"
@@ -210,6 +215,7 @@
             <android.support.design.chip.ChipGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/transit_group"
                 android:layout_marginTop="10dp">
 
                 <android.support.design.chip.Chip
@@ -218,6 +224,7 @@
                     android:text="Langsung"
                     android:textColor="#424242"
                     android:textSize="12dp"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     app:chipBackgroundColor="@android:color/white"
                     app:chipCornerRadius="10dp"
                     app:chipStrokeColor="#707070"
@@ -228,6 +235,7 @@
                     android:text="1 Transit"
                     android:textColor="#424242"
                     android:textSize="12dp"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     app:chipBackgroundColor="@android:color/white"
                     app:chipCornerRadius="10dp"
                     app:chipStrokeColor="#707070"
@@ -239,6 +247,7 @@
                     android:text="2+ Transit"
                     android:textColor="#424242"
                     android:textSize="12dp"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
                     app:chipBackgroundColor="@android:color/white"
                     app:chipCornerRadius="10dp"
                     app:chipStrokeColor="#707070"

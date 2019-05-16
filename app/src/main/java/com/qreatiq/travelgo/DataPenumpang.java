@@ -22,6 +22,8 @@ public class DataPenumpang extends BaseActivity {
     Spinner spinner_titel;
     TextInputEditText name;
 
+    JSONObject data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +33,11 @@ public class DataPenumpang extends BaseActivity {
 
         Intent i = getIntent();
         String intentString = i.getStringExtra("packageName");
+        try {
+            data = new JSONObject(i.getStringExtra("data"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         linearBagasi = (LinearLayout)findViewById(R.id.linearBagasi);
         titleData = (TextView)findViewById(R.id.titleData);
@@ -60,6 +67,16 @@ public class DataPenumpang extends BaseActivity {
             idNo_layout.setVisibility(View.GONE);
             email_layout.setVisibility(View.GONE);
             phone_layout.setVisibility(View.GONE);
+
+            try {
+                String title = data.getString("title");
+                if(!title.equals(""))
+                    spinner_titel.setSelection(getIndex(spinner_titel,title));
+                name.setText(data.getString("name"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
         }
         else if(intentString.equals("train")){
             linearBagasi.setVisibility(View.GONE);
@@ -93,5 +110,15 @@ public class DataPenumpang extends BaseActivity {
                 onBackPressed();
             }
         });
+    }
+
+    private int getIndex(Spinner spinner, String myString){
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(myString)){
+                return i;
+            }
+        }
+
+        return 0;
     }
 }

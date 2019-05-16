@@ -249,63 +249,73 @@
                             android:textSize="12dp"/>
 
                     </LinearLayout>
-                    <android.support.design.chip.ChipGroup
+                    <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp">
+                        android:scrollbars="none">
+                        <android.support.design.chip.ChipGroup
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp">
 
-                        <android.support.design.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Kuta"
-                            android:textColor="#424242"
-                            android:textSize="12dp"
-                            app:chipBackgroundColor="@android:color/white"
-                            app:chipCornerRadius="10dp"
-                            app:chipStrokeColor="#707070"
-                            app:chipStrokeWidth="1dp" />
-                        <android.support.design.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Jimbaran"
-                            android:textColor="#424242"
-                            android:textSize="12dp"
-                            app:chipBackgroundColor="@android:color/white"
-                            app:chipCornerRadius="10dp"
-                            app:chipStrokeColor="#707070"
-                            app:chipStrokeWidth="1dp" />
-                        <android.support.design.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Legian"
-                            android:textColor="#424242"
-                            android:textSize="12dp"
-                            app:chipBackgroundColor="@android:color/white"
-                            app:chipCornerRadius="10dp"
-                            app:chipStrokeColor="#707070"
-                            app:chipStrokeWidth="1dp" />
-                        <android.support.design.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="GWK"
-                            android:textColor="#424242"
-                            android:textSize="12dp"
-                            app:chipBackgroundColor="@android:color/white"
-                            app:chipCornerRadius="10dp"
-                            app:chipStrokeColor="#707070"
-                            app:chipStrokeWidth="1dp" />
-                        <android.support.design.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Kuta"
-                            android:textColor="#424242"
-                            android:textSize="12dp"
-                            app:chipBackgroundColor="@android:color/white"
-                            app:chipCornerRadius="10dp"
-                            app:chipStrokeColor="#707070"
-                            app:chipStrokeWidth="1dp" />
+                            <android.support.design.chip.Chip
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Kuta"
+                                android:textColor="#424242"
+                                android:textSize="12dp"
+                                style="@style/Widget.MaterialComponents.Chip.Filter"
+                                app:chipBackgroundColor="@android:color/white"
+                                app:chipCornerRadius="10dp"
+                                app:chipStrokeColor="#707070"
+                                app:chipStrokeWidth="1dp" />
+                            <android.support.design.chip.Chip
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Jimbaran"
+                                android:textColor="#424242"
+                                android:textSize="12dp"
+                                style="@style/Widget.MaterialComponents.Chip.Filter"
+                                app:chipBackgroundColor="@android:color/white"
+                                app:chipCornerRadius="10dp"
+                                app:chipStrokeColor="#707070"
+                                app:chipStrokeWidth="1dp" />
+                            <android.support.design.chip.Chip
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Legian"
+                                android:textColor="#424242"
+                                android:textSize="12dp"
+                                style="@style/Widget.MaterialComponents.Chip.Filter"
+                                app:chipBackgroundColor="@android:color/white"
+                                app:chipCornerRadius="10dp"
+                                app:chipStrokeColor="#707070"
+                                app:chipStrokeWidth="1dp" />
+                            <android.support.design.chip.Chip
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="GWK"
+                                android:textColor="#424242"
+                                android:textSize="12dp"
+                                style="@style/Widget.MaterialComponents.Chip.Filter"
+                                app:chipBackgroundColor="@android:color/white"
+                                app:chipCornerRadius="10dp"
+                                app:chipStrokeColor="#707070"
+                                app:chipStrokeWidth="1dp" />
+                            <android.support.design.chip.Chip
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Kuta"
+                                android:textColor="#424242"
+                                android:textSize="12dp"
+                                style="@style/Widget.MaterialComponents.Chip.Filter"
+                                app:chipBackgroundColor="@android:color/white"
+                                app:chipCornerRadius="10dp"
+                                app:chipStrokeColor="#707070"
+                                app:chipStrokeWidth="1dp" />
 
-                    </android.support.design.chip.ChipGroup>
+                        </android.support.design.chip.ChipGroup>
+                    </HorizontalScrollView>
 
                 </LinearLayout>
 

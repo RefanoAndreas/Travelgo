@@ -48,7 +48,7 @@ public class FlightSearchKelasPesawat extends BottomSheetDialogFragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                parent.kelas_data = data[numberPicker.getValue()-1];
                 parent.kelas.setText(data[numberPicker.getValue()-1]);
                 dismiss();
             }
