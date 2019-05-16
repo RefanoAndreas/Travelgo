@@ -53,7 +53,7 @@ public class DetailTourTransaction extends BaseActivity {
         set_toolbar();
 
         intent = getIntent();
-        dataIntent = intent.getStringExtra("inv_id");
+        dataIntent = intent.getStringExtra("sales_id");
 
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("access_token", "Data not found");
@@ -84,22 +84,21 @@ public class DetailTourTransaction extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    name.setText(response.getJSONObject("user").getString("name"));
-                    if(!response.getJSONObject("user").isNull("phone_number"))
-                        phone.setText(response.getJSONObject("user").getString("phone_number"));
+
+                    JSONObject jsonDetail= response.getJSONObject("detail");
+
+                    name.setText(jsonDetail.getJSONObject("user").getString("name"));
+                    if(!jsonDetail.getJSONObject("user").isNull("phone_number"))
+                        phone.setText(jsonDetail.getJSONObject("user").getString("phone_number"));
                     else
                         phone.setText("");
 
-                    JSONObject jsonInvoice = response.getJSONObject("invoice");
-
-                    for(int x=0; x<jsonInvoice.getJSONArray("detail").getJSONObject(0).getJSONObject("sales_tour").getJSONArray("participant").length();x++){
-                        JSONObject jsonParticipant = jsonInvoice.getJSONArray("detail").getJSONObject(0).getJSONObject("sales_tour").getJSONArray("participant").getJSONObject(x);
+                    for(int x=0; x<jsonDetail.getJSONArray("participant").length();x++){
+                        JSONObject jsonParticipant = jsonDetail.getJSONArray("participant").getJSONObject(x);
 
                         JSONObject jsonObject = new JSONObject();
-
                         jsonObject.put("title", jsonParticipant.getString("title"));
                         jsonObject.put("name", jsonParticipant.getString("name"));
-                        Log.d("respon", jsonObject.toString());
 
                         ParticipantList.add(jsonObject);
 
@@ -109,10 +108,8 @@ public class DetailTourTransaction extends BaseActivity {
                             mAdapterParticipant.notifyDataSetChanged();
                     }
 
-                    JSONObject jsonTripPack = jsonInvoice.getJSONArray("detail")
-                                        .getJSONObject(0)
-                                        .getJSONObject("sales_tour")
-                                        .getJSONArray("detail")
+
+                    JSONObject jsonTripPack = jsonDetail.getJSONArray("detail")
                                         .getJSONObject(0)
                                         .getJSONObject("trip_pack");
 

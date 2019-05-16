@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -105,6 +106,8 @@ public class ConfirmationOrder extends BaseActivity {
                 newFragment.show(getSupportFragmentManager(), "missiles");
             }
         });
+
+        Log.d("array", arrayList.toString());
 
         adapter.setOnItemClickListener(new ConfirmationPaxAdapter.ClickListener() {
             @Override

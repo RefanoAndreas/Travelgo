@@ -29,6 +29,9 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONException;
@@ -39,11 +42,11 @@ public class LogIn extends BaseActivity {
     TextInputEditText email, password;
     TextView signUpBtn;
     Button loginBtn;
-    SharedPreferences userID;
-    String url, user_id;
+    SharedPreferences userID, deviceToken;
+    String url, user_id, tokenDevice;
     RequestQueue requestQueue;
     TextInputLayout emailLayout, passwordLayout;
-    String userIDGet;
+    String userIDGet, tokenFCM;
     LoginButton loginButton;
     CallbackManager callbackManager;
     ConstraintLayout layout;
@@ -95,16 +98,19 @@ public class LogIn extends BaseActivity {
             }
         });
 
-        requestQueue = Volley.newRequestQueue(this);
-
-        loginBtn = (Button) findViewById(R.id.btnLogin);
-        loginBtn.setOnClickListener(new View.OnClickListener() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnSuccessListener( LogIn.this,  new OnSuccessListener<InstanceIdResult>() {
             @Override
-            public void onClick(View v) {
-                login();
+            public void onSuccess(InstanceIdResult instanceIdResult) {
+                tokenFCM = instanceIdResult.getToken();
             }
         });
 
+        deviceToken = getSharedPreferences("token", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor1 = deviceToken.edit();
+        editor1.putString("token", tokenFCM);
+        editor1.apply();
+
+        requestQueue = Volley.newRequestQueue(this);
 
 
         loginButton = (LoginButton) findViewById(R.id.login_button_fb);
@@ -165,6 +171,12 @@ public class LogIn extends BaseActivity {
     private void loginFB(JSONObject object){
         url = link.C_URL+"loginFB";
 
+        try {
+            object.put("token", tokenFCM);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, object, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -172,7 +184,7 @@ public class LogIn extends BaseActivity {
                     if(response.getString("status").equals("success")){
                         userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = userID.edit();
-                        editor.putString("access_token", response.getString("access_token"));
+                        editor.putString("access_token", response.getJSONObject("access_token").getString("token_type")+" "+response.getJSONObject("access_token").getString("access_token"));
                         editor.apply();
 
                         Intent intentHome = new Intent(LogIn.this, BottomNavContainer.class);
@@ -199,7 +211,7 @@ public class LogIn extends BaseActivity {
     }
 
 
-    private void login(){
+    public void login(View v){
 
         if(email.getText().toString().equals("")){
             emailLayout.setError("Email is empty");
@@ -217,6 +229,7 @@ public class LogIn extends BaseActivity {
             try {
                 jsonObject.put("email", email.getText().toString());
                 jsonObject.put("password", password.getText().toString());
+                jsonObject.put("token", tokenFCM);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

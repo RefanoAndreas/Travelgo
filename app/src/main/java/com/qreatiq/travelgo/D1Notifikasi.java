@@ -62,32 +62,7 @@ public class D1Notifikasi extends BaseActivity {
             getSupportActionBar().setTitle("History Purchasing");
         }
 
-        try {
-            if(dataIntent.equals("purchasing")) {
-                historyPurchasing();
-            }
-            if(dataIntent.equals("all") || dataIntent.equals("sales")) {
-                notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
-                        "\"destination\":\"Labuan Bajo Trip\", " +
-                        "\"infoTrip\":\"Tour ABCDE\", " +
-                        "\"totalPack\":\"2 Mei 2019 - 3 Mei 2019\", " +
-                        "\"duration\":\"1 Malam\", " +
-                        "\"type\":\"tour\", " +
-                        "\"status\":\"Dipesan\"}"));
-                notifList.add(new JSONObject("{\"date\":\"Kamis, 2 Mei 2019\", " +
-                        "\"destination\":\"Labuan Bajo Trip\", " +
-                        "\"infoTrip\":\"Tour ABCDE\", " +
-                        "\"totalPack\":\"2 Mei 2019 - 3 Mei 2019\", " +
-                        "\"duration\":\"1 Malam\", " +
-                        "\"type\":\"tour\", " +
-                        "\"status\":\"Dipesan\"}"));
-            }
-
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        history();
 
         mRecyclerView = findViewById(R.id.RV_notif);
         mRecyclerView.setHasFixedSize(true);
@@ -101,16 +76,20 @@ public class D1Notifikasi extends BaseActivity {
             @Override
             public void onItemClick(int position) {
                 try {
-                    if(notifList.get(position).getString("type").equals("tour")) {
-                        if (notifList.get(position).getString("status").equals("berhasil")) {
-                            startActivity(new Intent(D1Notifikasi.this, TransactionDetail.class).putExtra("origin", "history"));
+                    Log.d("type", notifList.get(position).toString());
+
+                    if(notifList.get(position).getString("salesType").equals("tour")) {
+                        if (notifList.get(position).getString("type").equals("purchasing")) {
+                            startActivity(new Intent(D1Notifikasi.this, TransactionDetail.class)
+                                            .putExtra("origin", "history")
+                                            .putExtra("sales_id", notifList.get(position).getString("id")));
                         } else {
-                            startActivity(new Intent(D1Notifikasi.this, DetailTourTransaction.class).putExtra("inv_id", notifList.get(position).getString("id")));
+                            startActivity(new Intent(D1Notifikasi.this, DetailTourTransaction.class).putExtra("sales_id", notifList.get(position).getString("id")));
                         }
                     }
                     else{
                         startActivity(new Intent(D1Notifikasi.this, D2NotifikasiDetail.class)
-                                .putExtra("routeType", notifList.get(position).getString("routeType"))
+                                .putExtra("info", notifList.get(position).getString("info2"))
                                 .putExtra("type", notifList.get(position).getString("type")));
                     }
                 } catch (JSONException e) {
@@ -120,43 +99,96 @@ public class D1Notifikasi extends BaseActivity {
         });
     }
 
-    private void historyPurchasing(){
-        url = link.C_URL+"history-purchasing";
+    private void history(){
+        if(dataIntent.equals("purchasing"))
+            url = link.C_URL+"history-purchasing";
+        else if(dataIntent.equals("sales"))
+            url = link.C_URL+"history-sales";
+        else
+            url = link.C_URL+"history";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
                 try {
-                    for(int x=0;x<response.getJSONArray("invoice").length();x++){
-                        JSONObject jsonObject = new JSONObject();
-                        JSONObject jsonInvoice= response.getJSONArray("invoice").getJSONObject(x);
+                    if(dataIntent.equals("purchasing")) {
+                        for (int x = 0; x < response.getJSONArray("purchasing").length(); x++) {
+                            JSONObject jsonObject = new JSONObject();
+                            JSONObject jsonSales = response.getJSONArray("purchasing").getJSONObject(x);
 
-                        jsonObject.put("id", jsonInvoice.getString("id"));
-                        jsonObject.put("date", jsonInvoice.getString("date"));
-                        jsonObject.put("status", jsonInvoice.getString("status"));
+                            jsonObject.put("id", jsonSales.getString("sales_id"));
+                            jsonObject.put("date1", jsonSales.getString("date1"));
+                            jsonObject.put("type", jsonSales.getString("type"));
+                            jsonObject.put("salesType", jsonSales.getString("salesType"));
 
-                        for(int y=0;y<jsonInvoice.getJSONArray("detail").length();y++){
-                            JSONObject jsonSalesTour = jsonInvoice.getJSONArray("detail").getJSONObject(y).getJSONObject("sales_tour");
+                            jsonObject.put("info1", jsonSales.getString("info1"));
+                            jsonObject.put("info2", jsonSales.getString("info2"));
+                            jsonObject.put("info3", jsonSales.getString("info3"));
+                            jsonObject.put("info4", jsonSales.getString("info4"));
+                            jsonObject.put("status", jsonSales.getString("status"));
 
-                            jsonObject.put("type", jsonInvoice.getJSONArray("detail").getJSONObject(y).getString("type"));
-
-                            for(int z=0;z<jsonSalesTour.getJSONArray("detail").length();z++){
-                                JSONObject jsonTripPack = jsonSalesTour.getJSONArray("detail").getJSONObject(z).getJSONObject("trip_pack");
-                                Log.d("trip", jsonTripPack.getJSONObject("trip").getString("name"));
-
-                                jsonObject.put("destination", jsonTripPack.getJSONObject("trip").getString("name"));
-                                jsonObject.put("infoTrip", jsonTripPack.getJSONObject("trip").getJSONObject("tour").getString("name"));
-                                jsonObject.put("duration", jsonTripPack.getJSONObject("trip").getString("duration"));
-                                jsonObject.put("trip_date", jsonTripPack.getJSONObject("trip").getString("trip_date"));
-
-                            }
+                            notifList.add(jsonObject);
+                            if (x != 0)
+                                mAdapter.notifyItemInserted(x);
+                            else
+                                mAdapter.notifyDataSetChanged();
                         }
-                        notifList.add(jsonObject);
-                        if(x != 0)
-                            mAdapter.notifyItemInserted(x);
-                        else
-                            mAdapter.notifyDataSetChanged();
+                    }
+                    else if(dataIntent.equals("sales")) {
+                        for(int x=0;x<response.getJSONArray("sales").length();x++) {
+                            JSONObject jsonSales= response.getJSONArray("sales").getJSONObject(x);
+
+                            JSONObject jsonObject = new JSONObject();
+
+                            jsonObject.put("id", jsonSales.getString("sales_id"));
+                            jsonObject.put("date1", jsonSales.getString("date1"));
+                            jsonObject.put("type", "tour");
+                            jsonObject.put("salesType", jsonSales.getString("salesType"));
+
+                            jsonObject.put("info1", jsonSales.getString("info1"));
+                            jsonObject.put("info2", jsonSales.getString("info2"));
+                            jsonObject.put("info3", jsonSales.getString("info3"));
+                            jsonObject.put("info4", jsonSales.getString("info4"));
+                            jsonObject.put("status", "Dipesan");
+
+                            notifList.add(jsonObject);
+                            if(x != 0)
+                                mAdapter.notifyItemInserted(x);
+                            else
+                                mAdapter.notifyDataSetChanged();
+
+                        }
+                    }
+                    else{
+                        Log.d("respon", response.toString());
+
+                        for(int x=0;x<response.getJSONArray("history").length();x++) {
+                            JSONObject jsonSales= response.getJSONArray("history").getJSONObject(x);
+
+                            JSONObject jsonObject = new JSONObject();
+
+                            jsonObject.put("id", jsonSales.getString("id"));
+                            jsonObject.put("date1", jsonSales.getString("date1"));
+                            jsonObject.put("type", jsonSales.getString("type"));
+                            jsonObject.put("salesType", jsonSales.getString("salesType"));
+
+                            jsonObject.put("info1", jsonSales.getString("info1"));
+                            jsonObject.put("info2", jsonSales.getString("info2"));
+                            jsonObject.put("info3", jsonSales.getString("info3"));
+                            jsonObject.put("info4", jsonSales.getString("info4"));
+                            if(jsonSales.getString("type").equals("sales"))
+                                jsonObject.put("status", "Dipesan");
+                            else
+                                jsonObject.put("status", jsonSales.getString("status"));
+
+                            notifList.add(jsonObject);
+                            if(x != 0)
+                                mAdapter.notifyItemInserted(x);
+                            else
+                                mAdapter.notifyDataSetChanged();
+
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -202,4 +234,5 @@ public class D1Notifikasi extends BaseActivity {
         requestQueue.add(jsonObjectRequest);
 
     }
+
 }

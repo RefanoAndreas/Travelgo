@@ -116,6 +116,7 @@
                     android:layout_marginTop="24dp"
                     app:backgroundTint="#0E64FF"
                     android:text="LOGIN"
+                    android:onClick="login"
                     app:cornerRadius="6dp"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"

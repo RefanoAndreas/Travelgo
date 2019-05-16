@@ -67,9 +67,11 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.No
         JSONObject jsonObject = notifList.get(i);
 
         try {
-            notifikasiHolder.mTextView1.setText(jsonObject.getString("date"));
-            notifikasiHolder.mTextView2.setText(jsonObject.getString("destination"));
-            notifikasiHolder.mTextView3.setText(jsonObject.getString("infoTrip"));
+            notifikasiHolder.mTextView1.setText(jsonObject.getString("date1"));
+            notifikasiHolder.mTextView2.setText(jsonObject.getString("info1"));
+            notifikasiHolder.mTextView3.setText(jsonObject.getString("info2"));
+            notifikasiHolder.mTextView4.setText(jsonObject.getString("info3"));
+            notifikasiHolder.mTextView5.setText(jsonObject.getString("info4"));
             notifikasiHolder.mChip1.setText(jsonObject.getString("status"));
 
             if(jsonObject.getString("status").equals("berhasil")){
@@ -80,20 +82,14 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.No
                 notifikasiHolder.mChip1.setTextColor(Color.parseColor("#424242"));
             }
 
-            if(jsonObject.getString("type").equals("flight")){
+            if(jsonObject.getString("salesType").equals("flight")){
                 notifikasiHolder.notifIcon.setImageResource(R.drawable.ic_flight_takeoff_black_24dp);
-                notifikasiHolder.mTextView4.setText(jsonObject.getString("totalPack"));
-                notifikasiHolder.mTextView5.setText(jsonObject.getString("routeType"));
             }
-            else if(jsonObject.getString("type").equals("train")){
+            else if(jsonObject.getString("salesType").equals("train")){
                 notifikasiHolder.notifIcon.setImageResource(R.drawable.ic_train_black_24dp);
-                notifikasiHolder.mTextView4.setText(jsonObject.getString("totalPack"));
-                notifikasiHolder.mTextView5.setText(jsonObject.getString("routeType"));
             }
-            else if(jsonObject.getString("type").equals("hotel") || jsonObject.getString("type").equals("tour")){
+            else if(jsonObject.getString("salesType").equals("hotel") || jsonObject.getString("salesType").equals("tour")){
                 notifikasiHolder.notifIcon.setImageResource(R.drawable.ic_location_city_black_24dp);
-                notifikasiHolder.mTextView4.setText(jsonObject.getString("trip_date"));
-                notifikasiHolder.mTextView5.setText(jsonObject.getString("duration"));
             }
 
 

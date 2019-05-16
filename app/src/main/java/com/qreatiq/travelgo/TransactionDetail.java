@@ -66,6 +66,7 @@ public class TransactionDetail extends BaseActivity {
     ParticipantListAdapter mAdapterParticipant;
     ArrayList<JSONObject> ParticipantList = new ArrayList<JSONObject>();
     private RecyclerView.LayoutManager mLayoutManagerParticipant;
+    String sales_id;
 
     int DATA_PENUMPANG = 1;
 
@@ -122,6 +123,9 @@ public class TransactionDetail extends BaseActivity {
         if (intentString.equals("history")){
             isiDataPeserta.setVisibility(View.GONE);
             saveButton.setVisibility(View.GONE);
+            sales_id = intent.getStringExtra("sales_id");
+            mRecyclerViewParticipant.setVisibility(View.VISIBLE);
+            detailHistory();
         }
         else if(intentString.equals("pay")){
             trip_pack = intent.getStringExtra("trip_pack");
@@ -198,8 +202,115 @@ public class TransactionDetail extends BaseActivity {
         }
     }
 
+    private void detailHistory(){
+
+        url = link.C_URL+"history/detail?id="+sales_id;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject jsonDetail = response.getJSONObject("detail");
+
+                    Log.d("asd", jsonDetail.toString());
+
+                    TV_status_transaction.setText(jsonDetail.getString("status"));
+                    TV_buy_date.setText(jsonDetail.getString("order_date"));
+
+                    for(int x=0; x<jsonDetail.getJSONArray("participant").length();x++){
+                        JSONObject jsonParticipant = jsonDetail.getJSONArray("participant").getJSONObject(x);
+
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("title", jsonParticipant.getString("title"));
+                        jsonObject.put("name", jsonParticipant.getString("name"));
+
+                        ParticipantList.add(jsonObject);
+
+                        if(x == 0)
+                            mAdapterParticipant.notifyItemInserted(ParticipantList.size());
+                        else
+                            mAdapterParticipant.notifyDataSetChanged();
+                    }
+
+                    JSONObject jsonTripPack = jsonDetail.getJSONArray("detail")
+                            .getJSONObject(0)
+                            .getJSONObject("trip_pack");
+
+                    for(int x=0; x<jsonDetail.getJSONArray("detail").length();x++){
+
+                        JSONObject jsonObjectPack = jsonDetail.getJSONArray("detail").getJSONObject(x);
+
+                        JSONObject jsonObject1 = new JSONObject();
+
+//                        jsonObject1.put("photo", jsonObjectPack.getString("photo"));
+                        jsonObject1.put("trip_name", jsonObjectPack.getJSONObject("trip_pack").getString("name"));
+                        jsonObject1.put("trip_price", jsonObjectPack.getJSONObject("trip_pack").getString("price"));
+                        Log.d("trip", jsonObject1.toString());
+
+                        tripPackList.add(jsonObject1);
+
+                        if(x > 0)
+                            mAdapter.notifyItemInserted(tripPackList.size());
+                        else
+                            mAdapter.notifyDataSetChanged();
+                    }
+
+                    TV_trip_date.setText(jsonTripPack.getJSONObject("trip").getString("trip_date"));
+                    TV_trip_location.setText(jsonTripPack.getJSONObject("trip").getJSONObject("city").getString("name"));
+
+                    NumberFormat formatter = new DecimalFormat("#,###");
+                    String formattedNumber = formatter.format(response.getDouble("price"));
+                    TV_total_price.setText("Rp. "+formattedNumber);
+
+                    TV_tour_phone.setText(jsonTripPack.getJSONObject("trip").getJSONObject("tour").getString("phone"));
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout=(ConstraintLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", userID);
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+        };
+
+        requestQueue.add(jsonObjectRequest);
+
+    }
+
     private void submit(){
-        url = link.C_URL+"tour-invoice";
+        url = link.C_URL+"sales/tour";
 
         JSONObject jsonObject = new JSONObject();
 
@@ -211,6 +322,8 @@ public class TransactionDetail extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        Log.d("json", jsonObject.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override

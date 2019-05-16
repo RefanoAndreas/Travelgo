@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -18,8 +19,8 @@ import com.qreatiq.travelgo.Utils.BaseActivity;
 
 public class BottomNavContainer extends BaseActivity {
 
-    String id_loc, userID;
-    SharedPreferences user_id;
+    String id_loc, userID, tokenDevice;
+    SharedPreferences user_id, deviceToken;
     FragmentTour fragmentTour;
     Fragment selectedFragment = null;
     BottomNavigationView bottomNav;
@@ -33,6 +34,9 @@ public class BottomNavContainer extends BaseActivity {
 
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("access_token", "Data not found");
+
+        deviceToken = getSharedPreferences("token", Context.MODE_PRIVATE);
+        tokenDevice = deviceToken.getString("token", "Data not found");
 
         bottomNav = findViewById(R.id.nav_bottom);
         bottomNav.setOnNavigationItemSelectedListener(navListener);

@@ -46,9 +46,9 @@ public class SignUp extends BaseActivity {
 
     TextInputEditText email, password, retypePass;
     Button btnSignUp;
-    String url;
+    String url, tokenDevice;
     RequestQueue requestQueue;
-    SharedPreferences userID;
+    SharedPreferences userID, deviceToken;
     TextView btnLogin;
     TextInputLayout emailLayout, passwordLayout, retypePassLayout;
     ConstraintLayout layout;
@@ -62,6 +62,9 @@ public class SignUp extends BaseActivity {
 
         getWindow().setBackgroundDrawableResource(R.drawable.background_splash);
         layout=(ConstraintLayout) findViewById(R.id.layout);
+
+        deviceToken = getSharedPreferences("token", Context.MODE_PRIVATE);
+        tokenDevice = deviceToken.getString("token", "Data not found");
 
         emailLayout = (TextInputLayout) findViewById(R.id.email_layout);
         emailLayout.setHint(null);
@@ -213,6 +216,7 @@ public class SignUp extends BaseActivity {
             try {
                 jsonObject.put("email", email.getText().toString());
                 jsonObject.put("password", password.getText().toString());
+                jsonObject.put("token", tokenDevice);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -258,7 +262,7 @@ public class SignUp extends BaseActivity {
         url = link.C_URL+"loginFB";
 
         try {
-            object.put("login", "facebook");
+            object.put("token", tokenDevice);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -269,7 +273,7 @@ public class SignUp extends BaseActivity {
                     if(response.getString("status").equals("success")){
                         userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = userID.edit();
-                        editor.putString("access_token", response.getString("access_token"));
+                        editor.putString("access_token", response.getJSONObject("access_token").getString("token_type")+" "+response.getJSONObject("access_token").getString("access_token"));
                         editor.apply();
 
                         startActivity(new Intent(SignUp.this, BottomNavContainer.class));

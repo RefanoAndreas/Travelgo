@@ -106,8 +106,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:textSize="14dp"
-                                android:textColor="#0DD32C"
-                                android:text="Success"/>
+                                android:textColor="#0DD32C"/>
                             <TextView
                                 android:id="@+id/TV_buy_date"
                                 android:layout_width="wrap_content"
@@ -115,8 +114,7 @@
                                 android:layout_weight="1"
                                 android:layout_marginTop="10dp"
                                 android:textSize="14dp"
-                                android:textColor="#263238"
-                                android:text="05/08/2019"/>
+                                android:textColor="#263238"/>
                             <TextView
                                 android:id="@+id/TV_trip_date"
                                 android:layout_width="wrap_content"
@@ -124,8 +122,7 @@
                                 android:layout_weight="1"
                                 android:layout_marginTop="10dp"
                                 android:textSize="14dp"
-                                android:textColor="#263238"
-                                android:text="02/09/2019 - 02/10/2019"/>
+                                android:textColor="#263238"/>
                             <TextView
                                 android:id="@+id/TV_trip_location"
                                 android:layout_width="wrap_content"
@@ -133,8 +130,7 @@
                                 android:layout_weight="1"
                                 android:layout_marginTop="10dp"
                                 android:textSize="14dp"
-                                android:textColor="#263238"
-                                android:text="Labuan Bajo, NTT"/>
+                                android:textColor="#263238"/>
                         </LinearLayout>
 
                     </LinearLayout>
@@ -252,7 +248,6 @@
                             android:id="@+id/TV_total_price"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Rp. 2.500.000"
                             android:gravity="right"
                             android:textColor="#163E7F"
                             android:fontFamily="@font/montserrat_bold"
@@ -284,7 +279,6 @@
                         android:id="@+id/TV_tour_phone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="08123456789"
                         android:gravity="right"
                         android:textColor="#263238"
                         android:fontFamily="@font/montserrat_medium"

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "688072618992",
+    "firebase_url": "https://travelgo-feda5.firebaseio.com",
+    "project_id": "travelgo-feda5",
+    "storage_bucket": "travelgo-feda5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:688072618992:android:0cd84ace77e00da6",
+        "android_client_info": {
+          "package_name": "com.qreatiq.travelgo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "688072618992-t0997qi7hhjlabc1veb3n2dg5oaq9pov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBoDNPK9N0_ITIp7vaDwIi7y9hi5tiZTE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "688072618992-t0997qi7hhjlabc1veb3n2dg5oaq9pov.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
