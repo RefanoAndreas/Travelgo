@@ -4,7 +4,9 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.button.MaterialButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -21,6 +23,7 @@ import com.qreatiq.travelgo.Utils.BaseActivity;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -29,11 +32,16 @@ public class TrainSearch extends BaseActivity {
     MaterialButton searchTrainBtn;
     LinearLayout flightSearch_icon;
     TextView searchStasiunBerangkat, searchStasiunTujuan, tanggalBerangkat, tanggalKembali, kelas;
+    ConstraintLayout layout;
+
     private int year = 2019, month = 3, day = 10;
 
-    int ARRIVAL_CITY = 1, DEPARTURE_CITY = 2;
+    int ARRIVAL_CITY = 1, DEPARTURE_CITY = 2, START_DATE = 3, END_DATE = 4, adult = 1, infant = 0;
 
     JSONObject depart_data = new JSONObject(),arrive_data = new JSONObject();
+    Date start_date = new Date(),end_date = new Date();
+    String kelas_data = "Ekonomi";
+    boolean isReturn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +52,7 @@ public class TrainSearch extends BaseActivity {
 
         flightSearch_icon = (LinearLayout) findViewById(R.id.flightSearch_icon);
         kelas = (TextView) findViewById(R.id.kelas);
+        layout = (ConstraintLayout) findViewById(R.id.layout);
 
         final CardView jumlahpenumpang = findViewById(R.id.TrainSearch_jumlahPenumpang);
         jumlahpenumpang.setOnClickListener(new View.OnClickListener() {
@@ -74,59 +83,8 @@ public class TrainSearch extends BaseActivity {
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-//                    tanggalContainer.getWeightSum();
-                    tanggalContainer.setWeightSum(2);
-                    kembali.setVisibility(View.VISIBLE);
-                }else{
-//                    tanggalContainer.getWeightSum();
-                    tanggalContainer.setWeightSum(1);
-                    kembali.setVisibility(View.GONE);
-                }
-            }
-        });
-
-        tanggalBerangkat = (TextView)findViewById(R.id.TV_tanggalBerangkat);
-        tanggalKembali = (TextView)findViewById(R.id.TV_tanggalKembali);
-
-        searchTrainBtn = (MaterialButton) findViewById(R.id.search_train);
-        searchTrainBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(TrainSearch.this, FlightSearchJadwal.class)
-                        .putExtra("origin", "train")
-                        .putExtra("tanggal_berangkat", tanggalBerangkat.getText()));
-            }
-        });
-
-        searchStasiunBerangkat = (TextView)findViewById(R.id.searchStasiunBerangkat);
-        searchStasiunBerangkat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(TrainSearch.this, SearchFlight.class);
-                in.putExtra("type","train");
-                startActivityForResult(in,DEPARTURE_CITY);
-            }
-        });
-
-        searchStasiunTujuan = (TextView)findViewById(R.id.searchStasiunTujuan);
-        searchStasiunTujuan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent in = new Intent(TrainSearch.this, SearchFlight.class);
-                in.putExtra("type","train");
-                startActivityForResult(in,ARRIVAL_CITY);
-            }
-        });
-
-        tanggalBerangkat = (TextView)findViewById(R.id.TV_tanggalBerangkat);
-        tanggalKembali = (TextView)findViewById(R.id.TV_tanggalKembali);
-
-        flightSearch_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 if(!depart_data.toString().equals("") && !arrive_data.toString().equals("")) {
-                    JSONObject json = new JSONObject();
+                    JSONObject json;
                     json = depart_data;
                     depart_data = arrive_data;
                     arrive_data = json;
@@ -138,17 +96,91 @@ public class TrainSearch extends BaseActivity {
                         e.printStackTrace();
                     }
                 }
-
             }
         });
+
+        tanggalBerangkat = (TextView)findViewById(R.id.TV_tanggalBerangkat);
+        tanggalKembali = (TextView)findViewById(R.id.TV_tanggalKembali);
+
+        searchTrainBtn = (MaterialButton) findViewById(R.id.search_train);
+        searchTrainBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(depart_data.toString().equals("{}")){
+                    Snackbar snackbar = Snackbar.make(layout,"Kota Keberangkatan kosong",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
+                else if(arrive_data.toString().equals("{}")){
+                    Snackbar snackbar = Snackbar.make(layout,"Kota Tujuan kosong",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
+                else if(adult == 0 && infant == 0){
+                    Snackbar snackbar = Snackbar.make(layout,"Passenger kosong",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
+                else {
+                    startActivity(new Intent(TrainSearch.this, FlightSearchJadwal.class)
+                            .putExtra("origin", "train")
+                            .putExtra("depart_data", depart_data.toString())
+                            .putExtra("arrive_data", arrive_data.toString())
+                            .putExtra("tanggal_berangkat", start_date.getTime())
+                            .putExtra("tanggal_kembali", end_date.getTime())
+                            .putExtra("adult", adult)
+                            .putExtra("infant", infant)
+                            .putExtra("kelas", kelas_data)
+                            .putExtra("isReturn", isReturn)
+                    );
+                }
+            }
+        });
+
+        searchStasiunBerangkat = (TextView)findViewById(R.id.searchStasiunBerangkat);
+        searchStasiunBerangkat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(TrainSearch.this, SearchFlight.class);
+                in.putExtra("type","train");
+                in.putExtra("data",arrive_data.toString());
+                startActivityForResult(in,DEPARTURE_CITY);
+            }
+        });
+
+        searchStasiunTujuan = (TextView)findViewById(R.id.searchStasiunTujuan);
+        searchStasiunTujuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent in = new Intent(TrainSearch.this, SearchFlight.class);
+                in.putExtra("type","train");
+                in.putExtra("data",depart_data.toString());
+                startActivityForResult(in,ARRIVAL_CITY);
+            }
+        });
+
+        tanggalBerangkat = (TextView)findViewById(R.id.TV_tanggalBerangkat);
+        tanggalKembali = (TextView)findViewById(R.id.TV_tanggalKembali);
+
     }
 
     public void startDate(View v){
-        showDialog(999);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        Intent in = new Intent(this,DatePickerActivity.class);
+        in.putExtra("start_date",start_date.getTime());
+        if(isReturn)
+            in.putExtra("end_date",end_date.getTime());
+        in.putExtra("isReturn",isReturn);
+        startActivityForResult(in,START_DATE);
     }
 
     public void endDate(View v){
-        showDialog(998);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        Intent in = new Intent(this,DatePickerActivity.class);
+        in.putExtra("start_date",start_date.getTime());
+        if(isReturn)
+            in.putExtra("end_date",end_date.getTime());
+        in.putExtra("isReturn",isReturn);
+        startActivityForResult(in,END_DATE);
     }
 
     @Override
@@ -191,18 +223,54 @@ public class TrainSearch extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK){
-            try {
-                JSONObject json = new JSONObject(data.getStringExtra("data"));
-                if(requestCode == DEPARTURE_CITY){
-                    depart_data = json;
-                    searchStasiunBerangkat.setText(json.getString("poi_label"));
+            if(requestCode == DEPARTURE_CITY || requestCode == ARRIVAL_CITY) {
+                try {
+                    JSONObject json = new JSONObject(data.getStringExtra("data"));
+                    if (requestCode == DEPARTURE_CITY) {
+                        depart_data = json;
+                        searchStasiunBerangkat.setText(json.getString("city_label")+" ("+json.getString("code")+")");
+                    } else if (requestCode == ARRIVAL_CITY) {
+                        arrive_data = json;
+                        searchStasiunTujuan.setText(json.getString("city_label")+" ("+json.getString("code")+")");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                else if(requestCode == ARRIVAL_CITY){
-                    arrive_data = json;
-                    searchStasiunTujuan.setText(json.getString("poi_label"));
+            }
+            else if(requestCode == START_DATE || requestCode == END_DATE){
+                try {
+                    if(isReturn) {
+                        SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
+                        SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
+
+                        JSONArray json = new JSONArray(data.getStringExtra("date"));
+
+                        start_date = new Date(json.getLong(0));
+                        String start_dayOfWeek = simpledateformat.format(start_date);
+                        String start_monthOfYear = simplemonth.format(start_date);
+
+                        end_date = new Date(json.getLong(json.length() - 1));
+                        String end_dayOfWeek = simpledateformat.format(end_date);
+                        String end_monthOfYear = simplemonth.format(end_date);
+
+                        showDate(start_date.getYear(), start_monthOfYear, start_date.getDate(), start_dayOfWeek, "start");
+                        showDate(end_date.getYear(), end_monthOfYear, end_date.getDate(), end_dayOfWeek, "end");
+                    }
+                    else{
+                        SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
+                        SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
+
+                        JSONArray json = new JSONArray(data.getStringExtra("date"));
+
+                        start_date = new Date(json.getLong(0));
+                        String start_dayOfWeek = simpledateformat.format(start_date);
+                        String start_monthOfYear = simplemonth.format(start_date);
+
+                        showDate(start_date.getYear(), start_monthOfYear, start_date.getDate(), start_dayOfWeek, "start");
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
         }
     }

@@ -43,7 +43,7 @@ import java.util.Locale;
 
 public class BaseActivity extends AppCompatActivity {
 
-    public int PICK_FROM_CAMERA = 3, PICK_FROM_GALLERY = 2;
+    public int PICK_FROM_CAMERA = 1000, PICK_FROM_GALLERY = 1001;
     public BottomSheetDialog bottomSheetDialog;
     public Toolbar toolbar;
 

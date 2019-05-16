@@ -61,6 +61,9 @@ public class FlightSearch extends BaseActivity {
         infant_label = (TextView) findViewById(R.id.infant_label);
         layout = (ConstraintLayout) findViewById(R.id.layout);
 
+        start_date.setYear(calendar.getTime().getYear()+1900);
+        end_date.setYear(calendar.getTime().getYear()+1900);
+
         final CardView jumlahpenumpang = findViewById(R.id.flightSearch_jumlahPenumpang);
         jumlahpenumpang.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +90,7 @@ public class FlightSearch extends BaseActivity {
             public void onClick(View v) {
                 Intent in = new Intent(FlightSearch.this, SearchFlight.class);
                 in.putExtra("type","flight");
+                in.putExtra("data",arrive_data.toString());
                 startActivityForResult(in,DEPARTURE_CITY);
             }
         });
@@ -97,6 +101,7 @@ public class FlightSearch extends BaseActivity {
             public void onClick(View v) {
                 Intent in = new Intent(FlightSearch.this, SearchFlight.class);
                 in.putExtra("type","flight");
+                in.putExtra("data",depart_data.toString());
                 startActivityForResult(in,ARRIVAL_CITY);
             }
         });
@@ -149,6 +154,10 @@ public class FlightSearch extends BaseActivity {
                 isReturn = isChecked;
                 start_date = new Date();
                 end_date = new Date();
+
+                start_date.setYear(calendar.getTime().getYear()+1900);
+                end_date.setYear(calendar.getTime().getYear()+1900);
+
                 if (isChecked){
                     tanggalContainer.setWeightSum(2);
                     kembali.setVisibility(View.VISIBLE);
@@ -161,16 +170,14 @@ public class FlightSearch extends BaseActivity {
                     SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
                     SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
 
-                    start_date = new Date(calendar.getTimeInMillis());
                     String start_dayOfWeek = simpledateformat.format(start_date);
                     String start_monthOfYear = simplemonth.format(start_date);
 
-                    end_date = new Date(calendar.getTimeInMillis());
                     String end_dayOfWeek = simpledateformat.format(end_date);
                     String end_monthOfYear = simplemonth.format(end_date);
 
-                    showDate(start_date.getYear()+1900, start_monthOfYear, start_date.getDate(), start_dayOfWeek, "start");
-                    showDate(end_date.getYear()+1900, end_monthOfYear, end_date.getDate(), end_dayOfWeek, "end");
+                    showDate(start_date.getYear(), start_monthOfYear, start_date.getDate(), start_dayOfWeek, "start");
+                    showDate(end_date.getYear(), end_monthOfYear, end_date.getDate(), end_dayOfWeek, "end");
                 }
                 else{
                     SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
@@ -179,7 +186,7 @@ public class FlightSearch extends BaseActivity {
                     String start_dayOfWeek = simpledateformat.format(start_date);
                     String start_monthOfYear = simplemonth.format(start_date);
 
-                    showDate(start_date.getYear()+1900, start_monthOfYear, start_date.getDate(), start_dayOfWeek, "start");
+                    showDate(start_date.getYear(), start_monthOfYear, start_date.getDate(), start_dayOfWeek, "start");
                 }
             }
         });

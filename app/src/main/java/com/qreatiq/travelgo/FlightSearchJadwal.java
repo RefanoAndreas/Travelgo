@@ -170,7 +170,11 @@ public class FlightSearchJadwal extends BaseActivity {
         });
 
         if(intentString.equals("flight")){
-            flightData();
+            try {
+                flightData();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         else{
             trainData();
@@ -186,14 +190,10 @@ public class FlightSearchJadwal extends BaseActivity {
         startActivity(new Intent(FlightSearchJadwal.this, ChangeDateActivity.class));
     }
 
-    public void flightData(){
+    public void flightData() throws JSONException {
         String url = null;
-        try {
-            url = C_URL+"flight/search?origin="+origin.getString("code")+
+        url = C_URL+"flight/search?origin="+origin.getString("code")+
                     "&destination="+destination.getString("code");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {

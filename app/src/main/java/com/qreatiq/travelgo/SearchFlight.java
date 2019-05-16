@@ -44,6 +44,8 @@ public class SearchFlight extends BaseActivity {
 
     String shared_last_search = "";
 
+    JSONObject data;
+
     Intent in;
 
     @Override
@@ -59,6 +61,8 @@ public class SearchFlight extends BaseActivity {
         popular_city_list = (RecyclerView) findViewById(R.id.popular_city_list);
 
         try {
+            data = new JSONObject(getIntent().getStringExtra("data"));
+
             JSONArray json = new JSONArray();
             if(in.getStringExtra("type").equals("flight")) {
                 json = new JSONArray(base_shared_pref.getString("flight.last_search", "[]"));
@@ -73,8 +77,10 @@ public class SearchFlight extends BaseActivity {
                 shared_last_search = "train.last_search";
             }
 
-            for(int x=json.length()-1;x>=0;x--)
-                last_search_array.add(json.getJSONObject(x));
+            for(int x=json.length()-1;x>=0;x--) {
+                if(!json.getJSONObject(x).toString().equals(data.toString()))
+                    last_search_array.add(json.getJSONObject(x));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -276,16 +282,17 @@ public class SearchFlight extends BaseActivity {
                         jsonObject.put("poi", jsonArray.getJSONObject(x).getString("poi"));
                         jsonObject.put("code", jsonArray.getJSONObject(x).getString("code"));
 
-                        array.add(jsonObject);
-                        popular_city_array.add(jsonObject);
+                        if(!jsonObject.toString().equals(data.toString())) {
+                            array.add(jsonObject);
+                            popular_city_array.add(jsonObject);
 
-                        if(x==0) {
-                            adapter.notifyDataSetChanged();
-                            popular_city_adapter.notifyDataSetChanged();
-                        }
-                        else {
-                            adapter.notifyItemInserted(x);
-                            popular_city_adapter.notifyItemInserted(x);
+                            if (x == 0) {
+                                adapter.notifyDataSetChanged();
+                                popular_city_adapter.notifyDataSetChanged();
+                            } else {
+                                adapter.notifyItemInserted(x);
+                                popular_city_adapter.notifyItemInserted(x);
+                            }
                         }
                     }
 

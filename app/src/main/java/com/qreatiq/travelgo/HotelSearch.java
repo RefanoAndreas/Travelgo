@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -68,6 +70,7 @@ public class HotelSearch extends BaseActivity {
             public void onClick(View v) {
                 Intent in = new Intent(HotelSearch.this, SearchFlight.class);
                 in.putExtra("type","hotel");
+                in.putExtra("data",new JSONObject().toString());
                 startActivityForResult(in,HOTEL_SEARCH);
             }
         });
