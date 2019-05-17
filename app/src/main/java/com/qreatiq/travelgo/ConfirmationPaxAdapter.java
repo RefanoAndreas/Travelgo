@@ -84,7 +84,18 @@ public class ConfirmationPaxAdapter extends RecyclerView.Adapter<ConfirmationPax
             else{
                 viewHolder.add_passenger.setVisibility(View.GONE);
                 viewHolder.edit.setVisibility(View.VISIBLE);
-                viewHolder.name.setText(jsonObject.getString("title")+" "+jsonObject.getString("name"));
+
+                String str;
+                str=jsonObject.getString("title")+" "+jsonObject.getString("name");
+                if(jsonObject.has("baggage_return")) {
+                    str += "\nBagasi Pergi: " + jsonObject.getJSONObject("baggage_depart").getString("label");
+                    str += "\nBagasi Pulang: " + jsonObject.getJSONObject("baggage_return").getString("label");
+                }
+                else{
+                    str += "\nBagasi: " + jsonObject.getJSONObject("baggage_depart").getString("label");
+                }
+
+                viewHolder.name.setText(str);
             }
             viewHolder.view.setOnClickListener(new View.OnClickListener() {
                 @Override

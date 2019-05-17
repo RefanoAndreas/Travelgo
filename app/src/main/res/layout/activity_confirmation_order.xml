@@ -28,21 +28,70 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="0dp"
                 android:layout_marginBottom="16dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp">
 
-                <include
-                    android:id="@+id/infoHotelGuest"
-                    layout="@layout/confirmation_hotel"
-                    android:visibility="gone"/>
-                <include
-                    android:id="@+id/infoFlight"
-                    layout="@layout/confirmation_flight"
-                    android:visibility="gone"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Rincian Pesawat"
+                        android:textColor="#424242"
+                        android:textSize="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:fontFamily="@font/montserrat_semi_bold"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#E4E7E8"/>
 
-                <include
-                    android:id="@+id/infoTrain"
-                    layout="@layout/confirmation_train"
-                    android:visibility="gone"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="16dp">
 
+                        <TextView
+                            android:id="@+id/TV_routeInfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Surabaya -> Jakarta"
+                            android:fontFamily="@font/montserrat_medium"/>
+
+                        <TextView
+                            android:id="@+id/TV_routeType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Sekali Jalan"
+                            android:textColor="@android:color/black"
+                            android:layout_marginBottom="10dp"/>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/list_flight"
+                            android:visibility="gone"
+                            android:layout_marginTop="16dp"/>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/list_hotel"
+                            android:visibility="gone"
+                            android:layout_marginTop="16dp"/>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/list_train"
+                            android:visibility="gone"
+                            android:layout_marginTop="16dp"/>
+                    </LinearLayout>
+                </LinearLayout>
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -246,7 +295,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:weightSum="2">
+                            android:weightSum="2"
+                            android:id="@+id/hotel_price"
+                            android:visibility="gone">
 
                             <TextView
                                 android:layout_width="match_parent"
@@ -278,6 +329,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Rp. 800.000"
+                                android:id="@+id/sub_total"
                                 android:gravity="right"
                                 android:layout_weight="1"/>
 
@@ -299,6 +351,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Termasuk"
+                                android:id="@+id/pajak"
                                 android:gravity="right"
                                 android:layout_weight="1"/>
 
@@ -320,6 +373,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:text="Rp. 800.000"
+                                android:id="@+id/total"
                                 android:gravity="right"
                                 android:layout_weight="1"/>
 

@@ -79,8 +79,8 @@ public class FlightSearchJadwal extends BaseActivity {
         tripInfo = (TextView)findViewById(R.id.tripInfo);
         title = (TextView) findViewById(R.id.title);
 
-        SimpleDateFormat format = new SimpleDateFormat("M");
-        tripInfo.setText((date.getDate() < 10 ? "0"+date.getDate() : date.getDate())+"/"+format.format(date)+"/"+date.getYear()+", "+
+        SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
+        tripInfo.setText(format.format(date)+", "+
                 String.valueOf(adult_pax)+" Dewasa, "+
                 String.valueOf(child_pax)+" Anak, "+
                 String.valueOf(infant_pax)+" Bayi, "+
@@ -194,7 +194,7 @@ public class FlightSearchJadwal extends BaseActivity {
         String url = null;
         url = C_URL+"flight/search?origin="+origin.getString("code")+
                     "&destination="+destination.getString("code");
-
+        Log.d("data",url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -210,6 +210,10 @@ public class FlightSearchJadwal extends BaseActivity {
                         jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));
                         jsonObject.put("departAirport", origin.getString("code"));
                         jsonObject.put("arrivalAirport", destination.getString("code"));
+                        jsonObject.put("departData", origin);
+                        jsonObject.put("arrivalData", destination);
+                        jsonObject.put("departTimeNumber", jsonArray.getJSONObject(x).getString("time_depart_number"));
+                        jsonObject.put("arriveTimeNumber", jsonArray.getJSONObject(x).getString("time_arrive_number"));
                         if(jsonArray.getJSONObject(x).getInt("transit") > 1)
                             jsonObject.put("totalTransit", jsonArray.getJSONObject(x).getString("transit")+
                                     (jsonArray.getJSONObject(x).getInt("transit") > 2 ? " Transits" : " Transit")

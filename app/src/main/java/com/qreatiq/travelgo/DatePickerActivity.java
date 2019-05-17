@@ -81,7 +81,7 @@ public class DatePickerActivity extends BaseActivity {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
                 dateSelected.clear();
-                Date d = new Date(date.getYear(),date.getMonth()-1,date.getDay());
+                Date d = new Date(date.getYear()-1900,date.getMonth()-1,date.getDay());
                 dateSelected.add(d.getTime());
             }
         });
@@ -92,7 +92,7 @@ public class DatePickerActivity extends BaseActivity {
                 dateSelected.clear();
 
                 for(int x=0; x<dates.size(); x++) {
-                    Date d = new Date(dates.get(x).getYear(),dates.get(x).getMonth()-1,dates.get(x).getDay());
+                    Date d = new Date(dates.get(x).getYear()-1900,dates.get(x).getMonth()-1,dates.get(x).getDay());
                     dateSelected.add(d.getTime());
                 }
                 Log.d("data",dateSelected.toString());
