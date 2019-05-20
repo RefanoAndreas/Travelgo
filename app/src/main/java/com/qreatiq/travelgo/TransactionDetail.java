@@ -68,7 +68,7 @@ public class TransactionDetail extends BaseActivity {
     private RecyclerView.LayoutManager mLayoutManagerParticipant;
     String sales_id;
 
-    int DATA_PENUMPANG = 1;
+    int DATA_PENUMPANG = 1, selected_arr = 0, ADD_OR_EDIT_GUEST = 11;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +99,7 @@ public class TransactionDetail extends BaseActivity {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(TransactionDetail.this, DataPenumpang.class)
-                        .putExtra("packageName", "tour"), DATA_PENUMPANG);
+                        .putExtra("packageName", "tour"), ADD_OR_EDIT_GUEST);
             }
         });
 
@@ -119,6 +119,17 @@ public class TransactionDetail extends BaseActivity {
 
         mRecyclerViewParticipant.setLayoutManager(mLayoutManagerParticipant);
         mRecyclerViewParticipant.setAdapter(mAdapterParticipant);
+
+//        mAdapterParticipant.setOnItemClickListener(new ParticipantListAdapter.ClickListener() {
+//            @Override
+//            public void onItemClick(int position) {
+//                selected_arr = position;
+//                startActivityForResult(new Intent(TransactionDetail.this, DataPenumpang.class)
+//                                .putExtra("packageName", "tour")
+//                                .putExtra("data", ParticipantList.get(selected_arr).toString()),
+//                        ADD_OR_EDIT_GUEST);
+//            }
+//        });
 
         if (intentString.equals("history")){
             isiDataPeserta.setVisibility(View.GONE);
@@ -150,21 +161,55 @@ public class TransactionDetail extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK) {
-            if (requestCode == DATA_PENUMPANG) {
+            if (requestCode == ADD_OR_EDIT_GUEST) {
                 mRecyclerViewParticipant.setVisibility(View.VISIBLE);
-                try {
-                    JSONObject data_penumpang= new JSONObject(data.getStringExtra("data"));
 
+                JSONObject data_penumpang = null;
+                try {
+                    data_penumpang = new JSONObject(data.getStringExtra("data"));
+                    data_penumpang.put("edit", true);
                     ParticipantList.add(data_penumpang);
 
-                    if(ParticipantList.size() > 1)
-                        mAdapterParticipant.notifyItemInserted(ParticipantList.size());
-                    else
-                        mAdapterParticipant.notifyDataSetChanged();
-
+                    mAdapterParticipant.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
+
+//                if(ParticipantList.size() > 0) {
+//                    JSONObject json = ParticipantList.get(selected_arr);
+//                    try {
+//                        JSONObject data_penumpang = new JSONObject(data.getStringExtra("data"));
+//
+//                        json.put("edit", true);
+//                        json.put("title", data_penumpang.getString("title"));
+//                        json.put("name", data_penumpang.getString("name"));
+//                        ParticipantList.add(json);
+//
+////                    if(ParticipantList.size() > 1)
+////                        mAdapterParticipant.notifyItemInserted(ParticipantList.size());
+////                    else
+////                        mAdapterParticipant.notifyDataSetChanged();
+//
+//                        mAdapterParticipant.notifyItemChanged(selected_arr);
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//                else {
+//                    try {
+//                        JSONObject data_penumpang = new JSONObject(data.getStringExtra("data"));
+//
+//                        data_penumpang.put("edit", true);
+//                        ParticipantList.add(data_penumpang);
+//
+//                        mAdapterParticipant.notifyDataSetChanged();
+//
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
             }
         }
     }

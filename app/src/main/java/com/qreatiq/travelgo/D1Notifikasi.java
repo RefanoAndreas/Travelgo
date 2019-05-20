@@ -76,8 +76,6 @@ public class D1Notifikasi extends BaseActivity {
             @Override
             public void onItemClick(int position) {
                 try {
-                    Log.d("type", notifList.get(position).toString());
-
                     if(notifList.get(position).getString("salesType").equals("tour")) {
                         if (notifList.get(position).getString("type").equals("purchasing")) {
                             startActivity(new Intent(D1Notifikasi.this, TransactionDetail.class)
@@ -89,8 +87,8 @@ public class D1Notifikasi extends BaseActivity {
                     }
                     else{
                         startActivity(new Intent(D1Notifikasi.this, D2NotifikasiDetail.class)
-                                .putExtra("info", notifList.get(position).getString("info2"))
-                                .putExtra("type", notifList.get(position).getString("type")));
+                                .putExtra("sales_id", notifList.get(position).getString("id"))
+                                .putExtra("salesType", notifList.get(position).getString("salesType")));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -172,6 +170,7 @@ public class D1Notifikasi extends BaseActivity {
                             jsonObject.put("date1", jsonSales.getString("date1"));
                             jsonObject.put("type", jsonSales.getString("type"));
                             jsonObject.put("salesType", jsonSales.getString("salesType"));
+//                            jsonObject.put("salesType", "flight");
 
                             jsonObject.put("info1", jsonSales.getString("info1"));
                             jsonObject.put("info2", jsonSales.getString("info2"));

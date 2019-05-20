@@ -18,6 +18,7 @@ public class ParticipantListAdapter extends RecyclerView.Adapter<ParticipantList
 
     ArrayList<JSONObject> participantList;
     Context context;
+    ClickListener clickListner;
 
     public ParticipantListAdapter(ArrayList<JSONObject> participantList, Context context){
         this.participantList = participantList;
@@ -43,18 +44,35 @@ public class ParticipantListAdapter extends RecyclerView.Adapter<ParticipantList
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ParticipantListHolder participantListHolder, int i) {
+    public void onBindViewHolder(@NonNull ParticipantListHolder participantListHolder, final int i) {
         final JSONObject jsonObject = participantList.get(i);
         try {
+//            participantListHolder.mTextView1.setText(jsonObject.getString("title")+" "+jsonObject.getString("name"));
             participantListHolder.mTextView1.setText(jsonObject.getString("title")+" "+jsonObject.getString("name"));
+
+            participantListHolder.layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListner.onItemClick(i);
+                }
+            });
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
     }
 
     @Override
     public int getItemCount() {
         return participantList.size();
+    }
+
+    public interface ClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(ClickListener clickListner){
+        this.clickListner= clickListner;
     }
 
 }

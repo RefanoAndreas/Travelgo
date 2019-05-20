@@ -22,7 +22,7 @@ public class D2NotifikasiDetail extends BaseActivity {
 
     LinearLayout eTicketLayout, eTicketLayout1;
     Intent i;
-    String intentString, url;
+    String intentData, url;
     TextView TV_eTicket;
 
     RecyclerView RV_eTicket;
@@ -42,7 +42,9 @@ public class D2NotifikasiDetail extends BaseActivity {
 //        TV_eTicket = (TextView)findViewById(R.id.TV_eTicket);
 
         i = getIntent();
-        intentString = i.getStringExtra("info");
+        intentData = i.getStringExtra("salesType");
+
+        Log.d("intent", intentData);
 
         RV_eTicket = findViewById(R.id.RV_eTicket);
         RV_eTicket.setHasFixedSize(true);
@@ -55,7 +57,8 @@ public class D2NotifikasiDetail extends BaseActivity {
         adapter_eTicket.setOnItemClickListner(new ETicketAdapter.ClickListener() {
             @Override
             public void onItemClick(int position) {
-                    startActivity(new Intent(D2NotifikasiDetail.this, D3Eticket.class));
+                    startActivity(new Intent(D2NotifikasiDetail.this, D3Eticket.class)
+                                .putExtra("type", intentData));
             }
         });
 

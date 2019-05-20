@@ -69,6 +69,7 @@
                 android:background="@android:color/white">
 
                 <TextView
+                    android:id="@+id/TV_title_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Informasi Pesawat"
@@ -81,106 +82,30 @@
                     android:layout_height="1dp"
                     android:background="#E4E7E8"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_margin="16dp">
+                <include
+                    android:id="@+id/eticketFlight"
+                    layout="@layout/eticket_flight_train"
+                    android:visibility="gone"/>
+                <include
+                    android:id="@+id/eticketHotel"
+                    layout="@layout/eticket_hotel"
+                    android:visibility="gone"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginTop="16dp">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:id="@+id/RV_flight_train"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:visibility="gone">-->
 
-                            <TextView
-                                android:id="@+id/TV_airlines_name"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Lion Air"
-                                android:layout_marginLeft="40dp"
-                                style="@style/SemiBold_42_16dp"/>
+                <!--</android.support.v7.widget.RecyclerView>-->
+                <!--<android.support.v7.widget.RecyclerView-->
+                    <!--android:id="@+id/RV_hotel"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:visibility="gone">-->
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:src="@drawable/ic_flight_takeoff_black_24dp"/>
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:paddingLeft="16dp"
-                                    android:paddingRight="16dp"
-                                    android:orientation="vertical">
-
-                                    <TextView
-                                        android:id="@+id/TV_infoTripDate"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Kamis, 11 Apr 2019 . 05:15 - SUB Surabaya"/>
-                                    <TextView
-                                        android:id="@+id/TV_infoOriginDeparture"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="Bandara Juanda International Airport"/>
-
-                                    <TextView
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:text="45 Menit"
-                                        android:layout_marginTop="24dp"
-                                        android:layout_marginBottom="24dp"/>
-
-                                </LinearLayout>
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:src="@drawable/ic_flight_land_black_24dp"/>
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:paddingLeft="16dp"
-                                android:paddingRight="16dp"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/TV_infoTripDate1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Kamis, 11 Apr 2019 . 06:00 - CGK Jakarta"/>
-                                <TextView
-                                    android:id="@+id/TV_infoArrival"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Bandara Cengkareng Jakarta"
-                                    android:layout_marginBottom="32dp"/>
-
-                            </LinearLayout>
-                        </LinearLayout>
-                    </LinearLayout>
-
-                </LinearLayout>
+                <!--</android.support.v7.widget.RecyclerView>-->
 
             </LinearLayout>
             <LinearLayout
@@ -192,7 +117,7 @@
                 android:background="@android:color/white">
 
                 <TextView
-                    android:id="@+id/data_peserta"
+                    android:id="@+id/TV_title_guest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Data Penumpang"
@@ -211,41 +136,25 @@
                     android:orientation="vertical"
                     android:layout_margin="16dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                    <include
+                        layout="@layout/eticket_flight_penumpang"
+                        android:visibility="gone"
+                        android:id="@+id/data_penumpang_pesawat"/>
+                    <include
+                        layout="@layout/eticket_train_penumpang"
+                        android:visibility="gone"
+                        android:id="@+id/data_penumpang_kereta"/>
+                    <include
+                        layout="@layout/eticket_hotel_tamu"
+                        android:visibility="gone"
+                        android:id="@+id/data_tamu_hotel"/>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:weightSum="2">
-                            <TextView
-                                android:id="@+id/TV_passanger_name"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Ny. Ani"/>
-                            <TextView
-                                android:id="@+id/TV_passanger_type"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="Dewasa"/>
-                        </LinearLayout>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="Fasilitas"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Bagasi 30KG"/>
-
-                    </LinearLayout>
+                    <!--<android.support.v7.widget.RecyclerView-->
+                        <!--android:id="@+id/RV_datapenumpang_pesawat"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content">-->
+                        <!---->
+                    <!--</android.support.v7.widget.RecyclerView>-->
 
                 </LinearLayout>
 
@@ -260,7 +169,7 @@
                 android:background="@android:color/white">
 
                 <TextView
-                    android:id="@+id/tips"
+                    android:id="@+id/TV_title_tips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Tips Perjalanan"
