@@ -34,14 +34,14 @@ public class HotelSearchResult extends BaseActivity {
         set_toolbar();
 
         try {
-            hotelList.add(new JSONObject("{\"hotelName\": \"Fave Hotel\", " +
-                    "\"hotelLocation\": \"Surabaya, Jawa Timur\", " +
-                    "\"hotelReview\": \"Cozy\", " +
-                    "\"hotelPrice\": 500.000}"));
-            hotelList.add(new JSONObject("{\"hotelName\": \"Shangri-La Hotel\", " +
-                    "\"hotelLocation\": \"Surabaya, Jawa Timur\", " +
-                    "\"hotelReview\": \"Mewah\", " +
-                    "\"hotelPrice\": 1.500.000}"));
+            hotelList.add(new JSONObject("{\"name\": \"Fave Hotel\", " +
+                    "\"location\": \"Surabaya, Jawa Timur\", " +
+                    "\"rating\": 3.0, " +
+                    "\"price\": 500000}"));
+            hotelList.add(new JSONObject("{\"name\": \"Shangri-La Hotel\", " +
+                    "\"location\": \"Surabaya, Jawa Timur\", " +
+                    "\"rating\": 5.0, " +
+                    "\"price\": 1500000}"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

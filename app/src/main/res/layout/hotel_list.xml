@@ -40,44 +40,18 @@
                         android:textSize="16dp"
                         android:textColor="#424242"
                         android:fontFamily="@font/montserrat_semi_bold"/>
-                    <LinearLayout
-                        android:id="@+id/rating"
+                    <RatingBar
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_star_yellow_24dp"/>
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_star_yellow_24dp"/>
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_star_yellow_24dp"/>
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_star_yellow_24dp"/>
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_star_half_yellow_24dp"/>
-                    </LinearLayout>
+                        style="@style/Base.Widget.AppCompat.RatingBar.Small"
+                        android:numStars="5"
+                        android:id="@+id/rating"/>
                     <TextView
                         android:id="@+id/TV_hotelLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Location"
                         android:layout_marginTop="4dp"/>
-                    <TextView
-                        android:id="@+id/TV_hotelReview"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Review"/>
-
                 </LinearLayout>
             </LinearLayout>
 

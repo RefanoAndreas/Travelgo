@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.qreatiq.travelgo.Utils.BaseActivity;
@@ -19,6 +20,7 @@ import com.synnapps.carouselview.ImageListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -28,7 +30,6 @@ public class HotelDetail extends BaseActivity {
 
     CarouselView carouselView;
     int[] sampleImages = {R.drawable.background2, R.drawable.background3, R.drawable.background4, R.drawable.background5, R.drawable.background6};
-    MaterialButton chooseBtn;
 
     private RecyclerView mRecyclerView;
     private HotelRoomAdapter mAdapter;
@@ -36,8 +37,11 @@ public class HotelDetail extends BaseActivity {
     ArrayList<JSONObject> hotelRoomList = new ArrayList<>();
 
     int total_pack = 0, total_price = 0;
-    TextView expandBtn, description;
+    TextView expandBtn, description, name, address, rating_number;
+    RatingBar rating;
     ObjectAnimator animator;
+
+    JSONObject hotel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +59,26 @@ public class HotelDetail extends BaseActivity {
             }
         });
 
-        chooseBtn = (MaterialButton)findViewById(R.id.chooseRoomBtn);
-
+        name = (TextView) findViewById(R.id.name);
+        address = (TextView) findViewById(R.id.address);
+        rating = (RatingBar) findViewById(R.id.rating);
+        rating_number = (TextView) findViewById(R.id.rating_number);
 
         try {
-            hotelRoomList.add(new JSONObject("{\"name\": \"Deluxe Room\",\"price\": 1000000}"));
-            hotelRoomList.add(new JSONObject("{\"name\": \"President Suite\",\"price\": 10000000}"));
+            hotel = new JSONObject(getIntent().getStringExtra("hotel_selected"));
+            setTitle(hotel.getString("name"));
+            name.setText(hotel.getString("name"));
+            address.setText(hotel.getString("address"));
+            rating.setRating((float) hotel.getDouble("rating"));
+            rating_number.setText(String.valueOf(hotel.getDouble("rating")));
+
+            for(int x=0;x<hotel.getJSONArray("rooms").length();x++) {
+                JSONObject json = new JSONObject();
+                json.put("name",hotel.getJSONArray("rooms").getJSONObject(x).getString("name")+" ("+(hotel.getJSONArray("rooms").getJSONObject(x).getBoolean("breakfast") ? "With Breakfast" : "Room Only")+")");
+                json.put("price",hotel.getJSONArray("rooms").getJSONObject(x).getInt("price"));
+                json.put("id",hotel.getJSONArray("rooms").getJSONObject(x).getString("id"));
+                hotelRoomList.add(json);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -73,35 +91,17 @@ public class HotelDetail extends BaseActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.setOnChangeQuantityListener(new HotelRoomAdapter.ClickListener() {
+        mAdapter.setOnClickListener(new HotelRoomAdapter.ClickListener() {
             @Override
-            public void onAddClick(int quantity, int position) {
-                total_pack++;
-                try {
-                    total_price += hotelRoomList.get(position).getDouble("price");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onRemoveQuantityClick(int quantity, int position) {
-                total_pack--;
-                try {
-                    total_price -= hotelRoomList.get(position).getDouble("price");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onAddQuantityClick(int quantity, int position) {
-                total_pack++;
-                try {
-                    total_price += hotelRoomList.get(position).getDouble("price");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            public void onClick(int position) {
+                startActivity(new Intent(HotelDetail.this, ConfirmationOrder.class)
+                        .putExtra("origin", "hotel")
+                        .putExtra("city", getIntent().getStringExtra("city"))
+                        .putExtra("guest", getIntent().getIntExtra("guest",0))
+                        .putExtra("room", getIntent().getIntExtra("room",0))
+                        .putExtra("hotel_selected",getIntent().getStringExtra("hotel_selected"))
+                        .putExtra("room_selected",hotelRoomList.get(position).toString())
+                );
             }
         });
 
@@ -129,15 +129,6 @@ public class HotelDetail extends BaseActivity {
                     animator.start();
                 }
 
-            }
-        });
-
-        chooseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(total_pack != 0){
-                    startActivity(new Intent(HotelDetail.this, ConfirmationOrder.class).putExtra("origin", "hotel"));
-                }
             }
         });
 

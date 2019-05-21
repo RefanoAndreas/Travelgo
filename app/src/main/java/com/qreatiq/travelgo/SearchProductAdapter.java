@@ -53,7 +53,10 @@ public class SearchProductAdapter extends RecyclerView.Adapter<SearchProductAdap
 
         try {
             viewHolder.kota.setText(jsonObject.getString("city_label"));
-            viewHolder.poi.setText(jsonObject.getString("poi_label"));
+            if(jsonObject.has("poi_label"))
+                viewHolder.poi.setText(jsonObject.getString("poi_label"));
+            else
+                viewHolder.poi.setVisibility(View.GONE);
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -17,6 +18,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.HotelListHolder> {
@@ -30,7 +32,8 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.Hote
 
     public class HotelListHolder extends RecyclerView.ViewHolder {
         public ImageView mImageView;
-        public TextView hotelName, hotelLocation, hotelReview, hotelPrice;
+        public TextView hotelName, hotelLocation, hotelPrice;
+        RatingBar rating;
         public ConstraintLayout layout;
 
         public HotelListHolder(@NonNull View itemView) {
@@ -38,9 +41,9 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.Hote
             mImageView = itemView.findViewById(R.id.itemRV_hotelPhoto);
             hotelName = itemView.findViewById(R.id.TV_hotelName);
             hotelLocation = itemView.findViewById(R.id.TV_hotelLocation);
-            hotelReview = itemView.findViewById(R.id.TV_hotelReview);
             hotelPrice = itemView.findViewById(R.id.TV_hotelPrice);
             layout = (ConstraintLayout) itemView.findViewById(R.id.layout);
+            rating = (RatingBar) itemView.findViewById(R.id.rating);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -63,11 +66,13 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.Hote
         JSONObject jsonObject = hotelList.get(i);
 
         try {
-            hotelListHolder.hotelName.setText(jsonObject.getString("hotelName"));
-            hotelListHolder.hotelLocation.setText(jsonObject.getString("hotelLocation"));
-            hotelListHolder.hotelReview.setText(jsonObject.getString("hotelReview"));
-            hotelListHolder.hotelPrice.setText("Rp. "+jsonObject.getString("hotePrice")+" per malam");
+            hotelListHolder.hotelName.setText(jsonObject.getString("name"));
+            hotelListHolder.hotelLocation.setText(jsonObject.getString("location"));
 
+            DecimalFormat formatter = new DecimalFormat("#,###,###");
+            hotelListHolder.hotelPrice.setText("Rp. "+formatter.format(jsonObject.getInt("price"))+" per malam");
+
+            hotelListHolder.rating.setRating((float) jsonObject.getDouble("rating"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

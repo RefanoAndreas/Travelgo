@@ -42,21 +42,25 @@ import java.util.Map;
 
 public class ConfirmationOrder extends BaseActivity {
 
-    TextView  TV_routeInfo, TV_routeType, specialRequestAdd, guestData, sub_total, pajak, total;
+    TextView  TV_routeInfo, TV_routeType, specialRequestAdd, guestData, sub_total, pajak, total, titleData;
     RecyclerView list_flight, list_hotel, list_train;
     Intent intent;
     String intentString;
-    LinearLayout specialRequestLinear,hotel_price;
+    LinearLayout specialRequestLinear,special_request;
     RecyclerView list_pax;
     CardView card_dataPemesan;
 
     MaterialButton submit;
 
     ConfirmationPaxAdapter adapter;
-    ArrayList<JSONObject> arrayList = new ArrayList<JSONObject>(),flight_list_array = new ArrayList<JSONObject>(),train_list_array = new ArrayList<JSONObject>();
+    ArrayList<JSONObject> arrayList = new ArrayList<JSONObject>(),
+            flight_list_array = new ArrayList<JSONObject>(),
+            train_list_array = new ArrayList<JSONObject>(),hotel_list_array = new ArrayList<JSONObject>(),
+            special_request_array = new ArrayList<JSONObject>();
     ConfirmationFlightListAdapter flight_list_adapter;
 
     ConfirmationTrainListAdapter train_list_adapter;
+    ConfirmationHotelListAdapter hotel_list_adapter;
 
     int ADD_OR_EDIT_PAX = 10, ADD_OR_EDIT_GUEST = 11, selected_arr = 0;
     double sub_total_data = 0, sub_total_per_pax_data = 0, pajak_data, total_data;
@@ -80,26 +84,59 @@ public class ConfirmationOrder extends BaseActivity {
         submit = (MaterialButton) findViewById(R.id.submit);
         TV_routeInfo = (TextView) findViewById(R.id.TV_routeInfo);
         TV_routeType = (TextView) findViewById(R.id.TV_routeType);
-        hotel_price = (LinearLayout) findViewById(R.id.hotel_price);
         sub_total = (TextView) findViewById(R.id.sub_total);
         pajak = (TextView) findViewById(R.id.pajak);
         total = (TextView) findViewById(R.id.total);
+        titleData = (TextView) findViewById(R.id.titleData);
+        special_request = (LinearLayout) findViewById(R.id.special_request);
 
         intent = getIntent();
         intentString = intent.getStringExtra("origin");
 
         if(intentString.equals("hotel")){
             try {
-                arrayList.add(new JSONObject("{\"edit\":false,\"title\":\"\",\"name\":\"\"}"));
+                arrayList.add(new JSONObject("{" +
+                        "\"edit\":false," +
+                        "\"title\":\"\"," +
+                        "\"name\":\"\"," +
+                        "\"label\":\"Isi Data Tamu\"," +
+                        "\"type\":\"Tamu\"," +
+                        "\"for\":\"hotel\"}"));
+
+                special_request_array.add(new JSONObject("{\"label\":\"Kamar Bebas Rokok\",\"checked\":false}"));
+                special_request_array.add(new JSONObject("{\"label\":\"Check-in Terlambat\",\"checked\":false}"));
+                special_request_array.add(new JSONObject("{\"label\":\"Check-in lebih cepat\",\"checked\":false}"));
+                special_request_array.add(new JSONObject("{\"label\":\"Kasur Extra\",\"checked\":false}"));
+                special_request_array.add(new JSONObject("{\"label\":\"Lantai Atas\",\"checked\":false}"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
             list_hotel.setVisibility(View.VISIBLE);
             guestData.setText("Data Tamu");
+            TV_routeType.setVisibility(View.GONE);
 //            isiDataPeserta.setText("Isi data tamu");
             card_dataPemesan.setVisibility(View.GONE);
-            hotel_price.setVisibility(View.VISIBLE);
+
+            try {
+                hotel_detail();
+                JSONObject city = new JSONObject(intent.getStringExtra("city"));
+                TV_routeInfo.setText(city.getString("city_label"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            hotel_list_adapter = new ConfirmationHotelListAdapter(hotel_list_array,this);
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+            list_hotel.setLayoutManager(mLayoutManager);
+            list_hotel.setAdapter(hotel_list_adapter);
+
+            NumberFormat double_formatter = new DecimalFormat("#,###");
+            sub_total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_per_pax_data))+" x "+String.valueOf(getIntent().getIntExtra("room",0))+
+                    "\nRp. "+String.valueOf(double_formatter.format(sub_total_data)));
+            pajak.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data*0.1)));
+            total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data+(sub_total_data*0.1))));
+            titleData.setText("Rincian Hotel");
         }
         else if(intentString.equals("flight")){
             try {
@@ -159,6 +196,7 @@ public class ConfirmationOrder extends BaseActivity {
                     "\nRp. "+String.valueOf(double_formatter.format(sub_total_data)));
             pajak.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data*0.1)));
             total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data+(sub_total_data*0.1))));
+            titleData.setText("Rincian Pesawat");
         }
         else if(intentString.equals("train")){
             list_train.setVisibility(View.VISIBLE);
@@ -212,6 +250,7 @@ public class ConfirmationOrder extends BaseActivity {
                     "\nRp. "+String.valueOf(double_formatter.format(sub_total_data)));
             pajak.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data*0.1)));
             total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data+(sub_total_data*0.1))));
+            titleData.setText("Rincian Kereta");
 //            isiDataPeserta.setText("Isi data penumpang");
         }
 
@@ -290,6 +329,9 @@ public class ConfirmationOrder extends BaseActivity {
                     else if(intentString.equals("train")) {
                         submit_train();
                     }
+                    else if(intentString.equals("hotel")) {
+                        submit_hotel();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -297,11 +339,38 @@ public class ConfirmationOrder extends BaseActivity {
         });
     }
 
+    private void hotel_detail() throws JSONException {
+        JSONObject json = new JSONObject();
+        JSONObject hotel_selected = new JSONObject(intent.getStringExtra("hotel_selected"));
+        JSONObject room_selected = new JSONObject(intent.getStringExtra("room_selected"));
+
+        SimpleDateFormat format = new SimpleDateFormat("EEEE d MMM yyyy");
+        String[] check_in = hotel_selected.getString("check_in").split(" ");
+        String[] check_out = hotel_selected.getString("check_out").split(" ");
+
+        Date check_in_date = new Date(Integer.parseInt(check_in[0])-1900,
+                Integer.parseInt(check_in[1]),
+                Integer.parseInt(check_in[2]));
+        Date check_out_date = new Date(Integer.parseInt(check_out[0])-1900,
+                Integer.parseInt(check_out[1]),
+                Integer.parseInt(check_out[2]));
+
+        json.put("name",hotel_selected.getString("name"));
+        json.put("room_name",room_selected.getString("name"));
+        json.put("check_in",format.format(check_in_date));
+        json.put("check_out",format.format(check_out_date));
+        json.put("total_guest",intent.getIntExtra("guest",0)+" Tamu");
+
+        hotel_list_array.add(json);
+        sub_total_per_pax_data += room_selected.getInt("price");
+        sub_total_data += room_selected.getInt("price")*getIntent().getIntExtra("room",0);
+    }
+
     private void train_detail(String str) throws JSONException {
         JSONObject json = new JSONObject();
         JSONObject ticket = new JSONObject(intent.getStringExtra(str));
 
-        SimpleDateFormat format = new SimpleDateFormat("EEEE d MMM yyyy . k:m");
+        SimpleDateFormat format = new SimpleDateFormat("EEEE d MMM yyyy . kk:mm");
         String[] depart_str = ticket.getString("departTimeNumber").split(" ");
         String[] arrive_str = ticket.getString("arriveTimeNumber").split(" ");
 
@@ -569,6 +638,75 @@ public class ConfirmationOrder extends BaseActivity {
         }
     }
 
+    private void submit_hotel() throws JSONException {
+        boolean allow = true;
+        for(int x=0;x<arrayList.size();x++){
+            if(!arrayList.get(x).getBoolean("edit")){
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                Snackbar snackbar = Snackbar.make(layout, "Data "+arrayList.get(x).getString("type")+" belum diisi", Snackbar.LENGTH_LONG);
+                snackbar.show();
+                allow = false;
+            }
+        }
+
+        if(allow) {
+            JSONObject json = new JSONObject();
+            json.put("hotel_selected", new JSONObject(getIntent().getStringExtra("hotel_selected")));
+            json.put("room_selected", new JSONObject(getIntent().getStringExtra("room_selected")));
+            json.put("total_guest", getIntent().getIntExtra("guest",0));
+            json.put("total_room", getIntent().getIntExtra("room",0));
+            json.put("special_request", new JSONArray(special_request_array.toString()));
+            json.put("guest_info", new JSONArray(arrayList.toString()));
+
+            Log.d("data",json.toString());
+            Log.d("auth",base_shared_pref.getString("access_token", ""));
+
+            String url = C_URL + "hotel";
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    Intent in = new Intent(ConfirmationOrder.this, BottomNavContainer.class);
+                    in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    finish();
+                    startActivity(in);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                    String message = "";
+                    if (error instanceof NetworkError) {
+                        message = "Network Error";
+                    } else if (error instanceof ServerError) {
+                        message = "Server Error";
+                    } else if (error instanceof AuthFailureError) {
+                        message = "Authentication Error";
+                    } else if (error instanceof ParseError) {
+                        message = "Parse Error";
+                    } else if (error instanceof NoConnectionError) {
+                        message = "Connection Missing";
+                    } else if (error instanceof TimeoutError) {
+                        message = "Server Timeout Reached";
+                    }
+                    Snackbar snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<String, String>();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("Accept", "application/json");
+                    headers.put("Authorization", base_shared_pref.getString("access_token", ""));
+                    return headers;
+                }
+            };
+
+            requestQueue.add(jsonObjectRequest);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -606,6 +744,9 @@ public class ConfirmationOrder extends BaseActivity {
                             }
                         }
                     }
+                    else if(intentString.equals("train")) {
+                        json.put("no_id",data_from_intent.getString("no_id"));
+                    }
                     adapter.notifyItemChanged(selected_arr);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -619,7 +760,8 @@ public class ConfirmationOrder extends BaseActivity {
                     json.put("edit",true);
                     json.put("title",data_from_intent.getString("title"));
                     json.put("name",data_from_intent.getString("name"));
-
+                    json.put("email",data_from_intent.getString("email"));
+                    json.put("phone",data_from_intent.getString("phone"));
                     adapter.notifyItemChanged(selected_arr);
                 } catch (JSONException e) {
                     e.printStackTrace();

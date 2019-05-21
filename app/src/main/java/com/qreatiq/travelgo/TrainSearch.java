@@ -31,7 +31,7 @@ public class TrainSearch extends BaseActivity {
 
     MaterialButton searchTrainBtn;
     LinearLayout flightSearch_icon;
-    TextView searchStasiunBerangkat, searchStasiunTujuan, tanggalBerangkat, tanggalKembali, kelas;
+    TextView searchStasiunBerangkat, searchStasiunTujuan, tanggalBerangkat, tanggalKembali, kelas, adult_label, infant_label;
     ConstraintLayout layout;
 
     private int year = 2019, month = 3, day = 10;
@@ -52,6 +52,8 @@ public class TrainSearch extends BaseActivity {
 
         flightSearch_icon = (LinearLayout) findViewById(R.id.flightSearch_icon);
         kelas = (TextView) findViewById(R.id.kelas);
+        adult_label = (TextView) findViewById(R.id.adult_label);
+        infant_label = (TextView) findViewById(R.id.infant_label);
         layout = (ConstraintLayout) findViewById(R.id.layout);
 
         final CardView jumlahpenumpang = findViewById(R.id.TrainSearch_jumlahPenumpang);

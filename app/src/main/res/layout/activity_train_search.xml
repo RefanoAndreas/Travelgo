@@ -254,6 +254,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="1 Dewasa"
+                                    android:id="@+id/adult_label"
                                     android:textSize="16dp"
                                     android:fontFamily="@font/montserrat_medium"
                                     android:textColor="@android:color/black"/>
@@ -262,6 +263,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:text="0 Bayi"
+                                    android:id="@+id/infant_label"
                                     android:textSize="16dp"
                                     android:fontFamily="@font/montserrat_medium"
                                     android:textColor="@android:color/black"/>

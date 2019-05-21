@@ -39,7 +39,7 @@ public class DataPenumpang extends BaseActivity {
     MaterialButton batal, submitBtn;
     TextView titleData;
     Spinner spinner_titel;
-    TextInputEditText name;
+    TextInputEditText name,no_id,email,phone;
 
     JSONObject data,depart_ticket,return_ticket,baggage_depart,baggage_arrive;
 
@@ -77,6 +77,9 @@ public class DataPenumpang extends BaseActivity {
 
         spinner_titel = (Spinner)findViewById(R.id.spinner_titel);
         name = (TextInputEditText)findViewById(R.id.TIET_name);
+        no_id = (TextInputEditText) findViewById(R.id.TIET_idNO);
+        email = (TextInputEditText) findViewById(R.id.email);
+        phone = (TextInputEditText) findViewById(R.id.phone);
 
         if(intentString.equals("tour") || intentString.equals("hotel")){
             getSupportActionBar().setTitle("Isi Data Tamu");
@@ -88,6 +91,17 @@ public class DataPenumpang extends BaseActivity {
             if(!intentString.equals("hotel")) {
                 email_layout.setVisibility(View.GONE);
                 phone_layout.setVisibility(View.GONE);
+            }
+
+            try {
+                String title = data.getString("title");
+                if(!title.equals(""))
+                    spinner_titel.setSelection(getIndex(spinner_titel,title));
+                name.setText(data.getString("name"));
+                email.setText(data.getString("email"));
+                phone.setText(data.getString("phone"));
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
         }
         else if(intentString.equals("flight")){
@@ -124,6 +138,16 @@ public class DataPenumpang extends BaseActivity {
             pasporNo_layout.setVisibility(View.GONE);
             email_layout.setVisibility(View.GONE);
             phone_layout.setVisibility(View.GONE);
+
+            try {
+                String title = data.getString("title");
+                if(!title.equals(""))
+                    spinner_titel.setSelection(getIndex(spinner_titel,title));
+                name.setText(data.getString("name"));
+                no_id.setText(data.getString("no_id"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +162,7 @@ public class DataPenumpang extends BaseActivity {
                         json.put("title", spinner_titel.getSelectedItem().toString());
                         json.put("name", name.getText().toString());
 
-                        if(getIntent().equals("flight")) {
+                        if(getIntent().getStringExtra("packageName").equals("flight")) {
                             int selected = 0;
                             for (int x = 0; x < baggage_array.get(0).getJSONArray("baggage").length(); x++) {
                                 if (baggage_array.get(0).getJSONArray("baggage").getJSONObject(x).getBoolean("checked"))
@@ -154,7 +178,13 @@ public class DataPenumpang extends BaseActivity {
                                 json.put("baggage_return", baggage_array.get(1).getJSONArray("baggage").getJSONObject(selected));
                             }
                         }
-
+                        else if(getIntent().getStringExtra("packageName").equals("train")) {
+                            json.put("no_id", no_id.getText().toString());
+                        }
+                        else if(getIntent().getStringExtra("packageName").equals("hotel")) {
+                            json.put("email", email.getText().toString());
+                            json.put("phone", phone.getText().toString());
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

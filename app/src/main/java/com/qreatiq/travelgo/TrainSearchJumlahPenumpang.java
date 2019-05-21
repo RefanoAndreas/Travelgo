@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.button.MaterialButton;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.view.LayoutInflater;
@@ -11,7 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.shawnlin.numberpicker.NumberPicker;
+
 public class TrainSearchJumlahPenumpang extends BottomSheetDialogFragment {
+
+    NumberPicker adult,infant;
+    TrainSearch parent;
+    MaterialButton submit;
+    int adult_data = 1, infant_data = 0;
 
     @Nullable
     @Override
@@ -33,5 +41,44 @@ public class TrainSearchJumlahPenumpang extends BottomSheetDialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        parent = (TrainSearch) getActivity();
+
+        adult = (NumberPicker) view.findViewById(R.id.adult);
+        infant = (NumberPicker) view.findViewById(R.id.infant);
+        submit = (MaterialButton) view.findViewById(R.id.submit);
+
+        adult_data = parent.adult;
+        infant_data = parent.infant;
+
+        adult.setValue(parent.adult);
+        infant.setValue(parent.infant);
+
+        adult.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                adult_data = newVal;
+            }
+        });
+
+        infant.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                infant_data = newVal;
+            }
+        });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                parent.adult = adult_data;
+                parent.infant = infant_data;
+
+                parent.adult_label.setText(String.valueOf(parent.adult)+" Dewasa");
+                parent.infant_label.setText(String.valueOf(parent.infant)+" Bayi");
+
+                dismiss();
+            }
+        });
     }
 }

@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.button.MaterialButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -29,12 +31,15 @@ import java.util.Date;
 public class HotelSearch extends BaseActivity {
 
     MaterialButton searchBtn;
-    TextView TV_searchHotel, tanggalCheckin, tanggalCheckout, duration;
+    TextView TV_searchHotel, tanggalCheckin, tanggalCheckout, duration, guest_label, room_label;
     private int year = 2019, month = 3, day = 10;
     Calendar checkin, checkout;
+    ConstraintLayout layout;
 
-    int HOTEL_SEARCH = 1, START_DATE = 3, END_DATE = 4;
+    int HOTEL_SEARCH = 1, START_DATE = 3, END_DATE = 4, room = 1, guest = 1;
     Date start_date = new Date(),end_date = new Date();
+
+    JSONObject city_data = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +47,10 @@ public class HotelSearch extends BaseActivity {
         setContentView(R.layout.activity_hotel_search);
 
         set_toolbar();
+
+        guest_label = (TextView) findViewById(R.id.guest_label);
+        room_label = (TextView) findViewById(R.id.room_label);
+        layout = (ConstraintLayout) findViewById(R.id.layout);
 
         final CardView tamuHotel = findViewById(R.id.hotelSearch_TamuKamar);
         tamuHotel.setOnClickListener(new View.OnClickListener() {
@@ -64,8 +73,28 @@ public class HotelSearch extends BaseActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HotelSearch.this, HotelSearchResult.class)
-                        .putExtra("tanggal_berangkat", tanggalCheckin.getText()));
+                if(city_data.toString().equals("{}")){
+                    Snackbar snackbar = Snackbar.make(layout,"Kota Tujuan kosong",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
+                else if(guest == 0){
+                    Snackbar snackbar = Snackbar.make(layout,"Jumlah Tamu kosong",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
+                else if(room == 0){
+                    Snackbar snackbar = Snackbar.make(layout,"Jumlah Kamar kosong",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
+                else {
+                    startActivity(new Intent(HotelSearch.this, FlightSearchJadwal.class)
+                            .putExtra("origin", "hotel")
+                            .putExtra("city", city_data.toString())
+                            .putExtra("check_in", start_date.getTime())
+                            .putExtra("check_out", end_date.getTime())
+                            .putExtra("guest", guest)
+                            .putExtra("room", room)
+                    );
+                }
             }
         });
 
@@ -81,6 +110,13 @@ public class HotelSearch extends BaseActivity {
         });
 
         duration = (TextView) findViewById(R.id.TV_duration);
+
+        SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE, d MMM yyyy");
+        showDate(simpledateformat.format(start_date),"start");
+        showDate(simpledateformat.format(end_date),"end");
+
+        int difference= ((int)((end_date.getTime()/(24*60*60*1000)) - (int)(start_date.getTime()/(24*60*60*1000))));
+        duration.setText(String.valueOf(difference)+" malam");
     }
 
     public void startDate(View v){
@@ -108,7 +144,16 @@ public class HotelSearch extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK){
-            if(requestCode == START_DATE || requestCode == END_DATE){
+            if(requestCode == HOTEL_SEARCH) {
+                try {
+                    JSONObject json = new JSONObject(data.getStringExtra("data"));
+                    city_data = json;
+                    TV_searchHotel.setText(json.getString("city_label")+", "+json.getString("poi_label"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if(requestCode == START_DATE || requestCode == END_DATE){
                 try {
                     SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE, d MMM yyyy");
 
@@ -119,6 +164,9 @@ public class HotelSearch extends BaseActivity {
 
                     showDate(simpledateformat.format(start_date), "start");
                     showDate(simpledateformat.format(end_date), "end");
+
+                    int difference= ((int)((end_date.getTime()/(24*60*60*1000)) - (int)(start_date.getTime()/(24*60*60*1000))));
+                    duration.setText(String.valueOf(difference)+" malam");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -129,8 +177,10 @@ public class HotelSearch extends BaseActivity {
     private void showDate(String date, String type) {
         if(type == "start")
             tanggalCheckin.setText(date);
-        else
+        else if(type == "end")
             tanggalCheckout.setText(date);
+        else if(type == "duration")
+            duration.setText(date+" malam");
     }
 
 }

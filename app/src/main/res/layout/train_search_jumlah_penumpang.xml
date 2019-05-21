@@ -75,6 +75,7 @@
             android:orientation="horizontal"
             android:weightSum="2">
             <com.shawnlin.numberpicker.NumberPicker
+                android:id="@+id/adult"
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_weight="1"
@@ -90,6 +91,7 @@
             </com.shawnlin.numberpicker.NumberPicker>
 
             <com.shawnlin.numberpicker.NumberPicker
+                android:id="@+id/infant"
                 android:layout_width="0dp"
                 android:layout_height="120dp"
                 android:layout_weight="1"
@@ -116,7 +118,8 @@
             android:insetBottom="0dp"
             android:backgroundTint="@color/colorPrimary"
             android:text="simpan perubahan"
-            android:fontFamily="@font/montserrat_medium"/>
+            android:fontFamily="@font/montserrat_medium"
+            android:id="@+id/submit"/>
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

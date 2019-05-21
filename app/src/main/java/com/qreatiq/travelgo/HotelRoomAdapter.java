@@ -70,36 +70,10 @@ public class HotelRoomAdapter extends RecyclerView.Adapter<HotelRoomAdapter.Hote
             String formattedNumber = formatter.format(currentItem.getDouble("price"));
             hotelRoomHolder.price.setText("Rp. "+formattedNumber);
 
-            hotelRoomHolder.remove_quantity.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    hotelRoomHolder.qty--;
-                    hotelRoomHolder.quantity.setText(String.valueOf(hotelRoomHolder.qty));
-                    if(hotelRoomHolder.qty == 0) {
-                        hotelRoomHolder.set_quantity.setVisibility(View.GONE);
-                        hotelRoomHolder.add.setVisibility(View.VISIBLE);
-                    }
-                    clickListener.onRemoveQuantityClick(hotelRoomHolder.qty,i);
-                }
-            });
-
-            hotelRoomHolder.add_quantity.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    hotelRoomHolder.qty++;
-                    hotelRoomHolder.quantity.setText(String.valueOf(hotelRoomHolder.qty));
-                    clickListener.onAddQuantityClick(hotelRoomHolder.qty,i);
-                }
-            });
-
             hotelRoomHolder.add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    hotelRoomHolder.qty=1;
-                    hotelRoomHolder.quantity.setText(String.valueOf(hotelRoomHolder.qty));
-                    hotelRoomHolder.set_quantity.setVisibility(View.VISIBLE);
-                    hotelRoomHolder.add.setVisibility(View.GONE);
-                    clickListener.onAddClick(hotelRoomHolder.qty,i);
+                    clickListener.onClick(i);
                 }
             });
         } catch (JSONException e) {
@@ -108,12 +82,10 @@ public class HotelRoomAdapter extends RecyclerView.Adapter<HotelRoomAdapter.Hote
     }
 
     public interface ClickListener{
-        void onAddClick(int quantity,int position);
-        void onRemoveQuantityClick(int quantity,int position);
-        void onAddQuantityClick(int quantity,int position);
+        void onClick(int position);
     }
 
-    public void setOnChangeQuantityListener(ClickListener clickListner){
+    public void setOnClickListener(ClickListener clickListner){
         this.clickListener= clickListner;
     }
 

@@ -6,14 +6,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CompoundButton;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class SpecialOrderHotelAdapter extends BaseAdapter {
-    ArrayList<String> array;
+    ArrayList<JSONObject> array;
     Context context;
+    ClickListener clickListener;
 
-    public SpecialOrderHotelAdapter(ArrayList<String> array, Context context){
+    public interface ClickListener{
+        void onItemClick(int position,boolean checked);
+    }
+
+    public void setOnItemClickListener(ClickListener clickListner){
+        this.clickListener= clickListner;
+    }
+
+    public SpecialOrderHotelAdapter(ArrayList<JSONObject> array, Context context){
         this.array = array;
         this.context = context;
     }
@@ -34,14 +47,25 @@ public class SpecialOrderHotelAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
             final LayoutInflater layoutInflater = LayoutInflater.from(context);
             convertView = layoutInflater.inflate(R.layout.special_order_hotel_list, null);
         }
 
         AppCompatCheckBox checkBox = (AppCompatCheckBox) convertView.findViewById(R.id.checkbox);
-        checkBox.setText(this.array.get(position));
+        try {
+            checkBox.setText(this.array.get(position).getString("label"));
+            checkBox.setChecked(array.get(position).getBoolean("checked"));
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    clickListener.onItemClick(position,isChecked);
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         return convertView;
     }

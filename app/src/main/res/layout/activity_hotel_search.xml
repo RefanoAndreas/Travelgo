@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout"
     tools:context=".HotelSearch">
 
     <android.support.v7.widget.Toolbar
@@ -234,6 +235,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:text="1 Tamu"
+                                        android:id="@+id/guest_label"
                                         android:textSize="16dp"
                                         android:fontFamily="@font/montserrat_medium"
                                         android:textAlignment="center"
@@ -253,6 +255,7 @@
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:text="1 Kamar"
+                                        android:id="@+id/room_label"
                                         android:textSize="16dp"
                                         android:fontFamily="@font/montserrat_medium"
                                         android:textAlignment="center"

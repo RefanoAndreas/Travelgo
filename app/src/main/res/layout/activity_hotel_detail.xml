@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/layout"
     tools:context=".HotelDetail">
 
     <android.support.design.widget.AppBarLayout
@@ -64,7 +65,7 @@
                 android:textColor="@android:color/black"/>
 
             <LinearLayout
-                android:id="@+id/rating"
+                android:id="@+id/rating_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -75,30 +76,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4,8"
+                    android:id="@+id/rating_number"
                     android:fontFamily="@font/montserrat_bold"
                     android:textColor="#7d7d7d"
                     android:layout_gravity="center"
                     android:layout_marginRight="4dp"/>
-                <ImageView
+                <RatingBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_yellow_24dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_yellow_24dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_yellow_24dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_yellow_24dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_half_yellow_24dp"/>
+                    android:id="@+id/rating"
+                    style="@style/Base.Widget.AppCompat.RatingBar.Small"
+                    android:numStars="5"/>
             </LinearLayout>
 
             <TextView
@@ -107,6 +95,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:id="@+id/address"
                 android:text="Embong Malang, Surabaya"
                 android:textSize="12dp"
                 android:fontFamily="@font/montserrat_medium"
@@ -359,17 +348,5 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
-    <android.support.design.button.MaterialButton
-        android:id="@+id/chooseRoomBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        app:cornerRadius="0dp"
-        android:text="Order"
-        android:fontFamily="@font/montserrat_medium"
-        android:textSize="14dp"/>
 
 </android.support.design.widget.CoordinatorLayout>

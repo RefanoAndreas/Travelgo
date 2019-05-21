@@ -106,24 +106,9 @@ public class SearchFlight extends BaseActivity {
             get_airport();
         }
         else if(in.getStringExtra("type").equals("hotel")){
-            tour_search.setHint("Cari kota atau hotel");
+            tour_search.setHint("Cari kota");
 
-            try {
-                array.add(new JSONObject("{\"city_label\":\"Surabaya\",\"poi_label\":\"Shangri-La Hotel\",\"city\":\"surabaya\",\"poi\":\"shangri-la hotel\"}"));
-                array.add(new JSONObject("{\"city_label\":\"Surabaya\",\"poi_label\":\"J.W. Marriot\",\"city\":\"surabaya\",\"poi\":\"jw marriot\"}"));
-                array.add(new JSONObject("{\"city_label\":\"Jakarta\",\"poi_label\":\"Shangri-La Hotel\",\"city\":\"jakarta\",\"poi\":\"shangri-la hotel\"}"));
-                array.add(new JSONObject("{\"city_label\":\"Jakarta\",\"poi_label\":\"J.W. Marriot\",\"city\":\"jakarta\",\"poi\":\"jw marriot\"}"));
-                adapter.notifyDataSetChanged();
-
-                for(int x=0;x<array.size();x++) {
-                    popular_city_array.add(array.get(x));
-                    arrayTemp.add(array.get(x));
-                }
-                popular_city_adapter.notifyDataSetChanged();
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            get_hotel_city();
         }
         else if(in.getStringExtra("type").equals("train")){
             tour_search.setHint("Cari kota atau stasiun");
@@ -348,6 +333,78 @@ public class SearchFlight extends BaseActivity {
                             }
                         }
                     }
+
+                    for(int x=0;x<array.size();x++)
+                        arrayTemp.add(array.get(x));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void get_hotel_city(){
+        String url = C_URL+"hotel/city";
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("data");
+                    for(int x=0; x<jsonArray.length(); x++){
+                        JSONArray city_arr = jsonArray.getJSONObject(x).getJSONArray("city");
+                        for(int y=0; y<city_arr.length(); y++) {
+                            JSONObject jsonObject = new JSONObject();
+
+                            jsonObject.put("city_label", capitalizeString(city_arr.getJSONObject(y).getString("name")));
+                            jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
+                            jsonObject.put("city", city_arr.getJSONObject(y).getString("name"));
+                            jsonObject.put("code", jsonArray.getJSONObject(x).getString("name"));
+
+                            if(!jsonObject.toString().equals(data.toString())) {
+                                array.add(jsonObject);
+                                popular_city_array.add(jsonObject);
+
+                                if (x == 0) {
+                                    adapter.notifyDataSetChanged();
+                                    popular_city_adapter.notifyDataSetChanged();
+                                } else {
+                                    adapter.notifyItemInserted(x);
+                                    popular_city_adapter.notifyItemInserted(x);
+                                }
+                            }
+                        }
+                    }
+                    Log.d("data",array.toString());
 
                     for(int x=0;x<array.size();x++)
                         arrayTemp.add(array.get(x));
