@@ -128,23 +128,7 @@ public class SearchFlight extends BaseActivity {
         else if(in.getStringExtra("type").equals("train")){
             tour_search.setHint("Cari kota atau stasiun");
 
-            try {
-                array.add(new JSONObject("{\"city_label\":\"Surabaya\",\"poi_label\":\"Gubeng\",\"city\":\"surabaya\",\"poi\":\"gubeng\"}"));
-                array.add(new JSONObject("{\"city_label\":\"Surabaya\",\"poi_label\":\"Pasar Turi\",\"city\":\"surabaya\",\"poi\":\"pasar turi\"}"));
-                array.add(new JSONObject("{\"city_label\":\"Jakarta\",\"poi_label\":\"Gambir\",\"city\":\"jakarta\",\"poi\":\"gambir\"}"));
-                array.add(new JSONObject("{\"city_label\":\"Jakarta\",\"poi_label\":\"Kota\",\"city\":\"jakarta\",\"poi\":\"kota\"}"));
-                array.add(new JSONObject("{\"city_label\":\"Yogyakarta\",\"poi_label\":\"Lempuyangan\",\"city\":\"yogyakarta\",\"poi\":\"lempuyangan\"}"));
-                array.add(new JSONObject("{\"city_label\":\"Yogyakarta\",\"poi_label\":\"Tugu\",\"city\":\"yogyakarta\",\"poi\":\"tugu\"}"));
-                adapter.notifyDataSetChanged();
-
-                for(int x=0;x<array.size();x++) {
-                    popular_city_array.add(array.get(x));
-                    arrayTemp.add(array.get(x));
-                }
-                popular_city_adapter.notifyDataSetChanged();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            get_station();
         }
 
         last_search_adapter.setOnItemClickListner(new SearchProductAdapter.ClickListener() {
@@ -266,6 +250,75 @@ public class SearchFlight extends BaseActivity {
 
     private void get_airport(){
         String url = C_URL+"flight/airport";
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("data");
+                    for(int x=0; x<jsonArray.length(); x++){
+                        JSONObject jsonObject = new JSONObject();
+
+                        jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getString("city")));
+                        jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getString("poi")));
+                        jsonObject.put("city", jsonArray.getJSONObject(x).getString("city"));
+                        jsonObject.put("poi", jsonArray.getJSONObject(x).getString("poi"));
+                        jsonObject.put("code", jsonArray.getJSONObject(x).getString("code"));
+
+                        if(!jsonObject.toString().equals(data.toString())) {
+                            array.add(jsonObject);
+                            popular_city_array.add(jsonObject);
+
+                            if (x == 0) {
+                                adapter.notifyDataSetChanged();
+                                popular_city_adapter.notifyDataSetChanged();
+                            } else {
+                                adapter.notifyItemInserted(x);
+                                popular_city_adapter.notifyItemInserted(x);
+                            }
+                        }
+                    }
+
+                    for(int x=0;x<array.size();x++)
+                        arrayTemp.add(array.get(x));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void get_station(){
+        String url = C_URL+"train/station";
 
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {

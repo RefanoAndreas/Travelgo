@@ -31,7 +31,6 @@ public class TourCreatePackage extends BaseActivity {
 
     Uri filePath;
 
-    int PICK_FROM_GALLERY = 2, PICK_FROM_CAMERA = 3;
     Double price_data= Double.valueOf(0);
 
     @Override

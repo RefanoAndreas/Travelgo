@@ -83,15 +83,44 @@ public class TrainSearch extends BaseActivity {
         aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isReturn = isChecked;
+                start_date = new Date();
+                end_date = new Date();
+
+                if (isChecked){
+                    tanggalContainer.setWeightSum(2);
+                    kembali.setVisibility(View.VISIBLE);
+                }else{
+                    tanggalContainer.setWeightSum(1);
+                    kembali.setVisibility(View.GONE);
+                }
+
+                if(isReturn) {
+                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE, d MMM yyyy");
+
+                    showDate(simpledateformat.format(start_date),"start");
+                    showDate(simpledateformat.format(end_date),"end");
+                }
+                else{
+                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE, d MMM yyyy");
+
+                    showDate(simpledateformat.format(start_date),"start");
+                }
+            }
+        });
+
+        flightSearch_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 if(!depart_data.toString().equals("") && !arrive_data.toString().equals("")) {
-                    JSONObject json;
+                    JSONObject json = new JSONObject();
                     json = depart_data;
                     depart_data = arrive_data;
                     arrive_data = json;
 
                     try {
-                        searchStasiunBerangkat.setText(depart_data.getString("poi_label"));
-                        searchStasiunTujuan.setText(arrive_data.getString("poi_label"));
+                        searchStasiunBerangkat.setText(depart_data.getString("city_label")+" ("+depart_data.getString("code")+")");
+                        searchStasiunTujuan.setText(arrive_data.getString("city_label")+" ("+arrive_data.getString("code")+")");
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -184,41 +213,6 @@ public class TrainSearch extends BaseActivity {
     }
 
     @Override
-    protected Dialog onCreateDialog(int id) {
-        if (id == 999) {
-            DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
-                    SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
-                    Date date = new Date(year, month, dayOfMonth-1);
-                    String dayOfWeek = simpledateformat.format(date);
-                    String monthOfYear = simplemonth.format(date);
-                    showDate(year, monthOfYear, dayOfMonth, dayOfWeek, "start");
-                }
-            }, year, month, day);
-            dialog.getDatePicker().setMinDate(System.currentTimeMillis());
-            return dialog;
-        }
-        else if (id == 998) {
-            DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
-                    SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
-                    Date date = new Date(year, month, dayOfMonth-1);
-                    String dayOfWeek = simpledateformat.format(date);
-                    String monthOfYear = simplemonth.format(date);
-                    showDate(year, monthOfYear, dayOfMonth, dayOfWeek, "end");
-                }
-            }, year, month, day);
-            dialog.getDatePicker().setMinDate(System.currentTimeMillis());
-            return dialog;
-        }
-        return null;
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -240,33 +234,24 @@ public class TrainSearch extends BaseActivity {
             else if(requestCode == START_DATE || requestCode == END_DATE){
                 try {
                     if(isReturn) {
-                        SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
-                        SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
+                        SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE, d MMM yyyy");
 
                         JSONArray json = new JSONArray(data.getStringExtra("date"));
 
                         start_date = new Date(json.getLong(0));
-                        String start_dayOfWeek = simpledateformat.format(start_date);
-                        String start_monthOfYear = simplemonth.format(start_date);
-
                         end_date = new Date(json.getLong(json.length() - 1));
-                        String end_dayOfWeek = simpledateformat.format(end_date);
-                        String end_monthOfYear = simplemonth.format(end_date);
 
-                        showDate(start_date.getYear(), start_monthOfYear, start_date.getDate(), start_dayOfWeek, "start");
-                        showDate(end_date.getYear(), end_monthOfYear, end_date.getDate(), end_dayOfWeek, "end");
+                        showDate(simpledateformat.format(start_date), "start");
+                        showDate(simpledateformat.format(end_date), "end");
                     }
                     else{
-                        SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
-                        SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
+                        SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE, d MMM yyyy");
 
                         JSONArray json = new JSONArray(data.getStringExtra("date"));
 
                         start_date = new Date(json.getLong(0));
-                        String start_dayOfWeek = simpledateformat.format(start_date);
-                        String start_monthOfYear = simplemonth.format(start_date);
 
-                        showDate(start_date.getYear(), start_monthOfYear, start_date.getDate(), start_dayOfWeek, "start");
+                        showDate(simpledateformat.format(start_date), "start");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -275,24 +260,10 @@ public class TrainSearch extends BaseActivity {
         }
     }
 
-    private void showDate(int year, String month, int date, String dayOfWeek, String type) {
+    private void showDate(String date, String type) {
         if(type == "start")
-            tanggalBerangkat.setText(new StringBuilder()
-                    .append(dayOfWeek)
-                    .append(", ")
-                    .append(date < 10 ? "0"+date : date)
-                    .append(" ")
-                    .append(month)
-                    .append(" ")
-                    .append(year));
+            tanggalBerangkat.setText(date);
         else
-            tanggalKembali.setText(new StringBuilder()
-                    .append(dayOfWeek)
-                    .append(", ")
-                    .append(date < 10 ? "0"+date : date)
-                    .append(" ")
-                    .append(month)
-                    .append(" ")
-                    .append(year));
+            tanggalKembali.setText(date);
     }
 }

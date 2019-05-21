@@ -161,23 +161,69 @@ public class FlightSearchJadwal extends BaseActivity {
                         );
                     }
                 }
-                else{
-                    startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class)
-                            .putExtra("origin", intentString)
-                    );
+                else if(intentString.equals("train")) {
+                    if(intent.getBooleanExtra("isReturn",false)) {
+                        if (!intent.getBooleanExtra("isOpposite", false)) {
+                            startActivity(new Intent(FlightSearchJadwal.this, FlightSearchJadwal.class)
+                                    .putExtra("origin", intentString)
+                                    .putExtra("depart_data", destination.toString())
+                                    .putExtra("arrive_data", origin.toString())
+                                    .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
+                                    .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
+                                    .putExtra("adult", intent.getIntExtra("adult", 0))
+                                    .putExtra("child", intent.getIntExtra("child", 0))
+                                    .putExtra("infant", intent.getIntExtra("infant", 0))
+                                    .putExtra("kelas", intent.getStringExtra("kelas"))
+                                    .putExtra("isReturn", true)
+                                    .putExtra("isOpposite", true)
+                                    .putExtra("depart_ticket",ticketList.get(position).toString())
+                            );
+                        } else {
+                            startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class)
+                                    .putExtra("origin", intentString)
+                                    .putExtra("depart_data", destination.toString())
+                                    .putExtra("arrive_data", origin.toString())
+                                    .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
+                                    .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
+                                    .putExtra("adult", intent.getIntExtra("adult", 0))
+                                    .putExtra("child", intent.getIntExtra("child", 0))
+                                    .putExtra("infant", intent.getIntExtra("infant", 0))
+                                    .putExtra("kelas", intent.getStringExtra("kelas"))
+                                    .putExtra("isReturn", true)
+                                    .putExtra("isOpposite", true)
+                                    .putExtra("depart_ticket",intent.getStringExtra("depart_ticket"))
+                                    .putExtra("return_ticket",ticketList.get(position).toString())
+                            );
+                        }
+                    }
+                    else{
+                        startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class)
+                                .putExtra("origin", intentString)
+                                .putExtra("depart_data", origin.toString())
+                                .putExtra("arrive_data", destination.toString())
+                                .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
+                                .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
+                                .putExtra("adult", intent.getIntExtra("adult", 0))
+                                .putExtra("child", intent.getIntExtra("child", 0))
+                                .putExtra("infant", intent.getIntExtra("infant", 0))
+                                .putExtra("kelas", intent.getStringExtra("kelas"))
+                                .putExtra("isReturn", false)
+                                .putExtra("depart_ticket",ticketList.get(position).toString())
+                        );
+                    }
                 }
             }
         });
 
-        if(intentString.equals("flight")){
-            try {
+        try {
+            if(intentString.equals("flight")){
                 flightData();
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-        }
-        else{
-            trainData();
+            else if(intentString.equals("train")){
+                trainData();
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
     }
@@ -191,9 +237,9 @@ public class FlightSearchJadwal extends BaseActivity {
     }
 
     public void flightData() throws JSONException {
-        String url = null;
-        url = C_URL+"flight/search?origin="+origin.getString("code")+
-                    "&destination="+destination.getString("code");
+        SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
+        String url = C_URL+"flight/search?origin="+origin.getString("code")+
+                    "&destination="+destination.getString("code")+"&time="+format.format(date);
         Log.d("data",url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -205,6 +251,7 @@ public class FlightSearchJadwal extends BaseActivity {
                         JSONObject jsonObject = new JSONObject();
 
                         jsonObject.put("airlines", jsonArray.getJSONObject(x).getString("airlines"));
+                        jsonObject.put("flight_code", jsonArray.getJSONObject(x).getString("code"));
                         jsonObject.put("departTime", jsonArray.getJSONObject(x).getString("time_depart"));
                         jsonObject.put("arrivalTime", jsonArray.getJSONObject(x).getString("time_arrive"));
                         jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));
@@ -264,19 +311,77 @@ public class FlightSearchJadwal extends BaseActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    public void trainData(){
-        try {
-            ticketList.add(new JSONObject("{\"airlines\":\"Mutiara\", " +
-                    "\"departTime\":\"07:40\", " +
-                    "\"duration\":\"2j 20m\", " +
-                    "\"arrivalTime\":\"11:00\", " +
-                    "\"departAirport\":\"SUB\", " +
-                    "\"totalTransit\":\"0 Transit\", " +
-                    "\"arrivalAirport\":\"JKT\", " +
-                    "\"price\":\"150.000\"}"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void trainData() throws JSONException {
+        SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
+        String url = C_URL+"train/search?origin="+origin.getString("code")+
+                "&destination="+destination.getString("code")+
+                "&time="+format.format(date);
+        Log.d("data",url);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("data");
+                    for(int x=0; x<jsonArray.length(); x++){
+                        for(int y=0;y<jsonArray.getJSONObject(x).getJSONArray("availability_class").length();y++) {
+                            JSONObject jsonObject = new JSONObject();
+
+                            jsonObject.put("name", jsonArray.getJSONObject(x).getString("name"));
+                            jsonObject.put("departTime", jsonArray.getJSONObject(x).getString("time_depart_label"));
+                            jsonObject.put("arrivalTime", jsonArray.getJSONObject(x).getString("time_arrive_label"));
+                            jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));
+                            jsonObject.put("departStation", origin.getString("code"));
+                            jsonObject.put("arrivalStation", destination.getString("code"));
+                            jsonObject.put("departData", origin);
+                            jsonObject.put("arrivalData", destination);
+                            jsonObject.put("departTimeNumber", jsonArray.getJSONObject(x).getString("time_depart_number"));
+                            jsonObject.put("arriveTimeNumber", jsonArray.getJSONObject(x).getString("time_arrive_number"));
+                            jsonObject.put("price", jsonArray.getJSONObject(x).getJSONArray("availability_class").getJSONObject(y).getString("price"));
+                            jsonObject.put("class", jsonArray.getJSONObject(x).getJSONArray("availability_class").getJSONObject(y).getString("class"));
+                            jsonObject.put("sub-class", jsonArray.getJSONObject(x).getJSONArray("availability_class").getJSONObject(y).getString("sub_class"));
+
+                            ticketList.add(jsonObject);
+
+                            if (x == 0)
+                                mAdapter.notifyDataSetChanged();
+                            else
+                                mAdapter.notifyItemInserted(x);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
     }
 
     public void sortView(View v){

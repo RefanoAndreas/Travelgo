@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.annotation.Nullable;
 import android.support.design.button.MaterialButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
@@ -16,6 +17,8 @@ import android.widget.TextView;
 
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
@@ -30,7 +33,8 @@ public class HotelSearch extends BaseActivity {
     private int year = 2019, month = 3, day = 10;
     Calendar checkin, checkout;
 
-    int HOTEL_SEARCH = 1;
+    int HOTEL_SEARCH = 1, START_DATE = 3, END_DATE = 4;
+    Date start_date = new Date(),end_date = new Date();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +64,8 @@ public class HotelSearch extends BaseActivity {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HotelSearch.this, HotelSearchResult.class).putExtra("tanggal_berangkat", tanggalCheckin.getText()));
+                startActivity(new Intent(HotelSearch.this, HotelSearchResult.class)
+                        .putExtra("tanggal_berangkat", tanggalCheckin.getText()));
             }
         });
 
@@ -76,85 +81,56 @@ public class HotelSearch extends BaseActivity {
         });
 
         duration = (TextView) findViewById(R.id.TV_duration);
-
-
     }
 
     public void startDate(View v){
-        showDialog(999);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        Intent in = new Intent(this,DatePickerActivity.class);
+        in.putExtra("start_date",start_date.getTime());
+        in.putExtra("end_date",end_date.getTime());
+        in.putExtra("isReturn",true);
+        startActivityForResult(in,START_DATE);
     }
 
     public void endDate(View v){
-        showDialog(998);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        Intent in = new Intent(this,DatePickerActivity.class);
+        in.putExtra("start_date",start_date.getTime());
+        in.putExtra("end_date",end_date.getTime());
+        in.putExtra("isReturn",true);
+        startActivityForResult(in,END_DATE);
     }
 
     @Override
-    protected Dialog onCreateDialog(int id) {
-        if (id == 999) {
-            DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
-                    SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
-                    Date date = new Date(year, month, dayOfMonth-1);
-                    String dayOfWeek = simpledateformat.format(date);
-                    String monthOfYear = simplemonth.format(date);
-                    checkin.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                    checkin.set(Calendar.MONTH, month);
-                    checkin.set(Calendar.YEAR, year);
-                    showDate(year, monthOfYear, dayOfMonth, dayOfWeek, "start");
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            if(requestCode == START_DATE || requestCode == END_DATE){
+                try {
+                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE, d MMM yyyy");
+
+                    JSONArray json = new JSONArray(data.getStringExtra("date"));
+
+                    start_date = new Date(json.getLong(0));
+                    end_date = new Date(json.getLong(json.length() - 1));
+
+                    showDate(simpledateformat.format(start_date), "start");
+                    showDate(simpledateformat.format(end_date), "end");
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            }, year, month, day);
-            dialog.getDatePicker().setMinDate(System.currentTimeMillis());
-            return dialog;
+            }
         }
-        else if (id == 998) {
-            DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
-                    SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
-                    Date date = new Date(year, month, dayOfMonth-1);
-                    String dayOfWeek = simpledateformat.format(date);
-                    String monthOfYear = simplemonth.format(date);
-                    checkout.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                    checkout.set(Calendar.MONTH, month);
-                    checkout.set(Calendar.YEAR, year);
-                    showDate(year, monthOfYear, dayOfMonth, dayOfWeek, "end");
-                }
-            }, year, month, day);
-            dialog.getDatePicker().setMinDate(System.currentTimeMillis());
-            return dialog;
-        }
-        return null;
     }
 
-    private void showDate(int year, String month, int date, String dayOfWeek, String type) {
+    private void showDate(String date, String type) {
         if(type == "start")
-            tanggalCheckin.setText(new StringBuilder()
-                    .append(dayOfWeek)
-                    .append(", ")
-                    .append(date < 10 ? "0"+date : date)
-                    .append(" ")
-                    .append(month)
-                    .append(" ")
-                    .append(year));
-        else {
-            tanggalCheckout.setText(new StringBuilder()
-                    .append(dayOfWeek)
-                    .append(", ")
-                    .append(date < 10 ? "0" + date : date)
-                    .append(" ")
-                    .append(month)
-                    .append(" ")
-                    .append(year));
-
-        }
-        long diff = checkout.getTimeInMillis() - checkin.getTimeInMillis();
-        long days = diff / (24 * 60 * 60 * 1000);
-        duration.setText(String.valueOf(days) + " Malam");
-
-
+            tanggalCheckin.setText(date);
+        else
+            tanggalCheckout.setText(date);
     }
 
 }

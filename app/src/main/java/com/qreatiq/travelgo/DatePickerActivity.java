@@ -62,15 +62,15 @@ public class DatePickerActivity extends BaseActivity {
         if(intent.getBooleanExtra("isReturn",false)) {
             calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_RANGE);
             calendarView.selectRange(
-                    CalendarDay.from(start_date.getYear(),start_date.getMonth()+1,start_date.getDate()),
-                    CalendarDay.from(end_date.getYear(),end_date.getMonth()+1,end_date.getDate()));
+                    CalendarDay.from(start_date.getYear()+1900,start_date.getMonth()+1,start_date.getDate()),
+                    CalendarDay.from(end_date.getYear()+1900,end_date.getMonth()+1,end_date.getDate()));
         }
         else {
             calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_SINGLE);
-            calendarView.setSelectedDate(CalendarDay.from(start_date.getYear(),start_date.getMonth()+1,start_date.getDate()));
+            calendarView.setSelectedDate(CalendarDay.from(start_date.getYear()+1900,start_date.getMonth()+1,start_date.getDate()));
         }
 
-        calendarView.setCurrentDate(CalendarDay.from(start_date.getYear(),start_date.getMonth()+1,start_date.getDate()));
+        calendarView.setCurrentDate(CalendarDay.from(start_date.getYear()+1900,start_date.getMonth()+1,start_date.getDate()));
 
         format = new SimpleDateFormat("d-M-yyyy");
         dateSelected.add(start_date.getTime());

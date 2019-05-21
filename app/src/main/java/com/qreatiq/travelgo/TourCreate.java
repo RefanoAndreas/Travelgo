@@ -92,7 +92,7 @@ public class TourCreate extends BaseActivity {
     TextView no_data;
     ConstraintLayout layout;
 
-    int CREATE_TOUR_PACKAGE = 1, PICK_FROM_GALLERY = 2, PICK_FROM_CAMERA = 3;
+    int CREATE_TOUR_PACKAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

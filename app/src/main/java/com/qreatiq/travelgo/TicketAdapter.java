@@ -66,13 +66,26 @@ public class TicketAdapter extends RecyclerView.Adapter<TicketAdapter.TicketHold
         JSONObject jsonObject = ticketList.get(i);
 
         try {
-            ticketHolder.airlinesName.setText(jsonObject.getString("airlines"));
+            if(jsonObject.has("airlines"))
+                ticketHolder.airlinesName.setText(jsonObject.getString("airlines"));
+            else
+                ticketHolder.airlinesName.setText(jsonObject.getString("name")+"\n("+jsonObject.getString("class")+" "+jsonObject.getString("sub-class")+")");
+
             ticketHolder.departureTime.setText(jsonObject.getString("departTime"));
             ticketHolder.duration.setText(jsonObject.getString("duration"));
             ticketHolder.arrivalTime.setText(jsonObject.getString("arrivalTime"));
-            ticketHolder.departureAirport.setText(jsonObject.getString("departAirport"));
-            ticketHolder.totalTransit.setText(jsonObject.getString("totalTransit"));
-            ticketHolder.arrivalAirport.setText(jsonObject.getString("arrivalAirport"));
+            if(jsonObject.has("departAirport"))
+                ticketHolder.departureAirport.setText(jsonObject.getString("departAirport"));
+            else if(jsonObject.has("departStation"))
+                ticketHolder.departureAirport.setText(jsonObject.getString("departStation"));
+            if(jsonObject.has("totalTransit"))
+                ticketHolder.totalTransit.setText(jsonObject.getString("totalTransit"));
+            else
+                ticketHolder.totalTransit.setVisibility(View.GONE);
+            if(jsonObject.has("arrivalAirport"))
+                ticketHolder.arrivalAirport.setText(jsonObject.getString("arrivalAirport"));
+            else if(jsonObject.has("arrivalStation"))
+                ticketHolder.arrivalAirport.setText(jsonObject.getString("arrivalStation"));
 
             DecimalFormat formatter = new DecimalFormat("#,###,###");
             String formattedNumber = formatter.format(Double.parseDouble(jsonObject.getString("price").replace(".", "")));
