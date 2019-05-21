@@ -136,14 +136,25 @@
                     android:orientation="vertical"
                     android:layout_margin="16dp">
 
-                    <include
-                        layout="@layout/eticket_flight_penumpang"
-                        android:visibility="gone"
-                        android:id="@+id/data_penumpang_pesawat"/>
-                    <include
-                        layout="@layout/eticket_train_penumpang"
-                        android:visibility="gone"
-                        android:id="@+id/data_penumpang_kereta"/>
+                    <!--<include-->
+                        <!--layout="@layout/eticket_flight_penumpang"-->
+                        <!--android:visibility="gone"-->
+                        <!--android:id="@+id/data_penumpang_pesawat"/>-->
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/data_penumpang_pesawat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+                    </android.support.v7.widget.RecyclerView>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/data_penumpang_kereta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+                    </android.support.v7.widget.RecyclerView>
+
                     <include
                         layout="@layout/eticket_hotel_tamu"
                         android:visibility="gone"
@@ -183,32 +194,12 @@
                     android:background="#E4E7E8"/>
 
                 <LinearLayout
+                    android:id="@+id/linear_tips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:layout_margin="16dp">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="Tunjukkan e-tiket dan kartu identitas anda pada saat check-in (KTP/SIM/Paspor)"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:text="Check – in paling lambat 90 menit sebelum keberangkatan"/>
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="Semua waktu yang tertera adalah waktu lokasi bandara terkaitKode"/>
-
-                    </LinearLayout>
 
                 </LinearLayout>
 

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,8 +20,7 @@
                 android:id="@+id/TV_passanger_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Ny. Ani"/>
+                android:layout_weight="1"/>
             <TextView
                 android:id="@+id/TV_passanger_type"
                 android:layout_width="match_parent"
@@ -30,11 +30,12 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/TV_passenger_id_no"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="KTP - 35782631310001"/>
         <TextView
+            android:id="@+id/TV_train_class"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="EKO_AC-1/Kursi 2A"/>

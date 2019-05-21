@@ -115,15 +115,22 @@ public class D1Notifikasi extends BaseActivity {
                             JSONObject jsonObject = new JSONObject();
                             JSONObject jsonSales = response.getJSONArray("purchasing").getJSONObject(x);
 
-                            jsonObject.put("id", jsonSales.getString("sales_id"));
-                            jsonObject.put("date1", jsonSales.getString("date1"));
-                            jsonObject.put("type", jsonSales.getString("type"));
+                            jsonObject.put("id", jsonSales.getString("id"));
+                            jsonObject.put("date1", jsonSales.getString("buy_date"));
+                            jsonObject.put("type", "purchasing");
                             jsonObject.put("salesType", jsonSales.getString("salesType"));
 
                             jsonObject.put("info1", jsonSales.getString("info1"));
                             jsonObject.put("info2", jsonSales.getString("info2"));
-                            jsonObject.put("info3", jsonSales.getString("info3"));
-                            jsonObject.put("info4", jsonSales.getString("info4"));
+                            if(jsonSales.getString("salesType").equals("flight") || jsonSales.getString("salesType").equals("train")) {
+                                jsonObject.put("info3", jsonSales.getString("info3") + " Penumpang");
+                                jsonObject.put("info4", jsonSales.getString("info4"));
+                            }
+                            else {
+                                jsonObject.put("info3", jsonSales.getString("info3"));
+                                jsonObject.put("info4", jsonSales.getString("info4")+" Malam");
+                            }
+
                             jsonObject.put("status", jsonSales.getString("status"));
 
                             notifList.add(jsonObject);
@@ -140,9 +147,9 @@ public class D1Notifikasi extends BaseActivity {
                             JSONObject jsonObject = new JSONObject();
 
                             jsonObject.put("id", jsonSales.getString("sales_id"));
-                            jsonObject.put("date1", jsonSales.getString("date1"));
-                            jsonObject.put("type", "tour");
-                            jsonObject.put("salesType", jsonSales.getString("salesType"));
+                            jsonObject.put("date1", jsonSales.getString("buy_date"));
+                            jsonObject.put("type", "sales");
+                            jsonObject.put("salesType", "tour");
 
                             jsonObject.put("info1", jsonSales.getString("info1"));
                             jsonObject.put("info2", jsonSales.getString("info2"));
@@ -159,23 +166,28 @@ public class D1Notifikasi extends BaseActivity {
                         }
                     }
                     else{
-                        Log.d("respon", response.toString());
-
                         for(int x=0;x<response.getJSONArray("history").length();x++) {
                             JSONObject jsonSales= response.getJSONArray("history").getJSONObject(x);
 
                             JSONObject jsonObject = new JSONObject();
 
                             jsonObject.put("id", jsonSales.getString("id"));
-                            jsonObject.put("date1", jsonSales.getString("date1"));
+                            jsonObject.put("date1", jsonSales.getString("buy_date"));
                             jsonObject.put("type", jsonSales.getString("type"));
                             jsonObject.put("salesType", jsonSales.getString("salesType"));
 //                            jsonObject.put("salesType", "flight");
 
                             jsonObject.put("info1", jsonSales.getString("info1"));
                             jsonObject.put("info2", jsonSales.getString("info2"));
-                            jsonObject.put("info3", jsonSales.getString("info3"));
-                            jsonObject.put("info4", jsonSales.getString("info4"));
+                            if(jsonSales.getString("salesType").equals("flight") || jsonSales.getString("salesType").equals("train")) {
+                                jsonObject.put("info3", jsonSales.getString("info3") + " Penumpang");
+                                jsonObject.put("info4", jsonSales.getString("info4"));
+                            }
+                            else {
+                                jsonObject.put("info3", jsonSales.getString("info3"));
+                                jsonObject.put("info4", jsonSales.getString("info4")+" Malam");
+                            }
+
                             if(jsonSales.getString("type").equals("sales"))
                                 jsonObject.put("status", "Dipesan");
                             else

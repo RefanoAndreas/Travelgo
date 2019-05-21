@@ -29,10 +29,10 @@
             android:orientation="vertical"
             android:background="@android:color/white">
             <TextView
+                android:id="@+id/TV_status_order"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Pesananan Berhasil"
                 android:textAlignment="center"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textColor="@color/colorPrimary"/>
@@ -59,11 +59,11 @@
                         android:layout_marginRight="8dp"
                         android:text="Nomor Pesanan"/>
                     <TextView
+                        android:id="@+id/TV_no_order"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginLeft="8dp"
-                        android:text="xx45edfjg"
                         android:textColor="@android:color/black"
                         android:fontFamily="@font/montserrat_medium"/>
                 </LinearLayout>
@@ -81,11 +81,11 @@
                         android:layout_marginRight="8dp"
                         android:text="Dipesan pada tanggal"/>
                     <TextView
+                        android:id="@+id/TV_order_date"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginLeft="8dp"
-                        android:text="Kamis, 2 Mei 2019"
                         android:textColor="@android:color/black"
                         android:fontFamily="@font/montserrat_medium"/>
                 </LinearLayout>
@@ -103,11 +103,11 @@
                         android:layout_marginRight="8dp"
                         android:text="Total harga"/>
                     <TextView
+                        android:id="@+id/TV_price"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginLeft="8dp"
-                        android:text="Rp. 1.500.000"
                         android:textColor="@android:color/black"
                         android:fontFamily="@font/montserrat_medium"/>
                 </LinearLayout>
@@ -141,21 +141,6 @@
                 android:id="@+id/RV_eTicket"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-            <!--<LinearLayout-->
-                <!--android:id="@+id/eTicketLayout"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_margin="16dp"-->
-                <!--android:orientation="horizontal">-->
-                <!--<TextView-->
-                    <!--android:id="@+id/TV_eTicket"-->
-                    <!--android:layout_width="0dp"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Surabaya > Jakarta"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:layout_gravity="center"-->
-                    <!--android:drawableRight="@drawable/ic_chevron_right_777777_24dp"/>-->
-            <!--</LinearLayout>-->
 
             <View
                 android:layout_width="match_parent"

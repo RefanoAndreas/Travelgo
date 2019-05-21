@@ -249,7 +249,7 @@ public class TransactionDetail extends BaseActivity {
 
     private void detailHistory(){
 
-        url = link.C_URL+"history/detail?id="+sales_id;
+        url = link.C_URL+"history/detail?id="+sales_id+"&type=tour";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
