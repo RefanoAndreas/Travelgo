@@ -91,22 +91,6 @@
                     layout="@layout/eticket_hotel"
                     android:visibility="gone"/>
 
-
-                <!--<android.support.v7.widget.RecyclerView-->
-                    <!--android:id="@+id/RV_flight_train"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:visibility="gone">-->
-
-                <!--</android.support.v7.widget.RecyclerView>-->
-                <!--<android.support.v7.widget.RecyclerView-->
-                    <!--android:id="@+id/RV_hotel"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:visibility="gone">-->
-
-                <!--</android.support.v7.widget.RecyclerView>-->
-
             </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
@@ -136,11 +120,6 @@
                     android:orientation="vertical"
                     android:layout_margin="16dp">
 
-                    <!--<include-->
-                        <!--layout="@layout/eticket_flight_penumpang"-->
-                        <!--android:visibility="gone"-->
-                        <!--android:id="@+id/data_penumpang_pesawat"/>-->
-
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/data_penumpang_pesawat"
                         android:layout_width="match_parent"
@@ -155,17 +134,40 @@
                         android:visibility="gone">
                     </android.support.v7.widget.RecyclerView>
 
-                    <include
-                        layout="@layout/eticket_hotel_tamu"
-                        android:visibility="gone"
-                        android:id="@+id/data_tamu_hotel"/>
+                    <LinearLayout
+                        android:id="@+id/layout_guest_hotel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
 
-                    <!--<android.support.v7.widget.RecyclerView-->
-                        <!--android:id="@+id/RV_datapenumpang_pesawat"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content">-->
-                        <!---->
-                    <!--</android.support.v7.widget.RecyclerView>-->
+                            <TextView
+                                android:id="@+id/TV_guest_name"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"/>
+                            <TextView
+                                android:id="@+id/TV_guest_type"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Dewasa"/>
+
+                        </LinearLayout>
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/RV_specialreq_hotel"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp">
+                        </android.support.v7.widget.RecyclerView>
+                    </LinearLayout>
+
 
                 </LinearLayout>
 

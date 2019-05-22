@@ -117,25 +117,39 @@ public class D2NotifikasiDetail extends BaseActivity {
                         TV_status_order.setText("Pesanan Berhasil");
                     }
 
-                    for(int x=0; x<jsonDetail.getJSONArray("detail").length();x++){
+                    if(type.equals("flight") || type.equals("train")) {
+                        for (int x = 0; x < jsonDetail.getJSONArray("detail").length(); x++) {
+                            JSONObject jsonObject1 = new JSONObject();
+                            JSONObject jsonETicket = jsonDetail.getJSONArray("detail").getJSONObject(x);
+
+                            try {
+                                jsonObject1.put("id", jsonETicket.getString("id"));
+                                jsonObject1.put("info_eticket", jsonETicket.getJSONObject("departure").getJSONObject("city").getString("name")+" > "+
+                                        jsonETicket.getJSONObject("arrival").getJSONObject("city").getString("name"));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            eTicketList.add(jsonObject1);
+                            if (x != 0)
+                                adapter_eTicket.notifyItemInserted(x);
+                            else
+                                adapter_eTicket.notifyDataSetChanged();
+                        }
+                    }
+                    else{
                         JSONObject jsonObject1 = new JSONObject();
-                        JSONObject jsonETicket = jsonDetail.getJSONArray("detail").getJSONObject(x);
 
                         try {
-                            jsonObject1.put("id", jsonETicket.getString("id"));
-                            jsonObject1.put("origin", jsonETicket.getJSONObject("departure").getJSONObject("city").getString("name"));
-                            jsonObject1.put("destination", jsonETicket.getJSONObject("arrival").getJSONObject("city").getString("name"));
+                            jsonObject1.put("id", jsonDetail.getString("id"));
+                            jsonObject1.put("info_eticket", jsonDetail.getJSONObject("room").getJSONObject("hotel").getString("name"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
 
                         eTicketList.add(jsonObject1);
-                        if (x != 0)
-                            adapter_eTicket.notifyItemInserted(x);
-                        else
-                            adapter_eTicket.notifyDataSetChanged();
+                        adapter_eTicket.notifyDataSetChanged();
                     }
-
 
                 } catch (JSONException e) {
                     e.printStackTrace();

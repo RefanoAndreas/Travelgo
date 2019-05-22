@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,13 +31,9 @@ import com.qreatiq.travelgo.Utils.BaseActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class D3Eticket extends BaseActivity {
@@ -46,28 +41,31 @@ public class D3Eticket extends BaseActivity {
     Intent intent;
     String type, url, sales_detail_id;
     TextView TV_title_info, TV_title_guest, TV_title_tips,TV_name, TV_info_departure, TV_info_origin,
-             TV_info_duration, TV_info_arrival, TV_info_destination, TV_info_class;
-    View flight_train, hotel, tamu_hotel;
+             TV_info_duration, TV_info_arrival, TV_info_destination, TV_info_class, TV_guest_name,
+             TV_guest_type, TV_hotel_name, TV_hotel_address, TV_checkin_date, TV_checkout_date,
+             TV_info_total_guest, TV_tipe_bed, TV_facilitiesHotel;
+    View flight_train, hotel;
     ImageView typeIcon1, typeIcon2;
     String userID;
     SharedPreferences user_id;
-    RecyclerView RV_penumpang_pesawat, RV_penumpang_kereta;
+    RecyclerView RV_penumpang_pesawat, RV_penumpang_kereta, RV_specialreq_hotel;
 
     FlightPassengerAdapter adapter_flight_passenger;
     TrainPassengerAdapter adapter_train_passenger;
+    HotelGuestRequestAdapter adapter_guest_request;
 
     ArrayList<JSONObject> flightPassengerList = new ArrayList<JSONObject>();
     ArrayList<JSONObject> trainPassengerList = new ArrayList<JSONObject>();
-    ArrayList<JSONObject> hotelGuestList = new ArrayList<JSONObject>();
+    ArrayList<JSONObject> guestRequestList = new ArrayList<JSONObject>();
     ArrayList<String> tips = new ArrayList<>();
 
     private RecyclerView.LayoutManager layoutManager_passengerFlight;
     private RecyclerView.LayoutManager layoutManager_passengerTrain;
-    private RecyclerView.LayoutManager layoutManager_guestHotel;
+    private RecyclerView.LayoutManager layoutManager_guestRequest;
 
     ListView LV_tips;
 
-    LinearLayout linear_tips;
+    LinearLayout linear_tips, layout_guest_hotel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +98,17 @@ public class D3Eticket extends BaseActivity {
         TV_info_destination = (TextView)findViewById(R.id.TV_info_destination);
         TV_info_class = (TextView)findViewById(R.id.TV_info_class);
 
-        tamu_hotel = (View)findViewById(R.id.data_tamu_hotel);
+        layout_guest_hotel = (LinearLayout) findViewById(R.id.layout_guest_hotel);
+        TV_guest_name = (TextView)findViewById(R.id.TV_guest_name);
+        TV_guest_type = (TextView)findViewById(R.id.TV_guest_type);
+
+        TV_hotel_name = (TextView)findViewById(R.id.TV_hotel_name);
+        TV_hotel_address = (TextView)findViewById(R.id.TV_hotel_address);
+        TV_checkin_date = (TextView)findViewById(R.id.TV_checkin_date);
+        TV_checkout_date = (TextView)findViewById(R.id.TV_checkout_date);
+        TV_info_total_guest = (TextView)findViewById(R.id.TV_info_total_guest);
+        TV_facilitiesHotel = (TextView)findViewById(R.id.TV_facilitiesHotel);
+//        TV_tipe_bed = (TextView)findViewById(R.id.TV_tipe_bed);
 
         RV_penumpang_pesawat = (RecyclerView) findViewById(R.id.data_penumpang_pesawat);
         RV_penumpang_pesawat.setHasFixedSize(true);
@@ -115,6 +123,13 @@ public class D3Eticket extends BaseActivity {
         adapter_train_passenger = new TrainPassengerAdapter(trainPassengerList, this);
         RV_penumpang_kereta.setLayoutManager(layoutManager_passengerTrain);
         RV_penumpang_kereta.setAdapter(adapter_train_passenger);
+
+        RV_specialreq_hotel = (RecyclerView) findViewById(R.id.RV_specialreq_hotel);
+        RV_specialreq_hotel.setHasFixedSize(true);
+        layoutManager_guestRequest= new LinearLayoutManager(this);
+        adapter_guest_request = new HotelGuestRequestAdapter(guestRequestList , this);
+        RV_specialreq_hotel.setLayoutManager(layoutManager_guestRequest);
+        RV_specialreq_hotel.setAdapter(adapter_guest_request);
 
 //        LV_tips = (ListView)findViewById(R.id.LV_tips);
 
@@ -144,6 +159,17 @@ public class D3Eticket extends BaseActivity {
             typeIcon2.setImageResource(R.drawable.ic_train_black_24dp);
             TV_info_class.setVisibility(View.VISIBLE);
         }
+        else if(type.equals("hotel")){
+            TV_title_info.setText("Informasi Hotel");
+            TV_title_guest.setText("Data Tamu");
+            TV_title_tips.setText("Tips Penginapan");
+
+            flight_train.setVisibility(View.GONE);
+            hotel.setVisibility(View.VISIBLE);
+            RV_penumpang_kereta.setVisibility(View.VISIBLE);
+            layout_guest_hotel.setVisibility(View.VISIBLE);
+        }
+
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -206,9 +232,39 @@ public class D3Eticket extends BaseActivity {
                                 adapter_train_passenger.notifyDataSetChanged();
                         }
                     }
+                    else if(type.equals("hotel")){
+                        TV_guest_name.setText(jsonETicket.getString("name_guest"));
+
+                        TV_hotel_name.setText(jsonETicket.getJSONObject("room").getJSONObject("hotel").getString("name"));
+                        TV_hotel_address.setText(jsonETicket.getJSONObject("room").getJSONObject("hotel").getString("address"));
+                        TV_checkin_date.setText(jsonETicket.getString("checkin"));
+                        TV_checkout_date.setText(jsonETicket.getString("checkout"));
+                        TV_info_total_guest.setText(jsonETicket.getString("total_guest")+" Tamu "+
+                                jsonETicket.getString("total_room")+" Kamar");
+
+                        if(jsonETicket.getJSONObject("room").getString("breakfast").equals("1")) {
+                            TV_facilitiesHotel.setVisibility(View.VISIBLE);
+                            TV_facilitiesHotel.setText("Termasuk Sarapan");
+                        }
+//                        TV_tipe_bed.setText("Tipe Bed: "+ );
+
+                        for(int x=0;x<jsonETicket.getJSONArray("special_request").length();x++){
+                            JSONObject jsonRequest = jsonETicket.getJSONArray("special_request").getJSONObject(x);
+                            JSONObject jsonObject = new JSONObject();
+
+                            jsonObject.put("request", jsonRequest.getJSONObject("hotel_request").getString("name"));
+                            Log.d("json", jsonObject.toString());
+
+                            guestRequestList.add(jsonObject);
+                            if (x != 0)
+                                adapter_guest_request.notifyItemInserted(x);
+                            else
+                                adapter_guest_request.notifyDataSetChanged();
+                        }
+                    }
 
                     for(int x=0;x<jsonTips.length();x++){
-                        tips.add("\u2022 Bullet"+jsonTips.getJSONObject(x).getString("tips"));
+                        tips.add("\u2022"+jsonTips.getJSONObject(x).getString("tips"));
                         TextView TV_tips = new TextView(D3Eticket.this);
                         TV_tips.setText(tips.get(x));
 
@@ -263,42 +319,5 @@ public class D3Eticket extends BaseActivity {
 
         requestQueue.add(jsonObjectRequest);
 
-//        if(type.equals("flight")){
-//            flight_train.setVisibility(View.VISIBLE);
-//            hotel.setVisibility(View.GONE);
-//            penumpang_pesawat.setVisibility(View.VISIBLE);
-//
-//            TV_title_info.setText("Informasi Pesawat");
-//            typeIcon1.setImageResource(R.drawable.ic_flight_takeoff_black_24dp);
-//            typeIcon2.setImageResource(R.drawable.ic_flight_land_black_24dp);
-//            TV_name.setText("Singapore Airlines");
-//            TV_info_departure.setText("Jumat, 17 Mei 2019 . 10:10 - SUB Surabaya");
-//            TV_info_origin.setText("Bandara Juanda International Airport");
-//            TV_info_duration.setText("2 Jam 20 Menit");
-//            TV_info_arrival.setText("Jumat, 17 Mei 2019 . 13:30 - SIN Singapore");
-//            TV_info_destination.setText("Changi International Airport");
-//        }
-//        else if(type.equals("train")) {
-//
-//            TV_name.setText("ARGO PARAHYANGAN");
-//
-//            TV_info_class.setVisibility(View.VISIBLE);
-//            TV_info_class.setText("Kelas Ekonomi (D)");
-//
-//            TV_info_departure.setText("Jumat, 17 Mei 2019 . 10:10 - BD Bandung");
-//            TV_info_origin.setText("Stasiun Bandung");
-//            TV_info_duration.setText("2 Jam 20 Menit");
-//            TV_info_arrival.setText("Jumat, 17 Mei 2019 . 13:30 - GMR Gambir");
-//            TV_info_destination.setText("Stasiun Gambir");
-//        }
-//        else if(type.equals("hotel")){
-//            TV_title_info.setText("Informasi Hotel");
-//            TV_title_guest.setText("Data Tamu");
-//            TV_title_tips.setText("Tips Penginapan");
-//
-//            flight_train.setVisibility(View.GONE);
-//            hotel.setVisibility(View.VISIBLE);
-//            penumpang_kereta.setVisibility(View.VISIBLE);
-//        }
     }
 }

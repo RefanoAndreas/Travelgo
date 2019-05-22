@@ -97,7 +97,7 @@ public class TourCreate extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tour_create);
+                setContentView(R.layout.activity_tour_create);
 
         set_toolbar();
 

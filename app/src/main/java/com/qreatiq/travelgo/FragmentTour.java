@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -47,9 +48,11 @@ public class FragmentTour extends Fragment {
     ArrayList<JSONObject> tourList = new ArrayList<>();
     String url;
     String loc_id="";
-    EditText search;
+    TextView search;
     ImageView tourFilterBtn;
     SwipeRefreshLayout swipeLayout;
+
+    int SEARCH_TOUR = 1;
 
     Intent intent;
     String intentString;
@@ -70,12 +73,12 @@ public class FragmentTour extends Fragment {
         parent = (BottomNavContainer) getActivity();
         parent.toolbar.setVisibility(View.GONE);
 
-        search = (EditText)view.findViewById(R.id.tour_search);
+        search = (TextView)view.findViewById(R.id.tour_search);
         search.setKeyListener(null);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), SearchTour.class));
+                startActivityForResult(new Intent(getActivity(), SearchTour.class), SEARCH_TOUR);
             }
         });
 
@@ -188,4 +191,5 @@ public class FragmentTour extends Fragment {
     public void viewTourFilter(View v){
         startActivity(new Intent(getActivity(), FilterTour.class));
     }
+
 }

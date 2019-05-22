@@ -56,7 +56,7 @@ public class ETicketAdapter extends RecyclerView.Adapter<ETicketAdapter.ETicketH
         final JSONObject jsonObject = eTicketList.get(i);
 
         try {
-            eTicketHolder.TV_origin.setText(jsonObject.getString("origin")+" > "+jsonObject.getString("destination"));
+            eTicketHolder.TV_origin.setText(jsonObject.getString("info_eticket"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

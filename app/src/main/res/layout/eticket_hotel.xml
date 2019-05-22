@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,20 +16,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp">
 
             <TextView
                 android:id="@+id/TV_hotel_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="JW Marriott"
                 style="@style/SemiBold_42_16dp"/>
 
             <TextView
                 android:id="@+id/TV_hotel_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Jl. Embong Malang"
                 style="@style/SemiBold_42_16dp"/>
 
             <LinearLayout
@@ -53,8 +51,7 @@
                     <TextView
                         android:id="@+id/TV_checkin_date"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Kamis, 17 Mei 2019"/>
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -70,43 +67,29 @@
                     <TextView
                         android:id="@+id/TV_checkout_date"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Minggu, 19 Mei 2019"/>
+                        android:layout_height="wrap_content"/>
                 </LinearLayout>
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/TV_info_departure"
+                android:id="@+id/TV_info_total_guest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="2 Tamu 1 Kamar (21M)"/>
-            <TextView
-                android:id="@+id/TV_tipe_bed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Tipe Bed: King size bed"/>
-            <TextView
-                android:id="@+id/TV_facilities1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Wifi gratis"/>
-            <TextView
-                android:id="@+id/TV_facilities2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Termasuk Sarapan"/>
-            <TextView
-                android:id="@+id/TV_facilities3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Non-Refunable"/>
+                android:layout_marginTop="16dp"/>
 
+            <!--<TextView-->
+                <!--android:id="@+id/TV_tipe_bed"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="16dp"-->
+                <!--android:text="Tipe Bed: King size bed"/>-->
+            <TextView
+                android:id="@+id/TV_facilitiesHotel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:visibility="gone"/>
 
         </LinearLayout>
 
