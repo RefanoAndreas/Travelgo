@@ -17,8 +17,11 @@ import android.support.design.button.MaterialButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -64,7 +67,7 @@ public class TourCreate extends BaseActivity {
     private EditText dateView;
     private int year = 2019, month = 3, day = 10;
     TextInputEditText location;
-    String location_id;
+    String location_id = "";
 
     MaterialButton create_tour_pack, submit_saveChanges_tourCreate;
 
@@ -85,6 +88,7 @@ public class TourCreate extends BaseActivity {
     GridView grid;
 
     TextInputEditText start_date,end_date, tripName, tripDesc;
+    TextInputLayout name_layout,start_date_layout,end_date_layout,description_layout,location_layout;
     Uri filePath;
     String url, userID;
     RequestQueue requestQueue;
@@ -116,6 +120,12 @@ public class TourCreate extends BaseActivity {
         layout=(ConstraintLayout) findViewById(R.id.layout);
         tripName = (TextInputEditText)findViewById(R.id.name);
         tripDesc = (TextInputEditText)findViewById(R.id.tripDescription);
+
+        name_layout = (TextInputLayout) findViewById(R.id.name_layout);
+        start_date_layout = (TextInputLayout) findViewById(R.id.start_date_layout);
+        end_date_layout = (TextInputLayout) findViewById(R.id.end_date_layout);
+        description_layout = (TextInputLayout) findViewById(R.id.description_layout);
+        location_layout = (TextInputLayout) findViewById(R.id.location_layout);
 
         adapter = new TourCreateFacilitiesAdapter(array,TourCreate.this);
         grid.setAdapter(adapter);
@@ -182,6 +192,7 @@ public class TourCreate extends BaseActivity {
         start_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                start_date_layout.setError("");
                 showDialog(999);
             }
         });
@@ -189,6 +200,7 @@ public class TourCreate extends BaseActivity {
         end_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                end_date_layout.setError("");
                 showDialog(998);
             }
         });
@@ -226,6 +238,40 @@ public class TourCreate extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        tripName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                name_layout.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        tripDesc.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                description_layout.setError("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }
@@ -420,10 +466,11 @@ public class TourCreate extends BaseActivity {
     }
 
     private void createTrip(){
-        url = link.C_URL+"trip";
-
-        JSONObject json = new JSONObject();
         try {
+            url = link.C_URL+"trip";
+
+            JSONObject json = new JSONObject();
+
             JSONArray array_background = new JSONArray(photo_array.toString());
             JSONArray array_trip_pack = new JSONArray(tour_pack_array.toString());
 
@@ -436,73 +483,118 @@ public class TourCreate extends BaseActivity {
                 }
             }
 
-            json.put("background", array_background);
-            json.put("tripPack", array_trip_pack);
-            json.put("facilities", array_facilities);
-            json.put("trip_name", tripName.getText());
-            json.put("trip_desc", tripDesc.getText());
-            json.put("start_date", start_date.getText());
-            json.put("end_date", end_date.getText());
-            json.put("location_id", location_id);
+            if(array_background.length() == 1){
+                Snackbar snackbar=Snackbar.make(layout,"Tour Foto belum ditambah",Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+            else if(tripName.getText().toString().equals("")){
+                tripName.setError("Nama kosong");
+                name_layout.setError("Nama kosong");
+                Snackbar snackbar=Snackbar.make(layout,"Nama kosong",Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+            else if(start_date.getText().toString().equals("")){
+                start_date_layout.setError("Tanggal Mulai kosong");
+                start_date.setError("Tanggal Mulai kosong");
+                Snackbar snackbar=Snackbar.make(layout,"Tanggal Mulai kosong",Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+            else if(end_date.getText().toString().equals("")){
+                end_date_layout.setError("Tanggal Selesai kosong");
+                end_date.setError("Tanggal Selesai kosong");
+                Snackbar snackbar=Snackbar.make(layout,"Tanggal Selesai kosong",Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+            else if(tripDesc.getText().toString().equals("")){
+                description_layout.setError("Deskripsi kosong");
+                tripDesc.setError("Deskripsi kosong");
+                Snackbar snackbar=Snackbar.make(layout,"Deskripsi kosong",Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+            else if(location.getText().toString().equals("")){
+                location_layout.setError("Lokasi kosong");
+                location.setError("Lokasi kosong");
+                Snackbar snackbar=Snackbar.make(layout,"Lokasi kosong",Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+            else if(array_facilities.length() == 0){
+                Snackbar snackbar=Snackbar.make(layout,"Tour Fasilitas belum dipilih",Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+            else if(array_trip_pack.length() == 0){
+                Snackbar snackbar=Snackbar.make(layout,"Tour Package tidak ada",Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+            else {
+                json.put("background", array_background);
+                json.put("tripPack", array_trip_pack);
+                json.put("facilities", array_facilities);
+                json.put("trip_name", tripName.getText());
+                json.put("trip_desc", tripDesc.getText());
+                json.put("start_date", start_date.getText());
+                json.put("end_date", end_date.getText());
+                json.put("location_id", location_id);
 //            logLargeString(json.toString());
+
+
+                final ProgressDialog loading = new ProgressDialog(this);
+                loading.setMax(100);
+                loading.setTitle("Registering");
+                loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                loading.setCancelable(false);
+                loading.setProgress(0);
+                loading.show();
+
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            loading.dismiss();
+                            if (response.getString("status").equals("success")) {
+                                onBackPressed();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        loading.dismiss();
+
+                        String message = "";
+                        if (error instanceof NetworkError) {
+                            message = "Network Error";
+                        } else if (error instanceof ServerError) {
+                            message = "Server Detect Error";
+                        } else if (error instanceof AuthFailureError) {
+                            message = "Authentication Detect Error";
+                        } else if (error instanceof ParseError) {
+                            message = "Parse Detect Error";
+                        } else if (error instanceof NoConnectionError) {
+                            message = "Connection Missing";
+                        } else if (error instanceof TimeoutError) {
+                            message = "Server Detect Timeout Reached";
+                        }
+                        Snackbar snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_LONG);
+                        snackbar.show();
+                    }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        HashMap<String, String> headers = new HashMap<String, String>();
+                        headers.put("Content-Type", "application/json");
+                        headers.put("Accept", "application/json");
+                        headers.put("Authorization", userID);
+                        return headers;
+                    }
+                };
+
+                requestQueue.add(jsonObjectRequest);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        final ProgressDialog loading = new ProgressDialog(this);
-        loading.setMax(100);
-        loading.setTitle("Registering");
-        loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        loading.setCancelable(false);
-        loading.setProgress(0);
-        loading.show();
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    loading.dismiss();
-                    if(response.getString("status").equals("success")){
-                        onBackPressed();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                loading.dismiss();
-
-                String message = "";
-                if (error instanceof NetworkError) {
-                    message = "Network Error";
-                } else if (error instanceof ServerError) {
-                    message = "Server Detect Error";
-                } else if (error instanceof AuthFailureError) {
-                    message = "Authentication Detect Error";
-                } else if (error instanceof ParseError) {
-                    message = "Parse Detect Error";
-                } else if (error instanceof NoConnectionError) {
-                    message = "Connection Missing";
-                } else if (error instanceof TimeoutError) {
-                    message = "Server Detect Timeout Reached";
-                }
-                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
-                snackbar.show();
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("Content-Type", "application/json");
-                headers.put("Accept", "application/json");
-                headers.put("Authorization", userID);
-                return headers;
-            }
-        };
-
-        requestQueue.add(jsonObjectRequest);
     }
 
     public void logLargeString(String str) {

@@ -29,6 +29,11 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="ChipFilter" parent="@style/Widget.MaterialComponents.Chip.Filter">
+        <item name="chipBackgroundColor">@color/bg_chip_filter</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <!--text style-->
 
     <style name="SemiBold_42_16dp">

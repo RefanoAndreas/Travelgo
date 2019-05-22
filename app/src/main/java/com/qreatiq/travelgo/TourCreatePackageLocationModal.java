@@ -94,6 +94,7 @@ public class TourCreatePackageLocationModal extends DialogFragment {
                 try {
                     parent.location_id = arrayList.get(position).getString("id");
                     parent.location.setText(arrayList.get(position).getString("name"));
+                    parent.location_layout.setError("");
                     dismiss();
                 } catch (JSONException e) {
                     e.printStackTrace();
