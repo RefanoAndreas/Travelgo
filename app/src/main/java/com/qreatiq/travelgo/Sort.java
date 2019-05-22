@@ -3,6 +3,8 @@ package com.qreatiq.travelgo;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,13 +14,22 @@ import android.widget.Toast;
 
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 public class Sort extends BaseActivity {
 
-    ListView LV_sortItem;
+    RecyclerView list;
     Intent intent;
     String intentString;
     String[] sortItem;
-    ArrayAdapter<String> sortListAdapter;
+    ArrayList<JSONObject> array = new ArrayList<JSONObject>();
+
+    JSONObject sort;
+
+    SortAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,29 +40,72 @@ public class Sort extends BaseActivity {
 
         intent = getIntent();
         intentString = intent.getStringExtra("origin");
+        try {
+            sort = new JSONObject(intent.getStringExtra("sort"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
-        LV_sortItem = (ListView)findViewById(R.id.LV_sortItem);
+        list = (RecyclerView) findViewById(R.id.list);
 
         if(intentString.equals("hotel")){
             sortItem = getResources().getStringArray(R.array.sort_hotel);
+            try {
+                array.add(new JSONObject("{\"label\":\"Popularitas\",\"data\":\"popularity\",\"checked\":false}"));
+//                array.add(new JSONObject("{\"label\":\"Bintang 5-1\",\"data\":\"rank_desc\",\"checked\":false}"));
+//                array.add(new JSONObject("{\"label\":\"Bintang 1-5\",\"data\":\"rank_asc\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\"Nilai Ulasan\",\"data\":\"review_desc\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\"Harga tertinggi\",\"data\":\"price_desc\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\"Harga terendah\",\"data\":\"price_asc\",\"checked\":false}"));
+
+                if(!sort.toString().equals("{}")){
+                    for(int x=0;x<array.size();x++){
+                        if(sort.getString("data").equals(array.get(x).getString("data"))){
+                            array.get(x).put("checked",true);
+                            break;
+                        }
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         else{
             sortItem = getResources().getStringArray(R.array.sort_flight_train);
+            try {
+                array.add(new JSONObject("{\"label\":\"Berangkat paling awal\",\"data\":\"early_depart\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\"Berangkat paling akhir\",\"data\":\"late_depart\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\"Tiba paling awal\",\"data\":\"early_arrive\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\"Tiba paling akhir\",\"data\":\"late_arrive\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\"Harga tertinggi\",\"data\":\"price_desc\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\"Harga terendah\",\"data\":\"price_asc\",\"checked\":false}"));
+
+                if(!sort.toString().equals("{}")){
+                    for(int x=0;x<array.size();x++){
+                        if(sort.getString("data").equals(array.get(x).getString("data"))){
+                            array.get(x).put("checked",true);
+                            break;
+                        }
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
-        sortListAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sortItem);
-        LV_sortItem.setAdapter(sortListAdapter);
+        adapter = new SortAdapter(array,this);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        list.setLayoutManager(mLayoutManager);
+        list.setAdapter(adapter);
 
-        LV_sortItem.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapter.setOnItemClickListner(new SortAdapter.ClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String sort = sortItem[position];
+            public void onItemClick(int position) {
                 Intent i = new Intent();
-                i.putExtra("sort", sort);
+                i.putExtra("sort", array.get(position).toString());
                 setResult(RESULT_OK, i);
                 finish();
             }
         });
-
     }
 }

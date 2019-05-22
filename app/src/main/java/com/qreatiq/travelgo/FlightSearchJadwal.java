@@ -52,7 +52,7 @@ public class FlightSearchJadwal extends BaseActivity {
 
     Date date, check_in_date, check_out_date;
 
-    JSONObject origin,destination,hotel_city;
+    JSONObject origin,destination,hotel_city,sort = new JSONObject(),filter = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +62,9 @@ public class FlightSearchJadwal extends BaseActivity {
         set_toolbar();
 
         intent = getIntent();
+        intentString = intent.getStringExtra("origin");
         if(intent.getStringExtra("origin").equals("train") || intent.getStringExtra("origin").equals("flight")) {
-            intentString = intent.getStringExtra("origin");
+
             if (!intent.getBooleanExtra("isOpposite", false))
                 date = new Date(intent.getLongExtra("tanggal_berangkat", 0));
             else
@@ -272,7 +273,10 @@ public class FlightSearchJadwal extends BaseActivity {
     }
 
     public void viewFilter(View v){
-        startActivityForResult(new Intent(FlightSearchJadwal.this, Filter.class).putExtra("type", "flight"), FILTER);
+        startActivityForResult(new Intent(FlightSearchJadwal.this, Filter.class)
+                .putExtra("type", intentString)
+                .putExtra("filter", filter.toString())
+                , FILTER);
     }
 
     public void viewChangeDate(View v){
@@ -282,7 +286,14 @@ public class FlightSearchJadwal extends BaseActivity {
     public void flightData() throws JSONException {
         SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
         String url = C_URL+"flight/search?origin="+origin.getString("code")+
-                    "&destination="+destination.getString("code")+"&time="+format.format(date);
+                    "&destination="+destination.getString("code")+
+                    "&time="+format.format(date);
+
+        if(sort.has("data"))
+            url += "&sort="+sort.getString("data");
+
+        ticketList.clear();
+        mAdapter.notifyDataSetChanged();
         Log.d("data",url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -295,8 +306,8 @@ public class FlightSearchJadwal extends BaseActivity {
 
                         jsonObject.put("airlines", jsonArray.getJSONObject(x).getString("airlines"));
                         jsonObject.put("flight_code", jsonArray.getJSONObject(x).getString("code"));
-                        jsonObject.put("departTime", jsonArray.getJSONObject(x).getString("time_depart"));
-                        jsonObject.put("arrivalTime", jsonArray.getJSONObject(x).getString("time_arrive"));
+                        jsonObject.put("departTime", jsonArray.getJSONObject(x).getString("time_depart_label"));
+                        jsonObject.put("arrivalTime", jsonArray.getJSONObject(x).getString("time_arrive_label"));
                         jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));
                         jsonObject.put("departAirport", origin.getString("code"));
                         jsonObject.put("arrivalAirport", destination.getString("code"));
@@ -359,6 +370,12 @@ public class FlightSearchJadwal extends BaseActivity {
         String url = C_URL+"train/search?origin="+origin.getString("code")+
                 "&destination="+destination.getString("code")+
                 "&time="+format.format(date);
+
+        if(sort.has("data"))
+            url += "&sort="+sort.getString("data");
+
+        ticketList.clear();
+        mAdapter.notifyDataSetChanged();
         Log.d("data",url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -432,6 +449,12 @@ public class FlightSearchJadwal extends BaseActivity {
         String url = C_URL+"hotel/search?city="+hotel_city.getString("city")+
                 "&check_in="+format.format(check_in_date)+
                 "&check_out="+format.format(check_out_date);
+
+        if(sort.has("data"))
+            url += "&sort="+sort.getString("data");
+
+        ticketList.clear();
+        hotel_adapter.notifyDataSetChanged();
         Log.d("data",url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -495,7 +518,10 @@ public class FlightSearchJadwal extends BaseActivity {
     }
 
     public void sortView(View v){
-        startActivityForResult(new Intent(FlightSearchJadwal.this, Sort.class).putExtra("origin", intentString), SORT);
+        startActivityForResult(new Intent(FlightSearchJadwal.this, Sort.class)
+                .putExtra("origin", intentString)
+                .putExtra("sort",sort.toString())
+                , SORT);
     }
 
     @Override
@@ -503,9 +529,33 @@ public class FlightSearchJadwal extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK){
             if(requestCode == SORT){
+                try {
+                    sort = new JSONObject(data.getStringExtra("sort"));
 
+                    if(intent.getStringExtra("origin").equals("flight"))
+                        flightData();
+                    else if(intent.getStringExtra("origin").equals("train"))
+                        trainData();
+                    else if(intent.getStringExtra("origin").equals("hotel"))
+                        hotelData();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
             else if(requestCode == FILTER){
+                try {
+                    filter = new JSONObject(data.getStringExtra("filter"));
+//                    Log.d("filter",filter.toString());
+
+                    if(intent.getStringExtra("origin").equals("flight"))
+                        flightData();
+                    else if(intent.getStringExtra("origin").equals("train"))
+                        trainData();
+                    else if(intent.getStringExtra("origin").equals("hotel"))
+                        hotelData();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

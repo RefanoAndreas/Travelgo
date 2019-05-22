@@ -236,7 +236,6 @@ public class SearchFlight extends BaseActivity {
     private void get_airport(){
         String url = C_URL+"flight/airport";
 
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -388,7 +387,7 @@ public class SearchFlight extends BaseActivity {
                             jsonObject.put("city_label", capitalizeString(city_arr.getJSONObject(y).getString("name")));
                             jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
                             jsonObject.put("city", city_arr.getJSONObject(y).getString("name"));
-                            jsonObject.put("code", jsonArray.getJSONObject(x).getString("name"));
+                            jsonObject.put("poi", jsonArray.getJSONObject(x).getString("name"));
 
                             if(!jsonObject.toString().equals(data.toString())) {
                                 array.add(jsonObject);

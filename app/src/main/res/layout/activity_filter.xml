@@ -145,56 +145,58 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:id="@+id/kelas"
+            android:id="@+id/ranking_layout"
+            android:visibility="gone"
             android:layout_marginTop="30dp">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Kelas"
+                android:text="Bintang"
                 android:textColor="#7D7D7D"
-                android:textSize="12dp" />
+                android:textSize="12dp"/>
+
             <android.support.design.chip.ChipGroup
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/kelas_group"
+                android:layout_gravity="center"
+                android:id="@+id/ranking_group"
                 android:layout_marginTop="10dp">
-
                 <android.support.design.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ekonomi"
-                    android:textColor="#424242"
-                    android:textSize="12dp"
+                    android:text="1"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
-                    app:chipBackgroundColor="@android:color/white"
-                    app:chipCornerRadius="10dp"
-                    app:chipStrokeColor="#707070"
-                    app:chipStrokeWidth="1dp" />
+                    app:chipIconEnabled="true"
+                    app:chipIcon="@drawable/ic_star_yellow_24dp"/>
                 <android.support.design.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bisnis"
-                    android:textColor="#424242"
-                    android:textSize="12dp"
+                    android:text="2"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
-                    app:chipBackgroundColor="@android:color/white"
-                    app:chipCornerRadius="10dp"
-                    app:chipStrokeColor="#707070"
-                    app:chipStrokeWidth="1dp" />
-
+                    app:chipIconEnabled="true"
+                    app:chipIcon="@drawable/ic_star_yellow_24dp"/>
                 <android.support.design.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Eksekutif"
-                    android:textColor="#424242"
-                    android:textSize="12dp"
+                    android:text="3"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
-                    app:chipBackgroundColor="@android:color/white"
-                    app:chipCornerRadius="10dp"
-                    app:chipStrokeColor="#707070"
-                    app:chipStrokeWidth="1dp" />
-
+                    app:chipIconEnabled="true"
+                    app:chipIcon="@drawable/ic_star_yellow_24dp"/>
+                <android.support.design.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    app:chipIconEnabled="true"
+                    app:chipIcon="@drawable/ic_star_yellow_24dp"/>
+                <android.support.design.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="5"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    app:chipIconEnabled="true"
+                    app:chipIcon="@drawable/ic_star_yellow_24dp"/>
             </android.support.design.chip.ChipGroup>
 
         </LinearLayout>
@@ -261,6 +263,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:id="@+id/depart_layout"
             android:layout_marginTop="30dp">
             <TextView
                 android:layout_width="match_parent"
@@ -278,6 +281,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:id="@+id/arrive_layout"
             android:layout_marginTop="30dp">
             <TextView
                 android:layout_width="match_parent"

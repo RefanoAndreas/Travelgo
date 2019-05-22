@@ -29,5 +29,8 @@
         android:layout_gravity="bottom"
         android:padding="@dimen/base_size"
         android:id="@+id/submit"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:insetRight="0dp"
         android:text="SUBMIT"/>
 </android.support.design.widget.CoordinatorLayout>
