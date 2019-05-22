@@ -43,7 +43,7 @@ public class D3Eticket extends BaseActivity {
     TextView TV_title_info, TV_title_guest, TV_title_tips,TV_name, TV_info_departure, TV_info_origin,
              TV_info_duration, TV_info_arrival, TV_info_destination, TV_info_class, TV_guest_name,
              TV_guest_type, TV_hotel_name, TV_hotel_address, TV_checkin_date, TV_checkout_date,
-             TV_info_total_guest, TV_tipe_bed, TV_facilitiesHotel;
+             TV_info_total_guest, TV_tipe_bed, TV_facilitiesHotel, TV_order_code;
     View flight_train, hotel;
     ImageView typeIcon1, typeIcon2;
     String userID;
@@ -83,6 +83,8 @@ public class D3Eticket extends BaseActivity {
 
         flight_train = (View)findViewById(R.id.eticketFlight);
         hotel = (View)findViewById(R.id.eticketHotel);
+
+        TV_order_code = (TextView)findViewById(R.id.TV_order_code);
 
         TV_title_info = (TextView)findViewById(R.id.TV_title_info);
         TV_title_guest = (TextView)findViewById(R.id.TV_title_guest);
@@ -163,6 +165,7 @@ public class D3Eticket extends BaseActivity {
             TV_title_info.setText("Informasi Hotel");
             TV_title_guest.setText("Data Tamu");
             TV_title_tips.setText("Tips Penginapan");
+            TV_order_code.setText("Nomor Pesanan");
 
             flight_train.setVisibility(View.GONE);
             hotel.setVisibility(View.VISIBLE);
