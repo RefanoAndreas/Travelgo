@@ -186,11 +186,11 @@ public class D3Eticket extends BaseActivity {
                         TV_info_departure.setText("Jumat, 17 Mei 2019 . 10:10 - SUB Surabaya");
                         TV_info_departure.setText(jsonETicket.getString("departure_time")+" - "
                                 +jsonETicket.getString("departure_airport")+" "+jsonETicket.getJSONObject("departure").getJSONObject("city").getString("name"));
-                        TV_info_origin.setText(jsonETicket.getJSONObject("departure").getString("airport_name"));
+                        TV_info_origin.setText(jsonETicket.getJSONObject("departure").getString("name"));
                         TV_info_duration.setText("2 Jam 20 Menit");
                         TV_info_arrival.setText(jsonETicket.getString("arrival_time")+" - "
                                 +jsonETicket.getString("arrival_airport")+" "+jsonETicket.getJSONObject("arrival").getJSONObject("city").getString("name"));
-                        TV_info_destination.setText(jsonETicket.getJSONObject("arrival").getString("airport_name"));
+                        TV_info_destination.setText(jsonETicket.getJSONObject("arrival").getString("name"));
 
                         for(int x=0;x<jsonETicket.getJSONArray("passenger").length();x++){
                             JSONObject jsonObject = new JSONObject();
