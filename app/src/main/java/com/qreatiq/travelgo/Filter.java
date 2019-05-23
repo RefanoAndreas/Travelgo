@@ -140,6 +140,7 @@ public class Filter extends BaseActivity {
             }
         }
         else{
+            ranking_layout.setVisibility(View.GONE);
             try {
                 if(!filter.toString().equals("{}")) {
                     for (int x = 0; x < transit_group.getChildCount(); x++) {

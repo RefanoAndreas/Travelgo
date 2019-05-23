@@ -446,7 +446,7 @@ public class FlightSearchJadwal extends BaseActivity {
 
     public void hotelData() throws JSONException {
         SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
-        String url = C_URL+"hotel/search?city="+hotel_city.getString("city")+
+        String url = C_URL+"hotel/search?city="+hotel_city.getString("id")+
                 "&check_in="+format.format(check_in_date)+
                 "&check_out="+format.format(check_out_date);
 

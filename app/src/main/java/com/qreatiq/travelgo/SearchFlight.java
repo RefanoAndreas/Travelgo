@@ -78,7 +78,7 @@ public class SearchFlight extends BaseActivity {
             }
 
             for(int x=json.length()-1;x>=0;x--) {
-                if(!json.getJSONObject(x).toString().equals(data.toString()))
+                if(data.toString().equals("{}") || (!data.toString().equals("{}") && !json.getJSONObject(x).getString("city").equals(data.getString("city"))))
                     last_search_array.add(json.getJSONObject(x));
             }
         } catch (JSONException e) {
@@ -103,17 +103,17 @@ public class SearchFlight extends BaseActivity {
         if(in.getStringExtra("type").equals("flight")){
             tour_search.setHint("Cari kota atau bandara");
 
-            get_airport();
+            get_popular_airport();
         }
         else if(in.getStringExtra("type").equals("hotel")){
             tour_search.setHint("Cari kota");
 
-            get_hotel_city();
+            get_popular_hotel_city();
         }
         else if(in.getStringExtra("type").equals("train")){
             tour_search.setHint("Cari kota atau stasiun");
 
-            get_station();
+            get_popular_station();
         }
 
         last_search_adapter.setOnItemClickListner(new SearchProductAdapter.ClickListener() {
@@ -171,26 +171,35 @@ public class SearchFlight extends BaseActivity {
                     list.setVisibility(View.VISIBLE);
                     headline.setVisibility(View.GONE);
 
-                    Boolean flag = false;
-                    array.clear();
-                    for (int x = 0; x < arrayTemp.size(); x++)
-                        array.add(arrayTemp.get(x));
-                    try {
-                        while (!flag) {
-                            flag = true;
-                            for (int x = 0; x < array.size(); x++) {
-                                if (!array.get(x).getString("poi").contains(s.toString().toLowerCase()) &&
-                                        !array.get(x).getString("city").contains(s.toString().toLowerCase())) {
-                                    array.remove(x);
-                                    flag = false;
-                                    break;
-                                }
-                            }
-                        }
-                        adapter.notifyDataSetChanged();
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+
+
+                    if(in.getStringExtra("type").equals("flight"))
+                        get_airport(s.toString());
+                    else if(in.getStringExtra("type").equals("hotel"))
+                        get_hotel_city(s.toString());
+                    else if(in.getStringExtra("type").equals("train"))
+                        get_station(s.toString());
+
+//                    Boolean flag = false;
+//                    array.clear();
+//                    for (int x = 0; x < arrayTemp.size(); x++)
+//                        array.add(arrayTemp.get(x));
+//                    try {
+//                        while (!flag) {
+//                            flag = true;
+//                            for (int x = 0; x < array.size(); x++) {
+//                                if (!array.get(x).getString("poi").contains(s.toString().toLowerCase()) &&
+//                                        !array.get(x).getString("city").contains(s.toString().toLowerCase())) {
+//                                    array.remove(x);
+//                                    flag = false;
+//                                    break;
+//                                }
+//                            }
+//                        }
+//                        adapter.notifyDataSetChanged();
+//                    } catch (JSONException e) {
+//                        e.printStackTrace();
+//                    }
                 }
                 else{
                     list.setVisibility(View.GONE);
@@ -233,39 +242,36 @@ public class SearchFlight extends BaseActivity {
         edit_base_shared_pref.putString(shared_last_search,arrayList.toString()).commit();
     }
 
-    private void get_airport(){
-        String url = C_URL+"flight/airport";
+    private void get_airport(String string){
+        String url = C_URL+"flight/airport?search="+string;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    array.clear();
+                    adapter.notifyDataSetChanged();
                     JSONArray jsonArray = response.getJSONArray("data");
                     for(int x=0; x<jsonArray.length(); x++){
                         JSONObject jsonObject = new JSONObject();
 
-                        jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getString("city")));
-                        jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getString("poi")));
-                        jsonObject.put("city", jsonArray.getJSONObject(x).getString("city"));
-                        jsonObject.put("poi", jsonArray.getJSONObject(x).getString("poi"));
-                        jsonObject.put("code", jsonArray.getJSONObject(x).getString("code"));
+                        jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getJSONObject("city").getString("name")));
+                        jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
+                        jsonObject.put("city", jsonArray.getJSONObject(x).getJSONObject("city").getString("name"));
+                        jsonObject.put("poi", jsonArray.getJSONObject(x).getString("name"));
+                        jsonObject.put("code", jsonArray.getJSONObject(x).getString("id"));
+                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
 
-                        if(!jsonObject.toString().equals(data.toString())) {
+                        if(data.toString().equals("{}") || (!data.toString().equals("{}") && !jsonObject.getString("city").equals(data.getString("city")))) {
                             array.add(jsonObject);
-                            popular_city_array.add(jsonObject);
 
                             if (x == 0) {
                                 adapter.notifyDataSetChanged();
-                                popular_city_adapter.notifyDataSetChanged();
                             } else {
                                 adapter.notifyItemInserted(x);
-                                popular_city_adapter.notifyItemInserted(x);
                             }
                         }
                     }
-
-                    for(int x=0;x<array.size();x++)
-                        arrayTemp.add(array.get(x));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -301,40 +307,36 @@ public class SearchFlight extends BaseActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    private void get_station(){
-        String url = C_URL+"train/station";
-
+    private void get_popular_airport(){
+        String url = C_URL+"flight/airport/popular";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    popular_city_array.clear();
+                    popular_city_adapter.notifyDataSetChanged();
                     JSONArray jsonArray = response.getJSONArray("data");
                     for(int x=0; x<jsonArray.length(); x++){
                         JSONObject jsonObject = new JSONObject();
 
-                        jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getString("city")));
-                        jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getString("poi")));
-                        jsonObject.put("city", jsonArray.getJSONObject(x).getString("city"));
-                        jsonObject.put("poi", jsonArray.getJSONObject(x).getString("poi"));
-                        jsonObject.put("code", jsonArray.getJSONObject(x).getString("code"));
+                        jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getJSONObject("city").getString("name")));
+                        jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
+                        jsonObject.put("city", jsonArray.getJSONObject(x).getJSONObject("city").getString("name"));
+                        jsonObject.put("poi", jsonArray.getJSONObject(x).getString("name"));
+                        jsonObject.put("code", jsonArray.getJSONObject(x).getString("id"));
+                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
 
-                        if(!jsonObject.toString().equals(data.toString())) {
-                            array.add(jsonObject);
+                        if(data.toString().equals("{}") || (!data.toString().equals("{}") && !jsonObject.getString("city").equals(data.getString("city")))) {
                             popular_city_array.add(jsonObject);
 
                             if (x == 0) {
-                                adapter.notifyDataSetChanged();
                                 popular_city_adapter.notifyDataSetChanged();
                             } else {
-                                adapter.notifyItemInserted(x);
                                 popular_city_adapter.notifyItemInserted(x);
                             }
                         }
                     }
-
-                    for(int x=0;x<array.size();x++)
-                        arrayTemp.add(array.get(x));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -370,43 +372,229 @@ public class SearchFlight extends BaseActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    private void get_hotel_city(){
-        String url = C_URL+"hotel/city";
+    private void get_station(String string){
+        String url = C_URL+"train/station?search="+string;
 
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    array.clear();
+                    adapter.notifyDataSetChanged();
                     JSONArray jsonArray = response.getJSONArray("data");
                     for(int x=0; x<jsonArray.length(); x++){
-                        JSONArray city_arr = jsonArray.getJSONObject(x).getJSONArray("city");
-                        for(int y=0; y<city_arr.length(); y++) {
-                            JSONObject jsonObject = new JSONObject();
+                        JSONObject jsonObject = new JSONObject();
 
-                            jsonObject.put("city_label", capitalizeString(city_arr.getJSONObject(y).getString("name")));
-                            jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
-                            jsonObject.put("city", city_arr.getJSONObject(y).getString("name"));
-                            jsonObject.put("poi", jsonArray.getJSONObject(x).getString("name"));
+                        jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getJSONObject("city").getString("name")));
+                        jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
+                        jsonObject.put("city", jsonArray.getJSONObject(x).getJSONObject("city").getString("name"));
+                        jsonObject.put("poi", jsonArray.getJSONObject(x).getString("name"));
+                        jsonObject.put("code", jsonArray.getJSONObject(x).getString("id"));
+                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
 
-                            if(!jsonObject.toString().equals(data.toString())) {
-                                array.add(jsonObject);
-                                popular_city_array.add(jsonObject);
+                        if(data.toString().equals("{}") || (!data.toString().equals("{}") && !jsonObject.toString().equals("{}") && !jsonObject.getString("city").equals(data.getString("city")))) {
+                            array.add(jsonObject);
 
-                                if (x == 0) {
-                                    adapter.notifyDataSetChanged();
-                                    popular_city_adapter.notifyDataSetChanged();
-                                } else {
-                                    adapter.notifyItemInserted(x);
-                                    popular_city_adapter.notifyItemInserted(x);
-                                }
+                            if (x == 0) {
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                adapter.notifyItemInserted(x);
                             }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void get_popular_station(){
+        String url = C_URL+"train/station/popular";
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    popular_city_array.clear();
+                    popular_city_adapter.notifyDataSetChanged();
+                    JSONArray jsonArray = response.getJSONArray("data");
+                    for(int x=0; x<jsonArray.length(); x++){
+                        JSONObject jsonObject = new JSONObject();
+
+                        jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getJSONObject("city").getString("name")));
+                        jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
+                        jsonObject.put("city", jsonArray.getJSONObject(x).getJSONObject("city").getString("name"));
+                        jsonObject.put("poi", jsonArray.getJSONObject(x).getString("name"));
+                        jsonObject.put("code", jsonArray.getJSONObject(x).getString("id"));
+                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
+
+                        if(data.toString().equals("{}") || (!data.toString().equals("{}") && !jsonObject.getString("city").equals(data.getString("city")))) {
+                            popular_city_array.add(jsonObject);
+
+                            if (x == 0) {
+                                popular_city_adapter.notifyDataSetChanged();
+                            } else {
+                                popular_city_adapter.notifyItemInserted(x);
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void get_hotel_city(String string){
+        String url = C_URL+"hotel/city?search="+string;
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    array.clear();
+                    adapter.notifyDataSetChanged();
+                    JSONArray jsonArray = response.getJSONArray("data");
+                    for(int x=0; x<jsonArray.length(); x++){
+                        JSONObject jsonObject = new JSONObject();
+
+                        jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
+                        jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getJSONObject("country").getString("name")));
+                        jsonObject.put("city", jsonArray.getJSONObject(x).getString("name"));
+                        jsonObject.put("poi", jsonArray.getJSONObject(x).getJSONObject("country").getString("name"));
+                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
+                        array.add(jsonObject);
+
+                        if (x == 0) {
+                            adapter.notifyDataSetChanged();
+                        } else {
+                            adapter.notifyItemInserted(x);
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void get_popular_hotel_city(){
+        String url = C_URL+"hotel/city/popular";
+
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    popular_city_array.clear();
+                    popular_city_adapter.notifyDataSetChanged();
+                    JSONArray jsonArray = response.getJSONArray("data");
+                    for(int x=0; x<jsonArray.length(); x++){
+                        JSONObject jsonObject = new JSONObject();
+
+                        jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
+                        jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getJSONObject("country").getString("name")));
+                        jsonObject.put("city", jsonArray.getJSONObject(x).getString("name"));
+                        jsonObject.put("poi", jsonArray.getJSONObject(x).getJSONObject("country").getString("name"));
+                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
+
+                        popular_city_array.add(jsonObject);
+
+                        if (x == 0) {
+                            popular_city_adapter.notifyDataSetChanged();
+                        } else {
+                            popular_city_adapter.notifyItemInserted(x);
                         }
                     }
                     Log.d("data",array.toString());
-
-                    for(int x=0;x<array.size();x++)
-                        arrayTemp.add(array.get(x));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
