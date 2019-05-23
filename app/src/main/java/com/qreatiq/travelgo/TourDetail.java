@@ -57,7 +57,7 @@ public class TourDetail extends BaseActivity {
     String trip_id, url, urlPhoto;
     RequestQueue requestQueue;
     TextView locationName, locationDesc, total_packages_label, total_price_label, payPackageBtn;
-    TextView TV_trip_date, TV_tour_name;
+    TextView TV_trip_date, TV_tour_name, no_facilities;
     String trip_date, trip_location, tour_phone, userID;
     SharedPreferences user_id;
 
@@ -102,6 +102,7 @@ public class TourDetail extends BaseActivity {
         payPackageBtn = (TextView)findViewById(R.id.payPackageBtn);
         TV_tour_name = (TextView)findViewById(R.id.TV_tour_name);
         TV_trip_date = (TextView)findViewById(R.id.TV_trip_date);
+        no_facilities = (TextView) findViewById(R.id.no_facilities);
 
         CoordinatorLayout.LayoutParams lp = (CoordinatorLayout.LayoutParams) scroll.getLayoutParams();
         lp.bottomMargin = 0;
@@ -301,16 +302,21 @@ public class TourDetail extends BaseActivity {
                     }
                     adapter.notifyDataSetChanged();
 
-                    for(int x=0; x<jsonObject.getJSONArray("facilities").length();x++){
-                        JSONObject jsonObject1 = jsonObject.getJSONArray("facilities").getJSONObject(x).getJSONObject("facilities");
+                    if(jsonObject.getJSONArray("facilities").length() > 0) {
+                        for (int x = 0; x < jsonObject.getJSONArray("facilities").length(); x++) {
+                            JSONObject jsonObject1 = jsonObject.getJSONArray("facilities").getJSONObject(x).getJSONObject("facilities");
 
-                        JSONObject jsonObject2 = new JSONObject();
-                        jsonObject2.put("name", jsonObject1.getString("name"));
+                            JSONObject jsonObject2 = new JSONObject();
+                            jsonObject2.put("name", jsonObject1.getString("name"));
 
-                        arrayFacilities.add(jsonObject2);
+                            arrayFacilities.add(jsonObject2);
+                        }
+                        adapterFacilities.notifyDataSetChanged();
                     }
-                    adapterFacilities.notifyDataSetChanged();
-
+                    else{
+                        no_facilities.setVisibility(View.VISIBLE);
+                        gridFacilities.setVisibility(View.GONE);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

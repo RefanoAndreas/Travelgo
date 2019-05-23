@@ -13,6 +13,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -45,8 +46,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
     public class HomePackagesViewHolder extends RecyclerView.ViewHolder {
         public RoundedImageView mRoundedImageView;
         public TextView mTextView1;
-        public TextView mTextView2;
+        public TextView mTextView2, rating_number;
         public ConstraintLayout layout;
+        RatingBar rating;
 
         public HomePackagesViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -54,6 +56,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
             mTextView1 = itemView.findViewById(R.id.itemRV_Home_TV1);
             mTextView2 = itemView.findViewById(R.id.itemRV_Home_TV2);
             layout = (ConstraintLayout) itemView.findViewById(R.id.layout);
+            rating = (RatingBar) itemView.findViewById(R.id.rating);
+            rating_number = (TextView) itemView.findViewById(R.id.rating_number);
 
             if(getAdapterPosition() == 0){
                 ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
@@ -101,10 +105,13 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
         final JSONObject jsonObject = mHomeList.get(i);
 
         try {
-            Picasso.get().load(jsonObject.getString("location_photo")).placeholder(R.mipmap.ic_launcher).into(homePackagesViewHolder.mRoundedImageView);
+            Picasso.get()
+                    .load(jsonObject.getString("photo"))
+                    .placeholder(R.mipmap.ic_launcher)
+                    .into(homePackagesViewHolder.mRoundedImageView);
 
-            homePackagesViewHolder.mTextView1.setText(jsonObject.getString("location_name"));
-            homePackagesViewHolder.mTextView2.setText(jsonObject.getString("location_description"));
+            homePackagesViewHolder.mTextView1.setText(jsonObject.getString("name"));
+            homePackagesViewHolder.mTextView2.setText(jsonObject.getString("description"));
 
             if(i == 0){
                 ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
@@ -131,6 +138,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
                 homePackagesViewHolder.layout.setLayoutParams(params);
             }
 
+            homePackagesViewHolder.rating.setRating((float) jsonObject.getDouble("review"));
+            homePackagesViewHolder.rating_number.setText(String.valueOf(jsonObject.getDouble("review")));
         } catch (JSONException e) {
             e.printStackTrace();
         }

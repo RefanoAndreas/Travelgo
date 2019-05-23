@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
-                android:id="@+id/rating"
+                android:id="@+id/rating_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -72,30 +72,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4,8"
+                    android:id="@+id/rating_number"
                     android:fontFamily="@font/montserrat_bold"
                     android:textColor="#7d7d7d"
                     android:layout_gravity="center"
                     android:layout_marginRight="4dp"/>
-                <ImageView
+                <RatingBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_yellow_24dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_yellow_24dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_yellow_24dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_yellow_24dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_half_yellow_24dp"/>
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:numStars="5"
+                    android:layout_gravity="center"
+                    android:id="@+id/rating"/>
             </LinearLayout>
             
             <TextView

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ public class BottomNavContainer extends BaseActivity {
     String id_loc, userID, tokenDevice;
     SharedPreferences user_id, deviceToken;
     FragmentTour fragmentTour;
+    FragmentHome fragmentHome;
     Fragment selectedFragment = null;
     BottomNavigationView bottomNav;
 
@@ -47,6 +49,7 @@ public class BottomNavContainer extends BaseActivity {
 
         Intent i = getIntent();
         fragmentTour = new FragmentTour();
+        fragmentHome = new FragmentHome();
 
         if(i.hasExtra("loc_id")){
             id_loc = i.getStringExtra("loc_id");
@@ -54,7 +57,16 @@ public class BottomNavContainer extends BaseActivity {
             bottomNav.setSelectedItemId(R.id.nav_tour);
         }
         else
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new FragmentHome()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragmentHome).commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if(selectedFragment instanceof FragmentHome){
+            fragmentHome.getLocation();
+        }
     }
 
     @Override
@@ -67,6 +79,13 @@ public class BottomNavContainer extends BaseActivity {
         super.onConfigurationChanged(newConfig);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
@@ -75,7 +94,7 @@ public class BottomNavContainer extends BaseActivity {
                     changeLang(base_shared_pref.getString("lang","en"));
                     switch (menuItem.getItemId()){
                         case R.id.nav_home:
-                            selectedFragment = new FragmentHome();
+                            selectedFragment = fragmentHome;
                             Toolbar toolbar  = findViewById(R.id.toolbar);
                             setSupportActionBar(toolbar);
                             getSupportActionBar().setTitle("Test");

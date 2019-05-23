@@ -12,47 +12,76 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class SearchTourSpotAdapter extends RecyclerView.Adapter<SearchTourSpotAdapter.SearchTourSpotHolder> {
+public class SearchTourSpotAdapter extends RecyclerView.Adapter<SearchTourSpotAdapter.ViewHolder> {
 
-    ArrayList<SearchTourSpotList> mSpotList;
+    ArrayList<JSONObject> mSpotList;
     Context context;
+    ClickListener clickListener;
 
-    public class SearchTourSpotHolder extends RecyclerView.ViewHolder {
+    public interface ClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(ClickListener clickListener){
+        this.clickListener= clickListener;
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         public RoundedImageView mRoundedImageView;
-        public TextView mTextView1;
+        public TextView mTextView1,subtitle;
         public ConstraintLayout layout;
+        View view;
 
-        public SearchTourSpotHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mRoundedImageView = itemView.findViewById(R.id.itemRV_cityDetail_RIV);
             mTextView1 = itemView.findViewById(R.id.itemRV_cityDetail_TV);
             layout = (ConstraintLayout) itemView.findViewById(R.id.layout);
+            subtitle = (TextView) itemView.findViewById(R.id.subtitle);
+            view = itemView;
         }
     }
 
-    public SearchTourSpotAdapter(ArrayList<SearchTourSpotList> spotList, Context context){
+    public SearchTourSpotAdapter(ArrayList<JSONObject> spotList, Context context){
         mSpotList = spotList;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public SearchTourSpotHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.search_spot_list, viewGroup,false);
-        return new SearchTourSpotHolder(v);
+        return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchTourSpotHolder searchTourSpotHolder, int i) {
-        SearchTourSpotList current = mSpotList.get(i);
+    public void onBindViewHolder(@NonNull ViewHolder searchTourSpotHolder, final int i) {
+        JSONObject current = mSpotList.get(i);
 
-        searchTourSpotHolder.mRoundedImageView.setImageResource(current.getImageResources());
-        searchTourSpotHolder.mTextView1.setText(current.getText1());
+        try {
+            Picasso.get()
+                    .load(current.getString("photo"))
+                    .placeholder(R.mipmap.ic_launcher)
+                    .into(searchTourSpotHolder.mRoundedImageView);
+            searchTourSpotHolder.mTextView1.setText(current.getString("name"));
+            searchTourSpotHolder.subtitle.setText(current.getString("subtitle"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        searchTourSpotHolder.view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onItemClick(i);
+            }
+        });
 
         if(i == 0){
             ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(

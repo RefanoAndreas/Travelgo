@@ -68,6 +68,7 @@ public class FragmentHome extends Fragment {
 
         parent = (BottomNavContainer) getActivity();
         parent.toolbar.setVisibility(View.GONE);
+        parent.selectedFragment = parent.fragmentHome;
 
         tourBtn = (CardView)view.findViewById(R.id.tourBtn);
         tourBtn.setOnClickListener(new View.OnClickListener() {
@@ -117,7 +118,7 @@ public class FragmentHome extends Fragment {
             @Override
             public void onItemClick(int position) {
                 try {
-                    startActivity(new Intent(getActivity(), CityDetail.class).putExtra("idLocation", homeList.get(position).getString("location_id")));
+                    startActivity(new Intent(getActivity(), CityDetail.class).putExtra("idLocation", homeList.get(position).getString("id")));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -129,21 +130,24 @@ public class FragmentHome extends Fragment {
         getLocation();
     }
 
-    private void getLocation(){
+    public void getLocation(){
         url = parent.C_URL+"home";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    homeList.clear();
                     JSONArray jsonArray = response.getJSONArray("location");
                     for(int x=0; x<jsonArray.length(); x++){
-                        urlPhoto = link.C_URL_IMAGES+"location?image="+jsonArray.getJSONObject(x).getString("urlPhoto")+"&mime="+jsonArray.getJSONObject(x).getString("mimePhoto");
+                        urlPhoto = link.C_URL_IMAGES+"location?image="+jsonArray.getJSONObject(x).getString("urlPhoto")+
+                                "&mime="+jsonArray.getJSONObject(x).getString("mimePhoto");
                         JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("location_photo", urlPhoto);
-                        jsonObject.put("location_name", jsonArray.getJSONObject(x).getString("name"));
-                        jsonObject.put("location_description", jsonArray.getJSONObject(x).getString("description"));
-                        jsonObject.put("location_id", jsonArray.getJSONObject(x).getString("id"));
+                        jsonObject.put("photo", urlPhoto);
+                        jsonObject.put("name", jsonArray.getJSONObject(x).getString("name"));
+                        jsonObject.put("description", jsonArray.getJSONObject(x).getString("description"));
+                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
+                        jsonObject.put("review", jsonArray.getJSONObject(x).getDouble("overall_review"));
 
                         jsonObject.put("user", userID);
                         homeList.add(jsonObject);

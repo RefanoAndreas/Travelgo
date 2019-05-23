@@ -28,6 +28,7 @@
                 android:layout_height="250dp"
                 app:fillColor="@color/colorPrimary"
                 app:pageColor="@android:color/white"
+                app:layout_collapseMode="parallax"
                 app:radius="5dp"
                 app:slideInterval="3000"/>
 
@@ -111,6 +112,14 @@
                 android:textSize="16dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textColor="@android:color/black"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No Facilities Found"
+                android:layout_marginTop="@dimen/base_size"
+                android:visibility="gone"
+                android:id="@+id/no_facilities"
+                android:gravity="center"/>
 
             <GridView
                 android:id="@+id/GV_facilities"

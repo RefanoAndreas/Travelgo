@@ -40,6 +40,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static android.app.Activity.RESULT_OK;
+
 public class FragmentTour extends Fragment {
 
     private RecyclerView mRecyclerView;
@@ -125,13 +127,27 @@ public class FragmentTour extends Fragment {
 
     }
 
-    private void getTrip(){
-        url = parent.C_URL+"tour/trip?loc_id="+parent.fragmentTour.loc_id;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == RESULT_OK){
+            if(requestCode == SEARCH_TOUR){
+                loc_id = data.getStringExtra("location");
+                getTrip();
+            }
+        }
+    }
+
+    public void getTrip(){
+        url = parent.C_URL+"tour/trip?loc_id="+loc_id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    tourList.clear();
+                    mAdapter.notifyDataSetChanged();
                     JSONArray jsonArray = response.getJSONArray("trip");
                     for(int x=0; x<jsonArray.length(); x++){
 

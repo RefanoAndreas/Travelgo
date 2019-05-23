@@ -56,28 +56,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="4.8"
+                    android:id="@+id/rating_number"
                     android:fontFamily="@font/montserrat_bold"/>
-                <ImageView
+                <RatingBar
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_yellow_24dp"
-                    android:layout_marginLeft="4dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_yellow_24dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_yellow_24dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_yellow_24dp"/>
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_star_half_yellow_24dp"/>
+                    android:numStars="5"
+                    android:layout_marginLeft="5dp"
+                    android:layout_gravity="center"
+                    style="@style/Widget.AppCompat.RatingBar.Small"
+                    android:id="@+id/rating"/>
             </LinearLayout>
 
             <TextView

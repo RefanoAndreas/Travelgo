@@ -35,12 +35,12 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <EditText
-                android:id="@+id/tour_search"
+                android:id="@+id/search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="@android:color/transparent"
-                android:hint="Cari objek wisata atau lama hari"
+                android:hint="Cari objek wisata"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:scrollHorizontally="true"
@@ -54,10 +54,17 @@
 
     </android.support.constraint.ConstraintLayout>
 
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tour_topNav"
+        android:visibility="gone"
+        android:id="@+id/search_list"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:id="@+id/headline"
         app:layout_constraintTop_toBottomOf="@id/tour_topNav">
 
         <TextView
@@ -72,8 +79,8 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/RV_spotWisata"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"></android.support.v7.widget.RecyclerView>
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"/>
 
         <TextView
             android:layout_width="match_parent"
