@@ -53,6 +53,9 @@ public class TourCreateFacilitiesAdapter extends BaseAdapter {
 
         AppCompatCheckBox checkBox = (AppCompatCheckBox) convertView.findViewById(R.id.checkbox);
         try {
+
+            checkBox.setChecked(array.get(position).getBoolean("checked"));
+
             checkBox.setText(this.array.get(position).getString("name"));
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override

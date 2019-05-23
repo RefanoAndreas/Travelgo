@@ -107,16 +107,12 @@ public class TourCreate extends BaseActivity {
 
         set_toolbar();
 
+        intent = getIntent();
+
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("access_token", "Data not found");
 
         requestQueue = Volley.newRequestQueue(this);
-
-        intent = getIntent();
-        if(intent.getStringExtra("type").equals("edit")){
-            trip_data(intent.getStringExtra("id"));
-        }
-
 
         grid = (GridView) findViewById(R.id.grid);
         start_date = (TextInputEditText) findViewById(R.id.start_date);
@@ -161,15 +157,6 @@ public class TourCreate extends BaseActivity {
         });
 
 
-//        try {
-//            tour_pack_array.add(new JSONObject("{\"image\": "+R.drawable.background2+", \"name\": \"Rodex Tour\", \"start_date\": \"11/04/2019\", \"end_date\": \"12/04/2019\"}"));
-//            tour_pack_array.add(new JSONObject("{\"image\": "+R.drawable.background3+", \"name\": \"Rodex Tour\", \"start_date\": \"11/04/2019\", \"end_date\": \"12/04/2019\"}"));
-//            tour_pack_array.add(new JSONObject("{\"image\": "+R.drawable.background4+", \"name\": \"Rodex Tour\", \"start_date\": \"11/04/2019\", \"end_date\": \"12/04/2019\"}"));
-//            tour_pack_array.add(new JSONObject("{\"image\": "+R.drawable.background5+", \"name\": \"Rodex Tour\", \"start_date\": \"11/04/2019\", \"end_date\": \"12/04/2019\"}"));
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-
         mRecyclerView_2 = findViewById(R.id.RV_tourCreatePackages_2);
         mRecyclerView_2.setHasFixedSize(true);
         mLayoutManager_2 = new LinearLayoutManager(this);
@@ -196,6 +183,7 @@ public class TourCreate extends BaseActivity {
         });
 
         getFacilities();
+
 
         start_date.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -302,6 +290,10 @@ public class TourCreate extends BaseActivity {
                     adapter.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }
+
+                if(intent.getStringExtra("type").equals("edit")){
+                    trip_data(intent.getStringExtra("id"));
                 }
             }
         }, new Response.ErrorListener() {
@@ -545,7 +537,14 @@ public class TourCreate extends BaseActivity {
                 json.put("start_date", start_date.getText());
                 json.put("end_date", end_date.getText());
                 json.put("location_id", location_id);
+
+                if(intent.getStringExtra("type").equals("edit")){
+                    json.put("_method", "put");
+                    json.put("id", intent.getStringExtra("id"));
+                }
 //            logLargeString(json.toString());
+
+                Log.d("trippack", array_trip_pack.toString());
 
 
                 final ProgressDialog loading = new ProgressDialog(this);
@@ -616,7 +615,7 @@ public class TourCreate extends BaseActivity {
             public void onResponse(JSONObject response) {
                 try {
                     JSONObject jsonTrip = response.getJSONObject("trip");
-                    Log.d("json", jsonTrip.toString());
+
                     tripName.setText(jsonTrip.getString("name"));
                     tripDesc.setText(jsonTrip.getString("description"));
                     start_date.setText(jsonTrip.getString("start_date_trip"));
@@ -626,15 +625,16 @@ public class TourCreate extends BaseActivity {
 
                     JSONArray jsonPhoto = jsonTrip.getJSONArray("photo");
                     JSONArray jsonTripPack = jsonTrip.getJSONArray("trip_pack");
+                    JSONArray jsonTripFacilities = jsonTrip.getJSONArray("facilities");
 
                     for(int x=0;x<jsonPhoto.length();x++){
                         JSONObject json = new JSONObject();
 
+                        json.put("status", "edit");
                         urlPhoto = link.C_URL_IMAGES+"trip?image="
                                 +jsonPhoto.getJSONObject(x).getString("urlPhoto")
                                 +"&mime="+jsonPhoto.getJSONObject(x).getString("mimePhoto");
 
-                        json.put("status", "edit");
                         json.put("background",urlPhoto);
                         json.put("is_button_upload",false);
 
@@ -650,8 +650,6 @@ public class TourCreate extends BaseActivity {
                                 +jsonTripPack.getJSONObject(x).getString("urlPhoto")
                                 +"&mime="+jsonTripPack.getJSONObject(x).getString("mimePhoto");
 
-                        Log.d("photo", urlPhoto);
-
                         jsonObject.put("status", "edit");
                         jsonObject.put("image", urlPhoto);
                         jsonObject.put("name",jsonTripPack.getJSONObject(x).getString("name"));
@@ -663,6 +661,16 @@ public class TourCreate extends BaseActivity {
                         tour_pack_adapter.notifyDataSetChanged();
                         check_tour_packages();
                     }
+
+                    for(int x=0;x<jsonTripFacilities.length();x++) {
+                        for(int y=0; y<array.size();y++){
+                            if(array.get(y).getString("id").equals(jsonTripFacilities.getJSONObject(x).getString("facilities_id"))){
+                                array.get(y).put("checked", true);
+                                break;
+                            }
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
