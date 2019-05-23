@@ -63,8 +63,12 @@ public class SignUp extends BaseActivity {
         getWindow().setBackgroundDrawableResource(R.drawable.background_splash);
         layout=(ConstraintLayout) findViewById(R.id.layout);
 
+        requestQueue = Volley.newRequestQueue(this);
+
         deviceToken = getSharedPreferences("token", Context.MODE_PRIVATE);
         tokenDevice = deviceToken.getString("token", "Data not found");
+
+        Log.d("token", tokenDevice);
 
         emailLayout = (TextInputLayout) findViewById(R.id.email_layout);
         emailLayout.setHint(null);
@@ -236,7 +240,6 @@ public class SignUp extends BaseActivity {
                             startActivity(intentHome);
                             finish();
                         } else {
-//                        Toast.makeText(SignUp.this, "User Already Exist", Toast.LENGTH_SHORT).show();
                             emailLayout.setError("Email already exist");
                         }
                     } catch (JSONException e) {

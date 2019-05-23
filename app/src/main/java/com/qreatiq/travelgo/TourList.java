@@ -63,8 +63,6 @@ public class TourList extends BaseActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 
-
-
         mRecyclerView = findViewById(R.id.RV_tourListPackages);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -72,6 +70,19 @@ public class TourList extends BaseActivity {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListner(new TourListAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                try {
+                    startActivity(new Intent(TourList.this, TourCreate.class)
+                            .putExtra("type", "edit")
+                            .putExtra("id", tourListPackagesList.get(position).getString("id")));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         SwipeToDeleteCallback swipeToDeleteCallback = new SwipeToDeleteCallback(this,mRecyclerView) {
             @Override
@@ -97,7 +108,8 @@ public class TourList extends BaseActivity {
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TourList.this, TourCreate.class));
+                startActivity(new Intent(TourList.this, TourCreate.class)
+                            .putExtra("type", "add"));
             }
         });
 
@@ -131,6 +143,7 @@ public class TourList extends BaseActivity {
                         jsonObject.put("trip_name", jsonArray.getJSONObject(x).getString("name"));
                         jsonObject.put("start_date", jsonArray.getJSONObject(x).getString("start_date_display"));
                         jsonObject.put("end_date", jsonArray.getJSONObject(x).getString("end_date_display"));
+                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
 
                         tourListPackagesList.add(jsonObject);
                         if(x != 0)

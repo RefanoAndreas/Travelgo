@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,8 +54,13 @@ public class TourCreateTourPackageAdapter extends RecyclerView.Adapter<TourCreat
         JSONObject currentItem = mTourCreatePackagesList_2.get(i);
 
         try {
-            if(currentItem.get("image") != null)
-                tourCreatePackagesViewHolder.mRoundedImageView.setImageBitmap((Bitmap) currentItem.get("image"));
+            if(currentItem.getString("status").equals("add")) {
+                if (currentItem.get("image") != null)
+                    tourCreatePackagesViewHolder.mRoundedImageView.setImageBitmap((Bitmap) currentItem.get("image"));
+            }
+            else{
+                Picasso.get().load(currentItem.getString("image")).placeholder(R.mipmap.ic_launcher).into(tourCreatePackagesViewHolder.mRoundedImageView);
+            }
 
             tourCreatePackagesViewHolder.mTextView1.setText(currentItem.getString("name"));
             tourCreatePackagesViewHolder.mTextView2.setText(currentItem.getString("start_date"));

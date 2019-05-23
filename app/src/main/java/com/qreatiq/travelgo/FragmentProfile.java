@@ -13,6 +13,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -23,29 +24,36 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class FragmentProfile extends Fragment {
 
     ConstraintLayout btnLogout, btnEdtProfile, btnTourProfile, btnHistoryTransaction, btnListPackage, btnLanguage, btnHistoryPurchasing;
-    String userID, url;
-    SharedPreferences user_ID;
+    String url;
     TextView name;
-    RequestQueue requestQueue;
     BottomNavContainer parent;
 
     TextView account_profile,tour_profile,list_package,history_purchasing,history_transaction,language;
@@ -60,7 +68,7 @@ public class FragmentProfile extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        BottomNavContainer parent = (BottomNavContainer) getActivity();
+        parent = (BottomNavContainer) getActivity();
         parent.toolbar.setVisibility(View.VISIBLE);
         parent.toolbar.setTitle("Profil Saya");
 
@@ -71,8 +79,8 @@ public class FragmentProfile extends Fragment {
         history_transaction = (TextView) view.findViewById(R.id.history_transaction);
         language = (TextView) view.findViewById(R.id.language);
 
-        user_ID = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
-        userID = user_ID.getString("user_id", "Data not found");
+//        user_ID = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
+//        userID = user_ID.getString("user_id", "Data not found");
 
         getApplicationContext();
 
@@ -80,15 +88,7 @@ public class FragmentProfile extends Fragment {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                SharedPreferences.Editor editor = user_ID.edit();
-                editor.clear().commit();
-
-                FacebookSdk.sdkInitialize(getActivity());
-                LoginManager.getInstance().logOut();
-
-                startActivity(new Intent(getActivity(), BottomNavContainer.class));
-                getActivity().finish();
+                logout();
             }
         });
 
@@ -204,6 +204,61 @@ public class FragmentProfile extends Fragment {
         getActivity().finish();
         getActivity().overridePendingTransition(0, 0);
         startActivity(intent);
+    }
+
+    private void logout(){
+        url = link.C_URL+"logout";
+        Log.d("user", parent.userID);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                SharedPreferences.Editor editor = parent.user_id.edit();
+                editor.clear().commit();
+
+                FacebookSdk.sdkInitialize(getActivity());
+                LoginManager.getInstance().logOut();
+
+                startActivity(new Intent(getActivity(), BottomNavContainer.class));
+                getActivity().finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(parent.layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", parent.userID);
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+        };
+
+        parent.requestQueue.add(jsonObjectRequest);
     }
 
 }

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,10 +71,15 @@ public class TourCreatePhotosAdapter extends RecyclerView.Adapter<TourCreatePhot
         });
 
         try {
-            if(i == 0)
-                tourCreatePackagesViewHolder_1.mRoundedImageView.setImageResource(currentItem.getInt("background"));
-            else
-                tourCreatePackagesViewHolder_1.mRoundedImageView.setImageBitmap((Bitmap) currentItem.get("background"));
+            if(currentItem.getString("status").equals("add")) {
+                if (i == 0)
+                    tourCreatePackagesViewHolder_1.mRoundedImageView.setImageResource(currentItem.getInt("background"));
+                else
+                    tourCreatePackagesViewHolder_1.mRoundedImageView.setImageBitmap((Bitmap) currentItem.get("background"));
+            }
+            else{
+                Picasso.get().load(currentItem.getString("background")).placeholder(R.mipmap.ic_launcher).into(tourCreatePackagesViewHolder_1.mRoundedImageView);
+            }
             if(!currentItem.getBoolean("is_button_upload")) {
                 tourCreatePackagesViewHolder_1.content_layout.setVisibility(View.GONE);
             }

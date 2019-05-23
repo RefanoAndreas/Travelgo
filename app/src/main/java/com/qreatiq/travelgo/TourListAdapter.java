@@ -34,6 +34,7 @@ public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourLi
 
     ArrayList<JSONObject> tripList;
     Context context;
+    ClickListener clickListener;
 
     public TourListAdapter(ArrayList<JSONObject> tripList, Context context){
         this.tripList = tripList;
@@ -59,6 +60,13 @@ public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourLi
 
             view_foreground = itemView.findViewById(R.id.view_foreground);
             view_background = itemView.findViewById(R.id.view_background);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onItemClick(getAdapterPosition());
+                }
+            });
         }
     }
 
@@ -91,6 +99,14 @@ public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourLi
     @Override
     public int getItemCount() {
         return tripList.size();
+    }
+
+    public interface ClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListner(ClickListener clickListner){
+        this.clickListener= clickListner;
     }
 
 }

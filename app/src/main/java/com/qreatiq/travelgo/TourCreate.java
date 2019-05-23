@@ -90,11 +90,13 @@ public class TourCreate extends BaseActivity {
     TextInputEditText start_date,end_date, tripName, tripDesc;
     TextInputLayout name_layout,start_date_layout,end_date_layout,description_layout,location_layout;
     Uri filePath;
-    String url, userID;
-    RequestQueue requestQueue;
+    String url, userID, urlPhoto;
+    RequestQueue requestQueue, requestQueue1;
 
     TextView no_data;
     ConstraintLayout layout;
+
+    Intent intent;
 
     int CREATE_TOUR_PACKAGE = 1;
 
@@ -109,6 +111,12 @@ public class TourCreate extends BaseActivity {
         userID = user_id.getString("access_token", "Data not found");
 
         requestQueue = Volley.newRequestQueue(this);
+
+        intent = getIntent();
+        if(intent.getStringExtra("type").equals("edit")){
+            trip_data(intent.getStringExtra("id"));
+        }
+
 
         grid = (GridView) findViewById(R.id.grid);
         start_date = (TextInputEditText) findViewById(R.id.start_date);
@@ -401,6 +409,7 @@ public class TourCreate extends BaseActivity {
                     JSONObject data_from_facilities = new JSONObject(data.getStringExtra("data"));
 
                     JSONObject json = new JSONObject();
+                    json.put("status", "add");
                     if(data_from_facilities.has("image")) {
                         json.put("image", (Bitmap) link.StringToBitMap(data_from_facilities.getString("image")));
                         json.put("image_data", data_from_facilities.getString("image"));
@@ -427,6 +436,7 @@ public class TourCreate extends BaseActivity {
 
                 JSONObject json = new JSONObject();
                 try {
+                    json.put("status", "add");
                     json.put("background",bitmap);
                     json.put("background_data", link.BitMapToString(bitmap));
                     json.put("is_button_upload",false);
@@ -446,6 +456,7 @@ public class TourCreate extends BaseActivity {
 
                     JSONObject json = new JSONObject();
                     try {
+                        json.put("status", "add");
                         json.put("background",bitmap);
                         json.put("background_data", link.BitMapToString(bitmap));
                         json.put("is_button_upload",false);
@@ -595,6 +606,105 @@ public class TourCreate extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void trip_data(String trip_id){
+        url = link.C_URL+"trip/detail?id="+trip_id;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONObject jsonTrip = response.getJSONObject("trip");
+                    Log.d("json", jsonTrip.toString());
+                    tripName.setText(jsonTrip.getString("name"));
+                    tripDesc.setText(jsonTrip.getString("description"));
+                    start_date.setText(jsonTrip.getString("start_date_trip"));
+                    end_date.setText(jsonTrip.getString("end_date_trip"));
+                    location.setText(jsonTrip.getJSONObject("city").getString("name"));
+                    location_id = jsonTrip.getJSONObject("city").getString("id");
+
+                    JSONArray jsonPhoto = jsonTrip.getJSONArray("photo");
+                    JSONArray jsonTripPack = jsonTrip.getJSONArray("trip_pack");
+
+                    for(int x=0;x<jsonPhoto.length();x++){
+                        JSONObject json = new JSONObject();
+
+                        urlPhoto = link.C_URL_IMAGES+"trip?image="
+                                +jsonPhoto.getJSONObject(x).getString("urlPhoto")
+                                +"&mime="+jsonPhoto.getJSONObject(x).getString("mimePhoto");
+
+                        json.put("status", "edit");
+                        json.put("background",urlPhoto);
+                        json.put("is_button_upload",false);
+
+                        photo_array.add(json);
+                        photo_adapter.notifyItemInserted(photo_array.size());
+
+                    }
+
+                    for(int x=0;x<jsonTripPack.length();x++){
+                        JSONObject jsonObject = new JSONObject();
+
+                        urlPhoto = link.C_URL_IMAGES+"trip-pack?image="
+                                +jsonTripPack.getJSONObject(x).getString("urlPhoto")
+                                +"&mime="+jsonTripPack.getJSONObject(x).getString("mimePhoto");
+
+                        Log.d("photo", urlPhoto);
+
+                        jsonObject.put("status", "edit");
+                        jsonObject.put("image", urlPhoto);
+                        jsonObject.put("name",jsonTripPack.getJSONObject(x).getString("name"));
+                        jsonObject.put("price",jsonTripPack.getJSONObject(x).getString("price"));
+                        jsonObject.put("start_date",jsonTrip.getString("start_date_trip"));
+                        jsonObject.put("end_date",jsonTrip.getString("end_date_trip"));
+
+                        tour_pack_array.add(jsonObject);
+                        tour_pack_adapter.notifyDataSetChanged();
+                        check_tour_packages();
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", userID);
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+        };
+
+        requestQueue.add(jsonObjectRequest);
     }
 
     public void logLargeString(String str) {

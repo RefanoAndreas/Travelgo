@@ -102,13 +102,13 @@ public class LogIn extends BaseActivity {
             @Override
             public void onSuccess(InstanceIdResult instanceIdResult) {
                 tokenFCM = instanceIdResult.getToken();
+
+                deviceToken = getSharedPreferences("token", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor1 = deviceToken.edit();
+                editor1.putString("token", tokenFCM);
+                editor1.apply();
             }
         });
-
-        deviceToken = getSharedPreferences("token", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor1 = deviceToken.edit();
-        editor1.putString("token", tokenFCM);
-        editor1.apply();
 
         requestQueue = Volley.newRequestQueue(this);
 
