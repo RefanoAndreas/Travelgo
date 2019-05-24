@@ -43,6 +43,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -53,7 +55,7 @@ public class FragmentProfile extends Fragment {
 
     ConstraintLayout btnLogout, btnEdtProfile, btnTourProfile, btnHistoryTransaction, btnListPackage, btnLanguage, btnHistoryPurchasing;
     String url;
-    TextView name;
+    TextView name, saldo_kawan;
     BottomNavContainer parent;
 
     TextView account_profile,tour_profile,list_package,history_purchasing,history_transaction,language;
@@ -78,6 +80,7 @@ public class FragmentProfile extends Fragment {
         history_purchasing = (TextView) view.findViewById(R.id.history_purchasing);
         history_transaction = (TextView) view.findViewById(R.id.history_transaction);
         language = (TextView) view.findViewById(R.id.language);
+        saldo_kawan = (TextView)view.findViewById(R.id.TV_saldo_kawan);
 
 //        user_ID = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
 //        userID = user_ID.getString("user_id", "Data not found");
@@ -183,6 +186,8 @@ public class FragmentProfile extends Fragment {
             }
         });
 
+        user();
+
     }
 
     public void setLocale(String lang) {
@@ -228,6 +233,59 @@ public class FragmentProfile extends Fragment {
 
                 startActivity(new Intent(getActivity(), BottomNavContainer.class));
                 getActivity().finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(parent.layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", parent.userID);
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+        };
+
+        parent.requestQueue.add(jsonObjectRequest);
+    }
+
+    private void user(){
+        url = link.C_URL+"profile";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    NumberFormat formatter = new DecimalFormat("#,###");
+                    String formattedNumber = formatter.format(response.getJSONObject("user").getDouble("saldo_kawan"));
+                    saldo_kawan.setText("Rp. "+formattedNumber);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }, new Response.ErrorListener() {
             @Override

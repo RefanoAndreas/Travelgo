@@ -13,7 +13,7 @@
         layout="@layout/toolbar_elevation"/>
 
     <TextView
-        android:id="@+id/TV_no_tour"
+        android:id="@+id/TV_alert"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/toolbar_tourList"
@@ -21,7 +21,6 @@
         android:textAlignment="center"
         android:textSize="20dp"
         android:fontFamily="@font/montserrat_medium"
-        android:text="Anda belum memiliki Tour"
         android:visibility="gone"/>
 
     <android.support.v7.widget.RecyclerView

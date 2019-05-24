@@ -59,6 +59,7 @@
                     android:textSize="10dp"/>
 
                 <TextView
+                    android:id="@+id/TV_saldo_kawan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@id/circleImage"
@@ -68,7 +69,6 @@
                     android:layout_marginRight="10dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="6dp"
-                    android:text="Rp 20.000"
                     android:textColor="@android:color/white"
                     android:textSize="10dp"
                     android:fontFamily="@font/montserrat_medium"/>

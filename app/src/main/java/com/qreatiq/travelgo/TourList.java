@@ -51,7 +51,7 @@ public class TourList extends BaseActivity {
     RequestQueue requestQueue;
     ArrayList<JSONObject> tourListPackagesList = new ArrayList<>();
     FloatingActionButton fabAdd;
-    TextView TV_no_tour;
+    TextView TV_alert;
 
     RecyclerViewSkeletonScreen skeletonScreen;
 
@@ -71,7 +71,7 @@ public class TourList extends BaseActivity {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new TourListAdapter(tourListPackagesList, this);
-        TV_no_tour = (TextView)findViewById(R.id.TV_no_tour);
+        TV_alert = (TextView)findViewById(R.id.TV_alert);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -143,10 +143,16 @@ public class TourList extends BaseActivity {
                 try {
                     if(!response.isNull("tour")) {
                         JSONArray jsonArray = response.getJSONArray("trip");
+
+                        if(jsonArray.length() == 0){
+                            TV_alert.setVisibility(View.VISIBLE);
+                            TV_alert.setText("No Trip Available");
+                        }
+
                         for (int x = 0; x < jsonArray.length(); x++) {
                             JSONObject jsonObject = new JSONObject();
 
-                            urlPhoto = link.C_URL_IMAGES + "trip?image="
+                            urlPhoto = C_URL_IMAGES + "trip?image="
                                     + jsonArray.getJSONObject(x).getString("urlPhoto")
                                     + "&mime=" + jsonArray.getJSONObject(x).getString("mimePhoto");
                             jsonObject.put("photo", urlPhoto);
@@ -166,7 +172,7 @@ public class TourList extends BaseActivity {
                     }
                     else{
                         fabAdd.hide();
-                        TV_no_tour.setVisibility(View.VISIBLE);
+                        TV_alert.setVisibility(View.VISIBLE);
                     }
                     skeletonScreen.hide();
                 } catch (JSONException e) {
