@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -29,6 +31,7 @@ public class TourCreatePhotosAdapter extends RecyclerView.Adapter<TourCreatePhot
         public TextView mTextView1;
         LinearLayout content_layout;
         CardView layout;
+        View view;
 
         public TourCreatePackagesViewHolder_1(View itemView) {
             super(itemView);
@@ -37,6 +40,7 @@ public class TourCreatePhotosAdapter extends RecyclerView.Adapter<TourCreatePhot
             mTextView1 = itemView.findViewById(R.id.text_uploadPhoto);
             content_layout = itemView.findViewById(R.id.content_layout);
             layout = itemView.findViewById(R.id.layout);
+            view = itemView;
         }
     }
 
@@ -71,15 +75,21 @@ public class TourCreatePhotosAdapter extends RecyclerView.Adapter<TourCreatePhot
         });
 
         try {
-            if(currentItem.getString("status").equals("add")) {
+
+            if (currentItem.getString("status").equals("add")) {
                 if (i == 0)
                     tourCreatePackagesViewHolder_1.mRoundedImageView.setImageResource(currentItem.getInt("background"));
                 else
                     tourCreatePackagesViewHolder_1.mRoundedImageView.setImageBitmap((Bitmap) currentItem.get("background"));
+            } else {
+                Picasso.get()
+                        .load(currentItem.getString("background"))
+                        .placeholder(R.mipmap.ic_launcher)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                        .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                        .into(tourCreatePackagesViewHolder_1.mRoundedImageView);
             }
-            else{
-                Picasso.get().load(currentItem.getString("background")).placeholder(R.mipmap.ic_launcher).into(tourCreatePackagesViewHolder_1.mRoundedImageView);
-            }
+
             if(!currentItem.getBoolean("is_button_upload")) {
                 tourCreatePackagesViewHolder_1.content_layout.setVisibility(View.GONE);
             }

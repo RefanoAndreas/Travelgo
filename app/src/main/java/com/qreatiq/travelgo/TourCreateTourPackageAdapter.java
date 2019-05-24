@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -27,6 +29,7 @@ public class TourCreateTourPackageAdapter extends RecyclerView.Adapter<TourCreat
         public TextView mTextView2;
         public TextView mTextView3;
         ImageView trash;
+        View v;
 
         public TourCreatePackagesViewHolder(View itemView) {
             super(itemView);
@@ -35,6 +38,7 @@ public class TourCreateTourPackageAdapter extends RecyclerView.Adapter<TourCreat
             mTextView2 = itemView.findViewById(R.id.itemRV_TV_dateFrom_tourCreatePackages_listPackages);
             mTextView3 = itemView.findViewById(R.id.itemRV_TV_dateTo_tourCreatePackages_listPackages);
             trash = itemView.findViewById(R.id.trash);
+            v = itemView;
         }
     }
 
@@ -54,12 +58,15 @@ public class TourCreateTourPackageAdapter extends RecyclerView.Adapter<TourCreat
         JSONObject currentItem = mTourCreatePackagesList_2.get(i);
 
         try {
-            if(currentItem.getString("status").equals("add")) {
-                if (currentItem.get("image") != null)
-                    tourCreatePackagesViewHolder.mRoundedImageView.setImageBitmap((Bitmap) currentItem.get("image"));
-            }
+            if (!currentItem.getBoolean("is_link_image"))
+                tourCreatePackagesViewHolder.mRoundedImageView.setImageBitmap((Bitmap) currentItem.get("image"));
             else{
-                Picasso.get().load(currentItem.getString("image")).placeholder(R.mipmap.ic_launcher).into(tourCreatePackagesViewHolder.mRoundedImageView);
+                Picasso.get()
+                        .load(currentItem.getString("image"))
+                        .placeholder(R.mipmap.ic_launcher)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                        .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
+                        .into(tourCreatePackagesViewHolder.mRoundedImageView);
             }
 
             tourCreatePackagesViewHolder.mTextView1.setText(currentItem.getString("name"));
@@ -67,6 +74,13 @@ public class TourCreateTourPackageAdapter extends RecyclerView.Adapter<TourCreat
             tourCreatePackagesViewHolder.mTextView3.setText(currentItem.getString("start_date"));
 
             tourCreatePackagesViewHolder.trash.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onTrashClick(i);
+                }
+            });
+
+            tourCreatePackagesViewHolder.v.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     clickListener.onItemClick(i);
@@ -84,10 +98,11 @@ public class TourCreateTourPackageAdapter extends RecyclerView.Adapter<TourCreat
     }
 
     public interface ClickListener{
+        void onTrashClick(int position);
         void onItemClick(int position);
     }
 
-    public void setOnTrashClickListner(ClickListener clickListner){
+    public void setOnClickListener(ClickListener clickListner){
         this.clickListener= clickListner;
     }
 }

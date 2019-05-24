@@ -55,15 +55,17 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class TourCreate extends BaseActivity {
 
     private DatePicker datePicker;
-    private Calendar calendar;
+    private Calendar calendar = Calendar.getInstance();
     private EditText dateView;
     private int year = 2019, month = 3, day = 10;
     TextInputEditText location;
@@ -98,7 +100,8 @@ public class TourCreate extends BaseActivity {
 
     Intent intent;
 
-    int CREATE_TOUR_PACKAGE = 1;
+    int CREATE_TOUR_PACKAGE = 1,EDIT_TOUR_PACKAGE = 2, START_DATE = 3, END_DATE = 4, selected_tour_package;
+    Date start_date_data = new Date(),end_date_data = new Date();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +111,8 @@ public class TourCreate extends BaseActivity {
         set_toolbar();
 
         intent = getIntent();
+        if(intent.getStringExtra("type").equals("edit"))
+            setTitle("Edit Package");
 
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("access_token", "Data not found");
@@ -134,6 +139,8 @@ public class TourCreate extends BaseActivity {
         adapter = new TourCreateFacilitiesAdapter(array,TourCreate.this);
         grid.setAdapter(adapter);
 
+
+
         try {
             photo_array.add(new JSONObject("{\"background\": "+R.drawable.upload_photo+", \"is_button_upload\": true}"));
         } catch (JSONException e) {
@@ -153,6 +160,11 @@ public class TourCreate extends BaseActivity {
             public void onItemClick(int position) {
                 if(position == 0)
                     call_media_picker();
+                else{
+                    photo_array.remove(position);
+                    photo_adapter.notifyItemRemoved(position);
+                    photo_adapter.notifyItemRangeRemoved(position,photo_array.size());
+                }
             }
         });
 
@@ -165,9 +177,9 @@ public class TourCreate extends BaseActivity {
         mRecyclerView_2.setLayoutManager(mLayoutManager_2);
         mRecyclerView_2.setAdapter(tour_pack_adapter);
 
-        tour_pack_adapter.setOnTrashClickListner(new TourCreateTourPackageAdapter.ClickListener() {
+        tour_pack_adapter.setOnClickListener(new TourCreateTourPackageAdapter.ClickListener() {
             @Override
-            public void onItemClick(int position) {
+            public void onTrashClick(int position) {
                 tour_pack_array.remove(position);
                 tour_pack_adapter.notifyItemRemoved(position);
                 tour_pack_adapter.notifyItemRangeChanged(position,tour_pack_array.size());
@@ -178,18 +190,32 @@ public class TourCreate extends BaseActivity {
                         check_tour_packages();
                     }
                 }, 500);
+            }
 
+            @Override
+            public void onItemClick(int position) {
+                selected_tour_package = position;
+                startActivityForResult(new Intent(TourCreate.this,TourCreatePackage.class)
+                        .putExtra("type","edit")
+                        .putExtra("data",tour_pack_array.get(position).toString()),
+                        EDIT_TOUR_PACKAGE);
             }
         });
+        check_tour_packages();
 
         getFacilities();
-
 
         start_date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 start_date_layout.setError("");
-                showDialog(999);
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+                Intent in = new Intent(TourCreate.this,DatePickerActivity.class);
+                in.putExtra("start_date",start_date_data.getTime());
+                in.putExtra("end_date",end_date_data.getTime());
+                in.putExtra("isReturn",true);
+                startActivityForResult(in,START_DATE);
             }
         });
 
@@ -197,14 +223,21 @@ public class TourCreate extends BaseActivity {
             @Override
             public void onClick(View v) {
                 end_date_layout.setError("");
-                showDialog(998);
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+                Intent in = new Intent(TourCreate.this,DatePickerActivity.class);
+                in.putExtra("start_date",start_date_data.getTime());
+                in.putExtra("end_date",end_date_data.getTime());
+                in.putExtra("isReturn",true);
+                startActivityForResult(in,END_DATE);
             }
         });
 
         create_tour_pack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(TourCreate.this,TourCreatePackage.class),CREATE_TOUR_PACKAGE);
+                startActivityForResult(new Intent(TourCreate.this,TourCreatePackage.class)
+                        .putExtra("type","add"),CREATE_TOUR_PACKAGE);
             }
         });
 
@@ -349,49 +382,6 @@ public class TourCreate extends BaseActivity {
     }
 
     @Override
-    protected Dialog onCreateDialog(int id) {
-        // TODO Auto-generated method stub
-        if (id == 999) {
-            DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    showDate(year, month+1, dayOfMonth, "start");
-                }
-            }, year, month, day);
-            dialog.getDatePicker().setMinDate(System.currentTimeMillis());
-            return dialog;
-        }
-        else if (id == 998) {
-            DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    showDate(year, month+1, dayOfMonth, "end");
-                }
-            }, year, month, day);
-            dialog.getDatePicker().setMinDate(System.currentTimeMillis());
-            return dialog;
-        }
-        return null;
-    }
-
-    private void showDate(int year, int month, int day, String type) {
-        if(type == "start")
-            start_date.setText(new StringBuilder()
-                    .append(day < 10 ? "0"+day : day)
-                    .append("/")
-                    .append(month < 10 ? "0"+month : month)
-                    .append("/")
-                    .append(year));
-        else
-            end_date.setText(new StringBuilder()
-                    .append(day < 10 ? "0"+day : day)
-                    .append("/")
-                    .append(month < 10 ? "0"+month : month)
-                    .append("/")
-                    .append(year));
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -401,22 +391,46 @@ public class TourCreate extends BaseActivity {
                     JSONObject data_from_facilities = new JSONObject(data.getStringExtra("data"));
 
                     JSONObject json = new JSONObject();
-                    json.put("status", "add");
-                    if(data_from_facilities.has("image")) {
-                        json.put("image", (Bitmap) link.StringToBitMap(data_from_facilities.getString("image")));
-                        json.put("image_data", data_from_facilities.getString("image"));
-                    }
-                    else {
-                        json.put("image", null);
-                        json.put("image_data", null);
-                    }
+                    json.put("image", (Bitmap) StringToBitMap(data_from_facilities.getString("image")));
+                    json.put("image_data", data_from_facilities.getString("image"));
+                    json.put("is_link_image", data_from_facilities.getBoolean("is_link_image"));
                     json.put("name",data_from_facilities.getString("name"));
                     json.put("price",data_from_facilities.getString("price"));
                     json.put("start_date","11/04/2019");
                     json.put("end_date","12/04/2019");
 
                     tour_pack_array.add(json);
-                    tour_pack_adapter.notifyDataSetChanged();
+                    if(tour_pack_array.size() == 0)
+                        tour_pack_adapter.notifyDataSetChanged();
+                    else
+                        tour_pack_adapter.notifyItemInserted(tour_pack_array.size());
+                    check_tour_packages();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            else if(requestCode == EDIT_TOUR_PACKAGE){
+                try {
+                    JSONObject data_from_facilities = new JSONObject(data.getStringExtra("data"));
+
+                    JSONObject json = new JSONObject();
+                    if(!data_from_facilities.getBoolean("is_link_image")) {
+                        json.put("image", (Bitmap) StringToBitMap(data_from_facilities.getString("image")));
+                        json.put("image_data", data_from_facilities.getString("image"));
+                    }
+                    else{
+                        json.put("image", data_from_facilities.getString("image"));
+                        json.put("image_data", data_from_facilities.getString("image"));
+                        json.put("id",data_from_facilities.getString("id"));
+                    }
+                    json.put("is_link_image", data_from_facilities.getBoolean("is_link_image"));
+                    json.put("name",data_from_facilities.getString("name"));
+                    json.put("price",data_from_facilities.getString("price"));
+                    json.put("start_date","11/04/2019");
+                    json.put("end_date","12/04/2019");
+
+                    tour_pack_array.set(selected_tour_package,json);
+                    tour_pack_adapter.notifyItemChanged(selected_tour_package);
                     check_tour_packages();
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -463,14 +477,34 @@ public class TourCreate extends BaseActivity {
                 }
                 bottomSheetDialog.dismiss();
             }
+            else if(requestCode == START_DATE || requestCode == END_DATE){
+                try {
+                    SimpleDateFormat simpledateformat = new SimpleDateFormat("dd/MM/yyyy");
 
+                    JSONArray json = new JSONArray(data.getStringExtra("date"));
 
+                    start_date_data = new Date(json.getLong(0));
+                    end_date_data = new Date(json.getLong(json.length() - 1));
+
+                    showDate(simpledateformat.format(start_date_data), "start");
+                    showDate(simpledateformat.format(end_date_data), "end");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+    }
+
+    private void showDate(String date, String type) {
+        if(type == "start")
+            start_date.setText(date);
+        else
+            end_date.setText(date);
     }
 
     private void createTrip(){
         try {
-            url = link.C_URL+"trip";
+            url = C_URL+"trip";
 
             JSONObject json = new JSONObject();
 
@@ -544,12 +578,15 @@ public class TourCreate extends BaseActivity {
                 }
 //            logLargeString(json.toString());
 
-                Log.d("trippack", array_trip_pack.toString());
+//                Log.d("trippack", json.toString());
 
 
                 final ProgressDialog loading = new ProgressDialog(this);
                 loading.setMax(100);
-                loading.setTitle("Registering");
+                if(intent.getStringExtra("type").equals("edit"))
+                    loading.setTitle("Editing Package");
+                else
+                    loading.setTitle("Creating Package");
                 loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 loading.setCancelable(false);
                 loading.setProgress(0);
@@ -562,6 +599,9 @@ public class TourCreate extends BaseActivity {
                             loading.dismiss();
                             if (response.getString("status").equals("success")) {
                                 onBackPressed();
+                            }
+                            else{
+                                logLargeString(response.toString());
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -576,15 +616,15 @@ public class TourCreate extends BaseActivity {
                         if (error instanceof NetworkError) {
                             message = "Network Error";
                         } else if (error instanceof ServerError) {
-                            message = "Server Detect Error";
+                            message = "Server Error";
                         } else if (error instanceof AuthFailureError) {
-                            message = "Authentication Detect Error";
+                            message = "Authentication Error";
                         } else if (error instanceof ParseError) {
-                            message = "Parse Detect Error";
+                            message = "Parse Error";
                         } else if (error instanceof NoConnectionError) {
                             message = "Connection Missing";
                         } else if (error instanceof TimeoutError) {
-                            message = "Server Detect Timeout Reached";
+                            message = "Server Timeout Reached";
                         }
                         Snackbar snackbar = Snackbar.make(layout, message, Snackbar.LENGTH_LONG);
                         snackbar.show();
@@ -608,7 +648,7 @@ public class TourCreate extends BaseActivity {
     }
 
     private void trip_data(String trip_id){
-        url = link.C_URL+"trip/detail?id="+trip_id;
+        url = C_URL+"trip/detail?id="+trip_id;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -623,6 +663,11 @@ public class TourCreate extends BaseActivity {
                     location.setText(jsonTrip.getJSONObject("city").getString("name"));
                     location_id = jsonTrip.getJSONObject("city").getString("id");
 
+                    String[] start = jsonTrip.getString("start_date_trip").split("/");
+                    String[] end = jsonTrip.getString("end_date_trip").split("/");
+                    start_date_data = new Date(Integer.parseInt(start[2])-1900,Integer.parseInt(start[1])-1,Integer.parseInt(start[0]));
+                    end_date_data = new Date(Integer.parseInt(end[2])-1900,Integer.parseInt(end[1])-1,Integer.parseInt(end[0]));
+
                     JSONArray jsonPhoto = jsonTrip.getJSONArray("photo");
                     JSONArray jsonTripPack = jsonTrip.getJSONArray("trip_pack");
                     JSONArray jsonTripFacilities = jsonTrip.getJSONArray("facilities");
@@ -631,10 +676,11 @@ public class TourCreate extends BaseActivity {
                         JSONObject json = new JSONObject();
 
                         json.put("status", "edit");
-                        urlPhoto = link.C_URL_IMAGES+"trip?image="
+                        urlPhoto = C_URL_IMAGES+"trip?image="
                                 +jsonPhoto.getJSONObject(x).getString("urlPhoto")
                                 +"&mime="+jsonPhoto.getJSONObject(x).getString("mimePhoto");
 
+                        json.put("name_image", jsonPhoto.getJSONObject(x).getString("urlPhoto"));
                         json.put("background",urlPhoto);
                         json.put("is_button_upload",false);
 
@@ -646,12 +692,15 @@ public class TourCreate extends BaseActivity {
                     for(int x=0;x<jsonTripPack.length();x++){
                         JSONObject jsonObject = new JSONObject();
 
-                        urlPhoto = link.C_URL_IMAGES+"trip-pack?image="
+                        urlPhoto = C_URL_IMAGES+"trip-pack?image="
                                 +jsonTripPack.getJSONObject(x).getString("urlPhoto")
                                 +"&mime="+jsonTripPack.getJSONObject(x).getString("mimePhoto");
 
                         jsonObject.put("status", "edit");
+                        jsonObject.put("id", jsonTripPack.getJSONObject(x).getString("id"));
                         jsonObject.put("image", urlPhoto);
+                        jsonObject.put("is_link_image", true);
+
                         jsonObject.put("name",jsonTripPack.getJSONObject(x).getString("name"));
                         jsonObject.put("price",jsonTripPack.getJSONObject(x).getString("price"));
                         jsonObject.put("start_date",jsonTrip.getString("start_date_trip"));

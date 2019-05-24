@@ -48,10 +48,9 @@ public class TourList extends BaseActivity {
     RecyclerView.LayoutManager mLayoutManager;
     String url, userID, urlPhoto;
     SharedPreferences user_id;
-    RequestQueue requestQueue;
     ArrayList<JSONObject> tourListPackagesList = new ArrayList<>();
     FloatingActionButton fabAdd;
-    TextView TV_alert;
+    TextView no_trip,no_tour;
 
     RecyclerViewSkeletonScreen skeletonScreen;
 
@@ -65,13 +64,12 @@ public class TourList extends BaseActivity {
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("access_token", "No data found");
 
-        requestQueue = Volley.newRequestQueue(this);
-
         mRecyclerView = findViewById(R.id.RV_tourListPackages);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mAdapter = new TourListAdapter(tourListPackagesList, this);
-        TV_alert = (TextView)findViewById(R.id.TV_alert);
+        no_trip = (TextView)findViewById(R.id.no_trip);
+        no_tour = (TextView)findViewById(R.id.no_tour);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -104,6 +102,8 @@ public class TourList extends BaseActivity {
                                     tourListPackagesList.remove(pos);
                                     mAdapter.notifyItemRemoved(pos);
                                     mAdapter.notifyItemRangeRemoved(pos,tourListPackagesList.size());
+
+                                    check_data();
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -133,6 +133,17 @@ public class TourList extends BaseActivity {
         getTrip();
     }
 
+    private void check_data(){
+        if(tourListPackagesList.size() > 0){
+            no_trip.setVisibility(View.GONE);
+            no_tour.setVisibility(View.GONE);
+        }
+        else{
+            no_trip.setVisibility(View.VISIBLE);
+            no_tour.setVisibility(View.GONE);
+        }
+    }
+
     private void getTrip(){
         tourListPackagesList.clear();
         url = C_URL+"trip";
@@ -143,11 +154,6 @@ public class TourList extends BaseActivity {
                 try {
                     if(!response.isNull("tour")) {
                         JSONArray jsonArray = response.getJSONArray("trip");
-
-                        if(jsonArray.length() == 0){
-                            TV_alert.setVisibility(View.VISIBLE);
-                            TV_alert.setText("No Trip Available");
-                        }
 
                         for (int x = 0; x < jsonArray.length(); x++) {
                             JSONObject jsonObject = new JSONObject();
@@ -169,10 +175,13 @@ public class TourList extends BaseActivity {
                                 mAdapter.notifyDataSetChanged();
 //                        mAdapter.notifyItemRangeChanged(x, tourListPackagesList.size());
                         }
+
+                        check_data();
                     }
                     else{
                         fabAdd.hide();
-                        TV_alert.setVisibility(View.VISIBLE);
+                        no_tour.setVisibility(View.VISIBLE);
+                        no_trip.setVisibility(View.GONE);
                     }
                     skeletonScreen.hide();
                 } catch (JSONException e) {
