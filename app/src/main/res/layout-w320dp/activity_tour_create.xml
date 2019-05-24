@@ -35,7 +35,7 @@
                     android:id="@+id/RV_tourCreatePackages_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="true"
+                    android:nestedScrollingEnabled="false"
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"/>
                 <TextView

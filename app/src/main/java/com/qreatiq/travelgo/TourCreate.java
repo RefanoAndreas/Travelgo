@@ -388,6 +388,7 @@ public class TourCreate extends BaseActivity {
         if(resultCode == RESULT_OK){
             if(requestCode == CREATE_TOUR_PACKAGE){
                 try {
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                     JSONObject data_from_facilities = new JSONObject(data.getStringExtra("data"));
 
                     JSONObject json = new JSONObject();
@@ -396,8 +397,8 @@ public class TourCreate extends BaseActivity {
                     json.put("is_link_image", data_from_facilities.getBoolean("is_link_image"));
                     json.put("name",data_from_facilities.getString("name"));
                     json.put("price",data_from_facilities.getString("price"));
-                    json.put("start_date","11/04/2019");
-                    json.put("end_date","12/04/2019");
+                    json.put("start_date",format.format(start_date_data));
+                    json.put("end_date",format.format(end_date_data));
 
                     tour_pack_array.add(json);
                     if(tour_pack_array.size() == 0)
@@ -411,6 +412,7 @@ public class TourCreate extends BaseActivity {
             }
             else if(requestCode == EDIT_TOUR_PACKAGE){
                 try {
+                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                     JSONObject data_from_facilities = new JSONObject(data.getStringExtra("data"));
 
                     JSONObject json = new JSONObject();
@@ -426,8 +428,8 @@ public class TourCreate extends BaseActivity {
                     json.put("is_link_image", data_from_facilities.getBoolean("is_link_image"));
                     json.put("name",data_from_facilities.getString("name"));
                     json.put("price",data_from_facilities.getString("price"));
-                    json.put("start_date","11/04/2019");
-                    json.put("end_date","12/04/2019");
+                    json.put("start_date",format.format(start_date_data));
+                    json.put("end_date",format.format(end_date_data));
 
                     tour_pack_array.set(selected_tour_package,json);
                     tour_pack_adapter.notifyItemChanged(selected_tour_package);
