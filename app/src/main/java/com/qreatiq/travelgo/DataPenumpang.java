@@ -58,11 +58,13 @@ public class DataPenumpang extends BaseActivity {
 
         Intent i = getIntent();
         final String intentString = i.getStringExtra("packageName");
-        try {
-            data = new JSONObject(i.getStringExtra("data"));
-//            Log.d("data",data.toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+        if(i.hasExtra("data")) {
+            try {
+                data = new JSONObject(i.getStringExtra("data"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         linearBagasi = (LinearLayout)findViewById(R.id.linearBagasi);
@@ -93,15 +95,17 @@ public class DataPenumpang extends BaseActivity {
                 phone_layout.setVisibility(View.GONE);
             }
 
-            try {
-                String title = data.getString("title");
-                if(!title.equals(""))
-                    spinner_titel.setSelection(getIndex(spinner_titel,title));
-                name.setText(data.getString("name"));
-                email.setText(data.getString("email"));
-                phone.setText(data.getString("phone"));
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if(i.hasExtra("data")) {
+                try {
+                    String title = data.getString("title");
+                    if (!title.equals(""))
+                        spinner_titel.setSelection(getIndex(spinner_titel, title));
+                    name.setText(data.getString("name"));
+                    email.setText(data.getString("email"));
+                    phone.setText(data.getString("phone"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
         else if(intentString.equals("flight")){

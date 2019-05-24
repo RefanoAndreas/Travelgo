@@ -25,11 +25,13 @@ import java.util.Date;
 
 public class FilterTour extends BaseActivity {
 
-    TextView minPrice, maxPrice, seeLocation, seeDuration, startDate, endDate;
+    TextView minPrice, maxPrice, seeLocation, seeDuration, startDate, endDate, reset;
     CrystalRangeSeekbar rangeSeekbar;
     private int year = 2019, month = 3, day = 10, START_DATE = 3, END_DATE = 4;
 
     Date start_date = new Date(),end_date = new Date();
+
+    SimpleDateFormat simpleDateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +43,14 @@ public class FilterTour extends BaseActivity {
         rangeSeekbar = (CrystalRangeSeekbar)findViewById(R.id.rangeSeekbarPrice);
         minPrice = (TextView)findViewById(R.id.minimumPrice);
         maxPrice = (TextView)findViewById(R.id.maximumPrice);
+        reset = (TextView)findViewById(R.id.reset);
 
         startDate = (TextView) findViewById(R.id.startDate);
         endDate = (TextView) findViewById(R.id.endDate);
+
+        simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy");
+        showDate(simpleDateFormat.format(start_date),"start");
+        showDate(simpleDateFormat.format(end_date),"end");
 
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
@@ -76,14 +83,26 @@ public class FilterTour extends BaseActivity {
             }
         });
 
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rangeSeekbar.setMinStartValue(0f).apply();
+                rangeSeekbar.setMaxStartValue(300000000f).apply();
+
+                showDate(simpleDateFormat.format(new Date()),"start");
+                showDate(simpleDateFormat.format(new Date()),"end");
+            }
+        });
+
     }
 
     public void startDate(View v){
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         Intent in = new Intent(this,DatePickerActivity.class);
-        in.putExtra("start_date",format.format(start_date));
-        in.putExtra("end_date",format.format(end_date));
+        in.putExtra("start_date",start_date.getTime());
+        in.putExtra("end_date",end_date.getTime());
+        in.putExtra("isReturn",true);
         startActivityForResult(in,START_DATE);
     }
 
@@ -91,58 +110,10 @@ public class FilterTour extends BaseActivity {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
         Intent in = new Intent(this,DatePickerActivity.class);
-        in.putExtra("start_date",format.format(start_date));
-        in.putExtra("end_date",format.format(end_date));
+        in.putExtra("start_date",start_date.getTime());
+        in.putExtra("end_date",end_date.getTime());
+        in.putExtra("isReturn",true);
         startActivityForResult(in,END_DATE);
-    }
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        // TODO Auto-generated method stub
-        if (id == 999) {
-            DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
-                    Date date = new Date(year, month, dayOfMonth-1);
-                    String monthOfYear = simplemonth.format(date);
-                    showDate(year, month+1, dayOfMonth, monthOfYear, "start");
-                }
-            }, year, month, day);
-            dialog.getDatePicker().setMinDate(System.currentTimeMillis());
-            return dialog;
-        }
-        else if (id == 998) {
-            DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                    SimpleDateFormat simplemonth = new SimpleDateFormat("MMM");
-                    Date date = new Date(year, month, dayOfMonth-1);
-                    String monthOfYear = simplemonth.format(date);
-                    showDate(year, month+1, dayOfMonth, monthOfYear, "end");
-                }
-            }, year, month, day);
-            dialog.getDatePicker().setMinDate(System.currentTimeMillis());
-            return dialog;
-        }
-        return null;
-    }
-
-    private void showDate(int year, int month, int day, String month1, String type) {
-        if(type == "start")
-            startDate.setText(new StringBuilder()
-                    .append(day < 10 ? "0"+day : day)
-                    .append(" ")
-                    .append(month1)
-                    .append(" ")
-                    .append(year));
-        else
-            endDate.setText(new StringBuilder()
-                    .append(day < 10 ? "0"+day : day)
-                    .append(" ")
-                    .append(month1)
-                    .append(" ")
-                    .append(year));
     }
 
     @Override
@@ -152,31 +123,27 @@ public class FilterTour extends BaseActivity {
         if(resultCode == RESULT_OK){
             if(requestCode == START_DATE || requestCode == END_DATE){
                 try {
-                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE");
-                    SimpleDateFormat simplemonth = new SimpleDateFormat("mmm");
+                    SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE, d MMM yyyy");
 
                     JSONArray json = new JSONArray(data.getStringExtra("date"));
 
-                    String array0 = json.getString(0);
-                    start_date = new Date(Integer.parseInt(array0.split("-")[2]),
-                            Integer.parseInt(array0.split("-")[1])-1,
-                            Integer.parseInt(array0.split("-")[0]));
-                    String start_dayOfWeek = simpledateformat.format(start_date);
-                    String start_monthOfYear = simplemonth.format(start_date);
+                    start_date = new Date(json.getLong(0));
+                    end_date = new Date(json.getLong(json.length() - 1));
 
-                    String last_array = json.getString(json.length()-1);
-                    end_date = new Date(Integer.parseInt(last_array.split("-")[2]),
-                            Integer.parseInt(last_array.split("-")[1])-1,
-                            Integer.parseInt(last_array.split("-")[0]));
-                    String end_dayOfWeek = simpledateformat.format(end_date);
-                    String end_monthOfYear = simplemonth.format(end_date);
+                    showDate(simpledateformat.format(start_date), "start");
+                    showDate(simpledateformat.format(end_date), "end");
 
-                    showDate(start_date.getYear(),Integer.parseInt(start_monthOfYear),start_date.getDate(),start_monthOfYear,"start");
-                    showDate(end_date.getYear(),Integer.parseInt(end_monthOfYear),end_date.getDate(),end_monthOfYear,"end");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    private void showDate(String date, String type) {
+        if(type == "start")
+            startDate.setText(date);
+        else if(type == "end")
+            endDate.setText(date);
     }
 }

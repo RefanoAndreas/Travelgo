@@ -208,9 +208,16 @@ public class FragmentProfile extends Fragment {
 
     private void logout(){
         url = link.C_URL+"logout";
-        Log.d("user", parent.userID);
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+        JSONObject jsonObject = new JSONObject();
+
+        try {
+            jsonObject.put("token", parent.tokenDevice);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 SharedPreferences.Editor editor = parent.user_id.edit();

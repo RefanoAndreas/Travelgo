@@ -122,26 +122,32 @@ public class CityDetail extends BaseActivity {
         ratingLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                bottomSheetDialog=new BottomSheetDialog(CityDetail.this);
-                View view = View.inflate(CityDetail.this, R.layout.rating_city_detail_modal_fragment, null);
-                bottomSheetDialog.setContentView(view);
-                BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
-                mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                bottomSheetDialog.show();
 
-                final RatingBar ratingBar = (RatingBar) view.findViewById(R.id.rating);
-                MaterialButton submit = (MaterialButton) view.findViewById(R.id.submit);
+                if(!userID.equals("Data not found")) {
+                    bottomSheetDialog = new BottomSheetDialog(CityDetail.this);
+                    View view = View.inflate(CityDetail.this, R.layout.rating_city_detail_modal_fragment, null);
+                    bottomSheetDialog.setContentView(view);
+                    BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
+                    mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    bottomSheetDialog.show();
 
-                submit.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            submit_rating(ratingBar.getRating());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                    final RatingBar ratingBar = (RatingBar) view.findViewById(R.id.rating);
+                    MaterialButton submit = (MaterialButton) view.findViewById(R.id.submit);
+
+                    submit.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                submit_rating(ratingBar.getRating());
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
-                    }
-                });
+                    });
+                }
+                else{
+                    startActivity(new Intent(CityDetail.this, LogIn.class));
+                }
             }
         });
 

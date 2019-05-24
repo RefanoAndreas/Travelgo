@@ -103,6 +103,8 @@ public class LogIn extends BaseActivity {
             public void onSuccess(InstanceIdResult instanceIdResult) {
                 tokenFCM = instanceIdResult.getToken();
 
+                Log.d("token",tokenFCM);
+
                 deviceToken = getSharedPreferences("token", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor1 = deviceToken.edit();
                 editor1.putString("token", tokenFCM);
