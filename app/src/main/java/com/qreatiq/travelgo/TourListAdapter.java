@@ -1,8 +1,10 @@
 package com.qreatiq.travelgo;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +48,7 @@ public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourLi
         public TextView mTextView1;
         public TextView mTextView2;
         public TextView mTextView3;
+        public TextView mTextView4;
         public SwipeLayout swipeLayout;
         ConstraintLayout view_foreground;
         RelativeLayout view_background;
@@ -57,6 +60,7 @@ public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourLi
             mTextView1 = itemView.findViewById(R.id.itemRV_TV_title_tourListPackages);
             mTextView2 = itemView.findViewById(R.id.itemRV_TV_dateFrom_tourListPackages);
             mTextView3 = itemView.findViewById(R.id.itemRV_TV_dateTo_tourListPackages);
+            mTextView4 = itemView.findViewById(R.id.itemRV_TV_status);
 
             view_foreground = itemView.findViewById(R.id.view_foreground);
             view_background = itemView.findViewById(R.id.view_background);
@@ -89,6 +93,14 @@ public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourLi
             tourListPackagesViewHolder.mTextView1.setText(jsonObject.getString("trip_name"));
             tourListPackagesViewHolder.mTextView2.setText(jsonObject.getString("start_date"));
             tourListPackagesViewHolder.mTextView3.setText(jsonObject.getString("end_date"));
+            tourListPackagesViewHolder.mTextView4.setText(jsonObject.getString("status"));
+
+            if(jsonObject.getString("status").equals("Approve")){
+                tourListPackagesViewHolder.mTextView4.setTextColor(Color.parseColor("#0DD32C"));
+            }
+            else if(jsonObject.getString("status").equals("Decline")){
+                tourListPackagesViewHolder.mTextView4.setTextColor(Color.parseColor("#FF0000"));
+            }
 
 
         } catch (JSONException e) {

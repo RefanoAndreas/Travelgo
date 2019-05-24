@@ -257,8 +257,6 @@ public class TransactionDetail extends BaseActivity {
                 try {
                     JSONObject jsonDetail = response.getJSONObject("detail");
 
-                    Log.d("asd", jsonDetail.toString());
-
                     TV_status_transaction.setText(jsonDetail.getString("status"));
                     TV_buy_date.setText(jsonDetail.getString("order_date"));
 
