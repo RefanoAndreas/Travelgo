@@ -1,11 +1,13 @@
 package com.qreatiq.travelgo;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -18,6 +20,8 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -54,6 +58,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -108,6 +113,28 @@ public class TourCreate extends BaseActivity {
         super.onCreate(savedInstanceState);
                 setContentView(R.layout.activity_tour_create);
 
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        20);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
         set_toolbar();
 
         intent = getIntent();
@@ -392,7 +419,8 @@ public class TourCreate extends BaseActivity {
                     JSONObject data_from_facilities = new JSONObject(data.getStringExtra("data"));
 
                     JSONObject json = new JSONObject();
-                    json.put("image", (Bitmap) StringToBitMap(data_from_facilities.getString("image")));
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),Uri.parse(data_from_facilities.getString("image")));
+                    json.put("image", bitmap);
                     json.put("image_data", data_from_facilities.getString("image"));
                     json.put("is_link_image", data_from_facilities.getBoolean("is_link_image"));
                     json.put("name",data_from_facilities.getString("name"));
@@ -408,6 +436,10 @@ public class TourCreate extends BaseActivity {
                     check_tour_packages();
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
             else if(requestCode == EDIT_TOUR_PACKAGE){
@@ -417,7 +449,8 @@ public class TourCreate extends BaseActivity {
 
                     JSONObject json = new JSONObject();
                     if(!data_from_facilities.getBoolean("is_link_image")) {
-                        json.put("image", (Bitmap) StringToBitMap(data_from_facilities.getString("image")));
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),Uri.parse(data_from_facilities.getString("image")));
+                        json.put("image", bitmap);
                         json.put("image_data", data_from_facilities.getString("image"));
                     }
                     else{
@@ -435,6 +468,10 @@ public class TourCreate extends BaseActivity {
                     tour_pack_adapter.notifyItemChanged(selected_tour_package);
                     check_tour_packages();
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
             }

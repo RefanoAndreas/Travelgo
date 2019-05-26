@@ -71,9 +71,11 @@ public class TourCreatePackage extends BaseActivity {
                             .into(image);
                 }
                 else{
-                    image.setImageBitmap((Bitmap) StringToBitMap(data.getString("image_data")));
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),Uri.parse(data.getString("image_data")));
+                    image.setImageBitmap(bitmap);
+                    this.bitmap = bitmap;
                 }
-            } catch (JSONException e) {
+            } catch (JSONException | IOException e) {
                 e.printStackTrace();
             }
         }
@@ -191,7 +193,7 @@ public class TourCreatePackage extends BaseActivity {
             JSONObject json = data;
             try {
                 if(bitmap != null) {
-                    json.put("image", link.BitMapToString(bitmap));
+                    json.put("image", getImageUri(this,bitmap));
                     json.put("is_link_image", false);
                 }
                 else{
