@@ -602,6 +602,12 @@ public class TourCreate extends BaseActivity {
                 snackbar.show();
             }
             else {
+                for(int x=0;x<array_trip_pack.length();x++){
+                    if(!array_trip_pack.getJSONObject(x).getBoolean("is_link_image")) {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), Uri.parse(array_trip_pack.getJSONObject(x).getString("image_data")));
+                        array_trip_pack.getJSONObject(x).put("image", BitMapToString(bitmap,100));
+                    }
+                }
                 json.put("background", array_background);
                 json.put("tripPack", array_trip_pack);
                 json.put("facilities", array_facilities);
@@ -682,6 +688,10 @@ public class TourCreate extends BaseActivity {
                 requestQueue.add(jsonObjectRequest);
             }
         } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
