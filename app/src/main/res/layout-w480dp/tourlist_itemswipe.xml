@@ -19,8 +19,8 @@
             android:layout_height="wrap_content">
             <com.makeramen.roundedimageview.RoundedImageView
                 android:id="@+id/itemRV_RIV_tourListPackages"
-                android:layout_width="88dp"
-                android:layout_height="88dp"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:riv_corner_radius_top_left="8dp"
                 app:riv_corner_radius_bottom_left="8dp"/>

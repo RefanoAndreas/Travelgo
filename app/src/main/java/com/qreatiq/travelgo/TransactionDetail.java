@@ -235,11 +235,13 @@ public class TransactionDetail extends BaseActivity {
             for(int x=0; x<jsonArray.length();x++){
                 JSONObject jsonObject1 = new JSONObject();
 
-                jsonObject1.put("photo", jsonArray.getJSONObject(x).getString("photo"));
-                jsonObject1.put("trip_name", jsonArray.getJSONObject(x).getString("name"));
-                jsonObject1.put("trip_price", jsonArray.getJSONObject(x).getString("price"));
+                if(!jsonArray.getJSONObject(x).getString("qty").equals("0")) {
+                    jsonObject1.put("photo", jsonArray.getJSONObject(x).getString("photo"));
+                    jsonObject1.put("trip_name", jsonArray.getJSONObject(x).getString("name"));
+                    jsonObject1.put("trip_price", jsonArray.getJSONObject(x).getString("price"));
 
-                tripPackList.add(jsonObject1);
+                    tripPackList.add(jsonObject1);
+                }
             }
             mAdapter.notifyDataSetChanged();
         } catch (JSONException e) {
@@ -250,6 +252,8 @@ public class TransactionDetail extends BaseActivity {
     private void detailHistory(){
 
         url = C_URL+"history/detail?id="+sales_id+"&type=tour";
+
+        Log.d("id", sales_id);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -292,10 +296,15 @@ public class TransactionDetail extends BaseActivity {
 
                         tripPackList.add(jsonObject1);
 
-                        if(x > 0)
-                            mAdapter.notifyItemInserted(tripPackList.size());
-                        else
+                        if (x == 0)
                             mAdapter.notifyDataSetChanged();
+                        else
+                            mAdapter.notifyItemInserted(x);
+
+//                        if(x > 0)
+//                            mAdapter.notifyItemInserted(tripPackList.size());
+//                        else
+//                            mAdapter.notifyDataSetChanged();
                     }
 
                     TV_trip_date.setText(jsonTripPack.getJSONObject("trip").getString("trip_date"));

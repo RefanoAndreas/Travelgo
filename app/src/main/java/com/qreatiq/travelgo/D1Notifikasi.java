@@ -185,6 +185,8 @@ public class D1Notifikasi extends BaseActivity {
 
                             JSONObject jsonObject = new JSONObject();
 
+                            Log.d("json", jsonSales.toString());
+
                             jsonObject.put("id", jsonSales.getString("id"));
                             jsonObject.put("date1", jsonSales.getString("buy_date"));
                             jsonObject.put("type", jsonSales.getString("type"));

@@ -37,6 +37,8 @@ public class BottomNavContainer extends BaseActivity {
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("access_token", "Data not found");
 
+        Log.d("user", userID);
+
         deviceToken = getSharedPreferences("token", Context.MODE_PRIVATE);
         tokenDevice = deviceToken.getString("token", "Data not found");
 
