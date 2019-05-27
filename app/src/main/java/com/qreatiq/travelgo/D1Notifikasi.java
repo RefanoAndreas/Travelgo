@@ -3,8 +3,10 @@ package com.qreatiq.travelgo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,6 +43,7 @@ public class D1Notifikasi extends BaseActivity {
     private NotifikasiAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> notifList = new ArrayList<>();
+    SwipeRefreshLayout swipeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,17 @@ public class D1Notifikasi extends BaseActivity {
         else if(dataIntent.equals("purchasing")){
             getSupportActionBar().setTitle("History Purchasing");
         }
+
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
+        swipeLayout.setColorSchemeColors(Color.BLUE, Color.RED);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                notifList.clear();
+                mAdapter.notifyDataSetChanged();
+                history();
+            }
+        });
 
         history();
 
@@ -201,6 +215,7 @@ public class D1Notifikasi extends BaseActivity {
 
                         }
                     }
+                    swipeLayout.setRefreshing(false);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

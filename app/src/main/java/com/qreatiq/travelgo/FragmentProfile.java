@@ -225,7 +225,7 @@ public class FragmentProfile extends Fragment {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                SharedPreferences.Editor editor = parent.user_id.edit();
+                SharedPreferences.Editor editor = parent.base_shared_pref.edit();
                 editor.clear().commit();
 
                 FacebookSdk.sdkInitialize(getActivity());

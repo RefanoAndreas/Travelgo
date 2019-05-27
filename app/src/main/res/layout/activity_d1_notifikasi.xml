@@ -31,28 +31,16 @@
         app:layout_constraintTop_toBottomOf="@id/d1_toolbar"
         android:background="@drawable/shadow_uptodown"/>
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:id="@+id/swipe"
         app:layout_constraintTop_toBottomOf="@id/d1_toolbar"
         app:layout_constraintBottom_toBottomOf="parent">
-
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/RV_notif"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/RV_notif"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <!--<include layout="@layout/d1_notifikasi_item"/>-->
-
-        </LinearLayout>
-
-    </android.support.v4.widget.NestedScrollView>
+            android:layout_height="wrap_content"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.constraint.ConstraintLayout>
