@@ -18,6 +18,8 @@ import android.view.View;
 
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
+import org.json.JSONObject;
+
 public class BottomNavContainer extends BaseActivity {
 
     String id_loc, userID, tokenDevice;
@@ -69,6 +71,9 @@ public class BottomNavContainer extends BaseActivity {
         if(selectedFragment instanceof FragmentHome){
             fragmentHome.getLocation();
         }
+        else if(selectedFragment instanceof FragmentTour){
+//            fragmentTour.tourFilterBtn.setImageDrawable(getResources().getDrawable(R.drawable.ic_filter_list_black_24dp));
+        }
     }
 
     @Override
@@ -79,13 +84,6 @@ public class BottomNavContainer extends BaseActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
@@ -104,6 +102,8 @@ public class BottomNavContainer extends BaseActivity {
                             break;
                         case R.id.nav_tour:
                             selectedFragment = fragmentTour;
+                            fragmentTour.filter = new JSONObject();
+
                             break;
                         case R.id.nav_notification:
                             if(!userID.equals("Data not found")) {

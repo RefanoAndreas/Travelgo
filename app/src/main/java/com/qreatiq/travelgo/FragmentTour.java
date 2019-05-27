@@ -48,15 +48,17 @@ public class FragmentTour extends Fragment {
     private TourAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> tourList = new ArrayList<>();
-    String url, urlPhoto;
+    JSONObject filter = new JSONObject();
+    String url;
     String loc_id="";
     TextView search;
     ImageView tourFilterBtn;
     SwipeRefreshLayout swipeLayout;
 
-    int SEARCH_TOUR = 1;
+    int SEARCH_TOUR = 1, FILTER_TOUR = 2;
 
     Intent intent;
+    String intentString;
 
     BottomNavContainer parent;
 
@@ -120,7 +122,10 @@ public class FragmentTour extends Fragment {
         tourFilterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), FilterTour.class));
+                startActivityForResult(
+                        new Intent(getActivity(), FilterTour.class)
+                        .putExtra("filter",filter.toString()),
+                        FILTER_TOUR);
             }
         });
 
@@ -132,14 +137,45 @@ public class FragmentTour extends Fragment {
 
         if(resultCode == RESULT_OK){
             if(requestCode == SEARCH_TOUR){
+                search.setText(data.getStringExtra("location_label"));
                 loc_id = data.getStringExtra("location");
+                getTrip();
+            }
+            else if(requestCode == FILTER_TOUR){
+                try {
+                    filter = new JSONObject(data.getStringExtra("filter"));
+
+                    String uri = "@drawable/ic_filter_list_primary_24dp";
+                    int imageResource = getResources().getIdentifier(uri, null, getActivity().getPackageName());
+                    tourFilterBtn.setImageDrawable(getResources().getDrawable(imageResource));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 getTrip();
             }
         }
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
+
     public void getTrip(){
         url = parent.C_URL+"tour/trip?loc_id="+loc_id;
+
+        if(!filter.toString().equals("{}")){
+            try {
+                url += "&start_date="+filter.getString("start_date");
+                url += "&end_date="+filter.getString("end_date");
+                url += "&max_price="+filter.getLong("max_price");
+                url += "&min_price="+filter.getLong("min_price");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        Log.d("url",url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

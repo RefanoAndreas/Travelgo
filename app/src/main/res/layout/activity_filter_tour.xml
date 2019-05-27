@@ -44,7 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
-        app:layout_constraintBottom_toTopOf="@id/submit_saveChanges_filterTour"
+        app:layout_constraintBottom_toTopOf="@id/submit"
         android:layout_marginTop="16dp">
         <LinearLayout
             android:layout_width="match_parent"
@@ -214,8 +214,8 @@
                         app:data_type="_integer"
                         app:gap="200000"
                         app:left_thumb_color="#0E64FF"
-                        app:max_value="3000000"
-                        app:min_value="300000"
+                        app:max_value="30000000"
+                        app:min_value="0"
                         app:right_thumb_image="@drawable/crystalrange_rightthumb"
                         app:left_thumb_image="@drawable/crystalrange_leftthumb"/>
 
@@ -257,6 +257,7 @@
                         <android.support.design.chip.ChipGroup
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/location"
                             android:layout_marginTop="10dp">
 
                             <android.support.design.chip.Chip
@@ -348,9 +349,14 @@
                             android:textSize="12dp"/>
 
                     </LinearLayout>
-                    <android.support.design.chip.ChipGroup
+                    <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:scrollbars="none">
+                        <android.support.design.chip.ChipGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/time_range"
                         android:layout_marginTop="10dp">
 
                         <android.support.design.chip.Chip
@@ -359,6 +365,7 @@
                             android:text="4 Hari 3 Malam"
                             android:textColor="#424242"
                             android:textSize="12dp"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
                             app:chipBackgroundColor="@android:color/white"
                             app:chipCornerRadius="10dp"
                             app:chipStrokeColor="#707070"
@@ -369,6 +376,7 @@
                             android:text="3 Hari 2 Malam"
                             android:textColor="#424242"
                             android:textSize="12dp"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
                             app:chipBackgroundColor="@android:color/white"
                             app:chipCornerRadius="10dp"
                             app:chipStrokeColor="#707070"
@@ -379,13 +387,14 @@
                             android:text="2 Hari 1 Malam"
                             android:textColor="#424242"
                             android:textSize="12dp"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
                             app:chipBackgroundColor="@android:color/white"
                             app:chipCornerRadius="10dp"
                             app:chipStrokeColor="#707070"
                             app:chipStrokeWidth="1dp" />
 
                     </android.support.design.chip.ChipGroup>
-
+                    </HorizontalScrollView>
                 </LinearLayout>
             </LinearLayout>
 
@@ -400,7 +409,7 @@
         android:background="@drawable/shadow_uptodown"/>
 
     <android.support.design.button.MaterialButton
-        android:id="@+id/submit_saveChanges_filterTour"
+        android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

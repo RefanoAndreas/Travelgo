@@ -109,7 +109,7 @@
         android:background="@drawable/shadow_uptodown"/>
 
     <android.support.design.button.MaterialButton
-        android:id="@+id/submit_saveChanges_filterTourLoc"
+        android:id="@+id/submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

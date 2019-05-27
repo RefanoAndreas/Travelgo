@@ -1,23 +1,48 @@
 package com.qreatiq.travelgo;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.button.MaterialButton;
+import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.qreatiq.travelgo.Utils.BaseActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
 public class FilterTourLocation extends BaseActivity {
 
     GridView gridViewLocation;
-    ArrayList<String> arrayLocation = new ArrayList<String>();
-    ArrayList<String> arrayLocationTemp = new ArrayList<String>();
+    ArrayList<JSONObject> arrayLocation = new ArrayList<JSONObject>();
+    ArrayList<JSONObject> arrayData = new ArrayList<JSONObject>();
     FilterTourLocationAdapter adapter;
+    JSONArray data_from_intent = new JSONArray();
 
     EditText tour_search;
+
+    MaterialButton submit;
+    boolean from_system = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,22 +53,55 @@ public class FilterTourLocation extends BaseActivity {
 
         gridViewLocation = (GridView) findViewById(R.id.GV_selectLocation);
         tour_search = (EditText) findViewById(R.id.tour_search);
+        submit = (MaterialButton) findViewById(R.id.submit);
 
-        arrayLocation.add("Ubud");
-        arrayLocation.add("Kuta");
-        arrayLocation.add("Jimbaran");
-        arrayLocation.add("Legian");
-        arrayLocation.add("Uluwatu");
-        arrayLocation.add("Kintamani");
-        arrayLocation.add("GWK");
-        arrayLocation.add("Bedugul");
-        arrayLocation.add("Denpasar");
+        get_visit_place("");
 
-        for(int x=0;x<arrayLocation.size();x++)
-            arrayLocationTemp.add(arrayLocation.get(x));
+        if(!getIntent().getStringExtra("location").equals("[]")) {
+            try {
+                data_from_intent = new JSONArray(getIntent().getStringExtra("location"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        for(int x=0;x<data_from_intent.length();x++) {
+            try {
+                arrayData.add(data_from_intent.getJSONObject(x));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
 
         adapter = new FilterTourLocationAdapter(arrayLocation,this);
         gridViewLocation.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new FilterTourLocationAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position, boolean isChecked) {
+                try {
+                    if(position <= arrayLocation.size()-1) {
+                        if (arrayLocation.get(position).has("from_system") && arrayLocation.get(position).getBoolean("from_system")) {
+                            arrayLocation.get(position).put("from_system", false);
+                            adapter.notifyDataSetChanged();
+                            return;
+                        }
+                        JSONObject json = new JSONObject();
+                        json.put("id", arrayLocation.get(position).getString("id"));
+
+                        if (!isChecked) {
+                            for (int x = 0; x < arrayData.size(); x++) {
+                                if (json.toString().equals(arrayData.get(x)))
+                                    arrayData.remove(x);
+                            }
+                        } else
+                            arrayData.add(json);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         tour_search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -53,22 +111,29 @@ public class FilterTourLocation extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Boolean flag = false;
-                arrayLocation.clear();
-                for (int x = 0; x < arrayLocationTemp.size(); x++)
-                    arrayLocation.add(arrayLocationTemp.get(x));
-                while (!flag) {
-                    flag = true;
-                    for (int x = 0; x < arrayLocation.size(); x++) {
-
-                        if (!arrayLocation.get(x).toLowerCase().contains(s.toString().toLowerCase())) {
-                            arrayLocation.remove(x);
-                            flag = false;
-                            break;
-                        }
-                    }
-                }
-                adapter.notifyDataSetChanged();
+                get_visit_place(s.toString());
+//                try {
+//                    Boolean flag = false;
+//                    arrayLocation.clear();
+//                    adapter.notifyDataSetChanged();
+//                    for (int x = 0; x < arrayLocationTemp.size(); x++)
+//                        arrayLocation.add(arrayLocationTemp.get(x));
+//                    while (!flag) {
+//                        flag = true;
+//                        for (int x = 0; x < arrayLocation.size(); x++) {
+//                            if (!arrayLocation.get(x).getString("label").toLowerCase().contains(s.toString().toLowerCase())) {
+//                                arrayLocation.remove(x);
+//                                flag = false;
+//                                break;
+//                            }
+//                        }
+//                    }
+//                    from_system = false;
+//                    adapter.notifyDataSetChanged();
+//                    Log.d("data",arrayLocationTemp.toString());
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//                }
             }
 
             @Override
@@ -76,5 +141,82 @@ public class FilterTourLocation extends BaseActivity {
 
             }
         });
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("data",arrayData.toString());
+                Intent i = new Intent();
+                i.putExtra("location", arrayData.toString());
+                setResult(RESULT_OK, i);
+                finish();
+            }
+        });
+    }
+
+    private void get_visit_place(String search){
+        String url = C_URL+"tour/visit-place?search="+search;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    arrayLocation.clear();
+                    adapter.notifyDataSetChanged();
+
+                    JSONArray jsonArray = response.getJSONArray("place_visit");
+                    for(int x=0; x<jsonArray.length(); x++){
+                        JSONObject jsonObject = new JSONObject();
+
+                        jsonObject.put("label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
+                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
+                        jsonObject.put("checked", false);
+
+
+                        for(int y=0;y<arrayData.size();y++) {
+                            if (arrayData.get(y).getString("id").equals(jsonArray.getJSONObject(x).getString("id"))) {
+                                jsonObject.put("checked", true);
+                                jsonObject.put("from_system", true);
+                                break;
+                            }
+                        }
+
+
+                        arrayLocation.add(jsonObject);
+                    }
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
     }
 }

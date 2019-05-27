@@ -82,6 +82,7 @@ public class SearchTour extends BaseActivity {
                 try {
                     Intent i = new Intent();
                     i.putExtra("location", search_array.get(position).getString("id"));
+                    i.putExtra("location_label", search_array.get(position).getString("name"));
                     setResult(RESULT_OK, i);
                     finish();
                 } catch (JSONException e) {
@@ -96,6 +97,7 @@ public class SearchTour extends BaseActivity {
                 try {
                     Intent i = new Intent();
                     i.putExtra("location", spotList.get(position).getString("id"));
+                    i.putExtra("location_label", spotList.get(position).getString("name")+", "+spotList.get(position).getString("subtitle"));
                     setResult(RESULT_OK, i);
                     finish();
                 } catch (JSONException e) {
