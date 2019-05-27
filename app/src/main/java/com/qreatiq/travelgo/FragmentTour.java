@@ -49,7 +49,7 @@ public class FragmentTour extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> tourList = new ArrayList<>();
     JSONObject filter = new JSONObject();
-    String url;
+    String url,urlPhoto;
     String loc_id="";
     TextView search;
     ImageView tourFilterBtn;
