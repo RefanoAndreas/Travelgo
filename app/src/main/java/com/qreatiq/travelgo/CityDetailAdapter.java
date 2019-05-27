@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
-import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -23,10 +22,6 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class CityDetailAdapter extends RecyclerView.Adapter<CityDetailAdapter.CityDetailPackagesViewHolder> {
 
@@ -64,31 +59,8 @@ public class CityDetailAdapter extends RecyclerView.Adapter<CityDetailAdapter.Ci
     public void onBindViewHolder(@NonNull CityDetailPackagesViewHolder cityDetailPackagesViewHolder, int i) {
         final JSONObject jsonObject = CityDetailItem.get(i);
 
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request newRequest = null;
-                        try {
-                            newRequest = chain.request().newBuilder()
-                                    .addHeader("Content-Type", "application/json")
-                                    .addHeader("Accept", "application/json")
-                                    .addHeader("Authorization", jsonObject.getString("user"))
-                                    .build();
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        return chain.proceed(newRequest);
-                    }
-                })
-                .build();
-
-        Picasso picasso = new Picasso.Builder(context)
-                .downloader(new OkHttp3Downloader(client))
-                .build();
-
         try {
-            picasso.load(jsonObject.getString("photo"))
+            Picasso.get().load(jsonObject.getString("photo"))
                     .placeholder(R.mipmap.ic_launcher)
                     .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)

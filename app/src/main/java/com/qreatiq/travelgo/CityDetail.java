@@ -47,11 +47,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.qreatiq.travelgo.Utils.BaseActivity;
-import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
-import com.synnapps.carouselview.ViewListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -62,15 +60,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-
 
 public class CityDetail extends BaseActivity {
 
     CarouselView carouselView;
-    int[] sampleImages = {R.drawable.background2, R.drawable.background3, R.drawable.background4, R.drawable.background5, R.drawable.background6};
-
     ArrayList<JSONObject> locPhoto = new ArrayList<>();
 
     private RecyclerView mRecyclerView;
@@ -81,7 +74,6 @@ public class CityDetail extends BaseActivity {
     RatingBar rating;
     ObjectAnimator animator;
     LinearLayout ratingLoc;
-    BottomSheetDialog modal;
     String userID;
     SharedPreferences user_id;
     ArrayList<JSONObject> cityList = new ArrayList<>();
@@ -199,28 +191,10 @@ public class CityDetail extends BaseActivity {
     ImageListener imageListener = new ImageListener() {
         @Override
         public void setImageForPosition(int position, ImageView imageView) {
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .addInterceptor(new Interceptor() {
-                        @Override
-                        public okhttp3.Response intercept(Chain chain) throws IOException {
-                            okhttp3.Request newRequest = null;
-                            newRequest = chain.request().newBuilder()
-                                    .addHeader("Content-Type", "application/json")
-                                    .addHeader("Accept", "application/json")
-                                    .addHeader("Authorization", userID)
-                                    .build();
-                            return chain.proceed(newRequest);
-                        }
-                    })
-                    .build();
-
-            Picasso picasso = new Picasso.Builder(CityDetail.this)
-                    .downloader(new OkHttp3Downloader(client))
-                    .build();
 
             try {
                 urlPhoto = C_URL_IMAGES+"location?image="+locPhoto.get(position).getString("urlPhoto")+"&mime="+locPhoto.get(position).getString("mimePhoto");
-                picasso.load(urlPhoto).placeholder(R.mipmap.ic_launcher).into(imageView);
+                Picasso.get().load(urlPhoto).placeholder(R.mipmap.ic_launcher).into(imageView);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -308,8 +282,11 @@ public class CityDetail extends BaseActivity {
 
                     cityList.clear();
                     for(int x=0;x<jsonArrayVisitPlace.length();x++){
-                        urlPhoto = C_URL_IMAGES+"location?image="+jsonArrayVisitPlace.getJSONObject(x).getString("urlPhoto")+
+                        urlPhoto = C_URL_IMAGES+"place-visit?image="+jsonArrayVisitPlace.getJSONObject(x).getString("urlPhoto")+
                                 "&mime="+jsonArrayVisitPlace.getJSONObject(x).getString("mimePhoto");
+
+                        Log.d("photo", urlPhoto);
+
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("photo", urlPhoto);
                         jsonObject.put("name", jsonArrayVisitPlace.getJSONObject(x).getString("name"));

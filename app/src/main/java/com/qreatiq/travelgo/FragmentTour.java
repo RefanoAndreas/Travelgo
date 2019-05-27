@@ -148,14 +148,19 @@ public class FragmentTour extends Fragment {
                     tourList.clear();
                     mAdapter.notifyDataSetChanged();
                     JSONArray jsonArray = response.getJSONArray("trip");
+
                     for(int x=0; x<jsonArray.length(); x++){
 
                         JSONObject jsonObject = new JSONObject();
 
-                        urlPhoto = parent.C_URL_IMAGES + "trip?image=" + jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(x).getString("urlPhoto")
-                                +"&mime="+jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(x).getString("mimePhoto");
+                        ArrayList<JSONObject> photo = new ArrayList<JSONObject>();
+                        for(int y=0;y<jsonArray.getJSONObject(x).getJSONArray("photo").length();y++){
+                            urlPhoto = parent.C_URL_IMAGES + "trip?image=" + jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(y).getString("urlPhoto")
+                                +"&mime="+jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(y).getString("mimePhoto");;
+                            photo.add(new JSONObject("{\"name\":\""+urlPhoto+"\"}"));
+                        }
 
-                        jsonObject.put("photo", urlPhoto);
+                        jsonObject.put("photo", new JSONArray(photo.toString()));
                         jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
                         jsonObject.put("trip_name", jsonArray.getJSONObject(x).getString("name"));
                         jsonObject.put("trip_price", jsonArray.getJSONObject(x).getString("trip_price"));
