@@ -212,7 +212,7 @@ public class FragmentProfile extends Fragment {
     }
 
     private void logout(){
-        url = link.C_URL+"logout";
+        url = parent.C_URL+"logout";
 
         JSONObject jsonObject = new JSONObject();
 
@@ -274,7 +274,7 @@ public class FragmentProfile extends Fragment {
     }
 
     private void user(){
-        url = link.C_URL+"profile";
+        url = parent.C_URL+"profile";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

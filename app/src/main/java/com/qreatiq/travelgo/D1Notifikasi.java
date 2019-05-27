@@ -99,11 +99,11 @@ public class D1Notifikasi extends BaseActivity {
 
     private void history(){
         if(dataIntent.equals("purchasing"))
-            url = link.C_URL+"history-purchasing";
+            url = C_URL+"history-purchasing";
         else if(dataIntent.equals("sales"))
-            url = link.C_URL+"history-sales";
+            url = C_URL+"history-sales";
         else
-            url = link.C_URL+"history";
+            url = C_URL+"history";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

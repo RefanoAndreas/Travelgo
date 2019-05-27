@@ -219,7 +219,7 @@ public class CityDetail extends BaseActivity {
                     .build();
 
             try {
-                urlPhoto = link.C_URL_IMAGES+"location?image="+locPhoto.get(position).getString("urlPhoto")+"&mime="+locPhoto.get(position).getString("mimePhoto");
+                urlPhoto = C_URL_IMAGES+"location?image="+locPhoto.get(position).getString("urlPhoto")+"&mime="+locPhoto.get(position).getString("mimePhoto");
                 picasso.load(urlPhoto).placeholder(R.mipmap.ic_launcher).into(imageView);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -308,7 +308,7 @@ public class CityDetail extends BaseActivity {
 
                     cityList.clear();
                     for(int x=0;x<jsonArrayVisitPlace.length();x++){
-                        urlPhoto = link.C_URL_IMAGES+"location?image="+jsonArrayVisitPlace.getJSONObject(x).getString("urlPhoto")+
+                        urlPhoto = C_URL_IMAGES+"location?image="+jsonArrayVisitPlace.getJSONObject(x).getString("urlPhoto")+
                                 "&mime="+jsonArrayVisitPlace.getJSONObject(x).getString("mimePhoto");
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("photo", urlPhoto);

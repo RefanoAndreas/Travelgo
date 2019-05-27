@@ -48,7 +48,7 @@ public class FragmentTour extends Fragment {
     private TourAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> tourList = new ArrayList<>();
-    String url;
+    String url, urlPhoto;
     String loc_id="";
     TextView search;
     ImageView tourFilterBtn;
@@ -57,7 +57,6 @@ public class FragmentTour extends Fragment {
     int SEARCH_TOUR = 1;
 
     Intent intent;
-    String intentString;
 
     BottomNavContainer parent;
 
@@ -153,7 +152,10 @@ public class FragmentTour extends Fragment {
 
                         JSONObject jsonObject = new JSONObject();
 
-                        jsonObject.put("photo", jsonArray.getJSONObject(x).getJSONArray("photo"));
+                        urlPhoto = parent.C_URL_IMAGES + "trip?image=" + jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(x).getString("urlPhoto")
+                                +"&mime="+jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(x).getString("mimePhoto");
+
+                        jsonObject.put("photo", urlPhoto);
                         jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
                         jsonObject.put("trip_name", jsonArray.getJSONObject(x).getString("name"));
                         jsonObject.put("trip_price", jsonArray.getJSONObject(x).getString("trip_price"));

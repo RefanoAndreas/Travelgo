@@ -78,7 +78,7 @@ public class DetailTourTransaction extends BaseActivity {
     }
 
     private void detail(){
-        url = link.C_URL+"history/detail?id="+dataIntent+"&type=tour";
+        url = C_URL+"history/detail?id="+dataIntent+"&type=tour";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

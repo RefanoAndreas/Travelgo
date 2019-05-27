@@ -82,19 +82,6 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesVi
     @Override
     public void onBindViewHolder(final TourPackagesViewHolder tourPackagesViewHolder, int i) {
         final JSONObject jsonObject = mTourPackagesList.get(i);
-//        skeleton = Skeleton.bind(tourPackagesViewHolder.carouselView).load(R.layout.skeleton_tour_edit).show();
-
-//        tourPackagesViewHolder.mTextView1.setText(currentItem.getText1());
-//        tourPackagesViewHolder.mTextView2.setText(currentItem.getText2());
-//        tourPackagesViewHolder.mTextView3.setText(currentItem.getText3());
-//        tourPackagesViewHolder.carouselView.setPageCount(currentItem.getImageCarousel().length);
-//
-//        tourPackagesViewHolder.carouselView.setImageListener(new ImageListener() {
-//            @Override
-//            public void setImageForPosition(int position, ImageView imageView) {
-//                imageView.setImageResource(currentItem.getImageCarousel()[position]);
-//            }
-//        });
 
         try {
             tourPackagesViewHolder.mTextView1.setText(jsonObject.getString("trip_name"));
@@ -113,8 +100,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesVi
                     try {
 
                         Picasso.get()
-                                .load(link.C_URL_IMAGES + "trip?image=" + jsonObject.getJSONArray("photo").getJSONObject(position).getString("urlPhoto")
-                                        +"&mime="+jsonObject.getJSONArray("photo").getJSONObject(position).getString("mimePhoto"))
+                                .load(jsonObject.getString("photo"))
                                 .placeholder(R.mipmap.ic_launcher)
                                 .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
                                 .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)

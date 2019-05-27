@@ -140,7 +140,7 @@ public class FragmentHome extends Fragment {
                     homeList.clear();
                     JSONArray jsonArray = response.getJSONArray("location");
                     for(int x=0; x<jsonArray.length(); x++){
-                        urlPhoto = link.C_URL_IMAGES+"location?image="+jsonArray.getJSONObject(x).getString("urlPhoto")+
+                        urlPhoto = parent.C_URL_IMAGES+"location?image="+jsonArray.getJSONObject(x).getString("urlPhoto")+
                                 "&mime="+jsonArray.getJSONObject(x).getString("mimePhoto");
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("photo", urlPhoto);

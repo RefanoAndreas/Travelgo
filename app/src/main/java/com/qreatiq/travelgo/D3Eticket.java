@@ -141,7 +141,7 @@ public class D3Eticket extends BaseActivity {
     }
 
     private void eTicket(){
-        url = link.C_URL+"eTicket?id="+sales_detail_id+"&type="+type;
+        url = C_URL+"eTicket?id="+sales_detail_id+"&type="+type;
 
         if(type.equals("flight")) {
             flight_train.setVisibility(View.VISIBLE);

@@ -17,6 +17,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
@@ -108,6 +110,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
             Picasso.get()
                     .load(jsonObject.getString("photo"))
                     .placeholder(R.mipmap.ic_launcher)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                     .into(homePackagesViewHolder.mRoundedImageView);
 
             homePackagesViewHolder.mTextView1.setText(jsonObject.getString("name"));

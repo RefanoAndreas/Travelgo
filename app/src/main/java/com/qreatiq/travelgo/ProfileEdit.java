@@ -116,7 +116,7 @@ public class ProfileEdit extends BaseActivity {
     }
 
     private void getUserInfo(){
-        url = link.C_URL+"profile";
+        url = C_URL+"profile";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -178,7 +178,7 @@ public class ProfileEdit extends BaseActivity {
         else if(phone.getText().toString().equals(""))
             phoneLayout.setError("Phone is empty");
         else {
-            url = link.C_URL + "profile";
+            url = C_URL + "profile";
 
             JSONObject jsonObject = new JSONObject();
             try {

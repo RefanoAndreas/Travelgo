@@ -244,7 +244,7 @@ public class TourDetail extends BaseActivity {
 //            imageView.setImageResource(sampleImages[position]);
             try {
                 Picasso.get()
-                        .load(link.C_URL_IMAGES + "trip?image=" + arrayPhoto.get(position).getString("urlPhoto")
+                        .load(C_URL_IMAGES + "trip?image=" + arrayPhoto.get(position).getString("urlPhoto")
                                 +"&mime="+arrayPhoto.get(position).getString("mimePhoto"))
                         .placeholder(R.mipmap.ic_launcher)
                         .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
@@ -257,7 +257,7 @@ public class TourDetail extends BaseActivity {
     };
 
     public void detailLocation(){
-        url = link.C_URL+"tour/trip/detail?id="+trip_id;
+        url = C_URL+"tour/trip/detail?id="+trip_id;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -289,7 +289,7 @@ public class TourDetail extends BaseActivity {
                         JSONArray jsonArray = jsonObject.getJSONArray("trip_pack");
 
                         JSONObject jsonObject1 = new JSONObject();
-                        urlPhoto = link.C_URL_IMAGES+"trip-pack?image="
+                        urlPhoto = C_URL_IMAGES+"trip-pack?image="
                                 +jsonArray.getJSONObject(x).getString("urlPhoto")
                                 +"&mime="+jsonArray.getJSONObject(x).getString("mimePhoto");
 

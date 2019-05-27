@@ -119,7 +119,7 @@ public class TourEdit extends BaseActivity {
                         tour_id = respon.getString("id");
 
                         Picasso.get()
-                                .load(link.C_URL_IMAGES + "tour?image=" + respon.getString("urlPhoto")+"&mime="+respon.getString("mimePhoto"))
+                                .load(C_URL_IMAGES + "tour?image=" + respon.getString("urlPhoto")+"&mime="+respon.getString("mimePhoto"))
                                 .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
                                 .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
                                 .into(imageView, new Callback() {

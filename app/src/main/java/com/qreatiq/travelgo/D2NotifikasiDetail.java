@@ -96,7 +96,7 @@ public class D2NotifikasiDetail extends BaseActivity {
 
     private void detail(){
 
-        url = link.C_URL+"history/detail?id="+sales_id+"&type="+type;
+        url = C_URL+"history/detail?id="+sales_id+"&type="+type;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

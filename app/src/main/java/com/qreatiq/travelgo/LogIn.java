@@ -171,7 +171,7 @@ public class LogIn extends BaseActivity {
     }
 
     private void loginFB(JSONObject object){
-        url = link.C_URL+"loginFB";
+        url = C_URL+"loginFB";
 
         try {
             object.put("token", tokenFCM);
@@ -225,7 +225,7 @@ public class LogIn extends BaseActivity {
             emailLayout.setError("Email is not in email format");
         }
         else {
-            url = link.C_URL + "login";
+            url = C_URL + "login";
 
             JSONObject jsonObject = new JSONObject();
             try {

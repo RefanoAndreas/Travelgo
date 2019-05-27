@@ -333,7 +333,7 @@ public class TourCreate extends BaseActivity {
     }
 
     private void getFacilities(){
-        url = link.C_URL+"facilities";
+        url = C_URL+"facilities";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

@@ -230,7 +230,7 @@ public class TourList extends BaseActivity {
     }
 
     private void delete(String trip_id){
-        url = link.C_URL+"trip";
+        url = C_URL+"trip";
 
         JSONObject jsonObject = new JSONObject();
 
