@@ -42,6 +42,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -204,9 +205,15 @@ public class TourEdit extends BaseActivity {
                 json.put("id", tour_id);
                 json.put("name", name.getText().toString());
                 json.put("phone", telp.getText().toString());
-                if (bitmap != null)
+                if (filePath != null) {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                     json.put("image", getStringFile(bitmap));
+                }
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -276,15 +283,15 @@ public class TourEdit extends BaseActivity {
         if(resultCode==RESULT_OK){
             if(requestCode==PICK_FROM_CAMERA){
                 filePath = data.getData();
-                bitmap=(Bitmap) data.getExtras().get("data");
+                Bitmap bitmap=(Bitmap) data.getExtras().get("data");
 
                 imageView.setImageBitmap(bitmap);
             }
             else if(requestCode==PICK_FROM_GALLERY){
 
-                Uri selectedImage = data.getData();
+                filePath = data.getData();
                 try {
-                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
 
                     imageView.setImageBitmap(bitmap);
                 } catch (IOException e) {
