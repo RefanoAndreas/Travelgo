@@ -379,10 +379,10 @@ public class TransactionDetail extends BaseActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Intent in = new Intent(TransactionDetail.this, BottomNavContainer.class);
+                Intent in = new Intent(TransactionDetail.this, Payment.class);
                 in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(in);
-                finish();
+//                finish();
             }
         }, new Response.ErrorListener() {
             @Override

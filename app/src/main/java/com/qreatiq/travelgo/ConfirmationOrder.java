@@ -528,9 +528,9 @@ public class ConfirmationOrder extends BaseActivity {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Intent in = new Intent(ConfirmationOrder.this, BottomNavContainer.class);
+                    Intent in = new Intent(ConfirmationOrder.this, Payment.class);
                     in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    finish();
+//                    finish();
                     startActivity(in);
                 }
             }, new Response.ErrorListener() {
@@ -597,9 +597,9 @@ public class ConfirmationOrder extends BaseActivity {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Intent in = new Intent(ConfirmationOrder.this, BottomNavContainer.class);
+                    Intent in = new Intent(ConfirmationOrder.this, Payment.class);
                     in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    finish();
+//                    finish();
                     startActivity(in);
                 }
             }, new Response.ErrorListener() {
@@ -666,9 +666,9 @@ public class ConfirmationOrder extends BaseActivity {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Intent in = new Intent(ConfirmationOrder.this, BottomNavContainer.class);
+                    Intent in = new Intent(ConfirmationOrder.this, Payment.class);
                     in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    finish();
+//                    finish();
                     startActivity(in);
                 }
             }, new Response.ErrorListener() {
