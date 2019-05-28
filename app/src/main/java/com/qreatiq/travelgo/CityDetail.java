@@ -47,6 +47,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.github.rubensousa.gravitysnaphelper.GravitySnapHelper;
 import com.qreatiq.travelgo.Utils.BaseActivity;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
@@ -194,7 +196,10 @@ public class CityDetail extends BaseActivity {
 
             try {
                 urlPhoto = C_URL_IMAGES+"location?image="+locPhoto.get(position).getString("urlPhoto")+"&mime="+locPhoto.get(position).getString("mimePhoto");
-                Picasso.get().load(urlPhoto).placeholder(R.mipmap.ic_launcher).into(imageView);
+                Picasso.get().load(urlPhoto)
+                        .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                        .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
+                        .into(imageView);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

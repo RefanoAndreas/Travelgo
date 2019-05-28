@@ -102,7 +102,6 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesVi
                         for(int x=0;x<jsonObject.getJSONArray("photo").length();x++) {
                             Picasso.get()
                                     .load(jsonObject.getJSONArray("photo").getJSONObject(position).getString("name"))
-                                    .placeholder(R.mipmap.ic_launcher)
                                     .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                                     .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                                     .into(imageView, new Callback() {

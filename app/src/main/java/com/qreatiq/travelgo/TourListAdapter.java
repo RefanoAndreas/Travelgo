@@ -79,8 +79,10 @@ public class TourListAdapter extends RecyclerView.Adapter<TourListAdapter.TourLi
 
 
         try {
-            Picasso.get().load(jsonObject.getString("photo")).placeholder(R.mipmap.ic_launcher).memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
-                    .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE).into(tourListPackagesViewHolder.mRoundedImageView);
+            Picasso.get().load(jsonObject.getString("photo"))
+                    .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
+                    .into(tourListPackagesViewHolder.mRoundedImageView);
 
             tourListPackagesViewHolder.mTextView1.setText(jsonObject.getString("trip_name"));
             tourListPackagesViewHolder.mTextView2.setText(jsonObject.getString("start_date"));

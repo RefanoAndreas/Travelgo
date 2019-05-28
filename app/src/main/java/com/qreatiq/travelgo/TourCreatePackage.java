@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.qreatiq.travelgo.Utils.BaseActivity;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -67,7 +69,8 @@ public class TourCreatePackage extends BaseActivity {
                 if(data.has("is_link_image") && data.getBoolean("is_link_image")) {
                     Picasso.get()
                             .load(data.getString("image"))
-                            .placeholder(R.mipmap.ic_launcher)
+                            .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                            .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
                             .into(image);
                 }
                 else{

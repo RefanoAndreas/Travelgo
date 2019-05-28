@@ -63,7 +63,6 @@ public class TourCreateTourPackageAdapter extends RecyclerView.Adapter<TourCreat
             else{
                 Picasso.get()
                         .load(currentItem.getString("image"))
-                        .placeholder(R.mipmap.ic_launcher)
                         .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
                         .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
                         .into(tourCreatePackagesViewHolder.mRoundedImageView);

@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -71,7 +73,11 @@ public class TourDetailAdapter extends RecyclerView.Adapter<TourDetailAdapter.Vi
             String formattedNumber = formatter.format(currentItem.getDouble("price"));
             viewHolder.price.setText("Rp. " + formattedNumber);
 
-            Picasso.get().load(currentItem.getString("photo")).placeholder(R.mipmap.ic_launcher).into(viewHolder.image);
+            Picasso.get()
+                    .load(currentItem.getString("photo"))
+                    .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
+                    .into(viewHolder.image);
 
             viewHolder.remove_quantity.setOnClickListener(new View.OnClickListener() {
                 @Override

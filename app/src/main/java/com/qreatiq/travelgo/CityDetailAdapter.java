@@ -61,7 +61,6 @@ public class CityDetailAdapter extends RecyclerView.Adapter<CityDetailAdapter.Ci
 
         try {
             Picasso.get().load(jsonObject.getString("photo"))
-                    .placeholder(R.mipmap.ic_launcher)
                     .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                     .into(cityDetailPackagesViewHolder.mRoundedImageView);

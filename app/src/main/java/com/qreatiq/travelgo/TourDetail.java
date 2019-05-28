@@ -246,7 +246,6 @@ public class TourDetail extends BaseActivity {
                 Picasso.get()
                         .load(C_URL_IMAGES + "trip?image=" + arrayPhoto.get(position).getString("urlPhoto")
                                 +"&mime="+arrayPhoto.get(position).getString("mimePhoto"))
-                        .placeholder(R.mipmap.ic_launcher)
                         .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
                         .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
                         .into(imageView);

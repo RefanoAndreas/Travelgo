@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -68,7 +70,8 @@ public class SearchTourSpotAdapter extends RecyclerView.Adapter<SearchTourSpotAd
         try {
             Picasso.get()
                     .load(current.getString("photo"))
-                    .placeholder(R.mipmap.ic_launcher)
+                    .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
                     .into(searchTourSpotHolder.mRoundedImageView);
             searchTourSpotHolder.mTextView1.setText(current.getString("name"));
             searchTourSpotHolder.subtitle.setText(current.getString("subtitle"));

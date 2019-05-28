@@ -104,7 +104,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
         try {
             Picasso.get()
                     .load(jsonObject.getString("photo"))
-                    .placeholder(R.mipmap.ic_launcher)
                     .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                     .into(homePackagesViewHolder.mRoundedImageView);
