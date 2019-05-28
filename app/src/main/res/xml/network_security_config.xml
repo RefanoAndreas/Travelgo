@@ -2,6 +2,7 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">travelgolaravel.propertigo.id</domain>
+        <domain includeSubdomains="true">safanci.com</domain>
     </domain-config>
     <base-config cleartextTrafficPermitted="false" />
 </network-security-config>
