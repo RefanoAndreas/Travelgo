@@ -39,10 +39,10 @@ public class BottomNavContainer extends BaseActivity {
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("access_token", "Data not found");
 
-        Log.d("user", userID);
-
         deviceToken = getSharedPreferences("token", Context.MODE_PRIVATE);
         tokenDevice = deviceToken.getString("token", "Data not found");
+
+        Log.d("userID", userID);
 
         bottomNav = findViewById(R.id.nav_bottom);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -95,10 +95,10 @@ public class BottomNavContainer extends BaseActivity {
                     switch (menuItem.getItemId()){
                         case R.id.nav_home:
                             selectedFragment = fragmentHome;
-                            Toolbar toolbar  = findViewById(R.id.toolbar);
-                            setSupportActionBar(toolbar);
-                            getSupportActionBar().setTitle("Test");
-                            toolbar.setVisibility(View.VISIBLE);
+//                            Toolbar toolbar  = findViewById(R.id.toolbar);
+//                            setSupportActionBar(toolbar);
+//                            getSupportActionBar().setTitle("Test");
+//                            toolbar.setVisibility(View.VISIBLE);
                             break;
                         case R.id.nav_tour:
                             selectedFragment = fragmentTour;

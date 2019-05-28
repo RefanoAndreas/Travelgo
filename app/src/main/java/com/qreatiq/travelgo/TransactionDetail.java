@@ -151,6 +151,7 @@ public class TransactionDetail extends BaseActivity {
             @Override
             public void onClick(View v) {
                 submit();
+//                startActivity(new Intent(TransactionDetail.this, Payment.class));
             }
         });
 

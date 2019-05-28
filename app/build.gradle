@@ -67,6 +67,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
 
+    implementation 'com.midtrans:uikit:1.21.2-SANDBOX'
+
 //    implementation 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:1.0.0'
 }
 
