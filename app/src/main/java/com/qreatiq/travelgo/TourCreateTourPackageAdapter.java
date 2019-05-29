@@ -70,7 +70,7 @@ public class TourCreateTourPackageAdapter extends RecyclerView.Adapter<TourCreat
 
             tourCreatePackagesViewHolder.mTextView1.setText(currentItem.getString("name"));
             tourCreatePackagesViewHolder.mTextView2.setText(currentItem.getString("start_date"));
-            tourCreatePackagesViewHolder.mTextView3.setText(currentItem.getString("start_date"));
+            tourCreatePackagesViewHolder.mTextView3.setText(currentItem.getString("end_date"));
 
             tourCreatePackagesViewHolder.trash.setOnClickListener(new View.OnClickListener() {
                 @Override

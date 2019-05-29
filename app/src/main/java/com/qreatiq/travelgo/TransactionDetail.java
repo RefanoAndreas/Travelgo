@@ -68,7 +68,7 @@ public class TransactionDetail extends BaseActivity {
     private RecyclerView.LayoutManager mLayoutManagerParticipant;
     String sales_id;
 
-    int DATA_PENUMPANG = 1, selected_arr = 0, ADD_OR_EDIT_GUEST = 11;
+    int DATA_PENUMPANG = 1, selected_arr = -1, ADD_GUEST = 11, EDIT_GUEST = 12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +99,7 @@ public class TransactionDetail extends BaseActivity {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(TransactionDetail.this, DataPenumpang.class)
-                        .putExtra("packageName", "tour"), ADD_OR_EDIT_GUEST);
+                        .putExtra("packageName", "tour"), ADD_GUEST);
             }
         });
 
@@ -147,11 +147,28 @@ public class TransactionDetail extends BaseActivity {
             detailPayment();
         }
 
+        mAdapterParticipant.setOnItemClickListener(new ParticipantListAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                selected_arr = position;
+                startActivityForResult(new Intent(TransactionDetail.this, DataPenumpang.class)
+                        .putExtra("packageName", "tour")
+                        .putExtra("data",ParticipantList.get(selected_arr).toString()),
+                        EDIT_GUEST);
+            }
+        });
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                submit();
-                startActivity(new Intent(TransactionDetail.this, Payment.class));
+                if(ParticipantList.size() == 0){
+                    ConstraintLayout layout=(ConstraintLayout) findViewById(R.id.layout);
+                    Snackbar snackbar=Snackbar.make(layout,"Data Peserta kosong",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else
+                    submit();
+//                startActivity(new Intent(TransactionDetail.this, Payment.class));
             }
         });
 
@@ -162,55 +179,22 @@ public class TransactionDetail extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode == RESULT_OK) {
-            if (requestCode == ADD_OR_EDIT_GUEST) {
+            if (requestCode == ADD_GUEST || requestCode == EDIT_GUEST) {
                 mRecyclerViewParticipant.setVisibility(View.VISIBLE);
 
                 JSONObject data_penumpang = null;
                 try {
                     data_penumpang = new JSONObject(data.getStringExtra("data"));
                     data_penumpang.put("edit", true);
-                    ParticipantList.add(data_penumpang);
+                    if(requestCode == EDIT_GUEST)
+                        ParticipantList.set(selected_arr,data_penumpang);
+                    else if(requestCode == ADD_GUEST)
+                        ParticipantList.add(data_penumpang);
 
                     mAdapterParticipant.notifyDataSetChanged();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
-
-//                if(ParticipantList.size() > 0) {
-//                    JSONObject json = ParticipantList.get(selected_arr);
-//                    try {
-//                        JSONObject data_penumpang = new JSONObject(data.getStringExtra("data"));
-//
-//                        json.put("edit", true);
-//                        json.put("title", data_penumpang.getString("title"));
-//                        json.put("name", data_penumpang.getString("name"));
-//                        ParticipantList.add(json);
-//
-////                    if(ParticipantList.size() > 1)
-////                        mAdapterParticipant.notifyItemInserted(ParticipantList.size());
-////                    else
-////                        mAdapterParticipant.notifyDataSetChanged();
-//
-//                        mAdapterParticipant.notifyItemChanged(selected_arr);
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//                else {
-//                    try {
-//                        JSONObject data_penumpang = new JSONObject(data.getStringExtra("data"));
-//
-//                        data_penumpang.put("edit", true);
-//                        ParticipantList.add(data_penumpang);
-//
-//                        mAdapterParticipant.notifyDataSetChanged();
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
             }
         }
     }
@@ -380,6 +364,13 @@ public class TransactionDetail extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 Intent in = new Intent(TransactionDetail.this, Payment.class);
+                try {
+                    JSONArray jsonArray = new JSONArray(trip_pack);
+                    in.putExtra("id",response.getString("id"));
+                    in.putExtra("trip_pack",jsonArray.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(in);
 //                finish();

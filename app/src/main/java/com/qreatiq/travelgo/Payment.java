@@ -1,11 +1,25 @@
 package com.qreatiq.travelgo;
 
+import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.midtrans.sdk.corekit.callback.CardRegistrationCallback;
 import com.midtrans.sdk.corekit.callback.TransactionFinishedCallback;
 import com.midtrans.sdk.corekit.core.MidtransSDK;
@@ -19,18 +33,28 @@ import com.midtrans.sdk.corekit.models.ItemDetails;
 import com.midtrans.sdk.corekit.models.snap.CreditCard;
 import com.midtrans.sdk.corekit.models.snap.TransactionResult;
 import com.midtrans.sdk.uikit.SdkUIFlowBuilder;
+import com.qreatiq.travelgo.Utils.BaseActivity;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Payment extends AppCompatActivity implements TransactionFinishedCallback {
+public class Payment extends BaseActivity implements TransactionFinishedCallback {
 
     Button buttonUiKit, buttonDirectCreditCard, buttonDirectBcaVa, buttonDirectMandiriVa,
             buttonDirectBniVa, buttonDirectAtmBersamaVa, buttonDirectPermataVa;
+    ConstraintLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
+
+        layout = (ConstraintLayout) findViewById(R.id.layout);
 
         bindViews();
         // SDK initiation for UIflow
@@ -39,20 +63,45 @@ public class Payment extends AppCompatActivity implements TransactionFinishedCal
     }
 
     private TransactionRequest initTransactionRequest() {
+        double gross_amount = 0;
+        try {
+            JSONArray json = new JSONArray(getIntent().getStringExtra("trip_pack"));
+            for(int x=0;x<json.length();x++) {
+                if (json.getJSONObject(x).getInt("qty") > 0) {
+                    gross_amount += json.getJSONObject(x).getDouble("price");
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         // Create new Transaction Request
         TransactionRequest transactionRequestNew = new
-                TransactionRequest(System.currentTimeMillis() + "", 20000);
+                TransactionRequest(System.currentTimeMillis() + "", gross_amount);
 
         //set customer details
         transactionRequestNew.setCustomerDetails(initCustomerDetails());
 
 
         // set item details
-        ItemDetails itemDetails = new ItemDetails("1", 20000, 1, "Trekking Shoes");
+//        ItemDetails itemDetails = new ItemDetails("1", 20000, 1, "Trekking Shoes");
 
         // Add item details into item detail list.
         ArrayList<ItemDetails> itemDetailsArrayList = new ArrayList<>();
-        itemDetailsArrayList.add(itemDetails);
+        try {
+            JSONArray json = new JSONArray(getIntent().getStringExtra("trip_pack"));
+            for(int x=0;x<json.length();x++){
+                if(json.getJSONObject(x).getInt("qty") > 0) {
+                    itemDetailsArrayList.add(new ItemDetails(String.valueOf(x),
+                            json.getJSONObject(x).getInt("price"),
+                            json.getJSONObject(x).getInt("qty"),
+                            json.getJSONObject(x).getString("name")));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+//        itemDetailsArrayList.add(itemDetails);
         transactionRequestNew.setItemDetails(itemDetailsArrayList);
 
 
@@ -104,10 +153,10 @@ public class Payment extends AppCompatActivity implements TransactionFinishedCal
         if (result.getResponse() != null) {
             switch (result.getStatus()) {
                 case TransactionResult.STATUS_SUCCESS:
-                    Toast.makeText(this, "Transaction Finished. ID: " + result.getResponse().getTransactionId(), Toast.LENGTH_LONG).show();
+                    set_transaction_reference(result.getResponse().getTransactionId(),"success");
                     break;
                 case TransactionResult.STATUS_PENDING:
-                    Toast.makeText(this, "Transaction Pending. ID: " + result.getResponse().getTransactionId(), Toast.LENGTH_LONG).show();
+                    set_transaction_reference(result.getResponse().getTransactionId(),"pending");
                     break;
                 case TransactionResult.STATUS_FAILED:
                     Toast.makeText(this, "Transaction Failed. ID: " + result.getResponse().getTransactionId() + ". Message: " + result.getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
@@ -213,6 +262,67 @@ public class Payment extends AppCompatActivity implements TransactionFinishedCal
             }
         });
 
+    }
+
+    public void set_transaction_reference(String reference_id,String status){
+        String url = C_URL+"sales/tour/reference";
+
+        JSONObject json = new JSONObject();
+        try {
+            json.put("id",getIntent().getStringExtra("id"));
+            json.put("reference_id",reference_id);
+            json.put("status",status);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Log.d("url",url);
+        Log.d("data",json.toString());
+        Log.d("access_token",base_shared_pref.getString("access_token",""));
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Intent in = new Intent(Payment.this, BottomNavContainer.class);
+                in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(in);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", base_shared_pref.getString("access_token",""));
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+        };
+
+        requestQueue.add(jsonObjectRequest);
     }
     
 }

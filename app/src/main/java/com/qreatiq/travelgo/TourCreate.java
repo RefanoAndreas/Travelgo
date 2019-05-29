@@ -527,6 +527,17 @@ public class TourCreate extends BaseActivity {
 
                     showDate(simpledateformat.format(start_date_data), "start");
                     showDate(simpledateformat.format(end_date_data), "end");
+
+                    for(int x=0;x<tour_pack_array.size();x++){
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                        JSONObject jsonObject = tour_pack_array.get(x);
+
+                        jsonObject.put("start_date",format.format(start_date_data));
+                        jsonObject.put("end_date",format.format(end_date_data));
+
+                        tour_pack_array.set(x,jsonObject);
+                        tour_pack_adapter.notifyItemChanged(x);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
