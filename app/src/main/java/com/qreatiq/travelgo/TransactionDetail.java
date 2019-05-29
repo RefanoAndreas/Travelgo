@@ -150,8 +150,8 @@ public class TransactionDetail extends BaseActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submit();
-//                startActivity(new Intent(TransactionDetail.this, Payment.class));
+//                submit();
+                startActivity(new Intent(TransactionDetail.this, Payment.class));
             }
         });
 
