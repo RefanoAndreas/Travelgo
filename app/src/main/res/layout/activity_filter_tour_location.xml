@@ -35,6 +35,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="right"
                 android:text="Reset"
+                android:id="@+id/reset"
                 android:textColor="@color/colorPrimary"
                 android:layout_weight="1"
                 android:textSize="12dp"

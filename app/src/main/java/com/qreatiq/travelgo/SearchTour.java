@@ -1,8 +1,12 @@
 package com.qreatiq.travelgo;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.media.Image;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.chip.Chip;
+import android.support.design.chip.ChipGroup;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +16,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -45,6 +50,8 @@ public class SearchTour extends BaseActivity {
     TextView search;
     LinearLayout headline;
 
+    ChipGroup rekomendasi_layout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +60,7 @@ public class SearchTour extends BaseActivity {
         search = (TextView) findViewById(R.id.search);
         search_list = (RecyclerView) findViewById(R.id.search_list);
         headline = (LinearLayout) findViewById(R.id.headline);
+        rekomendasi_layout = (ChipGroup) findViewById(R.id.rekomendasi_layout);
 
         mRecyclerView = findViewById(R.id.RV_spotWisata);
         mRecyclerView.setHasFixedSize(true);
@@ -131,6 +139,7 @@ public class SearchTour extends BaseActivity {
             }
         });
         get_visit_place();
+        get_keyword();
     }
 
     private void get_location(String search){
@@ -215,6 +224,70 @@ public class SearchTour extends BaseActivity {
 
                     }
                     mAdapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
+    }
+
+    private void get_keyword(){
+        String url = C_URL+"tour/keyword";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray jsonArray = response.getJSONArray("arr_keyword");
+                    for(int x=0; x<jsonArray.length(); x++){
+                        final Chip chip = new Chip(SearchTour.this);
+                        chip.setLayoutParams(new ChipGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        chip.setText(jsonArray.getJSONObject(x).getString("name"));
+                        chip.setChipCornerRadius(pxFromDp(SearchTour.this,10));
+                        chip.setChipBackgroundColor(ColorStateList.valueOf(Color.parseColor("#ffffff")));
+                        chip.setChipStrokeColor(ColorStateList.valueOf(Color.parseColor("#707070")));
+                        chip.setChipStrokeWidth(pxFromDp(SearchTour.this,1));
+                        rekomendasi_layout.addView(chip);
+
+                        chip.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent i = new Intent();
+                                i.putExtra("location", chip.getText());
+                                i.putExtra("location_label", chip.getText());
+                                setResult(RESULT_OK, i);
+                                finish();
+                            }
+                        });
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

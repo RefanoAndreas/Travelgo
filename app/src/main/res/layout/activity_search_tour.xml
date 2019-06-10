@@ -99,73 +99,8 @@
             android:layout_marginTop="10dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
+            android:id="@+id/rekomendasi_layout"
             app:chipSpacing="10dp">
-
-            <android.support.design.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Lombok"
-                android:textColor="#424242"
-                android:textSize="12dp"
-                app:chipBackgroundColor="@android:color/white"
-                app:chipCornerRadius="10dp"
-                app:chipStrokeColor="#707070"
-                app:chipStrokeWidth="1dp" />
-
-            <android.support.design.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Bali"
-                android:textColor="#424242"
-                android:textSize="12dp"
-                app:chipBackgroundColor="@android:color/white"
-                app:chipCornerRadius="10dp"
-                app:chipStrokeColor="#707070"
-                app:chipStrokeWidth="1dp" />
-
-            <android.support.design.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Raja Ampat"
-                android:textColor="#424242"
-                android:textSize="12dp"
-                app:chipBackgroundColor="@android:color/white"
-                app:chipCornerRadius="10dp"
-                app:chipStrokeColor="#707070"
-                app:chipStrokeWidth="1dp" />
-
-            <android.support.design.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ujung Kulon"
-                android:textColor="#424242"
-                android:textSize="12dp"
-                app:chipBackgroundColor="@android:color/white"
-                app:chipCornerRadius="10dp"
-                app:chipStrokeColor="#707070"
-                app:chipStrokeWidth="1dp" />
-
-            <android.support.design.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2 Hari 1 Malam"
-                android:textColor="#424242"
-                android:textSize="12dp"
-                app:chipBackgroundColor="@android:color/white"
-                app:chipCornerRadius="10dp"
-                app:chipStrokeColor="#707070"
-                app:chipStrokeWidth="1dp" />
-
-            <android.support.design.chip.Chip
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="3 Hari 2 Malam"
-                android:textColor="#424242"
-                android:textSize="12dp"
-                app:chipBackgroundColor="@android:color/white"
-                app:chipCornerRadius="10dp"
-                app:chipStrokeColor="#707070"
-                app:chipStrokeWidth="1dp" />
 
         </android.support.design.chip.ChipGroup>
 

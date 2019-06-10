@@ -16,6 +16,8 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.button.MaterialButton;
+import android.support.design.chip.Chip;
+import android.support.design.chip.ChipGroup;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.os.Bundle;
@@ -28,7 +30,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -84,6 +89,7 @@ public class TourCreate extends BaseActivity {
     private RecyclerView.Adapter mAdapter_1;
     private RecyclerView.LayoutManager mLayoutManager_1, mLayoutManager_2;
 
+    ArrayList<String> keyword_array = new ArrayList<String>();
     ArrayList<JSONObject> photo_array = new ArrayList<JSONObject>();
     TourCreatePhotosAdapter photo_adapter;
 
@@ -94,8 +100,9 @@ public class TourCreate extends BaseActivity {
     TourCreateFacilitiesAdapter adapter;
     GridView grid;
 
-    TextInputEditText start_date,end_date, tripName, tripDesc;
-    TextInputLayout name_layout,start_date_layout,end_date_layout,description_layout,location_layout;
+    TextInputEditText start_date,end_date, tripName, tripDesc, keyword;
+    TextInputLayout name_layout,start_date_layout,end_date_layout,description_layout,location_layout,keyword_layout;
+    ChipGroup keyword_chip_layout;
     Uri filePath;
     String url, userID, urlPhoto;
     RequestQueue requestQueue, requestQueue1;
@@ -156,12 +163,15 @@ public class TourCreate extends BaseActivity {
         layout=(ConstraintLayout) findViewById(R.id.layout);
         tripName = (TextInputEditText)findViewById(R.id.name);
         tripDesc = (TextInputEditText)findViewById(R.id.tripDescription);
+        keyword = (TextInputEditText) findViewById(R.id.keyword);
 
         name_layout = (TextInputLayout) findViewById(R.id.name_layout);
         start_date_layout = (TextInputLayout) findViewById(R.id.start_date_layout);
         end_date_layout = (TextInputLayout) findViewById(R.id.end_date_layout);
         description_layout = (TextInputLayout) findViewById(R.id.description_layout);
         location_layout = (TextInputLayout) findViewById(R.id.location_layout);
+//        keyword_layout = (TextInputLayout) findViewById(R.id.keyword_layout);
+        keyword_chip_layout = (ChipGroup) findViewById(R.id.keyword_chip_layout);
 
         adapter = new TourCreateFacilitiesAdapter(array,TourCreate.this);
         grid.setAdapter(adapter);
@@ -328,6 +338,33 @@ public class TourCreate extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        keyword.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if((event.getAction() == KeyEvent.ACTION_DOWN) && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)){
+                    int counter = 0;
+                    for(int x=0;x<keyword_array.size();x++) {
+                        if(keyword.getText().toString().toLowerCase().equals(keyword_array.get(x).toLowerCase()))
+                           break;
+                        counter++;
+                    }
+
+//                    Log.d("data", String.valueOf(counter));
+//                    Log.d("data", String.valueOf(keyword_array.size()-1));
+                    if(counter == keyword_array.size()) {
+                        Chip chip = new Chip(TourCreate.this);
+                        chip.setLayoutParams(new ChipGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        chip.setText(keyword.getText().toString());
+                        keyword_chip_layout.addView(chip);
+                        keyword_array.add(keyword.getText().toString());
+                    }
+                    keyword.setText("");
+                    return true;
+                }
+                return false;
             }
         });
     }
@@ -560,6 +597,7 @@ public class TourCreate extends BaseActivity {
 
             JSONArray array_background = new JSONArray(photo_array.toString());
             JSONArray array_trip_pack = new JSONArray(tour_pack_array.toString());
+            JSONArray array_keyword = new JSONArray(keyword_array.toString());
 
             JSONArray array_facilities = new JSONArray();
             int counter = 0;
@@ -622,6 +660,7 @@ public class TourCreate extends BaseActivity {
                 json.put("background", array_background);
                 json.put("tripPack", array_trip_pack);
                 json.put("facilities", array_facilities);
+                json.put("keyword", array_keyword);
                 json.put("trip_name", tripName.getText());
                 json.put("trip_desc", tripDesc.getText());
                 json.put("start_date", start_date.getText());
@@ -731,6 +770,7 @@ public class TourCreate extends BaseActivity {
                     JSONArray jsonPhoto = jsonTrip.getJSONArray("photo");
                     JSONArray jsonTripPack = jsonTrip.getJSONArray("trip_pack");
                     JSONArray jsonTripFacilities = jsonTrip.getJSONArray("facilities");
+                    JSONArray jsonKeyword = jsonTrip.getJSONArray("keyword");
 
                     for(int x=0;x<jsonPhoto.length();x++){
                         JSONObject json = new JSONObject();
@@ -780,6 +820,14 @@ public class TourCreate extends BaseActivity {
                         }
                     }
                     adapter.notifyDataSetChanged();
+
+                    for(int x=0;x<jsonKeyword.length();x++) {
+                        Chip chip = new Chip(TourCreate.this);
+                        chip.setLayoutParams(new ChipGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        chip.setText(jsonKeyword.getJSONObject(x).getString("name"));
+                        keyword_chip_layout.addView(chip);
+                        keyword_array.add(jsonKeyword.getJSONObject(x).getString("name"));
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();

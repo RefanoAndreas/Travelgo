@@ -189,6 +189,14 @@ public class BaseActivity extends AppCompatActivity {
                 activity.getCurrentFocus().getWindowToken(), 0);
     }
 
+    protected float dpFromPx(final Context context, final float px) {
+        return px / context.getResources().getDisplayMetrics().density;
+    }
+
+    protected float pxFromDp(final Context context, final float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
+    }
+
     protected void call_media_picker(){
         View view = LayoutInflater.from(this).inflate(R.layout.media_picker_fragment, null);
         bottomSheetDialog=new BottomSheetDialog(this);

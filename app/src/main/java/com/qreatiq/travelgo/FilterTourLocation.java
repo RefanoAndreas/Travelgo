@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.button.MaterialButton;
+import android.support.design.chip.Chip;
+import android.support.design.chip.ChipGroup;
 import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -39,9 +42,9 @@ public class FilterTourLocation extends BaseActivity {
     ArrayList<JSONObject> arrayData = new ArrayList<JSONObject>();
     FilterTourLocationAdapter adapter;
     JSONArray data_from_intent = new JSONArray();
-    TextView reset_button;
 
     EditText tour_search;
+    TextView reset;
 
     MaterialButton submit;
     boolean from_system = false;
@@ -56,7 +59,7 @@ public class FilterTourLocation extends BaseActivity {
         gridViewLocation = (GridView) findViewById(R.id.GV_selectLocation);
         tour_search = (EditText) findViewById(R.id.tour_search);
         submit = (MaterialButton) findViewById(R.id.submit);
-        reset_button = (TextView)findViewById(R.id.reset_button);
+        reset = (TextView) findViewById(R.id.reset);
 
         get_visit_place("");
 
@@ -115,28 +118,6 @@ public class FilterTourLocation extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 get_visit_place(s.toString());
-//                try {
-//                    Boolean flag = false;
-//                    arrayLocation.clear();
-//                    adapter.notifyDataSetChanged();
-//                    for (int x = 0; x < arrayLocationTemp.size(); x++)
-//                        arrayLocation.add(arrayLocationTemp.get(x));
-//                    while (!flag) {
-//                        flag = true;
-//                        for (int x = 0; x < arrayLocation.size(); x++) {
-//                            if (!arrayLocation.get(x).getString("label").toLowerCase().contains(s.toString().toLowerCase())) {
-//                                arrayLocation.remove(x);
-//                                flag = false;
-//                                break;
-//                            }
-//                        }
-//                    }
-//                    from_system = false;
-//                    adapter.notifyDataSetChanged();
-//                    Log.d("data",arrayLocationTemp.toString());
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
             }
 
             @Override
@@ -156,10 +137,16 @@ public class FilterTourLocation extends BaseActivity {
             }
         });
 
-        reset_button.setOnClickListener(new View.OnClickListener() {
+        reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                tour_search.setText("");
+                try {
+                    for(int x=0;x<arrayLocation.size();x++)
+                        arrayLocation.get(x).put("checked",false);
+                    adapter.notifyDataSetChanged();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -229,4 +216,6 @@ public class FilterTourLocation extends BaseActivity {
 
         requestQueue.add(jsonObjectRequest);
     }
+
+
 }
