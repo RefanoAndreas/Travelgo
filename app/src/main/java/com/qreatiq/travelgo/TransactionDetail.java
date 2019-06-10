@@ -185,10 +185,6 @@ public class TransactionDetail extends BaseActivity {
                     snackbar.show();
                 }
                 else {
-                    SharedPreferences.Editor editor1 = getSharedPreferences("selected_pack", Context.MODE_PRIVATE).edit();
-                    editor1.clear().commit();
-                    editor1.apply();
-
                     submit();
                     startActivity(new Intent(TransactionDetail.this, Payment.class));
                 }
@@ -255,6 +251,10 @@ public class TransactionDetail extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        SharedPreferences.Editor editor1 = getSharedPreferences("selected_pack", Context.MODE_PRIVATE).edit();
+        editor1.clear().commit();
+        editor1.apply();
     }
 
     private void detailHistory(){

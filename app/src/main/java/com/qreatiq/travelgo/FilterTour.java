@@ -3,17 +3,33 @@ package com.qreatiq.travelgo;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.button.MaterialButton;
 import android.support.design.chip.Chip;
 import android.support.design.chip.ChipGroup;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.qreatiq.travelgo.Utils.BaseActivity;
@@ -28,6 +44,8 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FilterTour extends BaseActivity {
 
@@ -41,6 +59,7 @@ public class FilterTour extends BaseActivity {
     ChipGroup location,time_range;
     ArrayList<JSONObject> location_array = new ArrayList<JSONObject>(),time_range_array = new ArrayList<JSONObject>();
     boolean from_system = false;
+    String url;
 
     Date start_date = new Date(),end_date = new Date();
 
@@ -52,6 +71,8 @@ public class FilterTour extends BaseActivity {
         setContentView(R.layout.activity_filter_tour);
 
         set_toolbar();
+
+        getLocation();
 
         rangeSeekbar = (CrystalRangeSeekbar)findViewById(R.id.rangeSeekbarPrice);
         minPrice = (TextView)findViewById(R.id.minimumPrice);
@@ -306,9 +327,18 @@ public class FilterTour extends BaseActivity {
             }
             else if(requestCode == FILTER_LOCATION_ALL) {
                 try {
+                    location.removeAllViews();
                     location_arr = new JSONArray(data.getStringExtra("location"));
-                    for(int x=0;x<location_arr.length();x++)
+                    for(int x=0;x<location_arr.length();x++) {
                         location_array.add(location_arr.getJSONObject(x));
+                        LayoutInflater inflater = LayoutInflater.from(FilterTour.this);
+                        View chip = inflater.inflate(R.layout.chip_loc_filter,null);
+                        Chip chip1 = (Chip)chip.findViewById(R.id.chip);
+                        chip1.setText(location_arr.getJSONObject(x).getString("label"));
+                        location.addView(chip);
+                    }
+
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -321,5 +351,54 @@ public class FilterTour extends BaseActivity {
             startDate.setText(date);
         else if(type == "end")
             endDate.setText(date);
+    }
+
+    private void getLocation(){
+        url = C_URL+"tour/filter-place";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    for(int x=0;x<response.getJSONArray("location").length();x++){
+                        LayoutInflater inflater = LayoutInflater.from(FilterTour.this);
+                        View chip = inflater.inflate(R.layout.chip_loc_filter,null);
+                        Chip chip1 = (Chip)chip.findViewById(R.id.chip);
+                        chip1.setText(response.getJSONArray("location").getJSONObject(x).getString("name"));
+                        location.addView(chip);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout=(ConstraintLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        });
+
+        requestQueue.add(jsonObjectRequest);
     }
 }

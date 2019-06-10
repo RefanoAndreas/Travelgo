@@ -94,6 +94,7 @@ public class FilterTourLocation extends BaseActivity {
                         }
                         JSONObject json = new JSONObject();
                         json.put("id", arrayLocation.get(position).getString("id"));
+                        json.put("label", arrayLocation.get(position).getString("label"));
 
                         if (!isChecked) {
                             for (int x = 0; x < arrayData.size(); x++) {
