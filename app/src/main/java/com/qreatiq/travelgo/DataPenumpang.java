@@ -48,6 +48,7 @@ public class DataPenumpang extends BaseActivity {
     PassengerBaggageAdapter baggage_adapter;
 
     int selected_baggage_index=0;
+    LinearLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +77,8 @@ public class DataPenumpang extends BaseActivity {
         phone_layout = (LinearLayout) findViewById(R.id.phone_layout);
         submitBtn = (MaterialButton)findViewById(R.id.submitBtn);
         list_baggage = (RecyclerView) findViewById(R.id.list_baggage);
+
+        layout=(LinearLayout) findViewById(R.id.layout);
 
         spinner_titel = (Spinner)findViewById(R.id.spinner_titel);
         name = (TextInputEditText)findViewById(R.id.TIET_name);
@@ -158,7 +161,9 @@ public class DataPenumpang extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(name.getText().toString().equals("")){
-
+                    name.setError("Nama kosong");
+                    Snackbar snackbar=Snackbar.make(layout,"Nama kosong",Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
                 else {
                     JSONObject json = new JSONObject();
@@ -192,8 +197,6 @@ public class DataPenumpang extends BaseActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
-
                     Intent in = new Intent();
                     in.putExtra("data", json.toString());
                     setResult(RESULT_OK, in);

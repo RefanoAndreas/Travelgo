@@ -71,13 +71,13 @@ public class CityDetail extends BaseActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    String location_id, url, urlPhoto;
+    String location_id, url, urlPhoto, cityID;
     TextView locationName, expandBtn, description, rating_number;
     RatingBar rating;
     ObjectAnimator animator;
     LinearLayout ratingLoc;
     String userID;
-    SharedPreferences user_id;
+    SharedPreferences user_id, city_id;
     ArrayList<JSONObject> cityList = new ArrayList<>();
     Button btnFindTour;
     BottomSheetDialog bottomSheetDialog;
@@ -87,8 +87,16 @@ public class CityDetail extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_detail);
 
-        Intent i = getIntent();
-        location_id = i.getStringExtra("idLocation");
+        city_id = getSharedPreferences("city_id", Context.MODE_PRIVATE);
+        cityID = city_id.getString("city_id", "Data not found");
+
+        if(cityID.equals("Data not found")) {
+            Intent i = getIntent();
+            location_id = i.getStringExtra("idLocation");
+        }
+        else{
+            location_id = cityID;
+        }
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -132,6 +140,10 @@ public class CityDetail extends BaseActivity {
                         @Override
                         public void onClick(View v) {
                             try {
+                                SharedPreferences.Editor editor1 = getSharedPreferences("city_id", Context.MODE_PRIVATE).edit();
+                                editor1.clear().commit();
+                                editor1.apply();
+
                                 submit_rating(ratingBar.getRating());
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -140,6 +152,10 @@ public class CityDetail extends BaseActivity {
                     });
                 }
                 else{
+                    city_id = getSharedPreferences("city_id", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = city_id.edit();
+                    editor.putString("city_id", location_id);
+                    editor.apply();
                     startActivity(new Intent(CityDetail.this, LogIn.class));
                 }
             }
@@ -212,7 +228,6 @@ public class CityDetail extends BaseActivity {
         JSONObject json = new JSONObject();
         json.put("location",location_id);
         json.put("rating",rating);
-        Log.d("data",json.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
             @Override

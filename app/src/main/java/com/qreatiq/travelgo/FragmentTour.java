@@ -51,7 +51,7 @@ public class FragmentTour extends Fragment {
     JSONObject filter = new JSONObject();
     String url,urlPhoto;
     String loc_id="";
-    TextView search;
+    TextView search, TV_no_result;
     ImageView tourFilterBtn;
     SwipeRefreshLayout swipeLayout;
 
@@ -95,6 +95,7 @@ public class FragmentTour extends Fragment {
                 getTrip();
             }
         });
+        TV_no_result = (TextView)view.findViewById(R.id.TV_no_result);
 
         getTrip();
 
@@ -175,38 +176,45 @@ public class FragmentTour extends Fragment {
                 e.printStackTrace();
             }
         }
-        Log.d("url",url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    tourList.clear();
-                    mAdapter.notifyDataSetChanged();
                     JSONArray jsonArray = response.getJSONArray("trip");
+                    if(jsonArray.length()>0) {
+                        TV_no_result.setVisibility(View.GONE);
+                        swipeLayout.setVisibility(View.VISIBLE);
+                        tourList.clear();
+                        mAdapter.notifyDataSetChanged();
+                        for (int x = 0; x < jsonArray.length(); x++) {
 
-                    for(int x=0; x<jsonArray.length(); x++){
+                            JSONObject jsonObject = new JSONObject();
 
-                        JSONObject jsonObject = new JSONObject();
+                            ArrayList<JSONObject> photo = new ArrayList<JSONObject>();
+                            for (int y = 0; y < jsonArray.getJSONObject(x).getJSONArray("photo").length(); y++) {
+                                urlPhoto = parent.C_URL_IMAGES + "trip?image=" + jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(y).getString("urlPhoto")
+                                        + "&mime=" + jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(y).getString("mimePhoto");
+                                ;
+                                photo.add(new JSONObject("{\"name\":\"" + urlPhoto + "\"}"));
+                            }
 
-                        ArrayList<JSONObject> photo = new ArrayList<JSONObject>();
-                        for(int y=0;y<jsonArray.getJSONObject(x).getJSONArray("photo").length();y++){
-                            urlPhoto = parent.C_URL_IMAGES + "trip?image=" + jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(y).getString("urlPhoto")
-                                +"&mime="+jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(y).getString("mimePhoto");;
-                            photo.add(new JSONObject("{\"name\":\""+urlPhoto+"\"}"));
+                            jsonObject.put("photo", new JSONArray(photo.toString()));
+                            jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
+                            jsonObject.put("trip_name", jsonArray.getJSONObject(x).getString("name"));
+                            jsonObject.put("trip_price", jsonArray.getJSONObject(x).getString("trip_price"));
+                            jsonObject.put("trip_description", jsonArray.getJSONObject(x).getString("description"));
+
+                            tourList.add(jsonObject);
+
+                            mAdapter.notifyItemInserted(x);
                         }
-
-                        jsonObject.put("photo", new JSONArray(photo.toString()));
-                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
-                        jsonObject.put("trip_name", jsonArray.getJSONObject(x).getString("name"));
-                        jsonObject.put("trip_price", jsonArray.getJSONObject(x).getString("trip_price"));
-                        jsonObject.put("trip_description", jsonArray.getJSONObject(x).getString("description"));
-
-                        tourList.add(jsonObject);
-
-                        mAdapter.notifyItemInserted(x);
+                        swipeLayout.setRefreshing(false);
                     }
-                    swipeLayout.setRefreshing(false);
+                    else{
+                        swipeLayout.setVisibility(View.GONE);
+                        TV_no_result.setVisibility(View.VISIBLE);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

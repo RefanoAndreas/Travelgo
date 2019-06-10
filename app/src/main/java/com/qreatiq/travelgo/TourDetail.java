@@ -59,7 +59,7 @@ public class TourDetail extends BaseActivity {
     TextView locationName, locationDesc, total_packages_label, total_price_label, payPackageBtn;
     TextView TV_trip_date, TV_tour_name, no_facilities;
     String trip_date, trip_location, tour_phone, userID;
-    SharedPreferences user_id;
+    SharedPreferences user_id, selected_package;
 
     RecyclerView list;
     ArrayList<JSONObject> array = new ArrayList<>();
@@ -214,6 +214,24 @@ public class TourDetail extends BaseActivity {
                     );
                 }
                 else{
+                    JSONObject jsonObject = new JSONObject();
+
+                    try {
+                        jsonObject.put("origin", "pay");
+                        jsonObject.put("trip_pack", array.toString());
+                        jsonObject.put("trip_date", trip_date);
+                        jsonObject.put("trip_location", trip_location);
+                        jsonObject.put("total_price", total_price);
+                        jsonObject.put("tour_phone", tour_phone);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                    selected_package = getSharedPreferences("selected_pack", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editorPack = selected_package.edit();
+                    editorPack.putString("selected_pack", jsonObject.toString());
+                    editorPack.apply();
+
                     startActivity(new Intent(TourDetail.this, LogIn.class));
                 }
             }

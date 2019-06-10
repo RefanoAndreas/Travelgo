@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -38,6 +39,7 @@ public class FilterTourLocation extends BaseActivity {
     ArrayList<JSONObject> arrayData = new ArrayList<JSONObject>();
     FilterTourLocationAdapter adapter;
     JSONArray data_from_intent = new JSONArray();
+    TextView reset_button;
 
     EditText tour_search;
 
@@ -54,6 +56,7 @@ public class FilterTourLocation extends BaseActivity {
         gridViewLocation = (GridView) findViewById(R.id.GV_selectLocation);
         tour_search = (EditText) findViewById(R.id.tour_search);
         submit = (MaterialButton) findViewById(R.id.submit);
+        reset_button = (TextView)findViewById(R.id.reset_button);
 
         get_visit_place("");
 
@@ -150,6 +153,13 @@ public class FilterTourLocation extends BaseActivity {
                 i.putExtra("location", arrayData.toString());
                 setResult(RESULT_OK, i);
                 finish();
+            }
+        });
+
+        reset_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tour_search.setText("");
             }
         });
     }

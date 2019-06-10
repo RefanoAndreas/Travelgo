@@ -104,10 +104,9 @@
                     app:data_type="_integer"
                     app:gap="200000"
                     app:left_thumb_color="#0E64FF"
+                    app:right_thumb_color="#0E64FF"
                     app:max_value="3000000"
-                    app:min_value="300000"
-                    app:right_thumb_image="@drawable/crystalrange_rightthumb"
-                    app:left_thumb_image="@drawable/crystalrange_leftthumb"/>
+                    app:min_value="300000"/>
 
             </LinearLayout>
 

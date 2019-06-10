@@ -46,9 +46,9 @@ public class SignUp extends BaseActivity {
 
     TextInputEditText email, password, retypePass;
     Button btnSignUp;
-    String url, tokenDevice;
+    String url, tokenDevice, selectedPack, cityID;
     RequestQueue requestQueue;
-    SharedPreferences userID, deviceToken;
+    SharedPreferences userID, deviceToken, selected_package, city_id;
     TextView btnLogin;
     TextInputLayout emailLayout, passwordLayout, retypePassLayout;
     ConstraintLayout layout;
@@ -59,6 +59,12 @@ public class SignUp extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        city_id = getSharedPreferences("city_id", Context.MODE_PRIVATE);
+        cityID = city_id.getString("city_id", "Data not found");
+
+        selected_package = getSharedPreferences("selected_pack", Context.MODE_PRIVATE);
+        selectedPack = selected_package.getString("selected_pack", "Data not found");
 
         getWindow().setBackgroundDrawableResource(R.drawable.background_splash);
         layout=(ConstraintLayout) findViewById(R.id.layout);
@@ -236,9 +242,19 @@ public class SignUp extends BaseActivity {
                             editor.putString("access_token", response.getJSONObject("access_token").getString("token_type")+" "+response.getJSONObject("access_token").getString("access_token"));
                             editor.apply();
 
-                            Intent intentHome = new Intent(SignUp.this, BottomNavContainer.class);
-                            startActivity(intentHome);
-                            finish();
+                            if(!selectedPack.equals("Data not found")){
+                                startActivity(new Intent(SignUp.this, TransactionDetail.class));
+                                finish();
+                            }
+                            else if(!cityID.equals("Data note found")){
+                                startActivity(new Intent(SignUp.this, CityDetail.class));
+                                finish();
+                            }
+                            else {
+                                Intent intentHome = new Intent(SignUp.this, BottomNavContainer.class);
+                                startActivity(intentHome);
+                                finish();
+                            }
                         } else {
                             emailLayout.setError("Email already exist");
                         }
@@ -279,8 +295,19 @@ public class SignUp extends BaseActivity {
                         editor.putString("access_token", response.getJSONObject("access_token").getString("token_type")+" "+response.getJSONObject("access_token").getString("access_token"));
                         editor.apply();
 
-                        startActivity(new Intent(SignUp.this, BottomNavContainer.class));
-                        finish();
+                        if(!selectedPack.equals("Data not found")){
+                            startActivity(new Intent(SignUp.this, TransactionDetail.class));
+                            finish();
+                        }
+                        else if(!cityID.equals("Data note found")){
+                            startActivity(new Intent(SignUp.this, CityDetail.class));
+                            finish();
+                        }
+                        else {
+                            Intent intentHome = new Intent(SignUp.this, BottomNavContainer.class);
+                            startActivity(intentHome);
+                            finish();
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
