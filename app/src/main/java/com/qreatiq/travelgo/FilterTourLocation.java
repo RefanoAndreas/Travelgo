@@ -145,6 +145,8 @@ public class FilterTourLocation extends BaseActivity {
                     for(int x=0;x<arrayLocation.size();x++)
                         arrayLocation.get(x).put("checked",false);
                     adapter.notifyDataSetChanged();
+
+                    tour_search.setText("");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
