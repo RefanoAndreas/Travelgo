@@ -512,7 +512,7 @@ public class ConfirmationOrder extends BaseActivity {
         }
 
         if(allow) {
-            JSONObject json = new JSONObject();
+            final JSONObject json = new JSONObject();
             json.put("depart_ticket", new JSONObject(getIntent().getStringExtra("depart_ticket")));
             if(intent.getBooleanExtra("isReturn",false))
                 json.put("return_ticket", new JSONObject(getIntent().getStringExtra("return_ticket")));
@@ -530,6 +530,8 @@ public class ConfirmationOrder extends BaseActivity {
                 public void onResponse(JSONObject response) {
                     Intent in = new Intent(ConfirmationOrder.this, Payment.class);
                     in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    in.putExtra("type","flight");
+                    in.putExtra("data",json.toString());
 //                    finish();
                     startActivity(in);
                 }
@@ -581,7 +583,7 @@ public class ConfirmationOrder extends BaseActivity {
         }
 
         if(allow) {
-            JSONObject json = new JSONObject();
+            final JSONObject json = new JSONObject();
             json.put("depart_ticket", new JSONObject(getIntent().getStringExtra("depart_ticket")));
             if(intent.getBooleanExtra("isReturn",false))
                 json.put("return_ticket", new JSONObject(getIntent().getStringExtra("return_ticket")));
@@ -599,6 +601,8 @@ public class ConfirmationOrder extends BaseActivity {
                 public void onResponse(JSONObject response) {
                     Intent in = new Intent(ConfirmationOrder.this, Payment.class);
                     in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    in.putExtra("type","train");
+                    in.putExtra("data",json.toString());
 //                    finish();
                     startActivity(in);
                 }
@@ -650,7 +654,7 @@ public class ConfirmationOrder extends BaseActivity {
         }
 
         if(allow) {
-            JSONObject json = new JSONObject();
+            final JSONObject json = new JSONObject();
             json.put("hotel_selected", new JSONObject(getIntent().getStringExtra("hotel_selected")));
             json.put("room_selected", new JSONObject(getIntent().getStringExtra("room_selected")));
             json.put("total_guest", getIntent().getIntExtra("guest",0));
@@ -666,10 +670,17 @@ public class ConfirmationOrder extends BaseActivity {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Intent in = new Intent(ConfirmationOrder.this, Payment.class);
-                    in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    finish();
-                    startActivity(in);
+                    try {
+                        Intent in = new Intent(ConfirmationOrder.this, Payment.class);
+//                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        in.putExtra("type","hotel");
+                        in.putExtra("id",response.getString("id"));
+                        in.putExtra("data",json.toString());
+//                        finish();
+                        startActivity(in);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override

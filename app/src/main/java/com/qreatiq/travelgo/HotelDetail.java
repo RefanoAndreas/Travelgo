@@ -75,6 +75,7 @@ public class HotelDetail extends BaseActivity {
             for(int x=0;x<hotel.getJSONArray("rooms").length();x++) {
                 JSONObject json = new JSONObject();
                 json.put("name",hotel.getJSONArray("rooms").getJSONObject(x).getString("name")+" ("+(hotel.getJSONArray("rooms").getJSONObject(x).getBoolean("breakfast") ? "With Breakfast" : "Room Only")+")");
+                json.put("breakfast",hotel.getJSONArray("rooms").getJSONObject(x).getBoolean("breakfast"));
                 json.put("price",hotel.getJSONArray("rooms").getJSONObject(x).getInt("price"));
                 json.put("id",hotel.getJSONArray("rooms").getJSONObject(x).getString("id"));
                 hotelRoomList.add(json);

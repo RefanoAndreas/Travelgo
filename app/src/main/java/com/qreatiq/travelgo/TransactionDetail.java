@@ -389,6 +389,7 @@ public class TransactionDetail extends BaseActivity {
                 Intent in = new Intent(TransactionDetail.this, Payment.class);
                 try {
                     JSONArray jsonArray = new JSONArray(trip_pack);
+                    in.putExtra("type","tour");
                     in.putExtra("id",response.getString("id"));
                     in.putExtra("trip_pack",jsonArray.toString());
                 } catch (JSONException e) {

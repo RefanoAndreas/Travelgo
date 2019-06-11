@@ -177,6 +177,7 @@ public class FragmentTour extends Fragment {
                 e.printStackTrace();
             }
         }
+        Log.d("url",url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

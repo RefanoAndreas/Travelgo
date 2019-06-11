@@ -65,11 +65,23 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
     private TransactionRequest initTransactionRequest() {
         double gross_amount = 0;
         try {
-            JSONArray json = new JSONArray(getIntent().getStringExtra("trip_pack"));
-            for(int x=0;x<json.length();x++) {
-                if (json.getJSONObject(x).getInt("qty") > 0) {
-                    gross_amount += json.getJSONObject(x).getDouble("price");
+            if(getIntent().getStringExtra("type").equals("tour")) {
+                JSONArray json = new JSONArray(getIntent().getStringExtra("trip_pack"));
+                for (int x = 0; x < json.length(); x++) {
+                    if (json.getJSONObject(x).getInt("qty") > 0) {
+                        gross_amount += json.getJSONObject(x).getDouble("price");
+                    }
                 }
+            }
+            else if(getIntent().getStringExtra("type").equals("flight") || getIntent().getStringExtra("type").equals("train")) {
+                JSONObject json = new JSONObject(getIntent().getStringExtra("data"));
+                gross_amount += json.getJSONObject("depart_ticket").getDouble("price");
+                if(json.getBoolean("is_return"))
+                    gross_amount += json.getJSONObject("return_ticket").getDouble("price");
+            }
+            else if(getIntent().getStringExtra("type").equals("hotel")) {
+                JSONObject json = new JSONObject(getIntent().getStringExtra("data"));
+                gross_amount += json.getJSONObject("room_selected").getDouble("price");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -88,14 +100,47 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
         // Add item details into item detail list.
         ArrayList<ItemDetails> itemDetailsArrayList = new ArrayList<>();
         try {
-            JSONArray json = new JSONArray(getIntent().getStringExtra("trip_pack"));
-            for(int x=0;x<json.length();x++){
-                if(json.getJSONObject(x).getInt("qty") > 0) {
-                    itemDetailsArrayList.add(new ItemDetails(String.valueOf(x),
-                            json.getJSONObject(x).getInt("price"),
-                            json.getJSONObject(x).getInt("qty"),
-                            json.getJSONObject(x).getString("name")));
+            if(getIntent().getStringExtra("type").equals("tour")) {
+                JSONArray json = new JSONArray(getIntent().getStringExtra("trip_pack"));
+                for (int x = 0; x < json.length(); x++) {
+                    if (json.getJSONObject(x).getInt("qty") > 0) {
+                        itemDetailsArrayList.add(new ItemDetails(String.valueOf(x),
+                                json.getJSONObject(x).getInt("price"),
+                                json.getJSONObject(x).getInt("qty"),
+                                json.getJSONObject(x).getString("name")));
+                    }
                 }
+            }
+            else if(getIntent().getStringExtra("type").equals("flight")) {
+                JSONObject json = new JSONObject(getIntent().getStringExtra("data"));
+                itemDetailsArrayList.add(new ItemDetails("1",
+                        json.getJSONObject("depart_ticket").getInt("price"),
+                        1,
+                        json.getJSONObject("depart_ticket").getString("departAirport")+" > "+json.getJSONObject("depart_ticket").getString("arrivalAirport")));
+                if(json.getBoolean("is_return"))
+                    itemDetailsArrayList.add(new ItemDetails("2",
+                            json.getJSONObject("return_ticket").getInt("price"),
+                            1,
+                            json.getJSONObject("return_ticket").getString("departAirport")+" > "+json.getJSONObject("return_ticket").getString("arrivalAirport")));
+            }
+            else if(getIntent().getStringExtra("type").equals("train")) {
+                JSONObject json = new JSONObject(getIntent().getStringExtra("data"));
+                itemDetailsArrayList.add(new ItemDetails("1",
+                        json.getJSONObject("depart_ticket").getInt("price"),
+                        1,
+                        json.getJSONObject("depart_ticket").getString("departStation")+" > "+json.getJSONObject("depart_ticket").getString("arrivalStation")));
+                if(json.getBoolean("is_return"))
+                    itemDetailsArrayList.add(new ItemDetails("2",
+                            json.getJSONObject("return_ticket").getInt("price"),
+                            1,
+                            json.getJSONObject("return_ticket").getString("departStation")+" > "+json.getJSONObject("return_ticket").getString("arrivalStation")));
+            }
+            else if(getIntent().getStringExtra("type").equals("hotel")) {
+                JSONObject json = new JSONObject(getIntent().getStringExtra("data"));
+                itemDetailsArrayList.add(new ItemDetails("1",
+                        json.getJSONObject("room_selected").getInt("price"),
+                        1,
+                        json.getJSONObject("room_selected").getString("name")));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -265,7 +310,15 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
     }
 
     public void set_transaction_reference(String reference_id,String status){
-        String url = C_URL+"sales/tour/reference";
+        String url = "";
+        if(getIntent().getStringExtra("type").equals("tour"))
+            url = C_URL+"sales/tour/reference";
+        else if(getIntent().getStringExtra("type").equals("hotel"))
+            url = C_URL+"sales/hotel/reference";
+        else if(getIntent().getStringExtra("type").equals("flight"))
+            url = C_URL+"sales/flight/reference";
+        else if(getIntent().getStringExtra("type").equals("train"))
+            url = C_URL+"sales/train/reference";
 
         JSONObject json = new JSONObject();
         try {

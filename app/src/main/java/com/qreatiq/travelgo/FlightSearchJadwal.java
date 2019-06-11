@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -364,6 +365,10 @@ public class FlightSearchJadwal extends BaseActivity {
             }
         });
 
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                60000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonObjectRequest);
     }
 
@@ -443,11 +448,15 @@ public class FlightSearchJadwal extends BaseActivity {
             }
         });
 
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                60000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonObjectRequest);
     }
 
     public void hotelData() throws JSONException {
-        SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String url = C_URL+"hotel/search?city="+hotel_city.getString("id")+
                 "&check_in="+format.format(check_in_date)+
                 "&check_out="+format.format(check_out_date);
@@ -471,6 +480,7 @@ public class FlightSearchJadwal extends BaseActivity {
                         jsonObject.put("address", jsonArray.getJSONObject(x).getString("address"));
                         jsonObject.put("rating", jsonArray.getJSONObject(x).getInt("rating"));
                         jsonObject.put("location", hotel_city.getString("city_label")+", "+hotel_city.getString("poi_label"));
+                        jsonObject.put("location_id", hotel_city.getString("id"));
                         jsonObject.put("check_in", jsonArray.getJSONObject(x).getString("check_in"));
                         jsonObject.put("check_out", jsonArray.getJSONObject(x).getString("check_out"));
                         jsonObject.put("rating", jsonArray.getJSONObject(x).getDouble("rating"));
@@ -516,6 +526,10 @@ public class FlightSearchJadwal extends BaseActivity {
             }
         });
 
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                60000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonObjectRequest);
     }
 
