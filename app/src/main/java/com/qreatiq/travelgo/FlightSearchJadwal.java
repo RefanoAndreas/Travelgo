@@ -307,8 +307,8 @@ public class FlightSearchJadwal extends BaseActivity {
                     for(int x=0; x<jsonArray.length(); x++){
                         JSONObject jsonObject = new JSONObject();
 
-                        jsonObject.put("airlines", jsonArray.getJSONObject(x).getString("flightNumber"));
-                        jsonObject.put("flight_code", jsonArray.getJSONObject(x).getString("flightNumber"));
+                        jsonObject.put("airlines", jsonArray.getJSONObject(x).getString("airlines"));
+                        jsonObject.put("flight_code", jsonArray.getJSONObject(x).getString("code"));
                         jsonObject.put("departTime", jsonArray.getJSONObject(x).getString("time_depart_label"));
                         jsonObject.put("arrivalTime", jsonArray.getJSONObject(x).getString("time_arrive_label"));
                         jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));

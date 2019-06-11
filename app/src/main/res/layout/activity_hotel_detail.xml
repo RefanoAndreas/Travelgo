@@ -268,7 +268,7 @@
                 android:layout_marginRight="16dp"
                 android:ellipsize="end"
                 android:maxLines="4"
-                android:text="@string/cityDetail_Detail"
+                android:text=""
                 android:lineSpacingExtra="8dp"/>
 
             <TextView
@@ -301,30 +301,30 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="Ayam Goreng Tidar"
-                    android:layout_gravity="center_vertical"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="Tunjungan Plaza"
-                    android:layout_gravity="center_vertical"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="Empire Palace"
-                    android:layout_gravity="center_vertical"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="Siola"
-                    android:layout_gravity="center_vertical"/>
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="8dp"-->
+                    <!--android:text="Ayam Goreng Tidar"-->
+                    <!--android:layout_gravity="center_vertical"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="8dp"-->
+                    <!--android:text="Tunjungan Plaza"-->
+                    <!--android:layout_gravity="center_vertical"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="8dp"-->
+                    <!--android:text="Empire Palace"-->
+                    <!--android:layout_gravity="center_vertical"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="8dp"-->
+                    <!--android:text="Siola"-->
+                    <!--android:layout_gravity="center_vertical"/>-->
 
             </LinearLayout>
 
