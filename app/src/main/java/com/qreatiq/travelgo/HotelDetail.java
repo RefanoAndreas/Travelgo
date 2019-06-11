@@ -10,8 +10,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -95,7 +98,13 @@ public class HotelDetail extends BaseActivity {
             }
 
             adapter = new HotelDetailFacilitiesAdapter(facilities_array,this);
+            float column = hotel.getJSONArray("facilities").length() / 2f;
+            Log.d("column", String.valueOf(Math.ceil(column)));
+
             facilities.setAdapter(adapter);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) pxFromDp(this, (float) (Math.ceil(column)*24)));
+            params.setMargins((int) pxFromDp(this,16),(int) pxFromDp(this,16),(int) pxFromDp(this,16),0);
+            facilities.setLayoutParams(params);
         } catch (JSONException e) {
             e.printStackTrace();
         }

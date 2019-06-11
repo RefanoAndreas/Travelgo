@@ -200,6 +200,12 @@ public class BaseActivity extends AppCompatActivity {
         return dp * context.getResources().getDisplayMetrics().density;
     }
 
+    protected int math(float f) {
+        int c = (int) ((f) + 0.5f);
+        float n = f + 0.5f;
+        return (n - c) % 2 == 0 ? (int) f : c;
+    }
+
     protected void call_media_picker(){
         View view = LayoutInflater.from(this).inflate(R.layout.media_picker_fragment, null);
         bottomSheetDialog=new BottomSheetDialog(this);
