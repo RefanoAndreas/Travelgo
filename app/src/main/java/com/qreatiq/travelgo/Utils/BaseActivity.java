@@ -52,8 +52,11 @@ public class BaseActivity extends AppCompatActivity {
     public SharedPreferences.Editor edit_base_shared_pref;
 
     public RequestQueue requestQueue;
-    public String C_URL = "http://safanci.com/stagging1/travelgo/api/";
-    public String C_URL_IMAGES = "http://safanci.com/stagging1/travelgo/api/images/";
+//    public String C_URL = "http://safanci.com/stagging1/travelgo/api/";
+//    public String C_URL_IMAGES = "http://safanci.com/stagging1/travelgo/api/images/";
+
+    public String C_URL = "http://travelgolaravel.propertigo.id/api/";
+    public String C_URL_IMAGES = "http://travelgolaravel.propertigo.id/api/images/";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

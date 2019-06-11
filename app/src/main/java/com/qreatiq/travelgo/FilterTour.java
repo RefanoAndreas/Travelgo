@@ -60,6 +60,7 @@ public class FilterTour extends BaseActivity {
     ArrayList<JSONObject> location_array = new ArrayList<JSONObject>(),time_range_array = new ArrayList<JSONObject>();
     boolean from_system = false;
     String url;
+    int duration = 1;
 
     Date start_date = new Date(),end_date = new Date();
 
@@ -241,12 +242,15 @@ public class FilterTour extends BaseActivity {
                 showDate(simpleDateFormat.format(start_date),"start");
                 showDate(simpleDateFormat.format(end_date),"end");
 
-                for (int x = 0; x < location.getChildCount(); x++) {
-                    from_system = true;
-                    Chip chip = (Chip) location.getChildAt(x);
-                    chip.setChecked(false);
-                    location_array.clear();
-                }
+//                for (int x = 0; x < location.getChildCount(); x++) {
+//                    from_system = true;
+//                    Chip chip = (Chip) location.getChildAt(x);
+//                    chip.setChecked(false);
+//                    location_array.clear();
+//                }
+
+                location.removeAllViews();
+                getLocation();
 
                 for (int x = 0; x < time_range.getChildCount(); x++) {
                     from_system = true;
