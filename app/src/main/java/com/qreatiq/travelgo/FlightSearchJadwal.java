@@ -48,7 +48,7 @@ public class FlightSearchJadwal extends BaseActivity {
     MaterialButton dateBtn;
     String intentString;
     Intent intent;
-    int SORT = 10, FILTER = 20;
+    int SORT = 10, FILTER = 20, adult_pax, child_pax, infant_pax;
 
     Date date, check_in_date, check_out_date;
 
@@ -69,9 +69,9 @@ public class FlightSearchJadwal extends BaseActivity {
                 date = new Date(intent.getLongExtra("tanggal_berangkat", 0));
             else
                 date = new Date(intent.getLongExtra("tanggal_kembali", 0));
-            int adult_pax = intent.getIntExtra("adult", 0);
-            int child_pax = intent.getIntExtra("child", 0);
-            int infant_pax = intent.getIntExtra("infant", 0);
+            adult_pax = intent.getIntExtra("adult", 0);
+            child_pax = intent.getIntExtra("child", 0);
+            infant_pax = intent.getIntExtra("infant", 0);
             String kelas = intent.getStringExtra("kelas");
             try {
                 origin = new JSONObject(intent.getStringExtra("depart_data"));
@@ -287,14 +287,16 @@ public class FlightSearchJadwal extends BaseActivity {
         SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
         String url = C_URL+"flight/search?origin="+origin.getString("code")+
                     "&destination="+destination.getString("code")+
-                    "&time="+format.format(date);
+                    "&time="+format.format(date)+
+                    "&adult="+adult_pax+
+                    "&child="+child_pax+
+                    "&infant="+infant_pax;
 
         if(sort.has("data"))
             url += "&sort="+sort.getString("data");
 
         ticketList.clear();
         mAdapter.notifyDataSetChanged();
-        Log.d("data",url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -305,7 +307,7 @@ public class FlightSearchJadwal extends BaseActivity {
                         JSONObject jsonObject = new JSONObject();
 
                         jsonObject.put("airlines", jsonArray.getJSONObject(x).getString("airlines"));
-                        jsonObject.put("flight_code", jsonArray.getJSONObject(x).getString("code"));
+                        jsonObject.put("flight_code", jsonArray.getJSONObject(x).getString("flightNumber"));
                         jsonObject.put("departTime", jsonArray.getJSONObject(x).getString("time_depart_label"));
                         jsonObject.put("arrivalTime", jsonArray.getJSONObject(x).getString("time_arrive_label"));
                         jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));
