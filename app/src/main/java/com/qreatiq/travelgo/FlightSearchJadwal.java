@@ -485,6 +485,7 @@ public class FlightSearchJadwal extends BaseActivity {
                         jsonObject.put("check_out", jsonArray.getJSONObject(x).getString("check_out"));
                         jsonObject.put("rating", jsonArray.getJSONObject(x).getDouble("rating"));
                         jsonObject.put("rooms", jsonArray.getJSONObject(x).getJSONArray("rooms"));
+                        jsonObject.put("facilities", jsonArray.getJSONObject(x).getJSONArray("facilities"));
                         jsonObject.put("price", jsonArray.getJSONObject(x).getString("price"));
 
                         ticketList.add(jsonObject);

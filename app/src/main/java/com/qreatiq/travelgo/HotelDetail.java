@@ -10,6 +10,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -36,10 +37,14 @@ public class HotelDetail extends BaseActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> hotelRoomList = new ArrayList<>();
 
+    ArrayList<JSONObject> facilities_array = new ArrayList<>();
+    HotelDetailFacilitiesAdapter adapter;
+
     int total_pack = 0, total_price = 0;
     TextView expandBtn, description, name, address, rating_number;
     RatingBar rating;
     ObjectAnimator animator;
+    GridView facilities;
 
     JSONObject hotel;
 
@@ -59,6 +64,8 @@ public class HotelDetail extends BaseActivity {
             }
         });
 
+
+        facilities = (GridView) findViewById(R.id.facilities);
         name = (TextView) findViewById(R.id.name);
         address = (TextView) findViewById(R.id.address);
         rating = (RatingBar) findViewById(R.id.rating);
@@ -80,6 +87,15 @@ public class HotelDetail extends BaseActivity {
                 json.put("id",hotel.getJSONArray("rooms").getJSONObject(x).getString("id"));
                 hotelRoomList.add(json);
             }
+
+            for(int x=0;x<hotel.getJSONArray("facilities").length();x++) {
+                JSONObject json = new JSONObject();
+                json.put("name",hotel.getJSONArray("facilities").getString(x));
+                facilities_array.add(json);
+            }
+
+            adapter = new HotelDetailFacilitiesAdapter(facilities_array,this);
+            facilities.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }
