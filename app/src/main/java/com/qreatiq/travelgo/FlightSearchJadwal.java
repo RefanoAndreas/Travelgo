@@ -52,12 +52,11 @@ public class FlightSearchJadwal extends BaseActivity {
     MaterialButton dateBtn;
     String intentString,url_captcha,captcha_input = "";
     Intent intent;
-    int SORT = 10, FILTER = 20, adult_pax, child_pax, infant_pax, ROUTE = 100, selected;
+    int SORT = 10, FILTER = 20, adult_pax, child_pax, infant_pax, ROUTE = 100, selected, CAPTCHA = 30;
 
     Date date, check_in_date, check_out_date;
 
     JSONObject origin,destination,hotel_city,sort = new JSONObject(),filter = new JSONObject();
-    CaptchaModal captcha_modal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -370,8 +369,8 @@ public class FlightSearchJadwal extends BaseActivity {
                     }
                     else{
                         url_captcha = C_URL_IMAGES+"captcha?android_id="+android_id;
-                        captcha_modal = new CaptchaModal();
-                        captcha_modal.show(getSupportFragmentManager(),"modal");
+                        startActivityForResult(new Intent(FlightSearchJadwal.this,CaptchaActivity.class)
+                                .putExtra("url_captcha",url_captcha),CAPTCHA);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -631,6 +630,19 @@ public class FlightSearchJadwal extends BaseActivity {
             }
             else if(requestCode == ROUTE){
                 route(selected);
+            }
+            else if(requestCode == CAPTCHA){
+                try {
+                    captcha_input = intent.getStringExtra("captcha");
+                    flightData();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else if(resultCode == RESULT_CANCELED){
+            if(requestCode == CAPTCHA){
+                onBackPressed();
             }
         }
     }

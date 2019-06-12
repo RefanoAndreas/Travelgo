@@ -541,12 +541,17 @@ public class ConfirmationOrder extends BaseActivity {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Intent in = new Intent(ConfirmationOrder.this, Payment.class);
-                    in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    in.putExtra("type","flight");
-                    in.putExtra("data",json.toString());
-//                    finish();
-                    startActivity(in);
+                    try {
+                        Intent in = new Intent(ConfirmationOrder.this, Payment.class);
+//                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        in.putExtra("type","flight");
+                        in.putExtra("id",response.getString("id"));
+                        in.putExtra("data",json.toString());
+    //                    finish();
+                        startActivity(in);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -612,12 +617,17 @@ public class ConfirmationOrder extends BaseActivity {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Intent in = new Intent(ConfirmationOrder.this, Payment.class);
-                    in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                    in.putExtra("type","train");
-                    in.putExtra("data",json.toString());
-//                    finish();
-                    startActivity(in);
+                    try {
+                        Intent in = new Intent(ConfirmationOrder.this, Payment.class);
+//                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        in.putExtra("type","train");
+                        in.putExtra("id",response.getString("id"));
+                        in.putExtra("data",json.toString());
+    //                    finish();
+                        startActivity(in);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override

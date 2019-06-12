@@ -15,10 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Payment"></activity>
+        <activity android:name=".CaptchaActivity"></activity>
+        <activity android:name=".Payment" />
         <activity
             android:name=".DatePickerActivity"
-            android:label="Pick Date"></activity>
+            android:label="Pick Date" />
         <activity android:name=".DetailTourTransaction" />
         <activity android:name=".Sort" />
         <activity android:name=".SearchHotel" />
