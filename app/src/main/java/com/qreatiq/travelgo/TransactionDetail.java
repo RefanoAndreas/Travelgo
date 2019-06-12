@@ -133,10 +133,10 @@ public class TransactionDetail extends BaseActivity {
 //        });
 
         if (intentString.equals("history")) {
+            mRecyclerViewParticipant.setVisibility(View.VISIBLE);
             isiDataPeserta.setVisibility(View.GONE);
             saveButton.setVisibility(View.GONE);
             sales_id = intent.getStringExtra("sales_id");
-            mRecyclerViewParticipant.setVisibility(View.VISIBLE);
             detailHistory();
         } else if (intentString.equals("pay")) {
             trip_pack = intent.getStringExtra("trip_pack");
@@ -241,7 +241,7 @@ public class TransactionDetail extends BaseActivity {
 
         url = C_URL+"history/detail?id="+sales_id+"&type=tour";
 
-        Log.d("id", sales_id);
+        Log.d("url", url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -262,9 +262,9 @@ public class TransactionDetail extends BaseActivity {
                         ParticipantList.add(jsonObject);
 
                         if(x == 0)
-                            mAdapterParticipant.notifyItemInserted(ParticipantList.size());
-                        else
                             mAdapterParticipant.notifyDataSetChanged();
+                        else
+                            mAdapterParticipant.notifyItemInserted(x);
                     }
 
                     JSONObject jsonTripPack = jsonDetail.getJSONArray("detail")
@@ -277,7 +277,11 @@ public class TransactionDetail extends BaseActivity {
 
                         JSONObject jsonObject1 = new JSONObject();
 
-                        jsonObject1.put("photo", jsonObjectPack.getString("photo"));
+                        urlPhoto = C_URL_IMAGES+"trip-pack?image="
+                                +jsonObjectPack.getJSONObject("trip_pack").getString("urlPhoto")
+                                +"&mime="+jsonObjectPack.getJSONObject("trip_pack").getString("mimePhoto");
+
+                        jsonObject1.put("photo", urlPhoto);
                         jsonObject1.put("trip_name", jsonObjectPack.getJSONObject("trip_pack").getString("name"));
                         jsonObject1.put("trip_price", jsonObjectPack.getJSONObject("trip_pack").getString("price"));
                         Log.d("trip", jsonObject1.toString());
