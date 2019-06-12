@@ -60,14 +60,12 @@
                             android:id="@+id/TV_routeInfo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Surabaya -> Jakarta"
                             android:fontFamily="@font/montserrat_medium"/>
 
                         <TextView
                             android:id="@+id/TV_routeType"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Sekali Jalan"
                             android:textColor="@android:color/black"
                             android:layout_marginBottom="10dp"/>
 
@@ -157,18 +155,15 @@
                             <TextView
                                 android:id="@+id/TV_namaPemesan"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="Budi"/>
+                                android:layout_height="wrap_content"/>
                             <TextView
                                 android:id="@+id/TV_emailPemesan"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="budi@email.com"/>
+                                android:layout_height="wrap_content"/>
                             <TextView
                                 android:id="@+id/TV_teleponPemesan"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:text="0812345678"/>
+                                android:layout_height="wrap_content"/>
 
                         </LinearLayout>
 
@@ -304,7 +299,6 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Rp. 800.000"
                                 android:id="@+id/sub_total"
                                 android:gravity="right"
                                 android:layout_weight="1"/>
@@ -348,7 +342,6 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Rp. 800.000"
                                 android:id="@+id/total"
                                 android:gravity="right"
                                 android:layout_weight="1"/>

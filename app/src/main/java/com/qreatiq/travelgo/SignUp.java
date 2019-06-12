@@ -246,7 +246,7 @@ public class SignUp extends BaseActivity {
                                 startActivity(new Intent(SignUp.this, TransactionDetail.class));
                                 finish();
                             }
-                            else if(!cityID.equals("Data note found")){
+                            else if(!cityID.equals("Data not found")){
                                 startActivity(new Intent(SignUp.this, CityDetail.class));
                                 finish();
                             }
@@ -299,7 +299,7 @@ public class SignUp extends BaseActivity {
                             startActivity(new Intent(SignUp.this, TransactionDetail.class));
                             finish();
                         }
-                        else if(!cityID.equals("Data note found")){
+                        else if(!cityID.equals("Data not found")){
                             startActivity(new Intent(SignUp.this, CityDetail.class));
                             finish();
                         }

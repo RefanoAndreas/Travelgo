@@ -65,6 +65,11 @@ public class LogIn extends BaseActivity {
         city_id = getSharedPreferences("city_id", Context.MODE_PRIVATE);
         cityID = city_id.getString("city_id", "Data not found");
 
+        Log.d("city", cityID);
+
+//        SharedPreferences.Editor editor1 = getSharedPreferences("city_id", Context.MODE_PRIVATE).edit();
+//        editor1.clear().apply();
+
         emailLayout = (TextInputLayout) findViewById(R.id.email_layout);
         emailLayout.setHint(null);
         passwordLayout = (TextInputLayout) findViewById(R.id.password_layout);
@@ -199,7 +204,7 @@ public class LogIn extends BaseActivity {
                             startActivity(new Intent(LogIn.this, TransactionDetail.class));
                             finish();
                         }
-                        else if(!cityID.equals("Data note found")){
+                        else if(!cityID.equals("Data not found")){
                             startActivity(new Intent(LogIn.this, CityDetail.class));
                             finish();
                         }
@@ -267,7 +272,7 @@ public class LogIn extends BaseActivity {
                                 startActivity(new Intent(LogIn.this, TransactionDetail.class));
                                 finish();
                             }
-                            else if(!cityID.equals("Data note found")){
+                            else if(!cityID.equals("Data not found")){
                                 startActivity(new Intent(LogIn.this, CityDetail.class));
                                 finish();
                             }

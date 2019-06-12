@@ -190,6 +190,9 @@ public class TrainSearch extends BaseActivity {
         tanggalBerangkat = (TextView)findViewById(R.id.TV_tanggalBerangkat);
         tanggalKembali = (TextView)findViewById(R.id.TV_tanggalKembali);
 
+        SimpleDateFormat simpledateformat = new SimpleDateFormat("EEE, d MMM yyyy");
+        showDate(simpledateformat.format(start_date),"start");
+
     }
 
     public void startDate(View v){

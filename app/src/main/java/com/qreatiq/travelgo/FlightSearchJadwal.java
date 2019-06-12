@@ -376,25 +376,28 @@ public class FlightSearchJadwal extends BaseActivity {
         SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
         String url = C_URL+"train/search?origin="+origin.getString("code")+
                 "&destination="+destination.getString("code")+
-                "&time="+format.format(date);
+                "&time="+format.format(date)+
+                "&adult="+adult_pax+
+                "&child="+child_pax+
+                "&infant="+infant_pax;
 
         if(sort.has("data"))
             url += "&sort="+sort.getString("data");
 
         ticketList.clear();
         mAdapter.notifyDataSetChanged();
-        Log.d("data",url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray jsonArray = response.getJSONArray("data");
+                    Log.d("json", jsonArray.toString());
                     for(int x=0; x<jsonArray.length(); x++){
-                        for(int y=0;y<jsonArray.getJSONObject(x).getJSONArray("availability_class").length();y++) {
+                        for(int y=0;y<jsonArray.getJSONObject(x).getJSONArray("availibilityClasses").length();y++) {
                             JSONObject jsonObject = new JSONObject();
 
-                            jsonObject.put("name", jsonArray.getJSONObject(x).getString("name"));
+                            jsonObject.put("name", jsonArray.getJSONObject(x).getString("trainName"));
                             jsonObject.put("departTime", jsonArray.getJSONObject(x).getString("time_depart_label"));
                             jsonObject.put("arrivalTime", jsonArray.getJSONObject(x).getString("time_arrive_label"));
                             jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));
@@ -404,9 +407,9 @@ public class FlightSearchJadwal extends BaseActivity {
                             jsonObject.put("arrivalData", destination);
                             jsonObject.put("departTimeNumber", jsonArray.getJSONObject(x).getString("time_depart_number"));
                             jsonObject.put("arriveTimeNumber", jsonArray.getJSONObject(x).getString("time_arrive_number"));
-                            jsonObject.put("price", jsonArray.getJSONObject(x).getJSONArray("availability_class").getJSONObject(y).getString("price"));
-                            jsonObject.put("class", jsonArray.getJSONObject(x).getJSONArray("availability_class").getJSONObject(y).getString("class"));
-                            jsonObject.put("sub-class", jsonArray.getJSONObject(x).getJSONArray("availability_class").getJSONObject(y).getString("sub_class"));
+                            jsonObject.put("price", jsonArray.getJSONObject(x).getJSONArray("availibilityClasses").getJSONObject(y).getString("price"));
+                            jsonObject.put("class", jsonArray.getJSONObject(x).getJSONArray("availibilityClasses").getJSONObject(y).getString("availabilityClass"));
+                            jsonObject.put("sub-class", jsonArray.getJSONObject(x).getJSONArray("availibilityClasses").getJSONObject(y).getString("subClass"));
 
                             ticketList.add(jsonObject);
 

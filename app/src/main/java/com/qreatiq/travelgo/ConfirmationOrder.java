@@ -1,6 +1,8 @@
 package com.qreatiq.travelgo;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.button.MaterialButton;
@@ -42,13 +44,15 @@ import java.util.Map;
 
 public class ConfirmationOrder extends BaseActivity {
 
-    TextView  TV_routeInfo, TV_routeType, specialRequestAdd, guestData, sub_total, pajak, total, titleData;
+    TextView  TV_routeInfo, TV_routeType, specialRequestAdd, guestData, sub_total, pajak, total, titleData,
+    TV_namaPemesan, TV_emailPemesan, TV_teleponPemesan;
     RecyclerView list_flight, list_hotel, list_train;
     Intent intent;
-    String intentString;
+    String intentString, userID, url;
     LinearLayout specialRequestLinear,special_request;
     RecyclerView list_pax;
     CardView card_dataPemesan;
+    SharedPreferences user_id;
 
     MaterialButton submit;
 
@@ -71,6 +75,15 @@ public class ConfirmationOrder extends BaseActivity {
         setContentView(R.layout.activity_confirmation_order);
 
         set_toolbar();
+
+        user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userID = user_id.getString("access_token", "Data not found");
+
+        TV_namaPemesan = (TextView)findViewById(R.id.TV_namaPemesan);
+        TV_emailPemesan = (TextView)findViewById(R.id.TV_emailPemesan);
+        TV_teleponPemesan = (TextView)findViewById(R.id.TV_teleponPemesan);
+
+        getUser();
 
         specialRequestLinear = (LinearLayout)findViewById(R.id.specialRequestLinear);
 
@@ -779,5 +792,64 @@ public class ConfirmationOrder extends BaseActivity {
                 }
             }
         }
+    }
+
+    private void getUser(){
+        url = C_URL+"profile";
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    if (!response.isNull("user")){
+                        TV_namaPemesan.setText(!response.getJSONObject("user").isNull("name") ? response.getJSONObject("user").getString("name") : "");
+                        TV_emailPemesan.setText(!response.getJSONObject("user").isNull("email") ? response.getJSONObject("user").getString("email") : "");
+                        if(!response.getJSONObject("user").isNull("phone_number"))
+                            TV_teleponPemesan.setText(response.getJSONObject("user").getString("phone_number"));
+
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout=(ConstraintLayout) findViewById(R.id.layout);
+                String message="";
+                if (error instanceof NetworkError) {
+                    message="Network Error";
+                }
+                else if (error instanceof ServerError) {
+                    message="Server Error";
+                }
+                else if (error instanceof AuthFailureError) {
+                    message="Authentication Error";
+                }
+                else if (error instanceof ParseError) {
+                    message="Parse Error";
+                }
+                else if (error instanceof NoConnectionError) {
+                    message="Connection Missing";
+                }
+                else if (error instanceof TimeoutError) {
+                    message="Server Timeout Reached";
+                }
+                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                snackbar.show();
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Content-Type", "application/json");
+                headers.put("Authorization", userID);
+                headers.put("Accept", "application/json");
+                return headers;
+            }
+        };
+
+        requestQueue.add(jsonObjectRequest);
     }
 }

@@ -140,10 +140,6 @@ public class CityDetail extends BaseActivity {
                         @Override
                         public void onClick(View v) {
                             try {
-                                SharedPreferences.Editor editor1 = getSharedPreferences("city_id", Context.MODE_PRIVATE).edit();
-                                editor1.clear().commit();
-                                editor1.apply();
-
                                 submit_rating(ratingBar.getRating());
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -318,6 +314,10 @@ public class CityDetail extends BaseActivity {
 
                     rating_number.setText(String.valueOf(response.getJSONObject("location").getDouble("overall_review")));
                     rating.setRating((float) response.getJSONObject("location").getDouble("overall_review"));
+
+                    SharedPreferences.Editor editor1 = getSharedPreferences("city_id", Context.MODE_PRIVATE).edit();
+                    editor1.clear().apply();
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
