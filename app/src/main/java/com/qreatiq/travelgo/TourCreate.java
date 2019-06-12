@@ -31,6 +31,7 @@ import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -355,11 +356,26 @@ public class TourCreate extends BaseActivity {
 //                    Log.d("data", String.valueOf(counter));
 //                    Log.d("data", String.valueOf(keyword_array.size()-1));
                     if(counter == keyword_array.size()) {
-                        Chip chip = new Chip(TourCreate.this);
-                        chip.setLayoutParams(new ChipGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        final View view = LayoutInflater.from(TourCreate.this).inflate(R.layout.chip_with_exit,null);
+                        Chip chip = (Chip) view.findViewById(R.id.chip);
                         chip.setText(keyword.getText().toString());
-                        keyword_chip_layout.addView(chip);
+                        keyword_chip_layout.addView(view);
                         keyword_array.add(keyword.getText().toString());
+
+                        chip.setOnCloseIconClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                keyword_chip_layout.removeView(view);
+                                int index=0;
+                                for(int x=0;x<keyword_array.size();x++) {
+                                    if (keyword_array.get(x).equals(keyword.getText().toString())) {
+                                        index = x;
+                                        break;
+                                    }
+                                }
+                                keyword_array.remove(index);
+                            }
+                        });
                     }
                     keyword.setText("");
                     return true;
@@ -770,7 +786,7 @@ public class TourCreate extends BaseActivity {
                     JSONArray jsonPhoto = jsonTrip.getJSONArray("photo");
                     JSONArray jsonTripPack = jsonTrip.getJSONArray("trip_pack");
                     JSONArray jsonTripFacilities = jsonTrip.getJSONArray("facilities");
-                    JSONArray jsonKeyword = jsonTrip.getJSONArray("keyword");
+                    final JSONArray jsonKeyword = jsonTrip.getJSONArray("keyword");
 
                     for(int x=0;x<jsonPhoto.length();x++){
                         JSONObject json = new JSONObject();
@@ -822,11 +838,31 @@ public class TourCreate extends BaseActivity {
                     adapter.notifyDataSetChanged();
 
                     for(int x=0;x<jsonKeyword.length();x++) {
-                        Chip chip = new Chip(TourCreate.this);
-                        chip.setLayoutParams(new ChipGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                        final View view = LayoutInflater.from(TourCreate.this).inflate(R.layout.chip_with_exit,null);
+                        Chip chip = (Chip) view.findViewById(R.id.chip);
                         chip.setText(jsonKeyword.getJSONObject(x).getString("name"));
-                        keyword_chip_layout.addView(chip);
+                        keyword_chip_layout.addView(view);
                         keyword_array.add(jsonKeyword.getJSONObject(x).getString("name"));
+
+                        final int finalX = x;
+                        chip.setOnCloseIconClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    keyword_chip_layout.removeView(view);
+                                    int index=0;
+                                    for(int x=0;x<keyword_array.size();x++) {
+                                        if (keyword_array.get(x).equals(jsonKeyword.getJSONObject(finalX).getString("name"))) {
+                                            index = x;
+                                            break;
+                                        }
+                                    }
+                                    keyword_array.remove(index);
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
                     }
 
                 } catch (JSONException e) {
