@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.BottomNavigationView;
@@ -71,32 +72,26 @@ public class CityDetail extends BaseActivity {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    String location_id, url, urlPhoto, cityID;
+    String location_id, url, urlPhoto;
     TextView locationName, expandBtn, description, rating_number;
     RatingBar rating;
     ObjectAnimator animator;
     LinearLayout ratingLoc;
     String userID;
-    SharedPreferences user_id, city_id;
+    SharedPreferences user_id;
     ArrayList<JSONObject> cityList = new ArrayList<>();
     Button btnFindTour;
     BottomSheetDialog bottomSheetDialog;
+
+    int LOGIN = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_city_detail);
 
-        city_id = getSharedPreferences("city_id", Context.MODE_PRIVATE);
-        cityID = city_id.getString("city_id", "Data not found");
-
-        if(cityID.equals("Data not found")) {
-            Intent i = getIntent();
-            location_id = i.getStringExtra("idLocation");
-        }
-        else{
-            location_id = cityID;
-        }
+        Intent i = getIntent();
+        location_id = i.getStringExtra("idLocation");
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -148,11 +143,7 @@ public class CityDetail extends BaseActivity {
                     });
                 }
                 else{
-                    city_id = getSharedPreferences("city_id", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = city_id.edit();
-                    editor.putString("city_id", location_id);
-                    editor.apply();
-                    startActivity(new Intent(CityDetail.this, LogIn.class));
+                    startActivityForResult(new Intent(CityDetail.this, LogIn.class), LOGIN);
                 }
             }
         });
@@ -315,8 +306,6 @@ public class CityDetail extends BaseActivity {
                     rating_number.setText(String.valueOf(response.getJSONObject("location").getDouble("overall_review")));
                     rating.setRating((float) response.getJSONObject("location").getDouble("overall_review"));
 
-                    SharedPreferences.Editor editor1 = getSharedPreferences("city_id", Context.MODE_PRIVATE).edit();
-                    editor1.clear().apply();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -352,6 +341,15 @@ public class CityDetail extends BaseActivity {
 
         requestQueue.add(jsonObjectRequest);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            if (requestCode == LOGIN) {
+            }
+        }
     }
 
 }

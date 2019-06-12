@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -59,7 +60,7 @@ public class TourDetail extends BaseActivity {
     TextView locationName, locationDesc, total_packages_label, total_price_label, payPackageBtn;
     TextView TV_trip_date, TV_tour_name, no_facilities;
     String trip_date, trip_location, tour_phone, userID;
-    SharedPreferences user_id, selected_package;
+    SharedPreferences user_id;
 
     RecyclerView list;
     ArrayList<JSONObject> array = new ArrayList<>();
@@ -72,7 +73,7 @@ public class TourDetail extends BaseActivity {
 
     ConstraintLayout layout_pay;
 
-    int total_pack = 0, total_price = 0;
+    int total_pack = 0, total_price = 0, PACKAGE = 10;
 
     ArrayList<JSONObject> arrayFacilities = new ArrayList<>();
     TourDetailFacilitiesAdapter adapterFacilities;
@@ -202,38 +203,7 @@ public class TourDetail extends BaseActivity {
         payPackageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(!userID.equals("Data not found")) {
-                    startActivity(new Intent(TourDetail.this, TransactionDetail.class)
-                            .putExtra("origin", "pay")
-                            .putExtra("trip_pack", array.toString())
-                            .putExtra("trip_date", trip_date)
-                            .putExtra("trip_location", trip_location)
-                            .putExtra("total_price", total_price)
-                            .putExtra("tour_phone", tour_phone)
-                    );
-                }
-                else{
-                    JSONObject jsonObject = new JSONObject();
-
-                    try {
-                        jsonObject.put("origin", "pay");
-                        jsonObject.put("trip_pack", array.toString());
-                        jsonObject.put("trip_date", trip_date);
-                        jsonObject.put("trip_location", trip_location);
-                        jsonObject.put("total_price", total_price);
-                        jsonObject.put("tour_phone", tour_phone);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
-                    selected_package = getSharedPreferences("selected_pack", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editorPack = selected_package.edit();
-                    editorPack.putString("selected_pack", jsonObject.toString());
-                    editorPack.apply();
-
-                    startActivity(new Intent(TourDetail.this, LogIn.class));
-                }
+                payPackage();
             }
         });
 
@@ -272,6 +242,22 @@ public class TourDetail extends BaseActivity {
             }
         }
     };
+
+    private void payPackage(){
+        if(!userID.equals("Data not found")) {
+            startActivity(new Intent(TourDetail.this, TransactionDetail.class)
+                    .putExtra("origin", "pay")
+                    .putExtra("trip_pack", array.toString())
+                    .putExtra("trip_date", trip_date)
+                    .putExtra("trip_location", trip_location)
+                    .putExtra("total_price", total_price)
+                    .putExtra("tour_phone", tour_phone)
+            );
+        }
+        else{
+            startActivityForResult(new Intent(TourDetail.this, LogIn.class), PACKAGE);
+        }
+    }
 
     public void detailLocation(){
         url = C_URL+"tour/trip/detail?id="+trip_id;
@@ -369,5 +355,18 @@ public class TourDetail extends BaseActivity {
 
         requestQueue.add(jsonObjectRequest);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            if (requestCode == PACKAGE) {
+                user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                userID = user_id.getString("access_token", "Data not found");
+
+                payPackage();
+            }
+        }
     }
 }

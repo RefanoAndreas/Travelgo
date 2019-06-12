@@ -1,6 +1,8 @@
 package com.qreatiq.travelgo;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.button.MaterialButton;
@@ -47,9 +49,10 @@ public class FlightSearchJadwal extends BaseActivity {
     TextView tripInfo,title;
     LinearLayout flightSearchJadwal_menubar;
     MaterialButton dateBtn;
-    String intentString;
+    String intentString, userID;
+    SharedPreferences user_id;
     Intent intent;
-    int SORT = 10, FILTER = 20, adult_pax, child_pax, infant_pax;
+    int SORT = 10, FILTER = 20, adult_pax, child_pax, infant_pax, ROUTE = 100, selected;
 
     Date date, check_in_date, check_out_date;
 
@@ -61,6 +64,9 @@ public class FlightSearchJadwal extends BaseActivity {
         setContentView(R.layout.activity_flight_search_jadwal);
 
         set_toolbar();
+
+        user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userID = user_id.getString("access_token", "Data not found");
 
         intent = getIntent();
         intentString = intent.getStringExtra("origin");
@@ -134,108 +140,8 @@ public class FlightSearchJadwal extends BaseActivity {
             mAdapter.setOnItemClickListner(new TicketAdapter.ClickListener() {
                 @Override
                 public void onItemClick(int position) {
-                    if(intentString.equals("flight")) {
-                        if(intent.getBooleanExtra("isReturn",false)) {
-                            if (!intent.getBooleanExtra("isOpposite", false)) {
-                                startActivity(new Intent(FlightSearchJadwal.this, FlightSearchJadwal.class)
-                                        .putExtra("origin", intentString)
-                                        .putExtra("depart_data", destination.toString())
-                                        .putExtra("arrive_data", origin.toString())
-                                        .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
-                                        .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
-                                        .putExtra("adult", intent.getIntExtra("adult", 0))
-                                        .putExtra("child", intent.getIntExtra("child", 0))
-                                        .putExtra("infant", intent.getIntExtra("infant", 0))
-                                        .putExtra("kelas", intent.getStringExtra("kelas"))
-                                        .putExtra("isReturn", true)
-                                        .putExtra("isOpposite", true)
-                                        .putExtra("depart_ticket",ticketList.get(position).toString())
-                                );
-                            } else {
-                                startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class)
-                                        .putExtra("origin", intentString)
-                                        .putExtra("depart_data", destination.toString())
-                                        .putExtra("arrive_data", origin.toString())
-                                        .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
-                                        .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
-                                        .putExtra("adult", intent.getIntExtra("adult", 0))
-                                        .putExtra("child", intent.getIntExtra("child", 0))
-                                        .putExtra("infant", intent.getIntExtra("infant", 0))
-                                        .putExtra("kelas", intent.getStringExtra("kelas"))
-                                        .putExtra("isReturn", true)
-                                        .putExtra("isOpposite", true)
-                                        .putExtra("depart_ticket",intent.getStringExtra("depart_ticket"))
-                                        .putExtra("return_ticket",ticketList.get(position).toString())
-                                );
-                            }
-                        }
-                        else{
-                            startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class)
-                                    .putExtra("origin", intentString)
-                                    .putExtra("depart_data", origin.toString())
-                                    .putExtra("arrive_data", destination.toString())
-                                    .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
-                                    .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
-                                    .putExtra("adult", intent.getIntExtra("adult", 0))
-                                    .putExtra("child", intent.getIntExtra("child", 0))
-                                    .putExtra("infant", intent.getIntExtra("infant", 0))
-                                    .putExtra("kelas", intent.getStringExtra("kelas"))
-                                    .putExtra("isReturn", false)
-                                    .putExtra("depart_ticket",ticketList.get(position).toString())
-                            );
-                        }
-                    }
-                    else if(intentString.equals("train")) {
-                        if(intent.getBooleanExtra("isReturn",false)) {
-                            if (!intent.getBooleanExtra("isOpposite", false)) {
-                                startActivity(new Intent(FlightSearchJadwal.this, FlightSearchJadwal.class)
-                                        .putExtra("origin", intentString)
-                                        .putExtra("depart_data", destination.toString())
-                                        .putExtra("arrive_data", origin.toString())
-                                        .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
-                                        .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
-                                        .putExtra("adult", intent.getIntExtra("adult", 0))
-                                        .putExtra("child", intent.getIntExtra("child", 0))
-                                        .putExtra("infant", intent.getIntExtra("infant", 0))
-                                        .putExtra("kelas", intent.getStringExtra("kelas"))
-                                        .putExtra("isReturn", true)
-                                        .putExtra("isOpposite", true)
-                                        .putExtra("depart_ticket",ticketList.get(position).toString())
-                                );
-                            } else {
-                                startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class)
-                                        .putExtra("origin", intentString)
-                                        .putExtra("depart_data", destination.toString())
-                                        .putExtra("arrive_data", origin.toString())
-                                        .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
-                                        .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
-                                        .putExtra("adult", intent.getIntExtra("adult", 0))
-                                        .putExtra("child", intent.getIntExtra("child", 0))
-                                        .putExtra("infant", intent.getIntExtra("infant", 0))
-                                        .putExtra("kelas", intent.getStringExtra("kelas"))
-                                        .putExtra("isReturn", true)
-                                        .putExtra("isOpposite", true)
-                                        .putExtra("depart_ticket",intent.getStringExtra("depart_ticket"))
-                                        .putExtra("return_ticket",ticketList.get(position).toString())
-                                );
-                            }
-                        }
-                        else{
-                            startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class)
-                                    .putExtra("origin", intentString)
-                                    .putExtra("depart_data", origin.toString())
-                                    .putExtra("arrive_data", destination.toString())
-                                    .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
-                                    .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
-                                    .putExtra("adult", intent.getIntExtra("adult", 0))
-                                    .putExtra("child", intent.getIntExtra("child", 0))
-                                    .putExtra("infant", intent.getIntExtra("infant", 0))
-                                    .putExtra("kelas", intent.getStringExtra("kelas"))
-                                    .putExtra("isReturn", false)
-                                    .putExtra("depart_ticket",ticketList.get(position).toString())
-                            );
-                        }
-                    }
+                    selected = position;
+                    route(position);
                 }
             });
         }
@@ -282,6 +188,121 @@ public class FlightSearchJadwal extends BaseActivity {
 
     public void viewChangeDate(View v){
         startActivity(new Intent(FlightSearchJadwal.this, ChangeDateActivity.class));
+    }
+
+    private void route(int position){
+        if(intentString.equals("flight")) {
+            if(intent.getBooleanExtra("isReturn",false)) {
+                if (!intent.getBooleanExtra("isOpposite", false)) {
+                    startActivity(new Intent(FlightSearchJadwal.this, FlightSearchJadwal.class)
+                            .putExtra("origin", intentString)
+                            .putExtra("depart_data", destination.toString())
+                            .putExtra("arrive_data", origin.toString())
+                            .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
+                            .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
+                            .putExtra("adult", intent.getIntExtra("adult", 0))
+                            .putExtra("child", intent.getIntExtra("child", 0))
+                            .putExtra("infant", intent.getIntExtra("infant", 0))
+                            .putExtra("kelas", intent.getStringExtra("kelas"))
+                            .putExtra("isReturn", true)
+                            .putExtra("isOpposite", true)
+                            .putExtra("depart_ticket",ticketList.get(position).toString())
+                    );
+                } else {
+                    startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class)
+                            .putExtra("origin", intentString)
+                            .putExtra("depart_data", destination.toString())
+                            .putExtra("arrive_data", origin.toString())
+                            .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
+                            .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
+                            .putExtra("adult", intent.getIntExtra("adult", 0))
+                            .putExtra("child", intent.getIntExtra("child", 0))
+                            .putExtra("infant", intent.getIntExtra("infant", 0))
+                            .putExtra("kelas", intent.getStringExtra("kelas"))
+                            .putExtra("isReturn", true)
+                            .putExtra("isOpposite", true)
+                            .putExtra("depart_ticket",intent.getStringExtra("depart_ticket"))
+                            .putExtra("return_ticket",ticketList.get(position).toString())
+                    );
+                }
+            }
+            else{
+                startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class)
+                        .putExtra("origin", intentString)
+                        .putExtra("depart_data", origin.toString())
+                        .putExtra("arrive_data", destination.toString())
+                        .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
+                        .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
+                        .putExtra("adult", intent.getIntExtra("adult", 0))
+                        .putExtra("child", intent.getIntExtra("child", 0))
+                        .putExtra("infant", intent.getIntExtra("infant", 0))
+                        .putExtra("kelas", intent.getStringExtra("kelas"))
+                        .putExtra("isReturn", false)
+                        .putExtra("depart_ticket",ticketList.get(position).toString())
+                );
+            }
+        }
+        else if(intentString.equals("train")) {
+            if(intent.getBooleanExtra("isReturn",false)) {
+                if (!intent.getBooleanExtra("isOpposite", false)) {
+                    startActivity(new Intent(FlightSearchJadwal.this, FlightSearchJadwal.class)
+                            .putExtra("origin", intentString)
+                            .putExtra("depart_data", destination.toString())
+                            .putExtra("arrive_data", origin.toString())
+                            .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
+                            .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
+                            .putExtra("adult", intent.getIntExtra("adult", 0))
+                            .putExtra("child", intent.getIntExtra("child", 0))
+                            .putExtra("infant", intent.getIntExtra("infant", 0))
+                            .putExtra("kelas", intent.getStringExtra("kelas"))
+                            .putExtra("isReturn", true)
+                            .putExtra("isOpposite", true)
+                            .putExtra("depart_ticket",ticketList.get(position).toString())
+                    );
+                } else {
+                    if(userID.equals("Data not found")){
+                        startActivityForResult(new Intent(FlightSearchJadwal.this, LogIn.class), ROUTE);
+                    }
+                    else {
+                        startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class)
+                                .putExtra("origin", intentString)
+                                .putExtra("depart_data", destination.toString())
+                                .putExtra("arrive_data", origin.toString())
+                                .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
+                                .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
+                                .putExtra("adult", intent.getIntExtra("adult", 0))
+                                .putExtra("child", intent.getIntExtra("child", 0))
+                                .putExtra("infant", intent.getIntExtra("infant", 0))
+                                .putExtra("kelas", intent.getStringExtra("kelas"))
+                                .putExtra("isReturn", true)
+                                .putExtra("isOpposite", true)
+                                .putExtra("depart_ticket", intent.getStringExtra("depart_ticket"))
+                                .putExtra("return_ticket", ticketList.get(position).toString())
+                        );
+                    }
+                }
+            }
+            else{
+                if(userID.equals("Data not found")){
+                    startActivityForResult(new Intent(FlightSearchJadwal.this, LogIn.class), ROUTE);
+                }
+                else {
+                    startActivity(new Intent(FlightSearchJadwal.this, ConfirmationOrder.class)
+                            .putExtra("origin", intentString)
+                            .putExtra("depart_data", origin.toString())
+                            .putExtra("arrive_data", destination.toString())
+                            .putExtra("tanggal_berangkat", intent.getLongExtra("tanggal_berangkat", 0))
+                            .putExtra("tanggal_kembali", intent.getLongExtra("tanggal_kembali", 0))
+                            .putExtra("adult", intent.getIntExtra("adult", 0))
+                            .putExtra("child", intent.getIntExtra("child", 0))
+                            .putExtra("infant", intent.getIntExtra("infant", 0))
+                            .putExtra("kelas", intent.getStringExtra("kelas"))
+                            .putExtra("isReturn", false)
+                            .putExtra("depart_ticket", ticketList.get(position).toString())
+                    );
+                }
+            }
+        }
     }
 
     public void flightData() throws JSONException {
@@ -576,6 +597,12 @@ public class FlightSearchJadwal extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+            else if(requestCode == ROUTE){
+                user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                userID = user_id.getString("access_token", "Data not found");
+
+                route(selected);
             }
         }
     }

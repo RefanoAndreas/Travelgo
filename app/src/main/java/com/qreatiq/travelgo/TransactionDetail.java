@@ -54,8 +54,8 @@ public class TransactionDetail extends BaseActivity {
     double price;
     String tourPhone;
 
-    String userID, selectedPack;
-    SharedPreferences user_id, selected_package;
+    String userID;
+    SharedPreferences user_id;
 
     RecyclerView mRecyclerView;
     TransactionDetailAdapter mAdapter;
@@ -76,9 +76,6 @@ public class TransactionDetail extends BaseActivity {
         setContentView(R.layout.activity_transaction_detail);
 
         set_toolbar();
-
-        selected_package = getSharedPreferences("selected_pack", Context.MODE_PRIVATE);
-        selectedPack = selected_package.getString("selected_pack", "Data not found");
 
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("access_token", "Data not found");
@@ -134,35 +131,19 @@ public class TransactionDetail extends BaseActivity {
 //            }
 //        });
 
-        if(selectedPack.equals("Data not found")) {
-            if (intentString.equals("history")) {
-                isiDataPeserta.setVisibility(View.GONE);
-                saveButton.setVisibility(View.GONE);
-                sales_id = intent.getStringExtra("sales_id");
-                mRecyclerViewParticipant.setVisibility(View.VISIBLE);
-                detailHistory();
-            } else if (intentString.equals("pay")) {
-                trip_pack = intent.getStringExtra("trip_pack");
-                trip_loc = intent.getStringExtra("trip_location");
-                trip_date = intent.getStringExtra("trip_date");
-                price = intent.getIntExtra("total_price", 0);
-                tourPhone = intent.getStringExtra("tour_phone");
-                detailPayment();
-            }
-        }
-        else{
-            try {
-                JSONObject jsonObject = new JSONObject(selectedPack);
-                trip_pack = jsonObject.getString("trip_pack");
-                trip_loc = jsonObject.getString("trip_location");
-                trip_date = jsonObject.getString("trip_date");
-                price = jsonObject.getDouble("total_price");
-                tourPhone = jsonObject.getString("tour_phone");
-                detailPayment();
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        if (intentString.equals("history")) {
+            isiDataPeserta.setVisibility(View.GONE);
+            saveButton.setVisibility(View.GONE);
+            sales_id = intent.getStringExtra("sales_id");
+            mRecyclerViewParticipant.setVisibility(View.VISIBLE);
+            detailHistory();
+        } else if (intentString.equals("pay")) {
+            trip_pack = intent.getStringExtra("trip_pack");
+            trip_loc = intent.getStringExtra("trip_location");
+            trip_date = intent.getStringExtra("trip_date");
+            price = intent.getIntExtra("total_price", 0);
+            tourPhone = intent.getStringExtra("tour_phone");
+            detailPayment();
         }
 
         mAdapterParticipant.setOnItemClickListener(new ParticipantListAdapter.ClickListener() {
@@ -251,10 +232,6 @@ public class TransactionDetail extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        SharedPreferences.Editor editor1 = getSharedPreferences("selected_pack", Context.MODE_PRIVATE).edit();
-        editor1.clear().commit();
-        editor1.apply();
     }
 
     private void detailHistory(){

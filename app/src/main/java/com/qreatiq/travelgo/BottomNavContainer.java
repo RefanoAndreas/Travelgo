@@ -28,6 +28,7 @@ public class BottomNavContainer extends BaseActivity {
     FragmentHome fragmentHome;
     Fragment selectedFragment = null;
     BottomNavigationView bottomNav;
+    int LOGIN = 1;
 
     ConstraintLayout layout;
 
@@ -36,13 +37,10 @@ public class BottomNavContainer extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav_container);
 
-        user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-        userID = user_id.getString("access_token", "Data not found");
+
 
         deviceToken = getSharedPreferences("token", Context.MODE_PRIVATE);
         tokenDevice = deviceToken.getString("token", "Data not found");
-
-        Log.d("userID", userID);
 
         bottomNav = findViewById(R.id.nav_bottom);
         bottomNav.setOnNavigationItemSelectedListener(navListener);
@@ -67,7 +65,8 @@ public class BottomNavContainer extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
+        user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+        userID = user_id.getString("access_token", "Data not found");
         if(selectedFragment instanceof FragmentHome){
             fragmentHome.getLocation();
         }
@@ -110,7 +109,7 @@ public class BottomNavContainer extends BaseActivity {
                                 startActivity(new Intent(BottomNavContainer.this, D1Notifikasi.class).putExtra("data", "all"));
                             }
                             else{
-                                startActivity(new Intent(BottomNavContainer.this, LogIn.class));
+                                startActivityForResult(new Intent(BottomNavContainer.this, LogIn.class), LOGIN);
                             }
                             return false;
                         case R.id.nav_profile:
@@ -119,7 +118,7 @@ public class BottomNavContainer extends BaseActivity {
                                 break;
                             }
                             else{
-                                startActivity(new Intent(BottomNavContainer.this, LogIn.class));
+                                startActivityForResult(new Intent(BottomNavContainer.this, LogIn.class), LOGIN);
                                 return false;
                             }
                     }
@@ -141,6 +140,15 @@ public class BottomNavContainer extends BaseActivity {
         new AlertDialog.Builder(this)
                 .setTitle("Notice")
                 .setMessage("Fitur ini dalam tahap pengembangan")
-                .show();
+                 .show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK) {
+            if (requestCode == LOGIN) {
+            }
+        }
     }
 }

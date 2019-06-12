@@ -268,19 +268,25 @@ public class LogIn extends BaseActivity {
                             editor.putString("access_token", response.getJSONObject("access_token").getString("token_type")+" "+response.getJSONObject("access_token").getString("access_token"));
                             editor.apply();
 
-                            if(!selectedPack.equals("Data not found")){
-                                startActivity(new Intent(LogIn.this, TransactionDetail.class));
-                                finish();
-                            }
-                            else if(!cityID.equals("Data not found")){
-                                startActivity(new Intent(LogIn.this, CityDetail.class));
-                                finish();
-                            }
-                            else {
-                                Intent intentHome = new Intent(LogIn.this, BottomNavContainer.class);
-                                startActivity(intentHome);
-                                finish();
-                            }
+//                            if(!selectedPack.equals("Data not found")){
+//                                startActivity(new Intent(LogIn.this, TransactionDetail.class));
+//                                finish();
+//                            }
+//                            else if(!cityID.equals("Data not found")){
+//                                startActivity(new Intent(LogIn.this, CityDetail.class));
+//                                finish();
+//                            }
+//                            else {
+//                                Intent intentHome = new Intent(LogIn.this, BottomNavContainer.class);
+//                                startActivity(intentHome);
+//                                finish();
+//                            }
+
+                            Intent in = new Intent();
+                            setResult(RESULT_OK, in);
+                            finish();
+
+
                         } else if (response.getString("status").equals("invalid email")) {
                             emailLayout.setError("Invalid Email");
                         } else {
