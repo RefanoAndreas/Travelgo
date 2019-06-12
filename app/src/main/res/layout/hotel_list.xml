@@ -26,7 +26,8 @@
                     android:id="@+id/itemRV_hotelPhoto"
                     android:layout_width="110dp"
                     android:layout_height="110dp"
-                    android:src="@drawable/background5"/>
+                    android:src="@drawable/background5"
+                    android:scaleType="centerCrop"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

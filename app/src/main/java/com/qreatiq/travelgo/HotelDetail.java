@@ -19,6 +19,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.qreatiq.travelgo.Utils.BaseActivity;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
@@ -59,11 +62,21 @@ public class HotelDetail extends BaseActivity {
         set_toolbar();
 
         carouselView = (CarouselView) findViewById(R.id.hotel_Carousel);
-        carouselView.setPageCount(sampleImages.length);
+
         carouselView.setImageListener(new ImageListener() {
             @Override
             public void setImageForPosition(int position, ImageView imageView) {
-                imageView.setImageResource(sampleImages[position]);
+                try {
+                    Picasso.get()
+                            .load(C_URL+"images/hotel?" +
+                                    "url="+hotel.getJSONArray("photos").getJSONObject(position).getString("url")+
+                                    "&mime="+hotel.getJSONArray("photos").getJSONObject(position).getString("mime"))
+                            .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                            .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                            .into(imageView);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -81,12 +94,16 @@ public class HotelDetail extends BaseActivity {
             address.setText(hotel.getString("address"));
             rating.setRating((float) hotel.getDouble("rating"));
             rating_number.setText(String.valueOf(hotel.getDouble("rating")));
+            carouselView.setPageCount(hotel.getJSONArray("photos").length());
 
             for(int x=0;x<hotel.getJSONArray("rooms").length();x++) {
                 JSONObject json = new JSONObject();
                 json.put("name",hotel.getJSONArray("rooms").getJSONObject(x).getString("name")+" ("+(hotel.getJSONArray("rooms").getJSONObject(x).getBoolean("breakfast") ? "With Breakfast" : "Room Only")+")");
                 json.put("breakfast",hotel.getJSONArray("rooms").getJSONObject(x).getBoolean("breakfast"));
-                json.put("price",hotel.getJSONArray("rooms").getJSONObject(x).getInt("price"));
+                json.put("price",hotel.getJSONArray("rooms").getJSONObject(x).getDouble("price"));
+                json.put("photo",C_URL+"images/hotel?" +
+                        "url="+hotel.getJSONArray("photos").getJSONObject(0).getString("url")+
+                        "&mime="+hotel.getJSONArray("photos").getJSONObject(0).getString("mime"));
                 json.put("id",hotel.getJSONArray("rooms").getJSONObject(x).getString("id"));
                 hotelRoomList.add(json);
             }

@@ -1,7 +1,7 @@
 package com.qreatiq.travelgo;
 
-import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -23,6 +23,7 @@ import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
@@ -49,14 +50,14 @@ public class FlightSearchJadwal extends BaseActivity {
     TextView tripInfo,title;
     LinearLayout flightSearchJadwal_menubar;
     MaterialButton dateBtn;
-    String intentString, userID;
-    SharedPreferences user_id;
+    String intentString,url_captcha,captcha_input = "";
     Intent intent;
     int SORT = 10, FILTER = 20, adult_pax, child_pax, infant_pax, ROUTE = 100, selected;
 
     Date date, check_in_date, check_out_date;
 
     JSONObject origin,destination,hotel_city,sort = new JSONObject(),filter = new JSONObject();
+    CaptchaModal captcha_modal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +65,6 @@ public class FlightSearchJadwal extends BaseActivity {
         setContentView(R.layout.activity_flight_search_jadwal);
 
         set_toolbar();
-
-        user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-        userID = user_id.getString("access_token", "Data not found");
 
         intent = getIntent();
         intentString = intent.getStringExtra("origin");
@@ -307,12 +305,16 @@ public class FlightSearchJadwal extends BaseActivity {
 
     public void flightData() throws JSONException {
         SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
+        final String android_id = Settings.Secure.getString(this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
         String url = C_URL+"flight/search?origin="+origin.getString("code")+
                     "&destination="+destination.getString("code")+
                     "&time="+format.format(date)+
                     "&adult="+adult_pax+
                     "&child="+child_pax+
-                    "&infant="+infant_pax;
+                    "&infant="+infant_pax+
+                    "&airline_access_code="+captcha_input+
+                    "&android_id="+android_id;
 
         if(sort.has("data"))
             url += "&sort="+sort.getString("data");
@@ -324,35 +326,42 @@ public class FlightSearchJadwal extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
-                    JSONArray jsonArray = response.getJSONArray("data");
-                    for(int x=0; x<jsonArray.length(); x++){
-                        JSONObject jsonObject = new JSONObject();
+                    if(response.getString("status").equals("success")) {
+                        JSONArray jsonArray = response.getJSONArray("data");
+                        for (int x = 0; x < jsonArray.length(); x++) {
+                            JSONObject jsonObject = new JSONObject();
 
-                        jsonObject.put("airlines", jsonArray.getJSONObject(x).getString("airlines"));
-                        jsonObject.put("flight_code", jsonArray.getJSONObject(x).getString("code"));
-                        jsonObject.put("departTime", jsonArray.getJSONObject(x).getString("time_depart_label"));
-                        jsonObject.put("arrivalTime", jsonArray.getJSONObject(x).getString("time_arrive_label"));
-                        jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));
-                        jsonObject.put("departAirport", origin.getString("code"));
-                        jsonObject.put("arrivalAirport", destination.getString("code"));
-                        jsonObject.put("departData", origin);
-                        jsonObject.put("arrivalData", destination);
-                        jsonObject.put("departTimeNumber", jsonArray.getJSONObject(x).getString("time_depart_number"));
-                        jsonObject.put("arriveTimeNumber", jsonArray.getJSONObject(x).getString("time_arrive_number"));
-                        if(jsonArray.getJSONObject(x).getInt("transit") > 1)
-                            jsonObject.put("totalTransit", jsonArray.getJSONObject(x).getString("transit")+
-                                    (jsonArray.getJSONObject(x).getInt("transit") > 2 ? " Transits" : " Transit")
-                            );
-                        else
-                            jsonObject.put("totalTransit", "Langsung");
-                        jsonObject.put("price", jsonArray.getJSONObject(x).getString("price"));
+                            jsonObject.put("airlines", jsonArray.getJSONObject(x).getString("airlines"));
+                            jsonObject.put("flight_code", jsonArray.getJSONObject(x).getString("code"));
+                            jsonObject.put("departTime", jsonArray.getJSONObject(x).getString("time_depart_label"));
+                            jsonObject.put("arrivalTime", jsonArray.getJSONObject(x).getString("time_arrive_label"));
+                            jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));
+                            jsonObject.put("departAirport", origin.getString("code"));
+                            jsonObject.put("arrivalAirport", destination.getString("code"));
+                            jsonObject.put("departData", origin);
+                            jsonObject.put("arrivalData", destination);
+                            jsonObject.put("departTimeNumber", jsonArray.getJSONObject(x).getString("time_depart_number"));
+                            jsonObject.put("arriveTimeNumber", jsonArray.getJSONObject(x).getString("time_arrive_number"));
+                            if (jsonArray.getJSONObject(x).getInt("transit") > 1)
+                                jsonObject.put("totalTransit", jsonArray.getJSONObject(x).getString("transit") +
+                                        (jsonArray.getJSONObject(x).getInt("transit") > 2 ? " Transits" : " Transit")
+                                );
+                            else
+                                jsonObject.put("totalTransit", "Langsung");
+                            jsonObject.put("price", jsonArray.getJSONObject(x).getString("price"));
 
-                        ticketList.add(jsonObject);
+                            ticketList.add(jsonObject);
 
-                        if(x==0)
-                            mAdapter.notifyDataSetChanged();
-                        else
-                            mAdapter.notifyItemInserted(x);
+                            if (x == 0)
+                                mAdapter.notifyDataSetChanged();
+                            else
+                                mAdapter.notifyItemInserted(x);
+                        }
+                    }
+                    else{
+                        url_captcha = C_URL_IMAGES+"captcha?android_id="+android_id;
+                        captcha_modal = new CaptchaModal();
+                        captcha_modal.show(getSupportFragmentManager(),"modal");
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -496,6 +505,7 @@ public class FlightSearchJadwal extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    Log.d("data",response.getJSONArray("data").toString());
                     JSONArray jsonArray = response.getJSONArray("data");
                     for(int x=0; x<jsonArray.length(); x++){
                         JSONObject jsonObject = new JSONObject();
@@ -509,6 +519,10 @@ public class FlightSearchJadwal extends BaseActivity {
                         jsonObject.put("check_out", jsonArray.getJSONObject(x).getString("check_out"));
                         jsonObject.put("rating", jsonArray.getJSONObject(x).getDouble("rating"));
                         jsonObject.put("rooms", jsonArray.getJSONObject(x).getJSONArray("rooms"));
+                        jsonObject.put("photos", jsonArray.getJSONObject(x).getJSONArray("photo"));
+                        jsonObject.put("photo", C_URL+"images/hotel?" +
+                                "url="+jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(0).getString("url")+
+                                "&mime="+jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(0).getString("mime"));
                         jsonObject.put("facilities", jsonArray.getJSONObject(x).getJSONArray("facilities"));
                         jsonObject.put("price", jsonArray.getJSONObject(x).getString("price"));
 
@@ -556,6 +570,13 @@ public class FlightSearchJadwal extends BaseActivity {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonObjectRequest);
+
+        requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+            @Override
+            public void onRequestFinished(Request<Object> request) {
+                requestQueue.getCache().clear();
+            }
+        });
     }
 
     public void sortView(View v){

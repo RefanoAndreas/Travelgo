@@ -14,6 +14,9 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -73,6 +76,12 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.Hote
             hotelListHolder.hotelPrice.setText("Rp. "+formatter.format(jsonObject.getInt("price"))+" per malam");
 
             hotelListHolder.rating.setRating((float) jsonObject.getDouble("rating"));
+
+            Picasso.get()
+                    .load(jsonObject.getString("photo"))
+                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                    .into(hotelListHolder.mImageView);
         } catch (JSONException e) {
             e.printStackTrace();
         }

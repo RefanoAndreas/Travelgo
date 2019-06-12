@@ -19,6 +19,7 @@
                 android:layout_height="100dp"
                 android:id="@+id/image"
                 android:src="@drawable/background5"
+                android:scaleType="centerCrop"
                 app:riv_corner_radius_bottom_left="10dp"
                 app:riv_corner_radius_top_left="10dp"/>
             <LinearLayout
