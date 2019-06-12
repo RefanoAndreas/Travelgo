@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.button.MaterialButton;
+import android.support.design.chip.Chip;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,6 +58,15 @@ public class FilterTourDuration extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 parent.duration = duration;
+
+                parent.time_range.removeAllViews();
+
+                LayoutInflater inflater = LayoutInflater.from(parent);
+                View chip = inflater.inflate(R.layout.chip_loc_filter,null);
+                Chip chip1 = (Chip)chip.findViewById(R.id.chip);
+                chip1.setText(duration+" Hari "+(duration - 1)+" Malam");
+                chip1.setChecked(true);
+                parent.time_range.addView(chip);
 
 //                parent.adult_label.setText(String.valueOf(parent.adult)+" Dewasa");
                 Log.d("duration", String.valueOf(parent.duration));

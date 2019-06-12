@@ -254,6 +254,8 @@ public class FilterTour extends BaseActivity {
                 location.removeAllViews();
                 getLocation();
 
+                time_range.removeAllViews();
+
                 for (int x = 0; x < time_range.getChildCount(); x++) {
                     from_system = true;
                     Chip chip = (Chip) time_range.getChildAt(x);
