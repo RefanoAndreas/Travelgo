@@ -59,7 +59,7 @@ public class FilterTourDuration extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 parent.duration = duration;
 
-                parent.time_range.removeAllViews();
+//                parent.time_range.removeAllViews();
 
                 LayoutInflater inflater = LayoutInflater.from(parent);
                 View chip = inflater.inflate(R.layout.chip_loc_filter,null);

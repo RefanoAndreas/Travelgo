@@ -61,7 +61,7 @@ public class FilterTour extends BaseActivity {
     ArrayList<JSONObject> location_array = new ArrayList<JSONObject>(),time_range_array = new ArrayList<JSONObject>();
     boolean from_system = false;
     String url;
-    int duration = 1;
+    int duration = -1;
 
     Date start_date = new Date(),end_date = new Date();
 
@@ -254,7 +254,7 @@ public class FilterTour extends BaseActivity {
                 location.removeAllViews();
                 getLocation();
 
-                time_range.removeAllViews();
+//                time_range.removeAllViews();
 
                 for (int x = 0; x < time_range.getChildCount(); x++) {
                     from_system = true;
@@ -278,7 +278,7 @@ public class FilterTour extends BaseActivity {
                     json.put("max_price",max_price);
                     json.put("min_price",min_price);
                     json.put("location",new JSONArray(location_array.toString()));
-                    json.put("time_range",new JSONArray(time_range_array.toString()));
+                    json.put("time_range",duration);
 
                     Intent i = new Intent();
                     i.putExtra("filter", json.toString());

@@ -173,6 +173,8 @@ public class FragmentTour extends Fragment {
                 url += "&max_price="+filter.getLong("max_price");
                 url += "&min_price="+filter.getLong("min_price");
                 url += "&location="+filter.getString("location");
+                if(filter.getInt("time_range") >= 0)
+                    url += "&duration="+filter.getString("time_range");
             } catch (JSONException e) {
                 e.printStackTrace();
             }
