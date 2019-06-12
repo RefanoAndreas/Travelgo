@@ -337,16 +337,19 @@ public class FilterTour extends BaseActivity {
                 try {
                     location.removeAllViews();
                     location_arr = new JSONArray(data.getStringExtra("location"));
-                    for(int x=0;x<location_arr.length();x++) {
-                        location_array.add(location_arr.getJSONObject(x));
-                        LayoutInflater inflater = LayoutInflater.from(FilterTour.this);
-                        View chip = inflater.inflate(R.layout.chip_loc_filter,null);
-                        Chip chip1 = (Chip)chip.findViewById(R.id.chip);
-                        chip1.setText(location_arr.getJSONObject(x).getString("label"));
-                        location.addView(chip);
+                    if(location_arr.length() > 0) {
+                        for (int x = 0; x < location_arr.length(); x++) {
+                            location_array.add(location_arr.getJSONObject(x));
+                            LayoutInflater inflater = LayoutInflater.from(FilterTour.this);
+                            View chip = inflater.inflate(R.layout.chip_loc_filter, null);
+                            Chip chip1 = (Chip) chip.findViewById(R.id.chip);
+                            chip1.setText(location_arr.getJSONObject(x).getString("label"));
+                            location.addView(chip);
+                        }
                     }
-
-
+                    else{
+                        location_array.clear();
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

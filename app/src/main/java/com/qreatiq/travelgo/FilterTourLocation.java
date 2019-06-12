@@ -87,7 +87,7 @@ public class FilterTourLocation extends BaseActivity {
             public void onItemClick(int position, boolean isChecked) {
                 try {
                     if(position <= arrayLocation.size()-1) {
-                        if (arrayLocation.get(position).has("from_system") && arrayLocation.get(position).getBoolean("from_system")) {
+                        if (arrayLocation.get(position).getBoolean("from_system")) {
                             arrayLocation.get(position).put("from_system", false);
                             adapter.notifyDataSetChanged();
                             return;
@@ -103,6 +103,7 @@ public class FilterTourLocation extends BaseActivity {
                             }
                         } else
                             arrayData.add(json);
+                        arrayLocation.get(position).put("from_system", false);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -142,11 +143,14 @@ public class FilterTourLocation extends BaseActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    for(int x=0;x<arrayLocation.size();x++)
-                        arrayLocation.get(x).put("checked",false);
+                    for(int x=0;x<arrayLocation.size();x++) {
+                        arrayLocation.get(x).put("checked", false);
+                        arrayLocation.get(x).put("from_system", true);
+                    }
                     adapter.notifyDataSetChanged();
-//                    tour_search.setText("");
+                    arrayData.clear();
 
+                    tour_search.setText("");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -159,35 +163,40 @@ public class FilterTourLocation extends BaseActivity {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    arrayLocation.clear();
-                    adapter.notifyDataSetChanged();
+            public void onResponse(final JSONObject response) {
+                arrayLocation.clear();
+                adapter.notifyDataSetChanged();
 
-                    JSONArray jsonArray = response.getJSONArray("place_visit");
-                    for(int x=0; x<jsonArray.length(); x++){
-                        JSONObject jsonObject = new JSONObject();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("place_visit");
+                            for(int x=0; x<jsonArray.length(); x++){
+                                JSONObject jsonObject = new JSONObject();
 
-                        jsonObject.put("label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
-                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
-                        jsonObject.put("checked", false);
+                                jsonObject.put("label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
+                                jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
+                                jsonObject.put("checked", false);
+                                jsonObject.put("from_system", false);
+
+                                for(int y=0;y<arrayData.size();y++) {
+                                    if (arrayData.get(y).getString("id").equals(jsonArray.getJSONObject(x).getString("id"))) {
+                                        jsonObject.put("checked", true);
+                                        jsonObject.put("from_system", true);
+                                        break;
+                                    }
+                                }
 
 
-                        for(int y=0;y<arrayData.size();y++) {
-                            if (arrayData.get(y).getString("id").equals(jsonArray.getJSONObject(x).getString("id"))) {
-                                jsonObject.put("checked", true);
-                                jsonObject.put("from_system", true);
-                                break;
+                                arrayLocation.add(jsonObject);
                             }
+                            adapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
-
-
-                        arrayLocation.add(jsonObject);
                     }
-                    adapter.notifyDataSetChanged();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                },100);
             }
         }, new Response.ErrorListener() {
             @Override
