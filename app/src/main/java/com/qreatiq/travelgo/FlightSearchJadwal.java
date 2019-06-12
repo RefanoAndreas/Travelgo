@@ -258,7 +258,7 @@ public class FlightSearchJadwal extends BaseActivity {
                             .putExtra("depart_ticket",ticketList.get(position).toString())
                     );
                 } else {
-                    if(userID.equals("Data not found")){
+                    if(base_shared_pref.getString("access_token","Data not found").equals("Data not found")){
                         startActivityForResult(new Intent(FlightSearchJadwal.this, LogIn.class), ROUTE);
                     }
                     else {
@@ -281,7 +281,7 @@ public class FlightSearchJadwal extends BaseActivity {
                 }
             }
             else{
-                if(userID.equals("Data not found")){
+                if(base_shared_pref.getString("access_token","Data not found").equals("Data not found")){
                     startActivityForResult(new Intent(FlightSearchJadwal.this, LogIn.class), ROUTE);
                 }
                 else {
@@ -620,9 +620,6 @@ public class FlightSearchJadwal extends BaseActivity {
                 }
             }
             else if(requestCode == ROUTE){
-                user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                userID = user_id.getString("access_token", "Data not found");
-
                 route(selected);
             }
         }
