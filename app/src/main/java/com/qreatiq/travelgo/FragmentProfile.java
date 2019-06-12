@@ -218,9 +218,12 @@ public class FragmentProfile extends Fragment {
 
         try {
             jsonObject.put("token", parent.tokenDevice);
+            jsonObject.put("android_id", parent.android_id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        Log.d("apapun", jsonObject.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override

@@ -105,7 +105,7 @@ public class BottomNavContainer extends BaseActivity {
 
                             break;
                         case R.id.nav_notification:
-                            if(!userID.equals("Data not found")) {
+                            if(!base_shared_pref.getString("access_token", "Data not found").equals("Data not found")) {
                                 startActivity(new Intent(BottomNavContainer.this, D1Notifikasi.class).putExtra("data", "all"));
                             }
                             else{
@@ -113,7 +113,7 @@ public class BottomNavContainer extends BaseActivity {
                             }
                             return false;
                         case R.id.nav_profile:
-                            if(!userID.equals("Data not found")) {
+                            if(!base_shared_pref.getString("access_token", "Data not found").equals("Data not found")) {
                                 selectedFragment = new FragmentProfile();
                                 break;
                             }

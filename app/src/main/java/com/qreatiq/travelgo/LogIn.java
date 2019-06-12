@@ -186,6 +186,7 @@ public class LogIn extends BaseActivity {
 
         try {
             object.put("token", tokenFCM);
+            object.put("android_id", android_id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -200,19 +201,23 @@ public class LogIn extends BaseActivity {
                         editor.putString("access_token", response.getJSONObject("access_token").getString("token_type")+" "+response.getJSONObject("access_token").getString("access_token"));
                         editor.apply();
 
-                        if(!selectedPack.equals("Data not found")){
-                            startActivity(new Intent(LogIn.this, TransactionDetail.class));
-                            finish();
-                        }
-                        else if(!cityID.equals("Data not found")){
-                            startActivity(new Intent(LogIn.this, CityDetail.class));
-                            finish();
-                        }
-                        else {
-                            Intent intentHome = new Intent(LogIn.this, BottomNavContainer.class);
-                            startActivity(intentHome);
-                            finish();
-                        }
+//                        if(!selectedPack.equals("Data not found")){
+//                            startActivity(new Intent(LogIn.this, TransactionDetail.class));
+//                            finish();
+//                        }
+//                        else if(!cityID.equals("Data not found")){
+//                            startActivity(new Intent(LogIn.this, CityDetail.class));
+//                            finish();
+//                        }
+//                        else {
+//                            Intent intentHome = new Intent(LogIn.this, BottomNavContainer.class);
+//                            startActivity(intentHome);
+//                            finish();
+//                        }
+
+                        Intent in = new Intent();
+                        setResult(RESULT_OK, in);
+                        finish();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -253,9 +258,12 @@ public class LogIn extends BaseActivity {
                 jsonObject.put("email", email.getText().toString());
                 jsonObject.put("password", password.getText().toString());
                 jsonObject.put("token", tokenFCM);
+                jsonObject.put("android_id", android_id);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+            Log.d("androidID", android_id);
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
                 @Override

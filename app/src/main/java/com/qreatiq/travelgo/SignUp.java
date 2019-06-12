@@ -227,6 +227,7 @@ public class SignUp extends BaseActivity {
                 jsonObject.put("email", email.getText().toString());
                 jsonObject.put("password", password.getText().toString());
                 jsonObject.put("token", tokenDevice);
+                jsonObject.put("android_id", android_id);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -282,6 +283,7 @@ public class SignUp extends BaseActivity {
 
         try {
             object.put("token", tokenDevice);
+            object.put("android_id", android_id);
         } catch (JSONException e) {
             e.printStackTrace();
         }
