@@ -216,6 +216,8 @@ public class TransactionDetail extends BaseActivity {
 
         TV_tour_phone.setText(tourPhone);
 
+//        Log.d("trip_pack", trip_pack);
+
         try {
             JSONArray jsonArray = new JSONArray(trip_pack);
             for(int x=0; x<jsonArray.length();x++){
@@ -275,7 +277,7 @@ public class TransactionDetail extends BaseActivity {
 
                         JSONObject jsonObject1 = new JSONObject();
 
-//                        jsonObject1.put("photo", jsonObjectPack.getString("photo"));
+                        jsonObject1.put("photo", jsonObjectPack.getString("photo"));
                         jsonObject1.put("trip_name", jsonObjectPack.getJSONObject("trip_pack").getString("name"));
                         jsonObject1.put("trip_price", jsonObjectPack.getJSONObject("trip_pack").getString("price"));
                         Log.d("trip", jsonObject1.toString());

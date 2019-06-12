@@ -3,13 +3,18 @@ package com.qreatiq.travelgo;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.button.MaterialButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.squareup.picasso.MemoryPolicy;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
@@ -30,16 +35,17 @@ public class TransactionDetailAdapter extends RecyclerView.Adapter<TransactionDe
     }
 
     public class TransactionDetailHolder extends RecyclerView.ViewHolder {
-        public RoundedImageView mRoundedImageView;
-        public TextView mTextView1;
-        public TextView mTextView2;
-        public ConstraintLayout layout;
+        RoundedImageView image;
+        TextView name,price;
+        LinearLayout layout;
+
         public TransactionDetailHolder(@NonNull View itemView) {
             super(itemView);
-            mRoundedImageView = itemView.findViewById(R.id.itemRV_Home_RV);
-            mTextView1 = itemView.findViewById(R.id.itemRV_Home_TV1);
-            mTextView2 = itemView.findViewById(R.id.itemRV_Home_TV2);
-            layout = (ConstraintLayout) itemView.findViewById(R.id.layout);
+
+            image = (RoundedImageView) itemView.findViewById(R.id.image);
+            name = (TextView) itemView.findViewById(R.id.name);
+            price = (TextView) itemView.findViewById(R.id.price);
+            layout = (LinearLayout) itemView.findViewById(R.id.layout);
 
         }
     }
@@ -58,11 +64,17 @@ public class TransactionDetailAdapter extends RecyclerView.Adapter<TransactionDe
         try {
 //            Picasso.get().load(jsonObject.getString("photo")).placeholder(R.mipmap.ic_launcher).into(transactionDetailHolder.mRoundedImageView);
 
-            transactionDetailHolder.mTextView1.setText(jsonObject.getString("trip_name"));
+            Picasso.get()
+                    .load(jsonObject.getString("photo"))
+                    .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                    .networkPolicy(NetworkPolicy.NO_CACHE,NetworkPolicy.NO_STORE)
+                    .into(transactionDetailHolder.image);
+
+            transactionDetailHolder.name.setText(jsonObject.getString("trip_name"));
 
             NumberFormat formatter = new DecimalFormat("#,###");
             String formattedNumber = formatter.format(jsonObject.getDouble("trip_price"));
-            transactionDetailHolder.mTextView2.setText("Rp. "+formattedNumber);
+            transactionDetailHolder.price.setText("Rp. "+formattedNumber);
         } catch (JSONException e) {
             e.printStackTrace();
         }
