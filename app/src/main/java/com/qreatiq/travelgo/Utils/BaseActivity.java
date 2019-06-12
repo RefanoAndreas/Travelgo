@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
@@ -50,6 +51,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public SharedPreferences base_shared_pref;
     public SharedPreferences.Editor edit_base_shared_pref;
+    public String android_id;
 
     public RequestQueue requestQueue;
 //    public String C_URL = "http://safanci.com/stagging1/travelgo/api/";
@@ -68,6 +70,7 @@ public class BaseActivity extends AppCompatActivity {
         changeLang(base_shared_pref.getString("lang","en"));
 
         requestQueue = Volley.newRequestQueue(this);
+        android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
 //        Log.d("FCM", FirebaseInstanceId.getInstance().getToken());
 

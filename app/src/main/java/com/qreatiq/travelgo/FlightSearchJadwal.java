@@ -305,8 +305,6 @@ public class FlightSearchJadwal extends BaseActivity {
 
     public void flightData() throws JSONException {
         SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
-        final String android_id = Settings.Secure.getString(this.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
         String url = C_URL+"flight/search?origin="+origin.getString("code")+
                     "&destination="+destination.getString("code")+
                     "&time="+format.format(date)+

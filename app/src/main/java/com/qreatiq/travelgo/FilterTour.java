@@ -13,6 +13,7 @@ import android.support.design.chip.ChipGroup;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -172,6 +173,7 @@ public class FilterTour extends BaseActivity {
                             }
                             location_array.remove(index);
                         }
+                        Log.d("data",location_array.toString());
                         from_system = false;
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -362,14 +364,53 @@ public class FilterTour extends BaseActivity {
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(JSONObject response) {
+            public void onResponse(final JSONObject response) {
                 try {
                     for(int x=0;x<response.getJSONArray("location").length();x++){
                         LayoutInflater inflater = LayoutInflater.from(FilterTour.this);
-                        View chip = inflater.inflate(R.layout.chip_loc_filter,null);
-                        Chip chip1 = (Chip)chip.findViewById(R.id.chip);
+                        final View chip = inflater.inflate(R.layout.chip_loc_filter,null);
+                        final Chip chip1 = (Chip)chip.findViewById(R.id.chip);
                         chip1.setText(response.getJSONArray("location").getJSONObject(x).getString("name"));
+
                         location.addView(chip);
+
+                        final int finalX = x;
+                        chip1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                if(from_system) {
+                                    from_system = false;
+                                    return;
+                                }
+                                try {
+                                    JSONObject json = new JSONObject("{\"id\":\""+response.getJSONArray("location").getJSONObject(finalX).getString("id")+"\",\"label\":\""+chip1.getText().toString()+"\"}");
+                                    if(isChecked)
+                                        location_array.add(json);
+                                    else {
+                                        int index=0;
+                                        for(int x=0;x<location_array.size();x++){
+                                            if(location_array.get(x).toString().equals(json.toString())) {
+                                                index = x;
+                                                break;
+                                            }
+                                        }
+                                        location_array.remove(index);
+                                    }
+                                    from_system = false;
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                        if(filter.has("location")) {
+                            for (int y = 0; y < filter.getJSONArray("location").length(); y++) {
+                                if (filter.getJSONArray("location").getJSONObject(y).getString("id").equals(response.getJSONArray("location").getJSONObject(x).getString("id"))) {
+                                    chip1.setChecked(true);
+                                    break;
+                                }
+                            }
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
