@@ -1,5 +1,6 @@
 package com.qreatiq.travelgo;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -58,9 +59,10 @@ public class TourDetail extends BaseActivity {
     String trip_id, url, urlPhoto;
     RequestQueue requestQueue;
     TextView locationName, locationDesc, total_packages_label, total_price_label, payPackageBtn;
-    TextView TV_trip_date, TV_tour_name, no_facilities;
+    TextView TV_trip_date, TV_tour_name, no_facilities, expandBtn;
     String trip_date, trip_location, tour_phone, userID;
     SharedPreferences user_id;
+    ObjectAnimator animator;
 
     RecyclerView list;
     ArrayList<JSONObject> array = new ArrayList<>();
@@ -94,6 +96,7 @@ public class TourDetail extends BaseActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 
+        expandBtn = (TextView)findViewById(R.id.btnExpand);
         locationName = (TextView)findViewById(R.id.name);
         locationDesc = (TextView)findViewById(R.id.cityDesc);
         layout_pay = (ConstraintLayout) findViewById(R.id.layout_pay);
@@ -127,6 +130,28 @@ public class TourDetail extends BaseActivity {
         carouselView.setImageListener(imageListener);
 
         detailLocation();
+
+        expandBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(expandBtn.getText().toString().equals("View More")){
+                    expandBtn.setText("View Less");
+                    animator = ObjectAnimator.ofInt(
+                            locationDesc,"maxLines", 500
+                    );
+                    animator.setDuration(1000);
+                    animator.start();
+                }
+                else{
+                    expandBtn.setText("View More");
+                    animator = ObjectAnimator.ofInt(
+                            locationDesc,"maxLines", 4
+                    );
+                    animator.setDuration(1000);
+                    animator.start();
+                }
+            }
+        });
 
         adapter.setOnChangeQuantityListener(new TourDetailAdapter.ClickListener() {
             @Override
