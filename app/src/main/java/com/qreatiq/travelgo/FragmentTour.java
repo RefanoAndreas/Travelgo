@@ -38,6 +38,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
@@ -172,10 +174,11 @@ public class FragmentTour extends Fragment {
                 url += "&end_date="+filter.getString("end_date");
                 url += "&max_price="+filter.getLong("max_price");
                 url += "&min_price="+filter.getLong("min_price");
-                url += "&location="+filter.getString("location");
-                if(filter.getInt("time_range") >= 0)
-                    url += "&duration="+filter.getString("time_range");
+                url += "&location="+ URLEncoder.encode(filter.getString("location"), "utf-8");
+                url += "&duration="+URLEncoder.encode(filter.getString("time_range"), "utf-8");
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
         }

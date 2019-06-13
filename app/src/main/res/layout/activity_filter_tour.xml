@@ -249,30 +249,25 @@
                             android:textSize="12dp"/>
 
                     </LinearLayout>
-                    <HorizontalScrollView
+                    <android.support.design.chip.ChipGroup
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:scrollbars="none">
-                        <android.support.design.chip.ChipGroup
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/location"
-                            android:layout_marginTop="10dp">
+                        android:id="@+id/location"
+                        android:layout_marginTop="10dp">
 
-                            <!--<android.support.design.chip.Chip-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:text="Kuta"-->
-                                <!--android:textColor="#424242"-->
-                                <!--android:textSize="12dp"-->
-                                <!--style="@style/Widget.MaterialComponents.Chip.Filter"-->
-                                <!--app:chipBackgroundColor="@android:color/white"-->
-                                <!--app:chipCornerRadius="10dp"-->
-                                <!--app:chipStrokeColor="#707070"-->
-                                <!--app:chipStrokeWidth="1dp" />-->
+                        <!--<android.support.design.chip.Chip-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:text="Kuta"-->
+                            <!--android:textColor="#424242"-->
+                            <!--android:textSize="12dp"-->
+                            <!--style="@style/Widget.MaterialComponents.Chip.Filter"-->
+                            <!--app:chipBackgroundColor="@android:color/white"-->
+                            <!--app:chipCornerRadius="10dp"-->
+                            <!--app:chipStrokeColor="#707070"-->
+                            <!--app:chipStrokeWidth="1dp" />-->
 
-                        </android.support.design.chip.ChipGroup>
-                    </HorizontalScrollView>
+                    </android.support.design.chip.ChipGroup>
 
                 </LinearLayout>
 
@@ -304,52 +299,13 @@
                             android:textSize="12dp"/>
 
                     </LinearLayout>
-                    <HorizontalScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:scrollbars="none">
-                        <android.support.design.chip.ChipGroup
+                    <android.support.design.chip.ChipGroup
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/time_range"
                         android:layout_marginTop="10dp">
 
-                        <android.support.design.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="4 Hari 3 Malam"
-                            android:textColor="#424242"
-                            android:textSize="12dp"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipBackgroundColor="@android:color/white"
-                            app:chipCornerRadius="10dp"
-                            app:chipStrokeColor="#707070"
-                            app:chipStrokeWidth="1dp" />
-                        <android.support.design.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="3 Hari 2 Malam"
-                            android:textColor="#424242"
-                            android:textSize="12dp"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipBackgroundColor="@android:color/white"
-                            app:chipCornerRadius="10dp"
-                            app:chipStrokeColor="#707070"
-                            app:chipStrokeWidth="1dp" />
-                        <android.support.design.chip.Chip
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="2 Hari 1 Malam"
-                            android:textColor="#424242"
-                            android:textSize="12dp"
-                            style="@style/Widget.MaterialComponents.Chip.Filter"
-                            app:chipBackgroundColor="@android:color/white"
-                            app:chipCornerRadius="10dp"
-                            app:chipStrokeColor="#707070"
-                            app:chipStrokeWidth="1dp" />
-
                     </android.support.design.chip.ChipGroup>
-                    </HorizontalScrollView>
                 </LinearLayout>
             </LinearLayout>
 

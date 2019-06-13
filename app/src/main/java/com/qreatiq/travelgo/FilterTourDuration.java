@@ -10,8 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 
 import com.shawnlin.numberpicker.NumberPicker;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class FilterTourDuration extends BottomSheetDialogFragment {
 
@@ -43,8 +47,6 @@ public class FilterTourDuration extends BottomSheetDialogFragment {
         submit = (MaterialButton)view.findViewById(R.id.save_button);
         duration_tour = (NumberPicker)view.findViewById(R.id.tour_duration_np1);
 
-        duration = parent.duration;
-
         duration_tour.setValue(parent.duration);
 
         duration_tour.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
@@ -57,20 +59,58 @@ public class FilterTourDuration extends BottomSheetDialogFragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parent.duration = duration;
+                try {
+                    int counter = 0;
+                    for(int x=0;x<parent.time_range_array.size();x++){
+                        if(parent.time_range_array.get(x).getInt("data") == duration) {
+                            parent.time_range_array.get(x).put("checked", true);
+                            for(int y=0;y<parent.time_range.getChildCount();y++){
+                                View view = parent.time_range.getChildAt(y);
+                                Chip chip = (Chip) view.findViewById(R.id.chip);
+                                if(chip.getText().toString().equals(parent.time_range_array.get(x).getString("label"))) {
+                                    chip.setChecked(true);
+                                    break;
+                                }
+                            }
+                            break;
+                        }
+                        else
+                            counter++;
+                    }
+                    if(counter == parent.time_range_array.size()){
+                        JSONObject json = new JSONObject();
+                        json.put("label",duration+" Hari "+(duration-1)+" Malam");
+                        json.put("checked", true);
+                        json.put("data",duration);
+                        parent.time_range_array.add(json);
 
-//                parent.time_range.removeAllViews();
+                        final View view = LayoutInflater.from(parent).inflate(R.layout.chip_loc_filter,null);
+                        final Chip chip = (Chip) view.findViewById(R.id.chip);
+                        chip.setText(json.getString("label"));
+                        chip.setChecked(json.getBoolean("checked"));
+                        parent.time_range.addView(view);
 
-                LayoutInflater inflater = LayoutInflater.from(parent);
-                View chip = inflater.inflate(R.layout.chip_loc_filter,null);
-                Chip chip1 = (Chip)chip.findViewById(R.id.chip);
-                chip1.setText(duration+" Hari "+(duration - 1)+" Malam");
-                chip1.setChecked(true);
-                parent.time_range.addView(chip);
+                        chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                try {
+                                    for(int x=0;x<parent.time_range_array.size();x++) {
+                                        if (chip.getText().toString().equals(parent.time_range_array.get(x).getString("label"))) {
+                                            parent.time_range_array.get(x).put("checked", isChecked);
+                                            break;
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
 
-//                parent.adult_label.setText(String.valueOf(parent.adult)+" Dewasa");
-                Log.d("duration", String.valueOf(parent.duration));
-                dismiss();
+                    dismiss();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 

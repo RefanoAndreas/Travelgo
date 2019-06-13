@@ -131,7 +131,7 @@ public class FilterTourLocation extends BaseActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("data",arrayData.toString());
+//                Log.d("data",arrayData.toString());
                 Intent i = new Intent();
                 i.putExtra("location", arrayData.toString());
                 setResult(RESULT_OK, i);

@@ -40,6 +40,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -100,32 +101,52 @@ public class FilterTour extends BaseActivity {
                 min_price = filter.getLong("min_price");
                 max_price = filter.getLong("max_price");
 
-                try {
-                    location_arr = filter.getJSONArray("location");
-                    for (int x = 0; x < location.getChildCount(); x++) {
-                        final Chip chip = (Chip) location.getChildAt(x);
-                        for (int y = 0; y < filter.getJSONArray("location").length(); y++) {
-                            if (chip.getText().toString().equals(filter.getJSONArray("location").getJSONObject(y).getString("id"))) {
-                                chip.setChecked(true);
-                                location_array.add(filter.getJSONArray("location").getJSONObject(y));
-                                break;
-                            }
+
+            }
+
+            for(int x=0;x<4;x++){
+                final JSONObject json = new JSONObject();
+                json.put("label",(x+1)+" Hari "+x+" Malam");
+                if(!filter.toString().equals("{}")) {
+                    int counter = 0;
+                    for(int y=0;y<filter.getJSONArray("time_range").length();y++) {
+                        if(filter.getJSONArray("time_range").getJSONObject(y).getInt("data") == x+1) {
+                            json.put("checked", true);
+                            break;
                         }
+                        else
+                            counter++;
                     }
 
-                    for (int x = 0; x < time_range.getChildCount(); x++) {
-                        final Chip chip = (Chip) time_range.getChildAt(x);
-                        for (int y = 0; y < filter.getJSONArray("time_range").length(); y++) {
-                            if (chip.getText().toString().equals(filter.getJSONArray("time_range").getJSONObject(y).getString("id"))) {
-                                chip.setChecked(true);
-                                time_range_array.add(filter.getJSONArray("time_range").getJSONObject(y));
-                                break;
+                    if(counter == filter.getJSONArray("time_range").length())
+                        json.put("checked", false);
+                }
+                else
+                    json.put("checked",false);
+                json.put("data",x+1);
+                time_range_array.add(json);
+
+                final View view = LayoutInflater.from(FilterTour.this).inflate(R.layout.chip_loc_filter,null);
+                final Chip chip = (Chip) view.findViewById(R.id.chip);
+                chip.setText(json.getString("label"));
+                chip.setChecked(json.getBoolean("checked"));
+                time_range.addView(view);
+
+                chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        try {
+                            for(int x=0;x<time_range_array.size();x++) {
+                                if (chip.getText().toString().equals(time_range_array.get(x).getString("label"))) {
+                                    time_range_array.get(x).put("checked", isChecked);
+                                    break;
+                                }
                             }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                     }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                });
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -150,75 +171,25 @@ public class FilterTour extends BaseActivity {
             }
         });
 
-        for(int x=0;x<location.getChildCount();x++){
-            final Chip chip = (Chip) location.getChildAt(x);
-            chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(from_system) {
-                        from_system = false;
-                        return;
-                    }
-                    try {
-                        JSONObject json = new JSONObject("{\"id\":\""+chip.getText().toString()+"\"}");
-                        if(isChecked)
-                            location_array.add(json);
-                        else {
-                            int index=0;
-                            for(int x=0;x<location_array.size();x++){
-                                if(location_array.get(x).toString().equals(json.toString())) {
-                                    index = x;
-                                    break;
-                                }
-                            }
-                            location_array.remove(index);
-                        }
-                        Log.d("data",location_array.toString());
-                        from_system = false;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-
-        for(int x=0;x<time_range.getChildCount();x++){
-            final Chip chip = (Chip) time_range.getChildAt(x);
-            chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(from_system) {
-                        from_system = false;
-                        return;
-                    }
-                    try {
-                        JSONObject json = new JSONObject("{\"id\":\""+chip.getText().toString()+"\"}");
-                        if(isChecked)
-                            time_range_array.add(json);
-                        else {
-                            int index=0;
-                            for(int x=0;x<time_range_array.size();x++){
-                                if(time_range_array.get(x).toString().equals(json.toString())) {
-                                    index = x;
-                                    break;
-                                }
-                            }
-                            time_range_array.remove(index);
-                        }
-                        from_system = false;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        }
-
         seeLocation = (TextView) findViewById(R.id.see_locationBtn);
         seeLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(FilterTour.this, FilterTourLocation.class)
-                        .putExtra("location",location_arr.toString()),FILTER_LOCATION_ALL);
+                try{
+                    ArrayList<JSONObject> jsonObjectArrayList = new ArrayList<JSONObject>();
+                    for(int x=0;x<location_array.size();x++){
+                        if(location_array.get(x).getBoolean("checked")) {
+                            JSONObject json = new JSONObject();
+                            json.put("id",location_array.get(x).getString("id"));
+                            json.put("label",location_array.get(x).getString("label"));
+                            jsonObjectArrayList.add(json);
+                        }
+                    }
+                    startActivityForResult(new Intent(FilterTour.this, FilterTourLocation.class)
+                            .putExtra("location",jsonObjectArrayList.toString()),FILTER_LOCATION_ALL);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -244,23 +215,33 @@ public class FilterTour extends BaseActivity {
                 showDate(simpleDateFormat.format(start_date),"start");
                 showDate(simpleDateFormat.format(end_date),"end");
 
-//                for (int x = 0; x < location.getChildCount(); x++) {
-//                    from_system = true;
-//                    Chip chip = (Chip) location.getChildAt(x);
-//                    chip.setChecked(false);
-//                    location_array.clear();
-//                }
-
-                location.removeAllViews();
+                for (int x = 0; x < location.getChildCount(); x++) {
+                    from_system = true;
+                    View view = location.getChildAt(x);
+                    Chip chip = (Chip) view.findViewById(R.id.chip);
+                    chip.setChecked(false);
+                }
+                for (int x = 0; x < location_array.size(); x++) {
+                    try{
+                        location_array.get(x).put("checked",false);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
                 getLocation();
-
-//                time_range.removeAllViews();
 
                 for (int x = 0; x < time_range.getChildCount(); x++) {
                     from_system = true;
-                    Chip chip = (Chip) time_range.getChildAt(x);
+                    View view = time_range.getChildAt(x);
+                    Chip chip = (Chip) view.findViewById(R.id.chip);
                     chip.setChecked(false);
-                    time_range_array.clear();
+                }
+                for (int x = 0; x < time_range_array.size(); x++) {
+                    try{
+                        time_range_array.get(x).put("checked",false);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -269,6 +250,18 @@ public class FilterTour extends BaseActivity {
             @Override
             public void onClick(View v) {
                 try {
+                    ArrayList<JSONObject> duration_array = new ArrayList<JSONObject>();
+                    for(int x=0;x<time_range_array.size();x++){
+                        if(time_range_array.get(x).getBoolean("checked"))
+                            duration_array.add(time_range_array.get(x));
+                    }
+
+                    ArrayList<JSONObject> loc_array = new ArrayList<JSONObject>();
+                    for(int x=0;x<location_array.size();x++){
+                        if(location_array.get(x).getBoolean("checked"))
+                            loc_array.add(location_array.get(x));
+                    }
+
                     JSONObject json = new JSONObject();
                     simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
                     json.put("start_date",simpleDateFormat.format(start_date));
@@ -277,8 +270,8 @@ public class FilterTour extends BaseActivity {
                     json.put("end_date_number",end_date.getTime());
                     json.put("max_price",max_price);
                     json.put("min_price",min_price);
-                    json.put("location",new JSONArray(location_array.toString()));
-                    json.put("time_range",duration);
+                    json.put("location",new JSONArray(loc_array.toString()));
+                    json.put("time_range",new JSONArray(duration_array.toString()));
 
                     Intent i = new Intent();
                     i.putExtra("filter", json.toString());
@@ -335,20 +328,57 @@ public class FilterTour extends BaseActivity {
             }
             else if(requestCode == FILTER_LOCATION_ALL) {
                 try {
-                    location.removeAllViews();
                     location_arr = new JSONArray(data.getStringExtra("location"));
                     if(location_arr.length() > 0) {
                         for (int x = 0; x < location_arr.length(); x++) {
-                            location_array.add(location_arr.getJSONObject(x));
-                            LayoutInflater inflater = LayoutInflater.from(FilterTour.this);
-                            View chip = inflater.inflate(R.layout.chip_loc_filter, null);
-                            Chip chip1 = (Chip) chip.findViewById(R.id.chip);
-                            chip1.setText(location_arr.getJSONObject(x).getString("label"));
-                            location.addView(chip);
+                            int counter = 0;
+                            for(int z=0;z<location_array.size();z++){
+                                if(location_array.get(z).getString("id").equals(
+                                        location_arr.getJSONObject(x).getString("id"))) {
+                                    location_array.get(z).put("checked", true);
+                                    for(int y=0;y<location.getChildCount();y++){
+                                        View view = location.getChildAt(y);
+                                        Chip chip = (Chip) view.findViewById(R.id.chip);
+                                        if(chip.getText().toString().equals(location_array.get(z).getString("label"))) {
+                                            chip.setChecked(true);
+                                            break;
+                                        }
+                                    }
+                                    break;
+                                }
+                                else
+                                    counter++;
+                            }
+                            if(counter == location_array.size()){
+                                JSONObject json = new JSONObject();
+                                json.put("label",location_arr.getJSONObject(x).getString("label"));
+                                json.put("checked", true);
+                                json.put("id",location_arr.getJSONObject(x).getString("id"));
+                                location_array.add(json);
+
+                                final View view = LayoutInflater.from(this).inflate(R.layout.chip_loc_filter,null);
+                                final Chip chip = (Chip) view.findViewById(R.id.chip);
+                                chip.setText(json.getString("label"));
+                                chip.setChecked(json.getBoolean("checked"));
+                                location.addView(view);
+
+                                chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                    @Override
+                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                        try {
+                                            for(int x=0;x<location_array.size();x++) {
+                                                if (chip.getText().toString().equals(location_array.get(x).getString("label"))) {
+                                                    location_array.get(x).put("checked", isChecked);
+                                                    break;
+                                                }
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
+                            }
                         }
-                    }
-                    else{
-                        location_array.clear();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -372,50 +402,49 @@ public class FilterTour extends BaseActivity {
             public void onResponse(final JSONObject response) {
                 try {
                     for(int x=0;x<response.getJSONArray("location").length();x++){
-                        LayoutInflater inflater = LayoutInflater.from(FilterTour.this);
-                        final View chip = inflater.inflate(R.layout.chip_loc_filter,null);
-                        final Chip chip1 = (Chip)chip.findViewById(R.id.chip);
-                        chip1.setText(response.getJSONArray("location").getJSONObject(x).getString("name"));
+                        final JSONObject json = new JSONObject();
+                        json.put("label",response.getJSONArray("location").getJSONObject(x).getString("name"));
+                        if(!filter.toString().equals("{}")) {
+                            int counter = 0;
+                            for(int y=0;y<filter.getJSONArray("location").length();y++) {
+                                if(filter.getJSONArray("location").getJSONObject(y).getString("id").equals(
+                                        response.getJSONArray("location").getJSONObject(x).getString("id"))) {
+                                    json.put("checked", true);
+                                    break;
+                                }
+                                else
+                                    counter++;
+                            }
 
-                        location.addView(chip);
+                            if(counter == filter.getJSONArray("location").length())
+                                json.put("checked", false);
+                        }
+                        else
+                            json.put("checked",false);
+                        json.put("id",response.getJSONArray("location").getJSONObject(x).getString("id"));
+                        location_array.add(json);
 
-                        final int finalX = x;
-                        chip1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        final View view = LayoutInflater.from(FilterTour.this).inflate(R.layout.chip_loc_filter,null);
+                        final Chip chip = (Chip)view.findViewById(R.id.chip);
+                        chip.setText(json.getString("label"));
+                        chip.setChecked(json.getBoolean("checked"));
+                        location.addView(view);
+
+                        chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                             @Override
                             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                if(from_system) {
-                                    from_system = false;
-                                    return;
-                                }
                                 try {
-                                    JSONObject json = new JSONObject("{\"id\":\""+response.getJSONArray("location").getJSONObject(finalX).getString("id")+"\",\"label\":\""+chip1.getText().toString()+"\"}");
-                                    if(isChecked)
-                                        location_array.add(json);
-                                    else {
-                                        int index=0;
-                                        for(int x=0;x<location_array.size();x++){
-                                            if(location_array.get(x).toString().equals(json.toString())) {
-                                                index = x;
-                                                break;
-                                            }
+                                    for(int x=0;x<location_array.size();x++) {
+                                        if (chip.getText().toString().equals(location_array.get(x).getString("label"))) {
+                                            location_array.get(x).put("checked", isChecked);
+                                            break;
                                         }
-                                        location_array.remove(index);
                                     }
-                                    from_system = false;
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
                             }
                         });
-
-                        if(filter.has("location")) {
-                            for (int y = 0; y < filter.getJSONArray("location").length(); y++) {
-                                if (filter.getJSONArray("location").getJSONObject(y).getString("id").equals(response.getJSONArray("location").getJSONObject(x).getString("id"))) {
-                                    chip1.setChecked(true);
-                                    break;
-                                }
-                            }
-                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
