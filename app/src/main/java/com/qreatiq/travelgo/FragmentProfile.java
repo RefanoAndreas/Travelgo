@@ -72,6 +72,7 @@ public class FragmentProfile extends Fragment {
 
         parent = (BottomNavContainer) getActivity();
         parent.toolbar.setVisibility(View.VISIBLE);
+        parent.getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         parent.toolbar.setTitle("Profil Saya");
 
         account_profile = (TextView) view.findViewById(R.id.account_profile);

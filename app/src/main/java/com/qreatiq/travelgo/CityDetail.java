@@ -119,32 +119,7 @@ public class CityDetail extends BaseActivity {
         ratingLoc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(!userID.equals("Data not found")) {
-                    bottomSheetDialog = new BottomSheetDialog(CityDetail.this);
-                    View view = View.inflate(CityDetail.this, R.layout.rating_city_detail_modal_fragment, null);
-                    bottomSheetDialog.setContentView(view);
-                    BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
-                    mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    bottomSheetDialog.show();
-
-                    final RatingBar ratingBar = (RatingBar) view.findViewById(R.id.rating);
-                    MaterialButton submit = (MaterialButton) view.findViewById(R.id.submit);
-
-                    submit.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            try {
-                                submit_rating(ratingBar.getRating());
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                }
-                else{
-                    startActivityForResult(new Intent(CityDetail.this, LogIn.class), LOGIN);
-                }
+                rating_loc();
             }
         });
 
@@ -343,11 +318,43 @@ public class CityDetail extends BaseActivity {
 
     }
 
+    private void rating_loc(){
+        if(!userID.equals("Data not found")) {
+            bottomSheetDialog = new BottomSheetDialog(CityDetail.this);
+            View view = View.inflate(CityDetail.this, R.layout.rating_city_detail_modal_fragment, null);
+            bottomSheetDialog.setContentView(view);
+            BottomSheetBehavior mBehavior = BottomSheetBehavior.from((View) view.getParent());
+            mBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            bottomSheetDialog.show();
+
+            final RatingBar ratingBar = (RatingBar) view.findViewById(R.id.rating);
+            MaterialButton submit = (MaterialButton) view.findViewById(R.id.submit);
+
+            submit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        submit_rating(ratingBar.getRating());
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+        else{
+            startActivityForResult(new Intent(CityDetail.this, LogIn.class), LOGIN);
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK) {
             if (requestCode == LOGIN) {
+                user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                userID = user_id.getString("access_token", "Data not found");
+
+                rating_loc();
             }
         }
     }

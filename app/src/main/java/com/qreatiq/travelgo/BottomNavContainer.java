@@ -37,8 +37,6 @@ public class BottomNavContainer extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_nav_container);
 
-
-
         deviceToken = getSharedPreferences("token", Context.MODE_PRIVATE);
         tokenDevice = deviceToken.getString("token", "Data not found");
 
