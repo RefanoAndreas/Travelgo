@@ -608,6 +608,9 @@ public class ConfirmationOrder extends BaseActivity {
             json.put("is_return", getIntent().getBooleanExtra("isReturn",false));
             json.put("class", getIntent().getStringExtra("kelas"));
             json.put("pax", new JSONArray(arrayList.toString()));
+            json.put("adult", getIntent().getIntExtra("adult", 0));
+            json.put("child", getIntent().getIntExtra("child", 0));
+            json.put("infant", getIntent().getIntExtra("infant", 0));
 
             Log.d("data",json.toString());
             Log.d("auth",base_shared_pref.getString("access_token", ""));
@@ -661,7 +664,7 @@ public class ConfirmationOrder extends BaseActivity {
                 }
             };
 
-            requestQueue.add(jsonObjectRequest);
+//            requestQueue.add(jsonObjectRequest);
         }
     }
 
@@ -779,7 +782,8 @@ public class ConfirmationOrder extends BaseActivity {
                         }
                     }
                     else if(intentString.equals("train")) {
-                        json.put("no_id",data_from_intent.getString("no_id"));
+                        json.put("IDNumber",data_from_intent.getString("no_id"));
+                        json.put("phone",data_from_intent.getString("no_id"));
                     }
                     adapter.notifyItemChanged(selected_arr);
                 } catch (JSONException e) {

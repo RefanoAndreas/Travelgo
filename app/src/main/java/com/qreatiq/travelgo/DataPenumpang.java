@@ -144,7 +144,6 @@ public class DataPenumpang extends BaseActivity {
             linearBagasi.setVisibility(View.GONE);
             pasporNo_layout.setVisibility(View.GONE);
             email_layout.setVisibility(View.GONE);
-            phone_layout.setVisibility(View.GONE);
 
             try {
                 String title = data.getString("title");
