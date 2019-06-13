@@ -784,7 +784,7 @@ public class ConfirmationOrder extends BaseActivity {
                         }
                     }
                     else if(intentString.equals("train")) {
-                        json.put("IDNumber",data_from_intent.getString("no_id"));
+                        json.put("no_id",data_from_intent.getString("no_id"));
                         json.put("phone",data_from_intent.getString("no_id"));
                     }
                     adapter.notifyItemChanged(selected_arr);

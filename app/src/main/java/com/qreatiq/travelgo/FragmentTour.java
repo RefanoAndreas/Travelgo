@@ -127,8 +127,8 @@ public class FragmentTour extends Fragment {
             public void onClick(View v) {
                 startActivityForResult(
                         new Intent(getActivity(), FilterTour.class)
-                        .putExtra("filter",filter.toString()),
-                        FILTER_TOUR);
+                                .putExtra("city_id", loc_id)
+                                .putExtra("filter",filter.toString()), FILTER_TOUR);
             }
         });
 
@@ -151,6 +151,8 @@ public class FragmentTour extends Fragment {
                     String uri = "@drawable/ic_filter_list_primary_24dp";
                     int imageResource = getResources().getIdentifier(uri, null, getActivity().getPackageName());
                     tourFilterBtn.setImageDrawable(getResources().getDrawable(imageResource));
+
+                    loc_id = data.getStringExtra("city_id");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

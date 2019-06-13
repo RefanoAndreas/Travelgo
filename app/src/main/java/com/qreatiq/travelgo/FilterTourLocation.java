@@ -159,7 +159,7 @@ public class FilterTourLocation extends BaseActivity {
     }
 
     private void get_visit_place(String search){
-        String url = C_URL+"tour/visit-place?search="+search;
+        String url = C_URL+"tour/visit-place?city_id="+getIntent().getStringExtra("city_id")+"&search="+search;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

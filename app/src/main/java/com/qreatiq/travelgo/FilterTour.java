@@ -63,6 +63,7 @@ public class FilterTour extends BaseActivity {
     boolean from_system = false;
     String url;
     int duration = -1;
+    Intent intent;
 
     Date start_date = new Date(),end_date = new Date();
 
@@ -186,6 +187,7 @@ public class FilterTour extends BaseActivity {
                         }
                     }
                     startActivityForResult(new Intent(FilterTour.this, FilterTourLocation.class)
+                            .putExtra("city_id", getIntent().getStringExtra("city_id"))
                             .putExtra("location",jsonObjectArrayList.toString()),FILTER_LOCATION_ALL);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -275,6 +277,7 @@ public class FilterTour extends BaseActivity {
 
                     Intent i = new Intent();
                     i.putExtra("filter", json.toString());
+                    i.putExtra("city_id", getIntent().getStringExtra("city_id"));
                     setResult(RESULT_OK, i);
                     finish();
                 } catch (JSONException e) {
@@ -395,7 +398,8 @@ public class FilterTour extends BaseActivity {
     }
 
     private void getLocation(){
-        url = C_URL+"tour/filter-place";
+        url = C_URL+"tour/filter-place?city_id="+getIntent().getStringExtra("city_id");
+        Log.d("url", url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
