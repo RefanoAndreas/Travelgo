@@ -527,7 +527,7 @@ public class FlightSearchJadwal extends BaseActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
-    public void hotelData() throws JSONException {
+    public void hotelData() throws JSONException, UnsupportedEncodingException {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String url = C_URL+"hotel/search?city="+hotel_city.getString("id")+
                 "&check_in="+format.format(check_in_date)+
@@ -535,6 +535,8 @@ public class FlightSearchJadwal extends BaseActivity {
 
         if(sort.has("data"))
             url += "&sort="+sort.getString("data");
+        if(!filter.toString().equals("{}"))
+            url += "&filter=" + URLEncoder.encode(filter.toString(), "utf-8");
 
         ticketList.clear();
         hotel_adapter.notifyDataSetChanged();
