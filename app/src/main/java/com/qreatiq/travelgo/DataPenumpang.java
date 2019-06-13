@@ -39,7 +39,7 @@ public class DataPenumpang extends BaseActivity {
     MaterialButton batal, submitBtn;
     TextView titleData;
     Spinner spinner_titel;
-    TextInputEditText name,no_id,email,phone;
+    TextInputEditText name,no_id,email,phone,no_passport;
 
     JSONObject data,depart_ticket,return_ticket,baggage_depart,baggage_arrive;
 
@@ -83,6 +83,7 @@ public class DataPenumpang extends BaseActivity {
         spinner_titel = (Spinner)findViewById(R.id.spinner_titel);
         name = (TextInputEditText)findViewById(R.id.TIET_name);
         no_id = (TextInputEditText) findViewById(R.id.TIET_idNO);
+        no_passport = (TextInputEditText) findViewById(R.id.TIET_pasporNo);
         email = (TextInputEditText) findViewById(R.id.email);
         phone = (TextInputEditText) findViewById(R.id.phone);
 
@@ -125,6 +126,7 @@ public class DataPenumpang extends BaseActivity {
                 if(!title.equals(""))
                     spinner_titel.setSelection(getIndex(spinner_titel,title));
                 name.setText(data.getString("name"));
+                no_passport.setText(data.getString("no_passport"));
 
                 baggage_array.add(new JSONObject("{\"airlines\":\""+depart_ticket.getString("airlines")+"\"," +
                         "\"is_return\":false," +
@@ -171,6 +173,7 @@ public class DataPenumpang extends BaseActivity {
                         json.put("name", name.getText().toString());
 
                         if(getIntent().getStringExtra("packageName").equals("flight")) {
+                            json.put("no_passport", no_passport.getText().toString());
                             int selected = 0;
                             for (int x = 0; x < baggage_array.get(0).getJSONArray("baggage").length(); x++) {
                                 if (baggage_array.get(0).getJSONArray("baggage").getJSONObject(x).getBoolean("checked"))

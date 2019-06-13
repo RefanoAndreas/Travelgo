@@ -158,6 +158,7 @@ public class ConfirmationOrder extends BaseActivity {
                             "\"edit\":false," +
                             "\"title\":\"\"," +
                             "\"name\":\"\"," +
+                            "\"no_passport\":\"\"," +
                             "\"label\":\"Isi Data Dewasa "+(x+1)+"\"," +
                             "\"type\":\"Dewasa "+(x+1)+"\"," +
                             "\"category\":\"adult\"," +
@@ -759,6 +760,7 @@ public class ConfirmationOrder extends BaseActivity {
                     json.put("name",data_from_intent.getString("name"));
 
                     if(intentString.equals("flight")) {
+                        json.put("no_passport",data_from_intent.getString("no_passport"));
                         json.put("baggage_depart", new JSONObject(data_from_intent.getString("baggage_depart")));
 
                         for (int y = 0; y < json.getJSONArray("arr_baggage_depart").length(); y++) {

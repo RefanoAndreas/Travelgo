@@ -328,9 +328,6 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.d("url",url);
-        Log.d("data",json.toString());
-        Log.d("access_token",base_shared_pref.getString("access_token",""));
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
             @Override
