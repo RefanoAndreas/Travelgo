@@ -32,6 +32,8 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
+import com.ethanhua.skeleton.Skeleton;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONArray;
@@ -62,6 +64,7 @@ public class FlightSearchJadwal extends BaseActivity {
     int[] colors;
 
     Date date, check_in_date, check_out_date;
+    RecyclerViewSkeletonScreen skeleton;
 
     JSONObject origin,destination,hotel_city,sort = new JSONObject(),filter = new JSONObject();
     MaterialButton filterBtn,sort_button;
@@ -175,12 +178,15 @@ public class FlightSearchJadwal extends BaseActivity {
         try {
             no_data.setVisibility(View.GONE);
             if(intent.getStringExtra("origin").equals("flight")){
+                skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_jadwal_flight_train_item).show();
                 flightData();
             }
             else if(intent.getStringExtra("origin").equals("train")){
+                skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_jadwal_flight_train_item).show();
                 trainData();
             }
             else if(intent.getStringExtra("origin").equals("hotel")){
+                skeleton = Skeleton.bind(mRecyclerView).adapter(hotel_adapter).load(R.layout.skeleton_jadwal_hotel_item).show();
                 hotelData();
             }
         } catch (JSONException e) {
@@ -353,6 +359,7 @@ public class FlightSearchJadwal extends BaseActivity {
             public void onResponse(JSONObject response) {
                 try {
                     if(response.getString("status").equals("success")) {
+
                         if(response.getJSONArray("data").length() > 0) {
                             JSONArray jsonArray = response.getJSONArray("data");
                             for (int x = 0; x < jsonArray.length(); x++) {
@@ -384,9 +391,11 @@ public class FlightSearchJadwal extends BaseActivity {
                                 else
                                     mAdapter.notifyItemInserted(x);
                             }
+
                         }
                         else
                             no_data.setVisibility(View.VISIBLE);
+                        skeleton.hide();
                     }
                     else{
                         url_captcha = C_URL_IMAGES+"captcha?android_id="+android_id;
@@ -453,6 +462,7 @@ public class FlightSearchJadwal extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+
                     JSONArray jsonArray = response.getJSONArray("data");
                     if(jsonArray.length() > 0) {
 
@@ -488,6 +498,7 @@ public class FlightSearchJadwal extends BaseActivity {
                     else{
                         no_data.setVisibility(View.VISIBLE);
                     }
+                    skeleton.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -546,6 +557,7 @@ public class FlightSearchJadwal extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+
                     if(response.getJSONArray("data").length() > 0){
                         JSONArray jsonArray = response.getJSONArray("data");
                         for(int x=0; x<jsonArray.length(); x++){
@@ -577,6 +589,7 @@ public class FlightSearchJadwal extends BaseActivity {
                     }
                     else
                         no_data.setVisibility(View.VISIBLE);
+                    skeleton.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
