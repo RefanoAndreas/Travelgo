@@ -77,6 +77,10 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.No
             if(jsonObject.getString("status").equals("berhasil")){
                 notifikasiHolder.mChip1.setChipBackgroundColorResource(R.color.colorPrimary);
             }
+            else if(jsonObject.getString("status").equals("Dipesan")){
+                notifikasiHolder.mChip1.setChipBackgroundColorResource(R.color.colorGreen);
+                notifikasiHolder.mChip1.setTextColor(Color.parseColor("#424242"));
+            }
             else{
                 notifikasiHolder.mChip1.setChipBackgroundColorResource(R.color.colorYellow);
                 notifikasiHolder.mChip1.setTextColor(Color.parseColor("#424242"));
