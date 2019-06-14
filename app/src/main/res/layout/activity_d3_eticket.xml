@@ -48,7 +48,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="32dp"
                     android:layout_marginLeft="32dp"
-                    android:text="KMZWA8AWAA"
                     android:textSize="24dp"
                     android:textColor="@color/c42"
                     android:fontFamily="@font/montserrat_bold"/>
