@@ -48,7 +48,7 @@ public class ConfirmationOrder extends BaseActivity {
     TV_namaPemesan, TV_emailPemesan, TV_teleponPemesan;
     RecyclerView list_flight, list_hotel, list_train;
     Intent intent;
-    String intentString, userID, url;
+    String intentString, userID, url, durasi;
     LinearLayout specialRequestLinear,special_request;
     RecyclerView list_pax;
     CardView card_dataPemesan;
@@ -409,6 +409,8 @@ public class ConfirmationOrder extends BaseActivity {
         json.put("arrive_date_place",format.format(arrive_date)+" - "+ticket.getJSONObject("arrivalData").getString("code")+" "+ticket.getJSONObject("arrivalData").getString("city_label"));
         json.put("arrive_airport",ticket.getJSONObject("arrivalData").getString("poi_label"));
 
+        durasi = ticket.getString("duration");
+
         train_list_array.add(json);
         sub_total_per_pax_data += ticket.getInt("price");
         sub_total_data += ticket.getInt("price")*(intent.getIntExtra("adult",0)+intent.getIntExtra("child",0)+intent.getIntExtra("infant",0));
@@ -582,6 +584,7 @@ public class ConfirmationOrder extends BaseActivity {
             json.put("adult", getIntent().getIntExtra("adult", 0));
             json.put("child", getIntent().getIntExtra("child", 0));
             json.put("infant", getIntent().getIntExtra("infant", 0));
+            json.put("duration", durasi);
 
             Log.d("data",json.toString());
             Log.d("auth",base_shared_pref.getString("access_token", ""));
@@ -681,7 +684,7 @@ public class ConfirmationOrder extends BaseActivity {
                 }
             };
 
-            requestQueue.add(jsonObjectRequest);
+//            requestQueue.add(jsonObjectRequest);
         }
     }
 

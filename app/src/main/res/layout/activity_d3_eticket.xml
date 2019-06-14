@@ -34,7 +34,7 @@
                 android:background="@android:color/white">
 
                 <TextView
-                    android:id="@+id/TV_order_code"
+                    android:id="@+id/TV_booking_code_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
@@ -43,6 +43,7 @@
                     android:text="Kode Booking Penerbangan"
                     android:fontFamily="@font/montserrat_semi_bold"/>
                 <TextView
+                    android:id="@+id/TV_bookingCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="32dp"

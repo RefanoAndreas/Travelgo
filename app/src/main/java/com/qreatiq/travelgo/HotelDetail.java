@@ -105,6 +105,9 @@ public class HotelDetail extends BaseActivity {
                         "url="+hotel.getJSONArray("photos").getJSONObject(0).getString("url")+
                         "&mime="+hotel.getJSONArray("photos").getJSONObject(0).getString("mime"));
                 json.put("id",hotel.getJSONArray("rooms").getJSONObject(x).getString("id"));
+
+                json.put("roomID",hotel.getJSONArray("rooms").getJSONObject(x).getString("ID"));
+
                 hotelRoomList.add(json);
             }
 

@@ -31,6 +31,7 @@ import com.qreatiq.travelgo.Utils.BaseActivity;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +44,7 @@ public class D3Eticket extends BaseActivity {
     TextView TV_title_info, TV_title_guest, TV_title_tips,TV_name, TV_info_departure, TV_info_origin,
              TV_info_duration, TV_info_arrival, TV_info_destination, TV_info_class, TV_guest_name,
              TV_guest_type, TV_hotel_name, TV_hotel_address, TV_checkin_date, TV_checkout_date,
-             TV_info_total_guest, TV_tipe_bed, TV_facilitiesHotel, TV_order_code;
+             TV_info_total_guest, TV_tipe_bed, TV_facilitiesHotel, TV_booking_code_title, TV_bookingCode;
     View flight_train, hotel;
     ImageView typeIcon1, typeIcon2;
     String userID;
@@ -84,7 +85,8 @@ public class D3Eticket extends BaseActivity {
         flight_train = (View)findViewById(R.id.eticketFlight);
         hotel = (View)findViewById(R.id.eticketHotel);
 
-        TV_order_code = (TextView)findViewById(R.id.TV_order_code);
+        TV_booking_code_title = (TextView)findViewById(R.id.TV_booking_code_title);
+        TV_bookingCode = (TextView)findViewById(R.id.TV_bookingCode);
 
         TV_title_info = (TextView)findViewById(R.id.TV_title_info);
         TV_title_guest = (TextView)findViewById(R.id.TV_title_guest);
@@ -165,7 +167,7 @@ public class D3Eticket extends BaseActivity {
             TV_title_info.setText("Informasi Hotel");
             TV_title_guest.setText("Data Tamu");
             TV_title_tips.setText("Tips Penginapan");
-            TV_order_code.setText("Nomor Pesanan");
+            TV_booking_code_title.setText("Nomor Pesanan");
 
             flight_train.setVisibility(View.GONE);
             hotel.setVisibility(View.VISIBLE);
@@ -213,11 +215,12 @@ public class D3Eticket extends BaseActivity {
                         TV_info_class.setText(jsonETicket.getString("class"));
                         TV_info_departure.setText(jsonETicket.getString("departure_time")+" - "
                                 +jsonETicket.getString("departure_station")+" "+jsonETicket.getJSONObject("departure").getJSONObject("city").getString("name"));
-                        TV_info_origin.setText(jsonETicket.getJSONObject("departure").getString("station_name"));
-                        TV_info_duration.setText("2 Jam 20 Menit");
+                        TV_info_origin.setText(jsonETicket.getJSONObject("departure").getString("name"));
+                        TV_info_duration.setText(jsonETicket.getString("duration"));
                         TV_info_arrival.setText(jsonETicket.getString("arrival_time")+" - "
                                 +jsonETicket.getString("arrival_station")+" "+jsonETicket.getJSONObject("arrival").getJSONObject("city").getString("name"));
-                        TV_info_destination.setText(jsonETicket.getJSONObject("arrival").getString("station_name"));
+                        TV_info_destination.setText(jsonETicket.getJSONObject("arrival").getString("name"));
+                        TV_bookingCode.setText(jsonETicket.getString("bookingCode"));
 
                         for(int x=0;x<jsonETicket.getJSONArray("passenger").length();x++){
                             JSONObject jsonObject = new JSONObject();
