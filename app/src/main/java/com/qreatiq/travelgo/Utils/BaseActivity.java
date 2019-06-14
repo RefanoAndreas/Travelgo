@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -30,7 +31,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.RequestQueue;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -226,5 +234,33 @@ public class BaseActivity extends AppCompatActivity {
         Intent in =new Intent(Intent.ACTION_PICK);
         in.setType("image/*");
         startActivityForResult(in,PICK_FROM_GALLERY);
+    }
+
+    public boolean isEmailValid(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    public void error_exception(VolleyError error,View layout) {
+        String message="";
+        if (error instanceof NetworkError) {
+            message="Network Error";
+        }
+        else if (error instanceof ServerError) {
+            message="Server Error";
+        }
+        else if (error instanceof AuthFailureError) {
+            message="Authentication Error";
+        }
+        else if (error instanceof ParseError) {
+            message="Parse Error";
+        }
+        else if (error instanceof NoConnectionError) {
+            message="Connection Missing";
+        }
+        else if (error instanceof TimeoutError) {
+            message="Server Timeout Reached";
+        }
+        Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 }

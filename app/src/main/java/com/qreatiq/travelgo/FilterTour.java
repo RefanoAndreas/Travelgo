@@ -223,27 +223,12 @@ public class FilterTour extends BaseActivity {
                     Chip chip = (Chip) view.findViewById(R.id.chip);
                     chip.setChecked(false);
                 }
-                for (int x = 0; x < location_array.size(); x++) {
-                    try{
-                        location_array.get(x).put("checked",false);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-                getLocation();
 
                 for (int x = 0; x < time_range.getChildCount(); x++) {
                     from_system = true;
                     View view = time_range.getChildAt(x);
                     Chip chip = (Chip) view.findViewById(R.id.chip);
                     chip.setChecked(false);
-                }
-                for (int x = 0; x < time_range_array.size(); x++) {
-                    try{
-                        time_range_array.get(x).put("checked",false);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         });

@@ -178,15 +178,14 @@ public class FlightSearchJadwal extends BaseActivity {
         try {
             no_data.setVisibility(View.GONE);
             if(intent.getStringExtra("origin").equals("flight")){
-                skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_jadwal_flight_train_item).show();
+
                 flightData();
             }
             else if(intent.getStringExtra("origin").equals("train")){
-                skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_jadwal_flight_train_item).show();
                 trainData();
             }
             else if(intent.getStringExtra("origin").equals("hotel")){
-                skeleton = Skeleton.bind(mRecyclerView).adapter(hotel_adapter).load(R.layout.skeleton_jadwal_hotel_item).show();
+
                 hotelData();
             }
         } catch (JSONException e) {
@@ -334,6 +333,7 @@ public class FlightSearchJadwal extends BaseActivity {
     }
 
     public void flightData() throws JSONException, UnsupportedEncodingException {
+        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_jadwal_flight_train_item).show();
         SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
         String url = C_URL+"flight/search?origin="+origin.getString("code")+
                     "&destination="+destination.getString("code")+
@@ -442,6 +442,7 @@ public class FlightSearchJadwal extends BaseActivity {
     }
 
     public void trainData() throws JSONException, UnsupportedEncodingException {
+        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_jadwal_flight_train_item).show();
         SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
         String url = C_URL+"train/search?origin="+origin.getString("code")+
                 "&destination="+destination.getString("code")+
@@ -539,6 +540,7 @@ public class FlightSearchJadwal extends BaseActivity {
     }
 
     public void hotelData() throws JSONException, UnsupportedEncodingException {
+        skeleton = Skeleton.bind(mRecyclerView).adapter(hotel_adapter).load(R.layout.skeleton_jadwal_hotel_item).show();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String url = C_URL+"hotel/search?city="+hotel_city.getString("id")+
                 "&check_in="+format.format(check_in_date)+
@@ -598,27 +600,7 @@ public class FlightSearchJadwal extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
-                String message="";
-                if (error instanceof NetworkError) {
-                    message="Network Error";
-                }
-                else if (error instanceof ServerError) {
-                    message="Server Error";
-                }
-                else if (error instanceof AuthFailureError) {
-                    message="Authentication Error";
-                }
-                else if (error instanceof ParseError) {
-                    message="Parse Error";
-                }
-                else if (error instanceof NoConnectionError) {
-                    message="Connection Missing";
-                }
-                else if (error instanceof TimeoutError) {
-                    message="Server Timeout Reached";
-                }
-                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
-                snackbar.show();
+                error_exception(error,layout);
             }
         });
 
@@ -650,9 +632,9 @@ public class FlightSearchJadwal extends BaseActivity {
             if(requestCode == SORT){
                 try {
                     sort = new JSONObject(data.getStringExtra("sort"));
-                    sort_button.setTextColor(getResources().getColor(R.color.white));
-                    sort_button.setIconTint(ContextCompat.getColorStateList(this, R.color.white));
-                    sort_button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorPrimary));
+                    sort_button.setTextColor(ContextCompat.getColorStateList(this, R.color.colorPrimary));
+                    sort_button.setIconTint(ContextCompat.getColorStateList(this, R.color.colorPrimary));
+                    sort_button.setStrokeColor(ContextCompat.getColorStateList(this, R.color.colorPrimary));
 
                     if(intent.getStringExtra("origin").equals("flight"))
                         flightData();
@@ -677,14 +659,14 @@ public class FlightSearchJadwal extends BaseActivity {
                         if(filter.getLong("min_price") != 0 || filter.getLong("max_price") != 300000000 ||
                                 filter.getJSONArray("arrival_date").length() > 0 ||
                                 filter.getJSONArray("departure_date").length() > 0) {
-                            filterBtn.setTextColor(getResources().getColor(R.color.white));
-                            filterBtn.setIconTint(ContextCompat.getColorStateList(this, R.color.white));
-                            filterBtn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorPrimary));
+                            filterBtn.setTextColor(ContextCompat.getColorStateList(this, R.color.colorPrimary));
+                            filterBtn.setIconTint(ContextCompat.getColorStateList(this, R.color.colorPrimary));
+                            filterBtn.setStrokeColor(ContextCompat.getColorStateList(this, R.color.colorPrimary));
                         }
                         else{
                             filterBtn.setTextColor(getResources().getColor(R.color.grey));
                             filterBtn.setIconTint(ContextCompat.getColorStateList(this, R.color.grey));
-                            filterBtn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
+                            filterBtn.setStrokeColor(ContextCompat.getColorStateList(this, R.color.grey));
                         }
                         flightData();
                     }
@@ -692,28 +674,28 @@ public class FlightSearchJadwal extends BaseActivity {
                         if(filter.getLong("min_price") != 0 || filter.getLong("max_price") != 300000000 ||
                                 filter.getJSONArray("arrival_date").length() > 0 ||
                                 filter.getJSONArray("departure_date").length() > 0) {
-                            filterBtn.setTextColor(getResources().getColor(R.color.white));
-                            filterBtn.setIconTint(ContextCompat.getColorStateList(this, R.color.white));
-                            filterBtn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorPrimary));
+                            filterBtn.setTextColor(ContextCompat.getColorStateList(this, R.color.colorPrimary));
+                            filterBtn.setIconTint(ContextCompat.getColorStateList(this, R.color.colorPrimary));
+                            filterBtn.setStrokeColor(ContextCompat.getColorStateList(this, R.color.colorPrimary));
                         }
                         else{
                             filterBtn.setTextColor(getResources().getColor(R.color.grey));
                             filterBtn.setIconTint(ContextCompat.getColorStateList(this, R.color.grey));
-                            filterBtn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
+                            filterBtn.setStrokeColor(ContextCompat.getColorStateList(this, R.color.grey));
                         }
                         trainData();
                     }
                     else if(intent.getStringExtra("origin").equals("hotel")) {
                         if(filter.getLong("min_price") != 0 || filter.getLong("max_price") != 300000000 ||
                                 filter.getJSONArray("ranking").length() > 0) {
-                            filterBtn.setTextColor(getResources().getColor(R.color.white));
-                            filterBtn.setIconTint(ContextCompat.getColorStateList(this, R.color.white));
-                            filterBtn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorPrimary));
+                            filterBtn.setTextColor(ContextCompat.getColorStateList(this, R.color.colorPrimary));
+                            filterBtn.setIconTint(ContextCompat.getColorStateList(this, R.color.colorPrimary));
+                            filterBtn.setStrokeColor(ContextCompat.getColorStateList(this, R.color.colorPrimary));
                         }
                         else{
                             filterBtn.setTextColor(getResources().getColor(R.color.grey));
                             filterBtn.setIconTint(ContextCompat.getColorStateList(this, R.color.grey));
-                            filterBtn.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.white));
+                            filterBtn.setStrokeColor(ContextCompat.getColorStateList(this, R.color.grey));
                         }
                         hotelData();
                     }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.os.Bundle;
@@ -14,9 +15,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -307,7 +314,27 @@ public class LogIn extends BaseActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Log.e("error", error.getMessage());
+                    String message="";
+                    if (error instanceof NetworkError) {
+                        message="Network Error";
+                    }
+                    else if (error instanceof ServerError) {
+                        message="Server Error";
+                    }
+                    else if (error instanceof AuthFailureError) {
+                        message="Authentication Error";
+                    }
+                    else if (error instanceof ParseError) {
+                        message="Parse Error";
+                    }
+                    else if (error instanceof NoConnectionError) {
+                        message="Connection Missing";
+                    }
+                    else if (error instanceof TimeoutError) {
+                        message="Server Timeout Reached";
+                    }
+                    Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                    snackbar.show();
                 }
             });
 

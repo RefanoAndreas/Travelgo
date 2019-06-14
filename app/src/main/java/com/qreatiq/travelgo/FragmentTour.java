@@ -148,7 +148,14 @@ public class FragmentTour extends Fragment {
                 try {
                     filter = new JSONObject(data.getStringExtra("filter"));
 
-                    String uri = "@drawable/ic_filter_list_primary_24dp";
+                    String uri = "";
+                    if(filter.getString("start_date").equals(filter.getString("end_date")) &&
+                            filter.getInt("max_price") == 30000000 && filter.getInt("min_price") == 0 &&
+                            filter.getJSONArray("location").toString().equals("[]") &&
+                            filter.getJSONArray("time_range").toString().equals("[]"))
+                        uri = "@drawable/ic_filter_list_black_24dp";
+                    else
+                        uri = "@drawable/ic_filter_list_primary_24dp";
                     int imageResource = getResources().getIdentifier(uri, null, getActivity().getPackageName());
                     tourFilterBtn.setImageDrawable(getResources().getDrawable(imageResource));
 

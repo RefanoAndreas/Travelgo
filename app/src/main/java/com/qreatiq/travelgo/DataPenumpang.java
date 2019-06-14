@@ -166,6 +166,26 @@ public class DataPenumpang extends BaseActivity {
                     Snackbar snackbar=Snackbar.make(layout,"Nama kosong",Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
+                else if(email.getText().toString().equals("") && getIntent().getStringExtra("packageName").equals("hotel")){
+                    email.setError("Email kosong");
+                    Snackbar snackbar=Snackbar.make(layout,"Email kosong",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else if(!isEmailValid(email.getText()) && getIntent().getStringExtra("packageName").equals("hotel")){
+                    email.setError("Email not in email format");
+                    Snackbar snackbar=Snackbar.make(layout,"Email not in email format",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else if(phone.getText().toString().equals("") && getIntent().getStringExtra("packageName").equals("hotel")){
+                    phone.setError("Phone kosong");
+                    Snackbar snackbar=Snackbar.make(layout,"Phone kosong",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
+                else if(no_id.getText().toString().equals("") && getIntent().getStringExtra("packageName").equals("train")){
+                    no_id.setError("No ID kosong");
+                    Snackbar snackbar=Snackbar.make(layout,"No ID kosong",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
                 else {
                     JSONObject json = new JSONObject();
                     try {
