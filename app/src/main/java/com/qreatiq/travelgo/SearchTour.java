@@ -172,27 +172,7 @@ public class SearchTour extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
-                String message="";
-                if (error instanceof NetworkError) {
-                    message="Network Error";
-                }
-                else if (error instanceof ServerError) {
-                    message="Server Error";
-                }
-                else if (error instanceof AuthFailureError) {
-                    message="Authentication Error";
-                }
-                else if (error instanceof ParseError) {
-                    message="Parse Error";
-                }
-                else if (error instanceof NoConnectionError) {
-                    message="Connection Missing";
-                }
-                else if (error instanceof TimeoutError) {
-                    message="Server Timeout Reached";
-                }
-                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
-                snackbar.show();
+                error_exception(error,layout);
             }
         });
 
@@ -232,27 +212,7 @@ public class SearchTour extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
-                String message="";
-                if (error instanceof NetworkError) {
-                    message="Network Error";
-                }
-                else if (error instanceof ServerError) {
-                    message="Server Error";
-                }
-                else if (error instanceof AuthFailureError) {
-                    message="Authentication Error";
-                }
-                else if (error instanceof ParseError) {
-                    message="Parse Error";
-                }
-                else if (error instanceof NoConnectionError) {
-                    message="Connection Missing";
-                }
-                else if (error instanceof TimeoutError) {
-                    message="Server Timeout Reached";
-                }
-                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
-                snackbar.show();
+                error_exception(error,layout);
             }
         });
 
@@ -296,27 +256,7 @@ public class SearchTour extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
-                String message="";
-                if (error instanceof NetworkError) {
-                    message="Network Error";
-                }
-                else if (error instanceof ServerError) {
-                    message="Server Error";
-                }
-                else if (error instanceof AuthFailureError) {
-                    message="Authentication Error";
-                }
-                else if (error instanceof ParseError) {
-                    message="Parse Error";
-                }
-                else if (error instanceof NoConnectionError) {
-                    message="Connection Missing";
-                }
-                else if (error instanceof TimeoutError) {
-                    message="Server Timeout Reached";
-                }
-                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
-                snackbar.show();
+                error_exception(error,layout);
             }
         });
 

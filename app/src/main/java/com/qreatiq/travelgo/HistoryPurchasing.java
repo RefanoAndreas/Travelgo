@@ -3,6 +3,7 @@ package com.qreatiq.travelgo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -90,7 +91,8 @@ public class HistoryPurchasing extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("error",error.getMessage());
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                error_exception(error,layout);
             }
         });
 
