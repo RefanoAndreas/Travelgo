@@ -80,7 +80,7 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesVi
     }
 
     @Override
-    public void onBindViewHolder(final TourPackagesViewHolder tourPackagesViewHolder, int i) {
+    public void onBindViewHolder(final TourPackagesViewHolder tourPackagesViewHolder, final int i) {
         final JSONObject jsonObject = mTourPackagesList.get(i);
 
         try {
@@ -102,11 +102,12 @@ public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesVi
                         for(int x=0;x<jsonObject.getJSONArray("photo").length();x++) {
                             Picasso.get()
                                     .load(jsonObject.getJSONArray("photo").getJSONObject(position).getString("name"))
-                                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+//                                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+//                                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
                                     .into(imageView, new Callback() {
                                         @Override
                                         public void onSuccess() {
+
 //                                        skeleton.hide();
                                         }
 

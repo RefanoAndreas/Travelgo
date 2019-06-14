@@ -1,14 +1,17 @@
 package com.qreatiq.travelgo.Utils;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +23,8 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -68,6 +73,8 @@ public class BaseActivity extends AppCompatActivity {
     public String C_URL = "http://travelgolaravel.propertigo.id/api/";
     public String C_URL_IMAGES = "http://travelgolaravel.propertigo.id/api/images/";
 
+    public boolean production = true;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +106,29 @@ public class BaseActivity extends AppCompatActivity {
                         Log.d("message", msg);
                     }
                 });
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_NETWORK_STATE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_NETWORK_STATE)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_NETWORK_STATE},
+                        20);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        }
     }
 
     public void set_toolbar(){
@@ -240,25 +270,31 @@ public class BaseActivity extends AppCompatActivity {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
+    public boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        return cm.getActiveNetworkInfo() != null;
+    }
+
     public void error_exception(VolleyError error,View layout) {
         String message="";
-        if (error instanceof NetworkError) {
-            message="Network Error";
+        if(!production) {
+            if (error instanceof NetworkError) {
+                message = "Network Error";
+            } else if (error instanceof ServerError) {
+                message = "Server Error";
+            } else if (error instanceof AuthFailureError) {
+                message = "Authentication Error";
+            } else if (error instanceof ParseError) {
+                message = "Parse Error";
+            } else if (error instanceof NoConnectionError) {
+                message = "Connection Missing";
+            } else if (error instanceof TimeoutError) {
+                message = "Server Timeout Reached";
+            }
         }
-        else if (error instanceof ServerError) {
-            message="Server Error";
-        }
-        else if (error instanceof AuthFailureError) {
-            message="Authentication Error";
-        }
-        else if (error instanceof ParseError) {
-            message="Parse Error";
-        }
-        else if (error instanceof NoConnectionError) {
-            message="Connection Missing";
-        }
-        else if (error instanceof TimeoutError) {
-            message="Server Timeout Reached";
+        else{
+            message = "Oops something went wrong\nPlease check your connection";
         }
         Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
         snackbar.show();

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.Image;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -33,6 +34,8 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
+import com.ethanhua.skeleton.Skeleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,11 +61,25 @@ public class FragmentTour extends Fragment {
     SwipeRefreshLayout swipeLayout;
 
     int SEARCH_TOUR = 1, FILTER_TOUR = 2;
+    boolean is_loaded = false,is_image_loaded = false;
 
     Intent intent;
     String intentString;
+    RecyclerViewSkeletonScreen skeleton;
 
     BottomNavContainer parent;
+
+    Handler mHandler = new Handler();
+    Runnable mHandlerTask = new Runnable()
+    {
+        @Override
+        public void run() {
+            if(parent.isNetworkConnected())
+                getTrip();
+            else
+                mHandler.postDelayed(mHandlerTask, 1000);
+        }
+    };
 
     @Nullable
     @Override
@@ -94,12 +111,11 @@ public class FragmentTour extends Fragment {
             public void onRefresh() {
                 tourList.clear();
                 mAdapter.notifyDataSetChanged();
-                getTrip();
+                mHandlerTask.run();
             }
         });
         TV_no_result = (TextView)view.findViewById(R.id.TV_no_result);
 
-        getTrip();
 
         mRecyclerView = view.findViewById(R.id.tour_RV);
         mRecyclerView.setHasFixedSize(true);
@@ -132,6 +148,24 @@ public class FragmentTour extends Fragment {
             }
         });
 
+        if(parent.tour_list.toString().equals("[]"))
+            mHandlerTask.run();
+        else{
+            try {
+                TV_no_result.setVisibility(View.GONE);
+                swipeLayout.setVisibility(View.VISIBLE);
+                tourList.clear();
+                mAdapter.notifyDataSetChanged();
+                JSONArray jsonArray = parent.tour_list;
+                for (int x = 0; x < jsonArray.length(); x++) {
+                    tourList.add(jsonArray.getJSONObject(x));
+                    mAdapter.notifyItemInserted(x);
+                }
+                swipeLayout.setRefreshing(false);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -142,7 +176,7 @@ public class FragmentTour extends Fragment {
             if(requestCode == SEARCH_TOUR){
                 search.setText(data.getStringExtra("location_label"));
                 loc_id = data.getStringExtra("location");
-                getTrip();
+                mHandlerTask.run();
             }
             else if(requestCode == FILTER_TOUR){
                 try {
@@ -163,18 +197,13 @@ public class FragmentTour extends Fragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                getTrip();
+                mHandlerTask.run();
             }
         }
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-
-    }
-
     public void getTrip(){
+        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_tour_item).show();
         url = parent.C_URL+"tour/trip?loc_id="+loc_id;
 
         if(!filter.toString().equals("{}")){
@@ -226,11 +255,14 @@ public class FragmentTour extends Fragment {
                             mAdapter.notifyItemInserted(x);
                         }
                         swipeLayout.setRefreshing(false);
+                        parent.tour_list = new JSONArray(tourList.toString());
+                        is_loaded = true;
                     }
                     else{
                         swipeLayout.setVisibility(View.GONE);
                         TV_no_result.setVisibility(View.VISIBLE);
                     }
+                    skeleton.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

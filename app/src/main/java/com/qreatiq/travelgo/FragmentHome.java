@@ -3,11 +3,15 @@ package com.qreatiq.travelgo;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
@@ -16,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -39,6 +44,11 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+
+import static android.content.Context.CONNECTIVITY_SERVICE;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class FragmentHome extends Fragment {
 
@@ -51,10 +61,24 @@ public class FragmentHome extends Fragment {
     SharedPreferences user_id;
     CardView tourBtn, flightBtn, hotelBtn, trainBtn;
     BottomNavContainer parent;
+    SwipeRefreshLayout swipe;
 
     FilterTourLocationAdapter adapter;
 
     RecyclerViewSkeletonScreen skeleton;
+    boolean is_loaded = false;
+
+    Handler mHandler = new Handler();
+    Runnable mHandlerTask = new Runnable()
+    {
+        @Override
+        public void run() {
+            if(parent.isNetworkConnected())
+                getLocation();
+            else
+                mHandler.postDelayed(mHandlerTask, 1000);
+        }
+    };
 
     @Nullable
     @Override
@@ -69,6 +93,8 @@ public class FragmentHome extends Fragment {
         parent = (BottomNavContainer) getActivity();
         parent.toolbar.setVisibility(View.GONE);
         parent.selectedFragment = parent.fragmentHome;
+        swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
+        swipe.setColorSchemeColors(Color.BLUE, Color.RED);
 
         tourBtn = (CardView)view.findViewById(R.id.tourBtn);
         tourBtn.setOnClickListener(new View.OnClickListener() {
@@ -125,12 +151,31 @@ public class FragmentHome extends Fragment {
             }
         });
 
-        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_homelist_item).show();
+        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mHandlerTask.run();
+            }
+        });
 
-        getLocation();
+        if(parent.home_list.toString().equals("[]"))
+            mHandlerTask.run();
+        else{
+            try {
+                homeList.clear();
+                JSONArray jsonArray = parent.home_list;
+                for(int x=0; x<jsonArray.length(); x++)
+                    homeList.add(jsonArray.getJSONObject(x));
+                mAdapter.notifyDataSetChanged();
+                skeleton.hide();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void getLocation(){
+        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_homelist_item).show();
         url = parent.C_URL+"home";
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -151,10 +196,13 @@ public class FragmentHome extends Fragment {
 
                         jsonObject.put("user", userID);
                         homeList.add(jsonObject);
-
                     }
                     mAdapter.notifyDataSetChanged();
                     skeleton.hide();
+
+                    parent.home_list = new JSONArray(homeList.toString());
+                    is_loaded = true;
+                    swipe.setRefreshing(false);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

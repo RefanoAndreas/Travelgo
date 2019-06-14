@@ -70,6 +70,12 @@ public class DetailTourTransaction extends BaseActivity {
         mRecyclerViewParticipant.setHasFixedSize(true);
         mLayoutManagerParticipant = new LinearLayoutManager(this);
         mAdapterParticipant = new ParticipantListAdapter(ParticipantList, this);
+        mAdapterParticipant.setOnItemClickListener(new ParticipantListAdapter.ClickListener() {
+            @Override
+            public void onItemClick(int position) {
+
+            }
+        });
 
         mRecyclerViewParticipant.setLayoutManager(mLayoutManagerParticipant);
         mRecyclerViewParticipant.setAdapter(mAdapterParticipant);

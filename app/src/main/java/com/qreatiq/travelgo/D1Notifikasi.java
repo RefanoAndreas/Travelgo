@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -24,6 +25,8 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
+import com.ethanhua.skeleton.Skeleton;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONArray;
@@ -44,6 +47,19 @@ public class D1Notifikasi extends BaseActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> notifList = new ArrayList<>();
     SwipeRefreshLayout swipeLayout;
+    RecyclerViewSkeletonScreen skeleton;
+
+    Handler mHandler = new Handler();
+    Runnable mHandlerTask = new Runnable()
+    {
+        @Override
+        public void run() {
+            if(isNetworkConnected())
+                history();
+            else
+                mHandler.postDelayed(mHandlerTask, 1000);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +88,11 @@ public class D1Notifikasi extends BaseActivity {
             public void onRefresh() {
                 notifList.clear();
                 mAdapter.notifyDataSetChanged();
-                history();
+                mHandlerTask.run();
             }
         });
 
-        history();
+
 
         mRecyclerView = findViewById(R.id.RV_notif);
         mRecyclerView.setHasFixedSize(true);
@@ -109,9 +125,11 @@ public class D1Notifikasi extends BaseActivity {
                 }
             }
         });
+        mHandlerTask.run();
     }
 
     private void history(){
+        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_notification).show();
         if(dataIntent.equals("purchasing"))
             url = C_URL+"history-purchasing";
         else if(dataIntent.equals("sales"))
@@ -218,6 +236,7 @@ public class D1Notifikasi extends BaseActivity {
                         }
                     }
                     swipeLayout.setRefreshing(false);
+                    skeleton.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

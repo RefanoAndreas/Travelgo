@@ -18,6 +18,7 @@ import android.view.View;
 
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class BottomNavContainer extends BaseActivity {
@@ -31,6 +32,7 @@ public class BottomNavContainer extends BaseActivity {
     int LOGIN = 1;
 
     ConstraintLayout layout;
+    JSONArray home_list = new JSONArray(),tour_list = new JSONArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

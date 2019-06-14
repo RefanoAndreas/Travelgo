@@ -661,7 +661,8 @@ public class FlightSearchJadwal extends BaseActivity {
                     if(intent.getStringExtra("origin").equals("flight")) {
                         if(filter.getLong("min_price") != 0 || filter.getLong("max_price") != 300000000 ||
                                 filter.getJSONArray("arrival_date").length() > 0 ||
-                                filter.getJSONArray("departure_date").length() > 0) {
+                                filter.getJSONArray("departure_date").length() > 0 ||
+                                filter.getJSONArray("transit").length() > 0) {
                             filterBtn.setTextColor(ContextCompat.getColorStateList(this, R.color.colorPrimary));
                             filterBtn.setIconTint(ContextCompat.getColorStateList(this, R.color.colorPrimary));
                             filterBtn.setStrokeColor(ContextCompat.getColorStateList(this, R.color.colorPrimary));
@@ -676,7 +677,8 @@ public class FlightSearchJadwal extends BaseActivity {
                     else if(intent.getStringExtra("origin").equals("train")) {
                         if(filter.getLong("min_price") != 0 || filter.getLong("max_price") != 300000000 ||
                                 filter.getJSONArray("arrival_date").length() > 0 ||
-                                filter.getJSONArray("departure_date").length() > 0) {
+                                filter.getJSONArray("departure_date").length() > 0 ||
+                                filter.getJSONArray("transit").length() > 0) {
                             filterBtn.setTextColor(ContextCompat.getColorStateList(this, R.color.colorPrimary));
                             filterBtn.setIconTint(ContextCompat.getColorStateList(this, R.color.colorPrimary));
                             filterBtn.setStrokeColor(ContextCompat.getColorStateList(this, R.color.colorPrimary));

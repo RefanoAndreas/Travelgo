@@ -368,6 +368,13 @@ public class FilterTour extends BaseActivity {
                             }
                         }
                     }
+                    else{
+                        for(int x=0;x<location.getChildCount();x++){
+                            View view = location.getChildAt(x);
+                            Chip chip = (Chip) view.findViewById(R.id.chip);
+                            chip.setChecked(false);
+                        }
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

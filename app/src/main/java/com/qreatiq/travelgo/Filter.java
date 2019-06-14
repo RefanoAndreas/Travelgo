@@ -146,7 +146,8 @@ public class Filter extends BaseActivity {
                     for (int x = 0; x < transit_group.getChildCount(); x++) {
                         final Chip chip = (Chip) transit_group.getChildAt(x);
                         for (int y = 0; y < filter.getJSONArray("transit").length(); y++) {
-                            if (chip.getText().toString().equals(filter.getJSONArray("transit").getJSONObject(y).getString("label"))) {
+                            if (chip.getText().toString().equals(
+                                    filter.getJSONArray("transit").getJSONObject(y).getString("label"))) {
                                 chip.setChecked(true);
                                 transit_array.add(filter.getJSONArray("transit").getJSONObject(y));
                                 break;
