@@ -247,6 +247,7 @@ public class D3Eticket extends BaseActivity {
                         TV_checkout_date.setText(jsonETicket.getString("checkout"));
                         TV_info_total_guest.setText(jsonETicket.getString("total_guest")+" Tamu "+
                                 jsonETicket.getString("total_room")+" Kamar");
+                        TV_bookingCode.setText(jsonETicket.getString("reservationNo"));
 
                         if(jsonETicket.getJSONObject("room").getString("breakfast").equals("1")) {
                             TV_facilitiesHotel.setVisibility(View.VISIBLE);
