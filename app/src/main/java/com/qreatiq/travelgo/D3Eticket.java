@@ -104,7 +104,7 @@ public class D3Eticket extends BaseActivity {
 
         layout_guest_hotel = (LinearLayout) findViewById(R.id.layout_guest_hotel);
         TV_guest_name = (TextView)findViewById(R.id.TV_guest_name);
-        TV_guest_type = (TextView)findViewById(R.id.TV_guest_type);
+//        TV_guest_type = (TextView)findViewById(R.id.TV_guest_type);
 
         TV_hotel_name = (TextView)findViewById(R.id.TV_hotel_name);
         TV_hotel_address = (TextView)findViewById(R.id.TV_hotel_address);
@@ -185,14 +185,14 @@ public class D3Eticket extends BaseActivity {
 
                     if(type.equals("flight")){
                         TV_name.setText(jsonETicket.getJSONObject("carrier").getString("name"));
-                        TV_info_departure.setText("Jumat, 17 Mei 2019 . 10:10 - SUB Surabaya");
                         TV_info_departure.setText(jsonETicket.getString("departure_time")+" - "
                                 +jsonETicket.getString("departure_airport")+" "+jsonETicket.getJSONObject("departure").getJSONObject("city").getString("name"));
                         TV_info_origin.setText(jsonETicket.getJSONObject("departure").getString("name"));
-                        TV_info_duration.setText("2 Jam 20 Menit");
+                        TV_info_duration.setText(jsonETicket.getString("duration"));
                         TV_info_arrival.setText(jsonETicket.getString("arrival_time")+" - "
                                 +jsonETicket.getString("arrival_airport")+" "+jsonETicket.getJSONObject("arrival").getJSONObject("city").getString("name"));
                         TV_info_destination.setText(jsonETicket.getJSONObject("arrival").getString("name"));
+                        TV_bookingCode.setText(jsonETicket.getString("bookingCode"));
 
                         for(int x=0;x<jsonETicket.getJSONArray("passenger").length();x++){
                             JSONObject jsonObject = new JSONObject();
