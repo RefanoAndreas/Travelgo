@@ -94,7 +94,8 @@
                     android:id="@+id/TIET_phone_profileEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="phone"/>
+                    android:inputType="number"
+                    android:digits="1234567890"/>
             </android.support.design.widget.TextInputLayout>
             <TextView
                 android:layout_width="wrap_content"

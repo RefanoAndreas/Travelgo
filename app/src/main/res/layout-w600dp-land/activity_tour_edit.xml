@@ -126,7 +126,8 @@
                     android:id="@+id/TIET_tourPhone_tourEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="phone"
+                    android:inputType="number"
+                    android:digits="1234567890"
                     android:maxLines="1"/>
             </android.support.design.widget.TextInputLayout>
 
