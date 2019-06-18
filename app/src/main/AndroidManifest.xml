@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".splashDuration"
+
         android:allowBackup="false"
         android:configChanges="locale|orientation"
         android:icon="@mipmap/ic_launcher"
@@ -88,7 +88,7 @@
         <activity android:name=".BottomNavContainer" />
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

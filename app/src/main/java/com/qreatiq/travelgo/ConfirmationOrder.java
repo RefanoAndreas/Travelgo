@@ -687,7 +687,7 @@ public class ConfirmationOrder extends BaseActivity {
                 }
             };
 
-//            requestQueue.add(jsonObjectRequest);
+            requestQueue.add(jsonObjectRequest);
         }
     }
 
