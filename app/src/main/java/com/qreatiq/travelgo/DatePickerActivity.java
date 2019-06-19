@@ -61,9 +61,12 @@ public class DatePickerActivity extends BaseActivity {
                 .commit();
         if(intent.getBooleanExtra("isReturn",false)) {
             calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_RANGE);
-            calendarView.selectRange(
-                    CalendarDay.from(start_date.getYear()+1900,start_date.getMonth()+1,start_date.getDate()),
-                    CalendarDay.from(end_date.getYear()+1900,end_date.getMonth()+1,end_date.getDate()));
+            if(start_date.getTime() != end_date.getTime()) {
+                calendarView.selectRange(
+                        CalendarDay.from(start_date.getYear() + 1900, start_date.getMonth() + 1, start_date.getDate()),
+                        CalendarDay.from(end_date.getYear() + 1900, end_date.getMonth() + 1, end_date.getDate())
+                );
+            }
         }
         else {
             calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_SINGLE);

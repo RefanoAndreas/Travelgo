@@ -22,6 +22,7 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.No
 
     ArrayList<JSONObject> notifList;
     ClickListener clickListener;
+    ScrollListener scrollListener;
 
     public NotifikasiAdapter(ArrayList<JSONObject> notifList){
         this.notifList = notifList;
@@ -96,6 +97,8 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.No
                 notifikasiHolder.notifIcon.setImageResource(R.drawable.ic_location_city_black_24dp);
             }
 
+            if(i == getItemCount()-1)
+                scrollListener.onBottomReached();
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -107,12 +110,20 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.No
         return notifList.size();
     }
 
+    public interface ScrollListener{
+        void onBottomReached();
+    }
+
     public interface ClickListener{
         void onItemClick(int position);
     }
 
     public void setOnItemClickListner(ClickListener clickListner){
         this.clickListener= clickListner;
+    }
+
+    public void setOnScrollListener(ScrollListener scrollListener){
+        this.scrollListener= scrollListener;
     }
 
 }

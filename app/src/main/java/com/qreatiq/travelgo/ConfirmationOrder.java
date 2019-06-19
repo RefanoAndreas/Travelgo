@@ -1,5 +1,6 @@
 package com.qreatiq.travelgo;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -144,12 +146,21 @@ public class ConfirmationOrder extends BaseActivity {
             list_hotel.setLayoutManager(mLayoutManager);
             list_hotel.setAdapter(hotel_list_adapter);
 
-            NumberFormat double_formatter = new DecimalFormat("#,###");
-            sub_total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_per_pax_data))+" x "+String.valueOf(getIntent().getIntExtra("room",0))+
-                    "\nRp. "+String.valueOf(double_formatter.format(sub_total_data)));
-            pajak.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data*0.1)));
-            total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data+(sub_total_data*0.1))));
-            titleData.setText("Rincian Hotel");
+            try {
+                JSONObject hotel = new JSONObject(getIntent().getStringExtra("hotel_selected"));
+
+
+                NumberFormat double_formatter = new DecimalFormat("#,###");
+                sub_total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_per_pax_data))+" x "+
+                        String.valueOf(getIntent().getIntExtra("room",0))+" Kamar x "+
+                        hotel.getString("duration")+" Hari"+
+                        "\nRp. "+String.valueOf(double_formatter.format(sub_total_data)));
+                pajak.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data*0.1)));
+                total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data+(sub_total_data*0.1))));
+                titleData.setText("Rincian Hotel");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
         else if(intentString.equals("flight")){
             try {
@@ -389,10 +400,10 @@ public class ConfirmationOrder extends BaseActivity {
         String[] check_out = hotel_selected.getString("check_out").split(" ");
 
         Date check_in_date = new Date(Integer.parseInt(check_in[0])-1900,
-                Integer.parseInt(check_in[1]),
+                Integer.parseInt(check_in[1])-1,
                 Integer.parseInt(check_in[2]));
         Date check_out_date = new Date(Integer.parseInt(check_out[0])-1900,
-                Integer.parseInt(check_out[1]),
+                Integer.parseInt(check_out[1])-1,
                 Integer.parseInt(check_out[2]));
 
         json.put("name",hotel_selected.getString("name"));
@@ -402,8 +413,10 @@ public class ConfirmationOrder extends BaseActivity {
         json.put("total_guest",intent.getIntExtra("guest",0)+" Tamu");
 
         hotel_list_array.add(json);
+
+        JSONObject hotel = new JSONObject(getIntent().getStringExtra("hotel_selected"));
         sub_total_per_pax_data += room_selected.getInt("price");
-        sub_total_data += room_selected.getInt("price")*getIntent().getIntExtra("room",0);
+        sub_total_data += room_selected.getInt("price")*getIntent().getIntExtra("room",0)*hotel.getInt("duration");
     }
 
     private void train_detail(String str) throws JSONException {
@@ -550,6 +563,14 @@ public class ConfirmationOrder extends BaseActivity {
         }
 
         if(allow) {
+            final ProgressDialog loading = new ProgressDialog(this);
+            loading.setMax(100);
+            loading.setTitle("Booking is in progress");
+            loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            loading.setCancelable(false);
+            loading.setProgress(0);
+            loading.show();
+
             final JSONObject json = new JSONObject();
             json.put("depart_ticket", new JSONObject(getIntent().getStringExtra("depart_ticket")));
             if(intent.getBooleanExtra("isReturn",false))
@@ -570,6 +591,7 @@ public class ConfirmationOrder extends BaseActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
+                        loading.dismiss();
                         Intent in = new Intent(ConfirmationOrder.this, Payment.class);
 //                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         in.putExtra("type","flight");
@@ -584,6 +606,7 @@ public class ConfirmationOrder extends BaseActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    loading.dismiss();
                     ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
                     error_exception(error,layout);
                 }
@@ -597,7 +620,10 @@ public class ConfirmationOrder extends BaseActivity {
                     return headers;
                 }
             };
-
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    60000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             requestQueue.add(jsonObjectRequest);
         }
     }
@@ -614,6 +640,14 @@ public class ConfirmationOrder extends BaseActivity {
         }
 
         if(allow) {
+            final ProgressDialog loading = new ProgressDialog(this);
+            loading.setMax(100);
+            loading.setTitle("Booking is in progress");
+            loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            loading.setCancelable(false);
+            loading.setProgress(0);
+            loading.show();
+
             final JSONObject json = new JSONObject();
             json.put("depart_ticket", new JSONObject(getIntent().getStringExtra("depart_ticket")));
             if(intent.getBooleanExtra("isReturn",false))
@@ -635,6 +669,7 @@ public class ConfirmationOrder extends BaseActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
+                        loading.dismiss();
                         Intent in = new Intent(ConfirmationOrder.this, Payment.class);
 //                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         in.putExtra("type","train");
@@ -649,6 +684,7 @@ public class ConfirmationOrder extends BaseActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    loading.dismiss();
                     ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
                     error_exception(error,layout);
                 }
@@ -662,7 +698,10 @@ public class ConfirmationOrder extends BaseActivity {
                     return headers;
                 }
             };
-
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    60000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             requestQueue.add(jsonObjectRequest);
         }
     }
@@ -679,6 +718,14 @@ public class ConfirmationOrder extends BaseActivity {
         }
 
         if(allow) {
+            final ProgressDialog loading = new ProgressDialog(this);
+            loading.setMax(100);
+            loading.setTitle("Booking is in progress");
+            loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            loading.setCancelable(false);
+            loading.setProgress(0);
+            loading.show();
+
             final JSONObject json = new JSONObject();
             json.put("hotel_selected", new JSONObject(getIntent().getStringExtra("hotel_selected")));
             json.put("room_selected", new JSONObject(getIntent().getStringExtra("room_selected")));
@@ -696,6 +743,7 @@ public class ConfirmationOrder extends BaseActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
+                        loading.dismiss();
                         Intent in = new Intent(ConfirmationOrder.this, Payment.class);
 //                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         in.putExtra("type","hotel");
@@ -710,6 +758,7 @@ public class ConfirmationOrder extends BaseActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    loading.dismiss();
                     ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
                     error_exception(error,layout);
                 }
@@ -723,7 +772,10 @@ public class ConfirmationOrder extends BaseActivity {
                     return headers;
                 }
             };
-
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    60000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             requestQueue.add(jsonObjectRequest);
         }
     }

@@ -49,6 +49,7 @@ public class D1Notifikasi extends BaseActivity {
     SwipeRefreshLayout swipeLayout;
     RecyclerViewSkeletonScreen skeleton;
 
+    int page = 1;
     Handler mHandler = new Handler();
     Runnable mHandlerTask = new Runnable()
     {
@@ -86,6 +87,7 @@ public class D1Notifikasi extends BaseActivity {
         swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                page = 1;
                 notifList.clear();
                 mAdapter.notifyDataSetChanged();
                 mHandlerTask.run();
@@ -125,17 +127,28 @@ public class D1Notifikasi extends BaseActivity {
                 }
             }
         });
+
+        mAdapter.setOnScrollListener(new NotifikasiAdapter.ScrollListener() {
+            @Override
+            public void onBottomReached() {
+                page++;
+                swipeLayout.setRefreshing(true);
+                history();
+            }
+        });
         mHandlerTask.run();
     }
 
     private void history(){
-        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_notification).show();
+        if(page == 1)
+            skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_notification).show();
         if(dataIntent.equals("purchasing"))
             url = C_URL+"history-purchasing";
         else if(dataIntent.equals("sales"))
             url = C_URL+"history-sales";
         else
             url = C_URL+"history";
+        url += "?page="+page;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -143,9 +156,9 @@ public class D1Notifikasi extends BaseActivity {
 
                 try {
                     if(dataIntent.equals("purchasing")) {
-                        for (int x = 0; x < response.getJSONArray("purchasing").length(); x++) {
+                        for (int x = 0; x < response.getJSONObject("purchasing").getJSONArray("data").length(); x++) {
                             JSONObject jsonObject = new JSONObject();
-                            JSONObject jsonSales = response.getJSONArray("purchasing").getJSONObject(x);
+                            JSONObject jsonSales = response.getJSONObject("purchasing").getJSONArray("data").getJSONObject(x);
 
                             jsonObject.put("id", jsonSales.getString("id"));
                             jsonObject.put("date1", jsonSales.getString("buy_date"));
@@ -173,8 +186,8 @@ public class D1Notifikasi extends BaseActivity {
                         }
                     }
                     else if(dataIntent.equals("sales")) {
-                        for(int x=0;x<response.getJSONArray("sales").length();x++) {
-                            JSONObject jsonSales= response.getJSONArray("sales").getJSONObject(x);
+                        for(int x=0;x<response.getJSONObject("sales").getJSONArray("data").length();x++) {
+                            JSONObject jsonSales= response.getJSONObject("sales").getJSONArray("data").getJSONObject(x);
 
                             JSONObject jsonObject = new JSONObject();
 
@@ -198,8 +211,8 @@ public class D1Notifikasi extends BaseActivity {
                         }
                     }
                     else{
-                        for(int x=0;x<response.getJSONArray("history").length();x++) {
-                            JSONObject jsonSales= response.getJSONArray("history").getJSONObject(x);
+                        for(int x=0;x<response.getJSONObject("history").getJSONArray("data").length();x++) {
+                            JSONObject jsonSales= response.getJSONObject("history").getJSONArray("data").getJSONObject(x);
 
                             JSONObject jsonObject = new JSONObject();
 
@@ -236,7 +249,8 @@ public class D1Notifikasi extends BaseActivity {
                         }
                     }
                     swipeLayout.setRefreshing(false);
-                    skeleton.hide();
+                    if(page == 1)
+                        skeleton.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

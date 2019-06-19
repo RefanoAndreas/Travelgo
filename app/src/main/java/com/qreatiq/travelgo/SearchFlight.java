@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -41,6 +42,7 @@ public class SearchFlight extends BaseActivity {
 
     EditText tour_search;
     LinearLayout headline;
+    TextView no_data;
 
     String shared_last_search = "";
 
@@ -59,6 +61,7 @@ public class SearchFlight extends BaseActivity {
         list = (RecyclerView) findViewById(R.id.list);
         last_search_list = (RecyclerView) findViewById(R.id.last_search_list);
         popular_city_list = (RecyclerView) findViewById(R.id.popular_city_list);
+        no_data = (TextView) findViewById(R.id.no_data);
 
         try {
             data = new JSONObject(getIntent().getStringExtra("data"));
@@ -252,26 +255,31 @@ public class SearchFlight extends BaseActivity {
                     array.clear();
                     adapter.notifyDataSetChanged();
                     JSONArray jsonArray = response.getJSONArray("data");
-                    for(int x=0; x<jsonArray.length(); x++){
-                        JSONObject jsonObject = new JSONObject();
+                    if(jsonArray.length() > 0) {
+                        no_data.setVisibility(View.GONE);
+                        for (int x = 0; x < jsonArray.length(); x++) {
+                            JSONObject jsonObject = new JSONObject();
 
-                        jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getJSONObject("city").getString("name")));
-                        jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
-                        jsonObject.put("city", jsonArray.getJSONObject(x).getJSONObject("city").getString("name"));
-                        jsonObject.put("poi", jsonArray.getJSONObject(x).getString("name"));
-                        jsonObject.put("code", jsonArray.getJSONObject(x).getString("id"));
-                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
+                            jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getJSONObject("city").getString("name")));
+                            jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
+                            jsonObject.put("city", jsonArray.getJSONObject(x).getJSONObject("city").getString("name"));
+                            jsonObject.put("poi", jsonArray.getJSONObject(x).getString("name"));
+                            jsonObject.put("code", jsonArray.getJSONObject(x).getString("id"));
+                            jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
 
-                        if(data.toString().equals("{}") || (!data.toString().equals("{}") && !jsonObject.getString("city").equals(data.getString("city")))) {
-                            array.add(jsonObject);
+                            if (data.toString().equals("{}") || (!data.toString().equals("{}") && !jsonObject.getString("city").equals(data.getString("city")))) {
+                                array.add(jsonObject);
 
-                            if (x == 0) {
-                                adapter.notifyDataSetChanged();
-                            } else {
-                                adapter.notifyItemInserted(x);
+                                if (x == 0) {
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    adapter.notifyItemInserted(x);
+                                }
                             }
                         }
                     }
+                    else
+                        no_data.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -297,7 +305,7 @@ public class SearchFlight extends BaseActivity {
                     popular_city_array.clear();
                     popular_city_adapter.notifyDataSetChanged();
                     JSONArray jsonArray = response.getJSONArray("data");
-                    for(int x=0; x<jsonArray.length(); x++){
+                    for (int x = 0; x < jsonArray.length(); x++) {
                         JSONObject jsonObject = new JSONObject();
 
                         jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getJSONObject("city").getString("name")));
@@ -307,7 +315,7 @@ public class SearchFlight extends BaseActivity {
                         jsonObject.put("code", jsonArray.getJSONObject(x).getString("id"));
                         jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
 
-                        if(data.toString().equals("{}") || (!data.toString().equals("{}") && !jsonObject.getString("city").equals(data.getString("city")))) {
+                        if (data.toString().equals("{}") || (!data.toString().equals("{}") && !jsonObject.getString("city").equals(data.getString("city")))) {
                             popular_city_array.add(jsonObject);
 
                             if (x == 0) {
@@ -343,26 +351,31 @@ public class SearchFlight extends BaseActivity {
                     array.clear();
                     adapter.notifyDataSetChanged();
                     JSONArray jsonArray = response.getJSONArray("data");
-                    for(int x=0; x<jsonArray.length(); x++){
-                        JSONObject jsonObject = new JSONObject();
+                    if(jsonArray.length() > 0) {
+                        no_data.setVisibility(View.GONE);
+                        for (int x = 0; x < jsonArray.length(); x++) {
+                            JSONObject jsonObject = new JSONObject();
 
-                        jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getJSONObject("city").getString("name")));
-                        jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
-                        jsonObject.put("city", jsonArray.getJSONObject(x).getJSONObject("city").getString("name"));
-                        jsonObject.put("poi", jsonArray.getJSONObject(x).getString("name"));
-                        jsonObject.put("code", jsonArray.getJSONObject(x).getString("id"));
-                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
+                            jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getJSONObject("city").getString("name")));
+                            jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
+                            jsonObject.put("city", jsonArray.getJSONObject(x).getJSONObject("city").getString("name"));
+                            jsonObject.put("poi", jsonArray.getJSONObject(x).getString("name"));
+                            jsonObject.put("code", jsonArray.getJSONObject(x).getString("id"));
+                            jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
 
-                        if(data.toString().equals("{}") || (!data.toString().equals("{}") && !jsonObject.toString().equals("{}") && !jsonObject.getString("city").equals(data.getString("city")))) {
-                            array.add(jsonObject);
+                            if (data.toString().equals("{}") || (!data.toString().equals("{}") && !jsonObject.toString().equals("{}") && !jsonObject.getString("city").equals(data.getString("city")))) {
+                                array.add(jsonObject);
 
-                            if (x == 0) {
-                                adapter.notifyDataSetChanged();
-                            } else {
-                                adapter.notifyItemInserted(x);
+                                if (x == 0) {
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    adapter.notifyItemInserted(x);
+                                }
                             }
                         }
                     }
+                    else
+                        no_data.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -389,7 +402,7 @@ public class SearchFlight extends BaseActivity {
                     popular_city_array.clear();
                     popular_city_adapter.notifyDataSetChanged();
                     JSONArray jsonArray = response.getJSONArray("data");
-                    for(int x=0; x<jsonArray.length(); x++){
+                    for (int x = 0; x < jsonArray.length(); x++) {
                         JSONObject jsonObject = new JSONObject();
 
                         jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getJSONObject("city").getString("name")));
@@ -399,7 +412,7 @@ public class SearchFlight extends BaseActivity {
                         jsonObject.put("code", jsonArray.getJSONObject(x).getString("id"));
                         jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
 
-                        if(data.toString().equals("{}") || (!data.toString().equals("{}") && !jsonObject.getString("city").equals(data.getString("city")))) {
+                        if (data.toString().equals("{}") || (!data.toString().equals("{}") && !jsonObject.getString("city").equals(data.getString("city")))) {
                             popular_city_array.add(jsonObject);
 
                             if (x == 0) {
@@ -435,22 +448,27 @@ public class SearchFlight extends BaseActivity {
                     array.clear();
                     adapter.notifyDataSetChanged();
                     JSONArray jsonArray = response.getJSONArray("data");
-                    for(int x=0; x<jsonArray.length(); x++){
-                        JSONObject jsonObject = new JSONObject();
+                    if(jsonArray.length() > 0) {
+                        no_data.setVisibility(View.GONE);
+                        for (int x = 0; x < jsonArray.length(); x++) {
+                            JSONObject jsonObject = new JSONObject();
 
-                        jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
-                        jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getJSONObject("country").getString("name")));
-                        jsonObject.put("city", jsonArray.getJSONObject(x).getString("name"));
-                        jsonObject.put("poi", jsonArray.getJSONObject(x).getJSONObject("country").getString("name"));
-                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
-                        array.add(jsonObject);
+                            jsonObject.put("city_label", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
+                            jsonObject.put("poi_label", capitalizeString(jsonArray.getJSONObject(x).getJSONObject("country").getString("name")));
+                            jsonObject.put("city", jsonArray.getJSONObject(x).getString("name"));
+                            jsonObject.put("poi", jsonArray.getJSONObject(x).getJSONObject("country").getString("name"));
+                            jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
+                            array.add(jsonObject);
 
-                        if (x == 0) {
-                            adapter.notifyDataSetChanged();
-                        } else {
-                            adapter.notifyItemInserted(x);
+                            if (x == 0) {
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                adapter.notifyItemInserted(x);
+                            }
                         }
                     }
+                    else
+                        no_data.setVisibility(View.VISIBLE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -296,6 +296,17 @@
                 <android.support.design.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="Bisnis"
+                    android:textColor="#424242"
+                    android:textSize="12dp"
+                    style="@style/Widget.MaterialComponents.Chip.Filter"
+                    app:chipBackgroundColor="@android:color/white"
+                    app:chipCornerRadius="10dp"
+                    app:chipStrokeColor="#707070"
+                    app:chipStrokeWidth="1dp" />
+                <android.support.design.chip.Chip
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="Eksekutif"
                     android:textColor="#424242"
                     android:textSize="12dp"

@@ -582,7 +582,7 @@ public class FlightSearchJadwal extends BaseActivity {
                                     "&mime="+jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(0).getString("mime"));
                             jsonObject.put("facilities", jsonArray.getJSONObject(x).getJSONArray("facilities"));
                             jsonObject.put("price", jsonArray.getJSONObject(x).getString("price"));
-
+                            jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));
                             jsonObject.put("internalCode", jsonArray.getJSONObject(x).getString("internalCode"));
                             jsonObject.put("hotelID", jsonArray.getJSONObject(x).getString("ID"));
 

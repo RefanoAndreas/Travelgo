@@ -16,7 +16,7 @@ import com.shawnlin.numberpicker.NumberPicker;
 
 public class TrainSearchKelas extends BottomSheetDialogFragment {
 
-    String[] data = {"Ekonomi", "Eksekutif"};
+    String[] data = {"Ekonomi","Bisnis","Eksekutif"};
     MaterialButton submit;
     NumberPicker numberPicker;
     TrainSearch parent;
