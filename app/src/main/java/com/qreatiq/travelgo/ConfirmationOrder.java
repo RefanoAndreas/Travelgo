@@ -153,22 +153,48 @@ public class ConfirmationOrder extends BaseActivity {
         }
         else if(intentString.equals("flight")){
             try {
-                for(int x=0;x<intent.getIntExtra("adult",0);x++)
-                    arrayList.add(new JSONObject("{" +
-                            "\"edit\":false," +
-                            "\"title\":\"\"," +
-                            "\"name\":\"\"," +
-                            "\"no_passport\":\"\"," +
-                            "\"label\":\"Isi Data Dewasa "+(x+1)+"\"," +
-                            "\"type\":\"Dewasa "+(x+1)+"\"," +
-                            "\"category\":\"adult\"," +
-                            "\"baggage_depart\":{}," +
-                            "\"baggage_return\":{}," +
-                            "\"for\":\"flight\"}"));
-                for(int x=0;x<intent.getIntExtra("child",0);x++)
-                    arrayList.add(new JSONObject("{\"edit\":false,\"title\":\"\",\"name\":\"\",\"label\":\"Isi Data Anak "+(x+1)+"\",\"type\":\"Anak "+(x+1)+"\",\"category\":\"child\",\"baggage_depart\":{},\"baggage_return\":{},\"for\":\"flight\"}"));
-                for(int x=0;x<intent.getIntExtra("infant",0);x++)
-                    arrayList.add(new JSONObject("{\"edit\":false,\"title\":\"\",\"name\":\"\",\"label\":\"Isi Data Bayi "+(x+1)+"\",\"type\":\"Bayi "+(x+1)+"\",\"category\":\"infant\",\"baggage_depart\":{},\"baggage_return\":{},\"for\":\"flight\"}"));
+                for(int x=0;x<intent.getIntExtra("adult",0);x++) {
+                    JSONObject json = new JSONObject();
+                    json.put("edit",false);
+                    json.put("title","");
+                    json.put("name","");
+                    json.put("no_passport","");
+                    json.put("label","Isi Data Dewasa "+(x+1));
+                    json.put("type","Dewasa "+(x+1));
+                    json.put("category","adult");
+                    json.put("baggage_depart",new JSONObject());
+                    json.put("baggage_return",new JSONObject());
+                    json.put("for","flight");
+                    arrayList.add(json);
+                }
+                for(int x=0;x<intent.getIntExtra("child",0);x++) {
+                    JSONObject json = new JSONObject();
+                    json.put("edit",false);
+                    json.put("title","");
+                    json.put("name","");
+                    json.put("no_passport","");
+                    json.put("label","Isi Data Anak "+(x+1));
+                    json.put("type","Anak "+(x+1));
+                    json.put("category","child");
+                    json.put("baggage_depart",new JSONObject());
+                    json.put("baggage_return",new JSONObject());
+                    json.put("for","flight");
+                    arrayList.add(json);
+                }
+                for(int x=0;x<intent.getIntExtra("infant",0);x++) {
+                    JSONObject json = new JSONObject();
+                    json.put("edit",false);
+                    json.put("title","");
+                    json.put("name","");
+                    json.put("no_passport","");
+                    json.put("label","Isi Data Bayi "+(x+1));
+                    json.put("type","Bayi "+(x+1));
+                    json.put("category","infant");
+                    json.put("baggage_depart",new JSONObject());
+                    json.put("baggage_return",new JSONObject());
+                    json.put("for","flight");
+                    arrayList.add(json);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -420,31 +446,42 @@ public class ConfirmationOrder extends BaseActivity {
         JSONObject json = new JSONObject();
         JSONObject ticket = new JSONObject(intent.getStringExtra(str));
 
-        SimpleDateFormat format = new SimpleDateFormat("EEEE d MMM yyyy . k:m");
-        String[] depart_str = ticket.getString("departTimeNumber").split(" ");
-        String[] arrive_str = ticket.getString("arriveTimeNumber").split(" ");
+        for(int x=0;x<ticket.getJSONArray("segment").length();x++) {
+            json = new JSONObject();
+            if(x == 0 && str.equals("depart_ticket"))
+                json.put("title", "Tiket berangkat menggunakan "+ticket.getString("airlines"));
+            if(x == 0 && str.equals("return_ticket"))
+                json.put("title", "Tiket kembali menggunakan "+ticket.getString("airlines"));
+            JSONObject jsonObject = ticket.getJSONArray("segment").getJSONObject(x).getJSONArray("flightDetail").getJSONObject(0);
+//            Log.d("data",jsonObject.toString());
+            SimpleDateFormat format = new SimpleDateFormat("EEEE d MMM yyyy . kk:mm");
+            String[] depart_str = jsonObject.getString("time_depart").split(" ");
+            String[] arrive_str = jsonObject.getString("time_arrive").split(" ");
 
-        Date depart_date = new Date(Integer.parseInt(depart_str[0])-1900,
-                Integer.parseInt(depart_str[1]),
-                Integer.parseInt(depart_str[2]),
-                Integer.parseInt(depart_str[3]),
-                Integer.parseInt(depart_str[4]),
-                Integer.parseInt(depart_str[5]));
-        Date arrive_date = new Date(Integer.parseInt(arrive_str[0])-1900,
-                Integer.parseInt(arrive_str[1]),
-                Integer.parseInt(arrive_str[2]),
-                Integer.parseInt(arrive_str[3]),
-                Integer.parseInt(arrive_str[4]),
-                Integer.parseInt(arrive_str[5]));
+            Date depart_date = new Date(Integer.parseInt(depart_str[0]) - 1900,
+                    Integer.parseInt(depart_str[1]) - 1,
+                    Integer.parseInt(depart_str[2]),
+                    Integer.parseInt(depart_str[3]),
+                    Integer.parseInt(depart_str[4]),
+                    Integer.parseInt(depart_str[5]));
+            Date arrive_date = new Date(Integer.parseInt(arrive_str[0]) - 1900,
+                    Integer.parseInt(arrive_str[1]) - 1,
+                    Integer.parseInt(arrive_str[2]),
+                    Integer.parseInt(arrive_str[3]),
+                    Integer.parseInt(arrive_str[4]),
+                    Integer.parseInt(arrive_str[5]));
 
-        json.put("airlines",ticket.getString("airlines"));
-        json.put("depart_date_place",format.format(depart_date)+" - "+ticket.getJSONObject("departData").getString("code")+" "+ticket.getJSONObject("departData").getString("city_label"));
-        json.put("depart_airport",ticket.getJSONObject("departData").getString("poi_label"));
-        json.put("duration",ticket.getString("duration"));
-        json.put("arrive_date_place",format.format(arrive_date)+" - "+ticket.getJSONObject("arrivalData").getString("code")+" "+ticket.getJSONObject("arrivalData").getString("city_label"));
-        json.put("arrive_airport",ticket.getJSONObject("arrivalData").getString("poi_label"));
+            json.put("airlines", jsonObject.getString("airlineCode")+jsonObject.getString("flightNumber"));
+            json.put("depart_date_place", format.format(depart_date) + " - " + jsonObject.getString("fdOrigin") + " " + jsonObject.getJSONObject("origin_airport").getJSONObject("city").getString("name"));
+            json.put("depart_airport", jsonObject.getJSONObject("origin_airport").getString("name"));
+            json.put("duration", jsonObject.getString("duration"));
+            json.put("arrive_date_place", format.format(arrive_date) + " - " + jsonObject.getString("fdDestination") + " " + jsonObject.getJSONObject("destination_airport").getJSONObject("city").getString("name"));
+            json.put("arrive_airport", jsonObject.getJSONObject("destination_airport").getString("name"));
+            if(jsonObject.has("transit"))
+                json.put("transit", "Transit "+jsonObject.getString("transit"));
 
-        flight_list_array.add(json);
+            flight_list_array.add(json);
+        }
         sub_total_per_pax_data += ticket.getInt("price");
         sub_total_data += ticket.getInt("price")*(intent.getIntExtra("adult",0)+intent.getIntExtra("child",0)+intent.getIntExtra("infant",0));
 
@@ -561,7 +598,7 @@ public class ConfirmationOrder extends BaseActivity {
                 }
             };
 
-//            requestQueue.add(jsonObjectRequest);
+            requestQueue.add(jsonObjectRequest);
         }
     }
 

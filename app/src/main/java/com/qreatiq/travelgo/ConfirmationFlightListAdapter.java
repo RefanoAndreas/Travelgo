@@ -36,7 +36,7 @@ public class ConfirmationFlightListAdapter extends RecyclerView.Adapter<Confirma
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView airlines,depart_date_place,depart_airport,duration,arrive_date_place,arrive_airport;
+        TextView airlines,depart_date_place,depart_airport,duration,arrive_date_place,arrive_airport,transit,title;
         View view;
 
         public ViewHolder(@NonNull View itemView) {
@@ -48,6 +48,8 @@ public class ConfirmationFlightListAdapter extends RecyclerView.Adapter<Confirma
             duration = (TextView) itemView.findViewById(R.id.duration);
             arrive_date_place = (TextView) itemView.findViewById(R.id.arrive_date_place);
             arrive_airport = (TextView) itemView.findViewById(R.id.arrive_airport);
+            transit = (TextView) itemView.findViewById(R.id.transit);
+            title = (TextView) itemView.findViewById(R.id.title);
             view = itemView;
         }
     }
@@ -70,6 +72,16 @@ public class ConfirmationFlightListAdapter extends RecyclerView.Adapter<Confirma
             viewHolder.duration.setText(jsonObject.getString("duration"));
             viewHolder.arrive_date_place.setText(jsonObject.getString("arrive_date_place"));
             viewHolder.arrive_airport.setText(jsonObject.getString("arrive_airport"));
+
+            if(jsonObject.has("transit")){
+                viewHolder.transit.setText(jsonObject.getString("transit"));
+                viewHolder.transit.setVisibility(View.VISIBLE);
+            }
+
+            if(jsonObject.has("title")){
+                viewHolder.title.setText(jsonObject.getString("title"));
+                viewHolder.title.setVisibility(View.VISIBLE);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

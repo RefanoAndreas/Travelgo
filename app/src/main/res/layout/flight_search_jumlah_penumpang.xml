@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#fff"
+    android:id="@+id/layout"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.makeramen.roundedimageview.RoundedImageView
@@ -86,7 +88,7 @@
                 android:layout_weight="1"
                 android:id="@+id/adult"
                 app:np_min="0"
-                app:np_max="10"
+                app:np_max="9"
                 app:np_orientation="vertical"
                 app:np_fadingEdgeEnabled="false"
                 app:np_dividerThickness="0dp"
@@ -102,7 +104,7 @@
                 android:layout_weight="1"
                 android:id="@+id/child"
                 app:np_min="0"
-                app:np_max="10"
+                app:np_max="6"
                 app:np_orientation="vertical"
                 app:np_fadingEdgeEnabled="false"
                 app:np_dividerThickness="0dp"
@@ -119,7 +121,7 @@
                 android:layout_weight="1"
                 android:id="@+id/infant"
                 app:np_min="0"
-                app:np_max="10"
+                app:np_max="4"
                 app:np_orientation="vertical"
                 app:np_fadingEdgeEnabled="false"
                 app:np_dividerThickness="0dp"
@@ -145,4 +147,4 @@
             android:fontFamily="@font/montserrat_medium"/>
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

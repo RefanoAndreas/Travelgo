@@ -74,7 +74,6 @@
         android:layout_height="wrap_content"
         android:text="2 Tamu"
         android:layout_marginTop="16dp"
-        android:textColor="#263238"
-        android:layout_marginBottom="@dimen/base_size"/>
+        android:textColor="#263238"/>
 
 </LinearLayout>

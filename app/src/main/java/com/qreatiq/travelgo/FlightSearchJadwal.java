@@ -102,7 +102,7 @@ public class FlightSearchJadwal extends BaseActivity {
             tripInfo = (TextView) findViewById(R.id.tripInfo);
             title = (TextView) findViewById(R.id.title);
 
-            SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             tripInfo.setText(format.format(date) + ", " +
                     String.valueOf(adult_pax) + " Dewasa, " +
                     String.valueOf(child_pax) + " Anak, " +
@@ -376,14 +376,14 @@ public class FlightSearchJadwal extends BaseActivity {
                                 jsonObject.put("arrivalData", destination);
                                 jsonObject.put("departTimeNumber", jsonArray.getJSONObject(x).getString("time_depart_number"));
                                 jsonObject.put("arriveTimeNumber", jsonArray.getJSONObject(x).getString("time_arrive_number"));
-                                if (jsonArray.getJSONObject(x).getInt("transit") > 1)
+                                if (jsonArray.getJSONObject(x).getInt("transit") >= 1)
                                     jsonObject.put("totalTransit", jsonArray.getJSONObject(x).getString("transit") +
                                             (jsonArray.getJSONObject(x).getInt("transit") > 2 ? " Transits" : " Transit")
                                     );
                                 else
                                     jsonObject.put("totalTransit", "Langsung");
                                 jsonObject.put("price", jsonArray.getJSONObject(x).getString("price"));
-
+                                jsonObject.put("segment", jsonArray.getJSONObject(x).getJSONArray("segment"));
                                 jsonObject.put("airlineID", jsonArray.getJSONObject(x).getString("airlineID"));
                                 jsonObject.put("airlineCode", jsonArray.getJSONObject(x).getString("airlineCode"));
                                 jsonObject.put("flightNumber", jsonArray.getJSONObject(x).getString("flightNumber"));
@@ -460,6 +460,7 @@ public class FlightSearchJadwal extends BaseActivity {
         if(!filter.toString().equals("{}"))
             url += "&filter=" + URLEncoder.encode(filter.toString(), "utf-8");
 
+        Log.d("url",url);
         ticketList.clear();
         mAdapter.notifyDataSetChanged();
 
@@ -472,32 +473,29 @@ public class FlightSearchJadwal extends BaseActivity {
                     if(jsonArray.length() > 0) {
 
                         for (int x = 0; x < jsonArray.length(); x++) {
-                            for (int y = 0; y < jsonArray.getJSONObject(x).getJSONArray("availibilityClasses").length(); y++) {
-                                JSONObject jsonObject = new JSONObject();
+                            JSONObject jsonObject = new JSONObject();
 
-                                jsonObject.put("name", jsonArray.getJSONObject(x).getString("trainName"));
-                                jsonObject.put("departTime", jsonArray.getJSONObject(x).getString("time_depart_label"));
-                                jsonObject.put("arrivalTime", jsonArray.getJSONObject(x).getString("time_arrive_label"));
-                                jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));
-                                jsonObject.put("departStation", origin.getString("code"));
-                                jsonObject.put("arrivalStation", destination.getString("code"));
-                                jsonObject.put("departData", origin);
-                                jsonObject.put("arrivalData", destination);
-                                jsonObject.put("departTimeNumber", jsonArray.getJSONObject(x).getString("time_depart_number"));
-                                jsonObject.put("arriveTimeNumber", jsonArray.getJSONObject(x).getString("time_arrive_number"));
-                                jsonObject.put("price", jsonArray.getJSONObject(x).getJSONArray("availibilityClasses").getJSONObject(y).getString("price"));
-                                jsonObject.put("class", jsonArray.getJSONObject(x).getJSONArray("availibilityClasses").getJSONObject(y).getString("availabilityClass"));
-                                jsonObject.put("sub-class", jsonArray.getJSONObject(x).getJSONArray("availibilityClasses").getJSONObject(y).getString("subClass"));
+                            jsonObject.put("name", jsonArray.getJSONObject(x).getString("name"));
+                            jsonObject.put("departTime", jsonArray.getJSONObject(x).getString("time_depart_label"));
+                            jsonObject.put("arrivalTime", jsonArray.getJSONObject(x).getString("time_arrive_label"));
+                            jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));
+                            jsonObject.put("departStation", origin.getString("code"));
+                            jsonObject.put("arrivalStation", destination.getString("code"));
+                            jsonObject.put("departData", origin);
+                            jsonObject.put("arrivalData", destination);
+                            jsonObject.put("departTimeNumber", jsonArray.getJSONObject(x).getString("time_depart_number"));
+                            jsonObject.put("arriveTimeNumber", jsonArray.getJSONObject(x).getString("time_arrive_number"));
+                            jsonObject.put("price", jsonArray.getJSONObject(x).getString("price"));
+                            jsonObject.put("class", jsonArray.getJSONObject(x).getString("class"));
+                            jsonObject.put("sub-class", jsonArray.getJSONObject(x).getString("sub-class"));
+                            jsonObject.put("train_number", jsonArray.getJSONObject(x).getString("train-number"));
 
-                                jsonObject.put("train_number", jsonArray.getJSONObject(x).getString("trainNumber"));
+                            ticketList.add(jsonObject);
 
-                                ticketList.add(jsonObject);
-
-                                if (x == 0)
-                                    mAdapter.notifyDataSetChanged();
-                                else
-                                    mAdapter.notifyItemInserted(x);
-                            }
+                            if (x == 0)
+                                mAdapter.notifyDataSetChanged();
+                            else
+                                mAdapter.notifyItemInserted(x);
                         }
                     }
                     else{
@@ -682,7 +680,7 @@ public class FlightSearchJadwal extends BaseActivity {
                         if(filter.getLong("min_price") != 0 || filter.getLong("max_price") != 300000000 ||
                                 filter.getJSONArray("arrival_date").length() > 0 ||
                                 filter.getJSONArray("departure_date").length() > 0 ||
-                                filter.getJSONArray("transit").length() > 0) {
+                                filter.getJSONArray("class").length() > 0) {
                             filterBtn.setTextColor(ContextCompat.getColorStateList(this, R.color.colorPrimary));
                             filterBtn.setIconTint(ContextCompat.getColorStateList(this, R.color.colorPrimary));
                             filterBtn.setStrokeColor(ContextCompat.getColorStateList(this, R.color.colorPrimary));

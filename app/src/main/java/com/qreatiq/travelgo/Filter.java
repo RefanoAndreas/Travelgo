@@ -34,11 +34,10 @@ public class Filter extends BaseActivity {
     TimeAdapter adapterDeparture,adapterArrival;
     GridView gridDeparture, gridArrival;
     MaterialButton submitBtn;
-    ChipGroup transit_group,ranking_group;
-    ArrayList<JSONObject> transit_array = new ArrayList<JSONObject>();
-    ArrayList<String> ranking_array = new ArrayList<String>();
+    ChipGroup transit_group,ranking_group,train_class_group;
+    ArrayList<JSONObject> transit_array = new ArrayList<JSONObject>(),train_class_array = new ArrayList<JSONObject>(),ranking_array = new ArrayList<JSONObject>();
 
-    LinearLayout ranking_layout,transit,depart_layout,arrive_layout;
+    LinearLayout ranking_layout,transit,depart_layout,arrive_layout,train_class;
 
     JSONObject filter;
     Long min_price,max_price;
@@ -65,10 +64,12 @@ public class Filter extends BaseActivity {
         maxPrice = (TextView)findViewById(R.id.maximumPrice);
         ranking_layout = (LinearLayout) findViewById(R.id.ranking_layout);
         transit = (LinearLayout) findViewById(R.id.transit);
+        train_class = (LinearLayout) findViewById(R.id.train_class);
         submitBtn = (MaterialButton)findViewById(R.id.submit_saveChanges_filter);
         reset = (TextView) findViewById(R.id.reset);
         transit_group = (ChipGroup) findViewById(R.id.transit_group);
         ranking_group = (ChipGroup) findViewById(R.id.ranking_group);
+        train_class_group = (ChipGroup) findViewById(R.id.train_class_group);
 
         gridDeparture = (GridView) findViewById(R.id.gridDepart);
         gridArrival = (GridView) findViewById(R.id.gridArrive);
@@ -77,6 +78,20 @@ public class Filter extends BaseActivity {
         arrive_layout = (LinearLayout) findViewById(R.id.arrive_layout);
 
         try {
+            transit_array.add(new JSONObject("{\"label\":\"Langsung\",\"data\":1,\"checked\":false}"));
+            transit_array.add(new JSONObject("{\"label\":\"1 Transit\",\"data\":2,\"checked\":false}"));
+            transit_array.add(new JSONObject("{\"label\":\"2+ Transit\",\"data\":3,\"checked\":false}"));
+
+            train_class_array.add(new JSONObject("{\"label\":\"Ekonomi\",\"data\":\"ekonomi\",\"checked\":false}"));
+            train_class_array.add(new JSONObject("{\"label\":\"Bisnis\",\"data\":\"bisnis\",\"checked\":false}"));
+            train_class_array.add(new JSONObject("{\"label\":\"Eksekutif\",\"data\":\"eksekutif\",\"checked\":false}"));
+
+            ranking_array.add(new JSONObject("{\"label\":\"1 star\",\"data\":1,\"checked\":false}"));
+            ranking_array.add(new JSONObject("{\"label\":\"2 star\",\"data\":2,\"checked\":false}"));
+            ranking_array.add(new JSONObject("{\"label\":\"3 star\",\"data\":3,\"checked\":false}"));
+            ranking_array.add(new JSONObject("{\"label\":\"4 star\",\"data\":4,\"checked\":false}"));
+            ranking_array.add(new JSONObject("{\"label\":\"5 star\",\"data\":5,\"checked\":false}"));
+
             if(intent.getStringExtra("type").equals("train") || intent.getStringExtra("type").equals("flight")) {
                 arrayTimeDeparture.add(new JSONObject("{\"label\":\"00:00 - 11:00\",\"checked\":false}"));
                 arrayTimeDeparture.add(new JSONObject("{\"label\":\"11:00 - 15:00\",\"checked\":false}"));
@@ -117,23 +132,22 @@ public class Filter extends BaseActivity {
 
         if(intent.getStringExtra("type").equals("hotel")){
             transit.setVisibility(View.GONE);
+            train_class.setVisibility(View.GONE);
             depart_layout.setVisibility(View.GONE);
             arrive_layout.setVisibility(View.GONE);
             ranking_layout.setVisibility(View.VISIBLE);
 
             try {
                 if(!filter.toString().equals("{}")) {
-                    Log.d("rank", String.valueOf(filter.getJSONArray("ranking")));
-                    for (int x = 0; x < ranking_group.getChildCount(); x++) {
-                        final Chip chip = (Chip) ranking_group.getChildAt(x);
-                        for (int y = 0; y < filter.getJSONArray("ranking").length(); y++) {
-                            if (chip.getText().toString().equals(filter.getJSONArray("ranking").getString(y))) {
-                                chip.setChecked(true);
-                                ranking_array.add(filter.getJSONArray("ranking").getString(y));
+                    for (int x = 0; x < filter.getJSONArray("ranking").length(); x++) {
+                        for (int y = 0; y < ranking_array.size(); y++) {
+                            if (filter.getJSONArray("ranking").getJSONObject(x).getInt("data") == ranking_array.get(y).getInt("data")){
+                                ranking_array.get(y).put("checked",true);
                                 break;
                             }
                         }
                     }
+                    update_ranking_view();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -141,22 +155,43 @@ public class Filter extends BaseActivity {
         }
         else{
             ranking_layout.setVisibility(View.GONE);
-            try {
-                if(!filter.toString().equals("{}")) {
-                    for (int x = 0; x < transit_group.getChildCount(); x++) {
-                        final Chip chip = (Chip) transit_group.getChildAt(x);
-                        for (int y = 0; y < filter.getJSONArray("transit").length(); y++) {
-                            if (chip.getText().toString().equals(
-                                    filter.getJSONArray("transit").getJSONObject(y).getString("label"))) {
-                                chip.setChecked(true);
-                                transit_array.add(filter.getJSONArray("transit").getJSONObject(y));
-                                break;
+            if(intent.getStringExtra("type").equals("flight")) {
+                train_class.setVisibility(View.GONE);
+                try {
+                    if (!filter.toString().equals("{}")) {
+                        for (int x = 0; x < filter.getJSONArray("transit").length(); x++) {
+                            for (int y = 0; y < transit_array.size(); y++) {
+                                if (filter.getJSONArray("transit").getJSONObject(x).getString("label").equals(
+                                        transit_array.get(y).getString("label"))){
+                                    transit_array.get(y).put("checked",true);
+                                    break;
+                                }
                             }
                         }
+                        update_transit_view();
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            }
+            else{
+                transit.setVisibility(View.GONE);
+                try {
+                    if (!filter.toString().equals("{}")) {
+                        for (int x = 0; x < filter.getJSONArray("class").length(); x++) {
+                            for (int y = 0; y < train_class_array.size(); y++) {
+                                if (filter.getJSONArray("class").getJSONObject(x).getString("label").equals(
+                                        train_class_array.get(y).getString("label"))){
+                                    train_class_array.get(y).put("checked",true);
+                                    break;
+                                }
+                            }
+                        }
+                        update_class_view();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -165,25 +200,32 @@ public class Filter extends BaseActivity {
             chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(from_system) {
-                        from_system = false;
-                        return;
-                    }
                     try {
-                        JSONObject json = new JSONObject("{\"label\":\""+chip.getText().toString()+"\"}");
-                        if(isChecked)
-                            transit_array.add(json);
-                        else {
-                            int index=0;
-                            for(int x=0;x<transit_array.size();x++){
-                                if(transit_array.get(x).toString().equals(json.toString())) {
-                                    index = x;
-                                    break;
-                                }
+                        for (int x = 0; x < transit_array.size(); x++) {
+                            if(transit_array.get(x).getString("label").equals(chip.getText().toString())) {
+                                transit_array.get(x).put("checked", isChecked);
+                                break;
                             }
-                            transit_array.remove(index);
                         }
-                        from_system = false;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+
+        for(int x=0;x<train_class_group.getChildCount();x++){
+            final Chip chip = (Chip) train_class_group.getChildAt(x);
+            chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    try {
+                        for (int x = 0; x < train_class_array.size(); x++) {
+                            if(train_class_array.get(x).getString("label").equals(chip.getText().toString())) {
+                                train_class_array.get(x).put("checked", isChecked);
+                                break;
+                            }
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -196,24 +238,16 @@ public class Filter extends BaseActivity {
             chip.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(from_system) {
-                        from_system = false;
-                        return;
-                    }
-
-                    if(isChecked)
-                        ranking_array.add(chip.getText().toString());
-                    else {
-                        int index=0;
-                        for(int x=0;x<ranking_array.size();x++){
-                            if(ranking_array.get(x).toString().equals(chip.getText().toString())) {
-                                index = x;
+                    try {
+                        for (int x = 0; x < ranking_array.size(); x++) {
+                            if(ranking_array.get(x).getString("data").equals(chip.getText().toString())) {
+                                ranking_array.get(x).put("checked", isChecked);
                                 break;
                             }
                         }
-                        ranking_array.remove(index);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    from_system = false;
                 }
             });
         }
@@ -312,11 +346,30 @@ public class Filter extends BaseActivity {
                         else
                             filter.put("departure_date", new JSONObject());
 
-                        filter.put("transit",new JSONArray(transit_array.toString()));
-                        filter.put("max_price",max_price);
+                        if(intent.getStringExtra("type").equals("flight")) {
+                            ArrayList<JSONObject> arrayList = new ArrayList<JSONObject>();
+                            for(int x=0;x<transit_array.size();x++){
+                                if(transit_array.get(x).getBoolean("checked"))
+                                    arrayList.add(transit_array.get(x));
+                            }
+                            filter.put("transit", new JSONArray(arrayList.toString()));
+                        }
+                        else{
+                            ArrayList<JSONObject> arrayList = new ArrayList<JSONObject>();
+                            for(int x=0;x<train_class_array.size();x++){
+                                if(train_class_array.get(x).getBoolean("checked"))
+                                    arrayList.add(train_class_array.get(x));
+                            }
+                            filter.put("class", new JSONArray(arrayList.toString()));
+                        }
                     }
                     else if(intent.getStringExtra("type").equals("hotel")){
-                        filter.put("ranking",new JSONArray(ranking_array.toString()));
+                        ArrayList<JSONObject> arrayList = new ArrayList<JSONObject>();
+                        for(int x=0;x<ranking_array.size();x++){
+                            if(ranking_array.get(x).getBoolean("checked"))
+                                arrayList.add(ranking_array.get(x));
+                        }
+                        filter.put("ranking", new JSONArray(arrayList.toString()));
                     }
 
                     Intent i = new Intent();
@@ -376,4 +429,39 @@ public class Filter extends BaseActivity {
         });
     }
 
+    private void update_transit_view() throws JSONException {
+        for (int x = 0; x < transit_group.getChildCount(); x++) {
+            final Chip chip = (Chip) transit_group.getChildAt(x);
+            for (int y = 0; y < transit_array.size(); y++) {
+                if (chip.getText().toString().equals(transit_array.get(y).getString("label"))) {
+                    chip.setChecked(transit_array.get(y).getBoolean("checked"));
+                    break;
+                }
+            }
+        }
+    }
+
+    private void update_class_view() throws JSONException {
+        for (int x = 0; x < train_class_group.getChildCount(); x++) {
+            final Chip chip = (Chip) train_class_group.getChildAt(x);
+            for (int y = 0; y < train_class_array.size(); y++) {
+                if (chip.getText().toString().equals(train_class_array.get(y).getString("label"))) {
+                    chip.setChecked(train_class_array.get(y).getBoolean("checked"));
+                    break;
+                }
+            }
+        }
+    }
+
+    private void update_ranking_view() throws JSONException {
+        for (int x = 0; x < ranking_group.getChildCount(); x++) {
+            final Chip chip = (Chip) ranking_group.getChildAt(x);
+            for (int y = 0; y < ranking_array.size(); y++) {
+                if (chip.getText().toString().equals(ranking_array.get(y).getString("data"))) {
+                    chip.setChecked(ranking_array.get(y).getBoolean("checked"));
+                    break;
+                }
+            }
+        }
+    }
 }
