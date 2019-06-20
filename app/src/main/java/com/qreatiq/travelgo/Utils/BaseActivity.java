@@ -271,6 +271,15 @@ public class BaseActivity extends AppCompatActivity {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
+    public void logLargeString(String str) {
+        if(str.length() > 3000) {
+            Log.i("data", str.substring(0, 3000));
+            logLargeString(str.substring(3000));
+        } else {
+            Log.i("data", str); // continuation
+        }
+    }
+
     public boolean isNetworkConnected() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 

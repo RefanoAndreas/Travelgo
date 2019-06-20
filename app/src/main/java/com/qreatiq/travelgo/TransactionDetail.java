@@ -1,5 +1,6 @@
 package com.qreatiq.travelgo;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -336,6 +337,14 @@ public class TransactionDetail extends BaseActivity {
     private void submit(){
         url = C_URL+"sales/tour";
 
+        final ProgressDialog loading = new ProgressDialog(this);
+        loading.setMax(100);
+        loading.setTitle("Booking is in progress");
+        loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        loading.setCancelable(false);
+        loading.setProgress(0);
+        loading.show();
+
         JSONObject jsonObject = new JSONObject();
 
         try {
@@ -350,6 +359,7 @@ public class TransactionDetail extends BaseActivity {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                loading.dismiss();
                 Intent in = new Intent(TransactionDetail.this, Payment.class);
                 try {
                     JSONArray jsonArray = new JSONArray(trip_pack);
@@ -366,6 +376,7 @@ public class TransactionDetail extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
                 ConstraintLayout layout=(ConstraintLayout) findViewById(R.id.layout);
                 error_exception(error,layout);
             }

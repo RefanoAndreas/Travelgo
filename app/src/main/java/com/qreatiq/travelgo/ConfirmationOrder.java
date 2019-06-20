@@ -602,7 +602,7 @@ public class ConfirmationOrder extends BaseActivity {
             json.put("child", getIntent().getIntExtra("child", 0));
             json.put("infant", getIntent().getIntExtra("infant", 0));
 
-            Log.d("data",json.toString());
+            logLargeString(json.toString());
             Log.d("auth",base_shared_pref.getString("access_token", ""));
 
             String url = C_URL + "flight";
