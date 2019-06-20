@@ -48,7 +48,9 @@ public class ConfirmationOrder extends BaseActivity {
 
     TextView  TV_routeInfo, TV_routeType, specialRequestAdd, guestData, sub_total, pajak, total, titleData,
     TV_namaPemesan, TV_emailPemesan, TV_teleponPemesan;
-    RecyclerView list_flight, list_hotel, list_train;
+    RecyclerView flight_depart,flight_return, list_hotel, list_train;
+    LinearLayout list_flight;
+    View border;
     Intent intent;
     String intentString, userID, url, durasi;
     LinearLayout specialRequestLinear,special_request;
@@ -60,10 +62,11 @@ public class ConfirmationOrder extends BaseActivity {
 
     ConfirmationPaxAdapter adapter;
     ArrayList<JSONObject> arrayList = new ArrayList<JSONObject>(),
-            flight_list_array = new ArrayList<JSONObject>(),
+            flight_list_depart_array = new ArrayList<JSONObject>(),
+            flight_list_return_array = new ArrayList<JSONObject>(),
             train_list_array = new ArrayList<JSONObject>(),hotel_list_array = new ArrayList<JSONObject>(),
             special_request_array = new ArrayList<JSONObject>();
-    ConfirmationFlightListAdapter flight_list_adapter;
+    ConfirmationFlightListAdapter flight_list_depart_adapter,flight_list_return_adapter;
 
     ConfirmationTrainListAdapter train_list_adapter;
     ConfirmationHotelListAdapter hotel_list_adapter;
@@ -89,7 +92,9 @@ public class ConfirmationOrder extends BaseActivity {
 
         specialRequestLinear = (LinearLayout)findViewById(R.id.specialRequestLinear);
 
-        list_flight = (RecyclerView) findViewById(R.id.list_flight);
+        list_flight = (LinearLayout) findViewById(R.id.list_flight);
+        flight_depart = (RecyclerView) findViewById(R.id.flight_depart);
+        flight_return = (RecyclerView) findViewById(R.id.flight_return);
         list_hotel = (RecyclerView)findViewById(R.id.list_hotel);
         list_train = (RecyclerView)findViewById(R.id.list_train);
         guestData = (TextView) findViewById(R.id.dataGuestTV);
@@ -104,6 +109,7 @@ public class ConfirmationOrder extends BaseActivity {
         total = (TextView) findViewById(R.id.total);
         titleData = (TextView) findViewById(R.id.titleData);
         special_request = (LinearLayout) findViewById(R.id.special_request);
+        border = (View) findViewById(R.id.border);
 
         intent = getIntent();
         intentString = intent.getStringExtra("origin");
@@ -231,16 +237,14 @@ public class ConfirmationOrder extends BaseActivity {
                     flight_detail("depart_ticket");
                     flight_detail("return_ticket");
                 }
-                else
+                else {
+                    border.setVisibility(View.GONE);
+                    flight_return.setVisibility(View.GONE);
                     flight_detail("depart_ticket");
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
-            flight_list_adapter = new ConfirmationFlightListAdapter(flight_list_array,this);
-            LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-            list_flight.setLayoutManager(mLayoutManager);
-            list_flight.setAdapter(flight_list_adapter);
 
             NumberFormat double_formatter = new DecimalFormat("#,###");
             sub_total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_per_pax_data))+" x "+String.valueOf(intent.getIntExtra("adult",0)+intent.getIntExtra("child",0)+intent.getIntExtra("infant",0))+
@@ -493,10 +497,26 @@ public class ConfirmationOrder extends BaseActivity {
             if(jsonObject.has("transit"))
                 json.put("transit", "Transit "+jsonObject.getString("transit"));
 
-            flight_list_array.add(json);
+            if(str.equals("depart_ticket"))
+                flight_list_depart_array.add(json);
+            else
+                flight_list_return_array.add(json);
         }
         sub_total_per_pax_data += ticket.getInt("price");
         sub_total_data += ticket.getInt("price")*(intent.getIntExtra("adult",0)+intent.getIntExtra("child",0)+intent.getIntExtra("infant",0));
+
+        if(str.equals("depart_ticket")){
+            flight_list_depart_adapter = new ConfirmationFlightListAdapter(flight_list_depart_array,this);
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+            flight_depart.setLayoutManager(mLayoutManager);
+            flight_depart.setAdapter(flight_list_depart_adapter);
+        }
+        else{
+            flight_list_return_adapter = new ConfirmationFlightListAdapter(flight_list_return_array,this);
+            LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+            flight_return.setLayoutManager(mLayoutManager);
+            flight_return.setAdapter(flight_list_return_adapter);
+        }
 
         if(str.equals("depart_ticket"))
             get_baggage("depart");

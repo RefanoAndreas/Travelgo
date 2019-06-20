@@ -57,7 +57,7 @@ public class FlightSearchJadwal extends BaseActivity {
     TextView tripInfo,title,no_data;
     LinearLayout flightSearchJadwal_menubar;
     MaterialButton dateBtn;
-    String intentString,url_captcha,captcha_input = "";
+    String intentString,url_captcha,captcha_input = "",kelas="";
     Intent intent;
     int SORT = 10, FILTER = 20, adult_pax, child_pax, infant_pax, ROUTE = 100, selected, CAPTCHA = 30;
     int[][] states;
@@ -91,13 +91,27 @@ public class FlightSearchJadwal extends BaseActivity {
             adult_pax = intent.getIntExtra("adult", 0);
             child_pax = intent.getIntExtra("child", 0);
             infant_pax = intent.getIntExtra("infant", 0);
-            String kelas = intent.getStringExtra("kelas");
+
             try {
                 origin = new JSONObject(intent.getStringExtra("depart_data"));
                 destination = new JSONObject(intent.getStringExtra("arrive_data"));
+
+                if(intent.getStringExtra("origin").equals("train")){
+                    kelas = intent.getStringExtra("kelas");
+
+                    filter.put("min_price",0);
+                    filter.put("max_price",300000000);
+                    filter.put("arrival_date",new JSONArray());
+                    filter.put("departure_date",new JSONArray());
+                    ArrayList<JSONObject> jsonArray = new ArrayList<JSONObject>();
+                    jsonArray.add(new JSONObject("{\"label\":\""+kelas+"\"}"));
+                    filter.put("class",new JSONArray(jsonArray.toString()));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+
+
 
             tripInfo = (TextView) findViewById(R.id.tripInfo);
             title = (TextView) findViewById(R.id.title);
@@ -334,15 +348,43 @@ public class FlightSearchJadwal extends BaseActivity {
 
     public void flightData() throws JSONException, UnsupportedEncodingException {
         skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_jadwal_flight_train_item).show();
-        SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
-        String url = C_URL+"flight/search?origin="+origin.getString("code")+
+        String url;
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+        if(intent.getBooleanExtra("isReturn",false)) {
+            Date depart_date = new Date(intent.getLongExtra("tanggal_berangkat", 0));
+            Date return_date = new Date(intent.getLongExtra("tanggal_kembali", 0));
+
+            url = C_URL+"flight/search" +
+                    "?origin="+origin.getString("code")+
                     "&destination="+destination.getString("code")+
                     "&time="+format.format(date)+
+                    "&depart_time="+format.format(depart_date)+
+                    "&return_time="+format.format(return_date)+
+                    "&return=true"+
+                    "&is_opposite="+intent.getBooleanExtra("isOpposite", false)+
                     "&adult="+adult_pax+
                     "&child="+child_pax+
                     "&infant="+infant_pax+
                     "&airline_access_code="+captcha_input+
                     "&android_id="+android_id;
+        }
+        else{
+            Date depart_date = new Date(intent.getLongExtra("tanggal_berangkat", 0));
+
+            url = C_URL+"flight/search" +
+                    "?origin="+origin.getString("code")+
+                    "&destination="+destination.getString("code")+
+                    "&time="+format.format(date)+
+                    "&depart_time="+format.format(depart_date)+
+                    "&return=false"+
+                    "&adult="+adult_pax+
+                    "&child="+child_pax+
+                    "&infant="+infant_pax+
+                    "&airline_access_code="+captcha_input+
+                    "&android_id="+android_id;
+        }
+
 
         if(sort.has("data"))
             url += "&sort="+sort.getString("data");
@@ -447,13 +489,15 @@ public class FlightSearchJadwal extends BaseActivity {
 
     public void trainData() throws JSONException, UnsupportedEncodingException {
         skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_jadwal_flight_train_item).show();
+        String kelas = intent.getStringExtra("kelas");
         SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
         String url = C_URL+"train/search?origin="+origin.getString("code")+
                 "&destination="+destination.getString("code")+
                 "&time="+format.format(date)+
                 "&adult="+adult_pax+
                 "&child="+child_pax+
-                "&infant="+infant_pax;
+                "&infant="+infant_pax+
+                "&class="+kelas;
 
         if(sort.has("data"))
             url += "&sort="+sort.getString("data");
@@ -690,6 +734,17 @@ public class FlightSearchJadwal extends BaseActivity {
                             filterBtn.setIconTint(ContextCompat.getColorStateList(this, R.color.grey));
                             filterBtn.setStrokeColor(ContextCompat.getColorStateList(this, R.color.grey));
                         }
+
+                        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+                        String text = format.format(date) + ", " +
+                                adult_pax + " Dewasa, " +
+                                child_pax + " Anak, " +
+                                infant_pax + " Bayi";
+                        for(int x=0;x<filter.getJSONArray("class").length();x++)
+                            text += ", "+filter.getJSONArray("class").getJSONObject(x).getString("label");
+
+                        tripInfo.setText(text);
+
                         trainData();
                     }
                     else if(intent.getStringExtra("origin").equals("hotel")) {
