@@ -1,5 +1,6 @@
 package com.qreatiq.travelgo;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,7 +48,6 @@ public class SignUp extends BaseActivity {
     TextInputEditText email, password, retypePass;
     Button btnSignUp;
     String url, tokenDevice, selectedPack, cityID;
-    RequestQueue requestQueue;
     SharedPreferences userID, deviceToken, selected_package, city_id;
     TextView btnLogin;
     TextInputLayout emailLayout, passwordLayout, retypePassLayout;
@@ -68,8 +68,6 @@ public class SignUp extends BaseActivity {
 
         getWindow().setBackgroundDrawableResource(R.drawable.background_splash);
         layout=(ConstraintLayout) findViewById(R.id.layout);
-
-        requestQueue = Volley.newRequestQueue(this);
 
         deviceToken = getSharedPreferences("token", Context.MODE_PRIVATE);
         tokenDevice = deviceToken.getString("token", "Data not found");
@@ -197,6 +195,14 @@ public class SignUp extends BaseActivity {
             emailLayout.setError("Email is not in email format");
         }
         else {
+            final ProgressDialog loading = new ProgressDialog(this);
+            loading.setMax(100);
+            loading.setTitle("Signing Up...");
+            loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            loading.setCancelable(false);
+            loading.setProgress(0);
+            loading.show();
+
             url = C_URL + "signup";
 
             JSONObject jsonObject = new JSONObject();
@@ -213,26 +219,15 @@ public class SignUp extends BaseActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
-
+                        loading.dismiss();
                         if (response.getString("status").equals("success")) {
                             userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = userID.edit();
                             editor.putString("access_token", response.getJSONObject("access_token").getString("token_type")+" "+response.getJSONObject("access_token").getString("access_token"));
                             editor.apply();
 
-                            if(!selectedPack.equals("Data not found")){
-                                startActivity(new Intent(SignUp.this, TransactionDetail.class));
-                                finish();
-                            }
-                            else if(!cityID.equals("Data not found")){
-                                startActivity(new Intent(SignUp.this, CityDetail.class));
-                                finish();
-                            }
-                            else {
-                                Intent intentHome = new Intent(SignUp.this, BottomNavContainer.class);
-                                startActivity(intentHome);
-                                finish();
-                            }
+                            setResult(RESULT_OK, new Intent());
+                            finish();
                         } else {
                             emailLayout.setError("Email already exist");
                         }
@@ -243,6 +238,7 @@ public class SignUp extends BaseActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    loading.dismiss();
                     error_exception(error,layout);
                 }
             });
@@ -256,6 +252,14 @@ public class SignUp extends BaseActivity {
     }
 
     private void loginFB(JSONObject object){
+        final ProgressDialog loading = new ProgressDialog(this);
+        loading.setMax(100);
+        loading.setTitle("Signing Up via Facebook");
+        loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        loading.setCancelable(false);
+        loading.setProgress(0);
+        loading.show();
+
         url = C_URL+"loginFB";
 
         try {
@@ -268,25 +272,15 @@ public class SignUp extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    loading.dismiss();
                     if(response.getString("status").equals("success")){
                         userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = userID.edit();
                         editor.putString("access_token", response.getJSONObject("access_token").getString("token_type")+" "+response.getJSONObject("access_token").getString("access_token"));
                         editor.apply();
 
-                        if(!selectedPack.equals("Data not found")){
-                            startActivity(new Intent(SignUp.this, TransactionDetail.class));
-                            finish();
-                        }
-                        else if(!cityID.equals("Data not found")){
-                            startActivity(new Intent(SignUp.this, CityDetail.class));
-                            finish();
-                        }
-                        else {
-                            Intent intentHome = new Intent(SignUp.this, BottomNavContainer.class);
-                            startActivity(intentHome);
-                            finish();
-                        }
+                        setResult(RESULT_OK, new Intent());
+                        finish();
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -295,6 +289,7 @@ public class SignUp extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
                 error_exception(error,layout);
             }
         });

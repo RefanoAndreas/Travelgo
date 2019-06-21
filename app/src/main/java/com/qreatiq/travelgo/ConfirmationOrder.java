@@ -47,13 +47,13 @@ import java.util.Map;
 public class ConfirmationOrder extends BaseActivity {
 
     TextView  TV_routeInfo, TV_routeType, specialRequestAdd, guestData, sub_total, pajak, total, titleData,
-    TV_namaPemesan, TV_emailPemesan, TV_teleponPemesan;
+    TV_namaPemesan, TV_emailPemesan, TV_teleponPemesan, login;
     RecyclerView flight_depart,flight_return, list_hotel, list_train;
     LinearLayout list_flight;
     View border;
     Intent intent;
     String intentString, userID, url, durasi;
-    LinearLayout specialRequestLinear,special_request;
+    LinearLayout specialRequestLinear,special_request,login_data;
     RecyclerView list_pax;
     CardView card_dataPemesan;
     SharedPreferences user_id;
@@ -71,7 +71,7 @@ public class ConfirmationOrder extends BaseActivity {
     ConfirmationTrainListAdapter train_list_adapter;
     ConfirmationHotelListAdapter hotel_list_adapter;
 
-    int ADD_OR_EDIT_PAX = 10, ADD_OR_EDIT_GUEST = 11, selected_arr = 0;
+    int ADD_OR_EDIT_PAX = 10, ADD_OR_EDIT_GUEST = 11, selected_arr = 0, AUTH = 12;
     double sub_total_data = 0, sub_total_per_pax_data = 0, pajak_data, total_data;
 
     @Override
@@ -84,11 +84,18 @@ public class ConfirmationOrder extends BaseActivity {
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("access_token", "Data not found");
 
-        TV_namaPemesan = (TextView)findViewById(R.id.TV_namaPemesan);
-        TV_emailPemesan = (TextView)findViewById(R.id.TV_emailPemesan);
-        TV_teleponPemesan = (TextView)findViewById(R.id.TV_teleponPemesan);
+        login_data = (LinearLayout) findViewById(R.id.login_data);
+        login = (TextView) findViewById(R.id.login);
+        TV_namaPemesan = (TextView)findViewById(R.id.name);
+        TV_emailPemesan = (TextView)findViewById(R.id.email);
+        TV_teleponPemesan = (TextView)findViewById(R.id.phone);
 
-        getUser();
+        if(!userID.equals("Data not found"))
+            getUser();
+        else{
+            login.setVisibility(View.VISIBLE);
+            login_data.setVisibility(View.GONE);
+        }
 
         specialRequestLinear = (LinearLayout)findViewById(R.id.specialRequestLinear);
 
@@ -234,11 +241,11 @@ public class ConfirmationOrder extends BaseActivity {
 
             try {
                 if(intent.getBooleanExtra("isReturn",false)){
+                    border.setVisibility(View.VISIBLE);
                     flight_detail("depart_ticket");
                     flight_detail("return_ticket");
                 }
                 else {
-                    border.setVisibility(View.GONE);
                     flight_return.setVisibility(View.GONE);
                     flight_detail("depart_ticket");
                 }
@@ -286,6 +293,7 @@ public class ConfirmationOrder extends BaseActivity {
                     TV_routeType.setText("Sekali Jalan");
 
                 if(intent.getBooleanExtra("isReturn",false)){
+                    border.setVisibility(View.VISIBLE);
                     train_detail("depart_ticket");
                     train_detail("return_ticket");
                 }
@@ -320,6 +328,13 @@ public class ConfirmationOrder extends BaseActivity {
             public void onClick(View v) {
                 DialogFragment newFragment = new Special_Order_Hotel();
                 newFragment.show(getSupportFragmentManager(), "missiles");
+            }
+        });
+
+        login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(ConfirmationOrder.this,LogIn.class),AUTH);
             }
         });
 
@@ -862,6 +877,11 @@ public class ConfirmationOrder extends BaseActivity {
                     e.printStackTrace();
                 }
             }
+            else if(requestCode == AUTH){
+                login.setVisibility(View.GONE);
+                login_data.setVisibility(View.VISIBLE);
+                getUser();
+            }
         }
     }
 
@@ -877,8 +897,6 @@ public class ConfirmationOrder extends BaseActivity {
                         TV_emailPemesan.setText(!response.getJSONObject("user").isNull("email") ? response.getJSONObject("user").getString("email") : "");
                         if(!response.getJSONObject("user").isNull("phone_number"))
                             TV_teleponPemesan.setText(response.getJSONObject("user").getString("phone_number"));
-
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -895,7 +913,7 @@ public class ConfirmationOrder extends BaseActivity {
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
                 headers.put("Content-Type", "application/json");
-                headers.put("Authorization", userID);
+                headers.put("Authorization", user_id.getString("access_token", "Data not found"));
                 headers.put("Accept", "application/json");
                 return headers;
             }

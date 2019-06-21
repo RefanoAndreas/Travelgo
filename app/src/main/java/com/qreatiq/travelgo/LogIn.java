@@ -1,5 +1,6 @@
 package com.qreatiq.travelgo;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -51,12 +52,14 @@ public class LogIn extends BaseActivity {
     Button loginBtn;
     SharedPreferences userID, deviceToken, selected_package, city_id;
     String url, user_id, tokenDevice, selectedPack, cityID;
-    RequestQueue requestQueue;
     TextInputLayout emailLayout, passwordLayout;
     String userIDGet, tokenFCM;
     LoginButton loginButton;
     CallbackManager callbackManager;
     ConstraintLayout layout;
+
+    int REGISTER = 10;
+    boolean is_by_facebook = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +98,7 @@ public class LogIn extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intentSignUp = new Intent(LogIn.this, SignUp.class);
-                startActivity(intentSignUp);
-                finish();
+                startActivityForResult(intentSignUp,REGISTER);
             }
         });
 
@@ -129,8 +131,6 @@ public class LogIn extends BaseActivity {
                 editor1.apply();
             }
         });
-
-        requestQueue = Volley.newRequestQueue(this);
 
 
         loginButton = (LoginButton) findViewById(R.id.login_button_fb);
@@ -179,16 +179,34 @@ public class LogIn extends BaseActivity {
 
     public void facebook(View v){
         loginButton.performClick();
+        is_by_facebook = true;
     }
 
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        callbackManager.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
+
+        if(is_by_facebook)
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        else{
+            if(resultCode == RESULT_OK){
+                if(requestCode == REGISTER){
+                    setResult(RESULT_OK, new Intent());
+                    finish();
+                }
+            }
+        }
     }
 
     private void loginFB(JSONObject object){
+        final ProgressDialog loading = new ProgressDialog(this);
+        loading.setMax(100);
+        loading.setTitle("Logging In via Facebook");
+        loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        loading.setCancelable(false);
+        loading.setProgress(0);
+        loading.show();
         url = C_URL+"loginFB";
 
         try {
@@ -202,6 +220,7 @@ public class LogIn extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    loading.dismiss();
                     if(response.getString("status").equals("success")){
                         userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = userID.edit();
@@ -233,7 +252,8 @@ public class LogIn extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("error",error.getMessage());
+                loading.dismiss();
+                error_exception(error,layout);
             }
         });
 
@@ -258,6 +278,14 @@ public class LogIn extends BaseActivity {
             emailLayout.setError("Email is not in email format");
         }
         else {
+            final ProgressDialog loading = new ProgressDialog(this);
+            loading.setMax(100);
+            loading.setTitle("Logging In");
+            loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            loading.setCancelable(false);
+            loading.setProgress(0);
+            loading.show();
+
             url = C_URL + "login";
 
             JSONObject jsonObject = new JSONObject();
@@ -270,13 +298,11 @@ public class LogIn extends BaseActivity {
                 e.printStackTrace();
             }
 
-            Log.d("androidID", android_id);
-
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
-
+                        loading.dismiss();
                         if (response.getString("status").equals("success")) {
                             userID = getSharedPreferences("user_id", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = userID.edit();
@@ -314,6 +340,7 @@ public class LogIn extends BaseActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    loading.dismiss();
                     error_exception(error,layout);
                 }
             });
