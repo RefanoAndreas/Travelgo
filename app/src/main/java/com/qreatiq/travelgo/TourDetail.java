@@ -228,7 +228,14 @@ public class TourDetail extends BaseActivity {
         payPackageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                payPackage();
+                startActivity(new Intent(TourDetail.this, TransactionDetail.class)
+                        .putExtra("origin", "pay")
+                        .putExtra("trip_pack", array.toString())
+                        .putExtra("trip_date", trip_date)
+                        .putExtra("trip_location", trip_location)
+                        .putExtra("total_price", total_price)
+                        .putExtra("tour_phone", tour_phone)
+                );
             }
         });
 
@@ -267,22 +274,6 @@ public class TourDetail extends BaseActivity {
             }
         }
     };
-
-    private void payPackage(){
-        if(!userID.equals("Data not found")) {
-            startActivity(new Intent(TourDetail.this, TransactionDetail.class)
-                    .putExtra("origin", "pay")
-                    .putExtra("trip_pack", array.toString())
-                    .putExtra("trip_date", trip_date)
-                    .putExtra("trip_location", trip_location)
-                    .putExtra("total_price", total_price)
-                    .putExtra("tour_phone", tour_phone)
-            );
-        }
-        else{
-            startActivityForResult(new Intent(TourDetail.this, LogIn.class), PACKAGE);
-        }
-    }
 
     public void detailLocation(){
         url = C_URL+"tour/trip/detail?id="+trip_id;
@@ -359,18 +350,5 @@ public class TourDetail extends BaseActivity {
 
         requestQueue.add(jsonObjectRequest);
 
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK) {
-            if (requestCode == PACKAGE) {
-                user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
-                userID = user_id.getString("access_token", "Data not found");
-
-                payPackage();
-            }
-        }
     }
 }

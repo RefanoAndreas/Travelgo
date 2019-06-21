@@ -74,7 +74,7 @@ public class BaseActivity extends AppCompatActivity {
     public String C_URL_IMAGES = "http://travelgolaravel.propertigo.id/api/images/";
 
     public boolean production = false;
-    public String version = "1.6";
+    public String version = "1.7";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

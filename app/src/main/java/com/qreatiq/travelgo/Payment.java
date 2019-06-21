@@ -81,7 +81,7 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
             }
             else if(getIntent().getStringExtra("type").equals("hotel")) {
                 JSONObject json = new JSONObject(getIntent().getStringExtra("data"));
-                gross_amount += json.getJSONObject("room_selected").getDouble("price");
+                gross_amount += json.getJSONObject("room_selected").getInt("price");
             }
         } catch (JSONException e) {
             e.printStackTrace();

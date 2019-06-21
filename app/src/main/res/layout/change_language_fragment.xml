@@ -21,6 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:id="@+id/english_lang"
             android:text="English"/>
     </LinearLayout>
     <LinearLayout
@@ -32,6 +33,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
+            android:id="@+id/indo_lang"
             android:text="Indonesia"/>
     </LinearLayout>
 </LinearLayout>

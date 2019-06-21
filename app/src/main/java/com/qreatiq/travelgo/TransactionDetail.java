@@ -70,7 +70,7 @@ public class TransactionDetail extends BaseActivity {
     private RecyclerView.LayoutManager mLayoutManagerParticipant;
     String sales_id;
 
-    int DATA_PENUMPANG = 1, selected_arr = -1, ADD_GUEST = 11, EDIT_GUEST = 12;
+    int DATA_PENUMPANG = 1, selected_arr = -1, ADD_GUEST = 11, EDIT_GUEST = 12,AUTH = 13;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,8 +168,10 @@ public class TransactionDetail extends BaseActivity {
                     snackbar.show();
                 }
                 else {
-                    submit();
-                    startActivity(new Intent(TransactionDetail.this, Payment.class));
+                    if(!userID.equals("Data not found"))
+                        submit();
+                    else
+                        startActivityForResult(new Intent(TransactionDetail.this,LogIn.class),AUTH);
                 }
             }
         });
@@ -197,6 +199,10 @@ public class TransactionDetail extends BaseActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+            }
+            else if(requestCode == AUTH){
+                userID = user_id.getString("access_token", "Data not found");
+                submit();
             }
         }
     }

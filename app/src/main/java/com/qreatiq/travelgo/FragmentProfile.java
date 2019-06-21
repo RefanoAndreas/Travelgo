@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,9 +16,11 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -147,6 +150,18 @@ public class FragmentProfile extends Fragment {
 
                 LinearLayout english = view.findViewById(R.id.english);
                 LinearLayout indonesia = view.findViewById(R.id.indonesia);
+
+                TextView english_lang = view.findViewById(R.id.english_lang);
+                TextView indo_lang = view.findViewById(R.id.indo_lang);
+
+                if(parent.base_shared_pref.getString("lang","en").equals("en")) {
+                    english_lang.setTextSize(TypedValue.COMPLEX_UNIT_DIP,15);
+                    english_lang.setTypeface(ResourcesCompat.getFont(getActivity(), R.font.montserrat_medium));
+                }
+                else if(parent.base_shared_pref.getString("lang","en").equals("in")) {
+                    indo_lang.setTextSize(TypedValue.COMPLEX_UNIT_DIP,15);
+                    indo_lang.setTypeface(ResourcesCompat.getFont(getActivity(), R.font.montserrat_medium));
+                }
 
                 english.setOnClickListener(new View.OnClickListener() {
                     @Override

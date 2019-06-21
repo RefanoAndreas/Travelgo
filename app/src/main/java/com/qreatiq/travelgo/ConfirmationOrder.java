@@ -597,6 +597,13 @@ public class ConfirmationOrder extends BaseActivity {
             }
         }
 
+        if(userID.equals("Data not found")){
+            allow = false;
+            ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+            Snackbar snackbar=Snackbar.make(layout,"User not logged in",Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
+
         if(allow) {
             final ProgressDialog loading = new ProgressDialog(this);
             loading.setMax(100);
