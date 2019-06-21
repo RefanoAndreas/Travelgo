@@ -101,9 +101,12 @@ public class HotelDetail extends BaseActivity {
                 json.put("name",hotel.getJSONArray("rooms").getJSONObject(x).getString("name")+" ("+(hotel.getJSONArray("rooms").getJSONObject(x).getBoolean("breakfast") ? "With Breakfast" : "Room Only")+")");
                 json.put("breakfast",hotel.getJSONArray("rooms").getJSONObject(x).getBoolean("breakfast"));
                 json.put("price",hotel.getJSONArray("rooms").getJSONObject(x).getDouble("price"));
-                json.put("photo",C_URL+"images/hotel?" +
+                if(hotel.getJSONArray("photos").length() > 0)
+                    json.put("photo",C_URL+"images/hotel?" +
                         "url="+hotel.getJSONArray("photos").getJSONObject(0).getString("url")+
                         "&mime="+hotel.getJSONArray("photos").getJSONObject(0).getString("mime"));
+                else
+                    json.put("photo","");
                 json.put("id",hotel.getJSONArray("rooms").getJSONObject(x).getString("id"));
 
                 json.put("roomID",hotel.getJSONArray("rooms").getJSONObject(x).getString("ID"));

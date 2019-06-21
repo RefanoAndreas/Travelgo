@@ -601,9 +601,12 @@ public class FlightSearchJadwal extends BaseActivity {
                             jsonObject.put("rating", jsonArray.getJSONObject(x).getDouble("rating"));
                             jsonObject.put("rooms", jsonArray.getJSONObject(x).getJSONArray("rooms"));
                             jsonObject.put("photos", jsonArray.getJSONObject(x).getJSONArray("photo"));
-                            jsonObject.put("photo", C_URL+"images/hotel?" +
+                            if(jsonArray.getJSONObject(x).getJSONArray("photo").length() > 0)
+                                jsonObject.put("photo", C_URL+"images/hotel?" +
                                     "url="+jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(0).getString("url")+
                                     "&mime="+jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(0).getString("mime"));
+                            else
+                                jsonObject.put("photo","");
                             jsonObject.put("facilities", jsonArray.getJSONObject(x).getJSONArray("facilities"));
                             jsonObject.put("price", jsonArray.getJSONObject(x).getString("price"));
                             jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));
@@ -634,7 +637,7 @@ public class FlightSearchJadwal extends BaseActivity {
         });
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                60000,
+                120000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonObjectRequest);

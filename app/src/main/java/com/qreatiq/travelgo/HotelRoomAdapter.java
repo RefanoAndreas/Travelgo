@@ -80,7 +80,8 @@ public class HotelRoomAdapter extends RecyclerView.Adapter<HotelRoomAdapter.Hote
                 }
             });
 
-            Picasso.get()
+            if(!currentItem.getString("photo").equals(""))
+                Picasso.get()
                     .load(currentItem.getString("photo"))
                     .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)

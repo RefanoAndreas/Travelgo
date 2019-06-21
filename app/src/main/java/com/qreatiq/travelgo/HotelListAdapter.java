@@ -77,7 +77,8 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.Hote
 
             hotelListHolder.rating.setRating((float) jsonObject.getDouble("rating"));
 
-            Picasso.get()
+            if(!jsonObject.getString("photo").equals(""))
+                Picasso.get()
                     .load(jsonObject.getString("photo"))
                     .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                     .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
