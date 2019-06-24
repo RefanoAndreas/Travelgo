@@ -346,6 +346,45 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:id="@+id/flight_baggage_depart"
+                            android:layout_marginTop="10dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Bagasi Pergi"
+                                android:layout_weight="2"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/baggage_depart"
+                                android:gravity="right"
+                                android:layout_weight="1"/>
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/flight_baggage_return"
+                            android:layout_marginTop="10dp">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Bagasi Pulang"
+                                android:layout_weight="2"/>
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/baggage_return"
+                                android:gravity="right"
+                                android:layout_weight="1"/>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:weightSum="2"
                             android:layout_marginTop="10dp">

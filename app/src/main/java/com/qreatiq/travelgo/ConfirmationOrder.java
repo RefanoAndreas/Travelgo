@@ -47,13 +47,13 @@ import java.util.Map;
 public class ConfirmationOrder extends BaseActivity {
 
     TextView  TV_routeInfo, TV_routeType, specialRequestAdd, guestData, sub_total, pajak, total, titleData,
-    TV_namaPemesan, TV_emailPemesan, TV_teleponPemesan, login;
+    TV_namaPemesan, TV_emailPemesan, TV_teleponPemesan, login, baggage_depart, baggage_return;
     RecyclerView flight_depart,flight_return, list_hotel, list_train;
     LinearLayout list_flight;
     View border;
     Intent intent;
     String intentString, userID, url, durasi;
-    LinearLayout specialRequestLinear,special_request,login_data;
+    LinearLayout specialRequestLinear,special_request,login_data,flight_baggage_depart,flight_baggage_return;
     RecyclerView list_pax;
     CardView card_dataPemesan;
     SharedPreferences user_id;
@@ -72,7 +72,7 @@ public class ConfirmationOrder extends BaseActivity {
     ConfirmationHotelListAdapter hotel_list_adapter;
 
     int ADD_OR_EDIT_PAX = 10, ADD_OR_EDIT_GUEST = 11, selected_arr = 0, AUTH = 12;
-    double sub_total_data = 0, sub_total_per_pax_data = 0, pajak_data, total_data;
+    double sub_total_data = 0, sub_total_per_pax_data = 0, baggage_depart_data = 0, baggage_return_data = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +97,9 @@ public class ConfirmationOrder extends BaseActivity {
             login_data.setVisibility(View.GONE);
         }
 
+        flight_baggage_depart = (LinearLayout)findViewById(R.id.flight_baggage_depart);
+        flight_baggage_return = (LinearLayout)findViewById(R.id.flight_baggage_return);
         specialRequestLinear = (LinearLayout)findViewById(R.id.specialRequestLinear);
-
         list_flight = (LinearLayout) findViewById(R.id.list_flight);
         flight_depart = (RecyclerView) findViewById(R.id.flight_depart);
         flight_return = (RecyclerView) findViewById(R.id.flight_return);
@@ -114,6 +115,8 @@ public class ConfirmationOrder extends BaseActivity {
         sub_total = (TextView) findViewById(R.id.sub_total);
         pajak = (TextView) findViewById(R.id.pajak);
         total = (TextView) findViewById(R.id.total);
+        baggage_depart = (TextView) findViewById(R.id.baggage_depart);
+        baggage_return = (TextView) findViewById(R.id.baggage_return);
         titleData = (TextView) findViewById(R.id.titleData);
         special_request = (LinearLayout) findViewById(R.id.special_request);
         border = (View) findViewById(R.id.border);
@@ -140,6 +143,8 @@ public class ConfirmationOrder extends BaseActivity {
                 e.printStackTrace();
             }
 
+            flight_baggage_depart.setVisibility(View.GONE);
+            flight_baggage_return.setVisibility(View.GONE);
             list_hotel.setVisibility(View.VISIBLE);
             guestData.setText("Data Tamu");
             TV_routeType.setVisibility(View.GONE);
@@ -246,6 +251,7 @@ public class ConfirmationOrder extends BaseActivity {
                     flight_detail("return_ticket");
                 }
                 else {
+                    flight_baggage_return.setVisibility(View.GONE);
                     flight_return.setVisibility(View.GONE);
                     flight_detail("depart_ticket");
                 }
@@ -254,13 +260,17 @@ public class ConfirmationOrder extends BaseActivity {
             }
 
             NumberFormat double_formatter = new DecimalFormat("#,###");
-            sub_total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_per_pax_data))+" x "+String.valueOf(intent.getIntExtra("adult",0)+intent.getIntExtra("child",0)+intent.getIntExtra("infant",0))+
-                    "\nRp. "+String.valueOf(double_formatter.format(sub_total_data)));
-            pajak.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data*0.1)));
-            total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data+(sub_total_data*0.1))));
+            sub_total.setText("Rp. "+double_formatter.format(sub_total_per_pax_data)+" x "+(intent.getIntExtra("adult",0)+intent.getIntExtra("child",0)+intent.getIntExtra("infant",0))+
+                    "\nRp. "+double_formatter.format(sub_total_data));
+            baggage_depart.setText("Rp. "+double_formatter.format(baggage_depart_data));
+            baggage_return.setText("Rp. "+double_formatter.format(baggage_return_data));
+            pajak.setText("Rp. "+double_formatter.format(sub_total_data*0.1));
+            total.setText("Rp. "+double_formatter.format(sub_total_data+(sub_total_data*0.1)));
             titleData.setText("Rincian Pesawat");
         }
         else if(intentString.equals("train")){
+            flight_baggage_depart.setVisibility(View.GONE);
+            flight_baggage_return.setVisibility(View.GONE);
             list_train.setVisibility(View.VISIBLE);
             specialRequestLinear.setVisibility(View.GONE);
             guestData.setText("Data Penumpang");
@@ -518,7 +528,7 @@ public class ConfirmationOrder extends BaseActivity {
                 flight_list_return_array.add(json);
         }
         sub_total_per_pax_data += ticket.getInt("price");
-        sub_total_data += ticket.getInt("price")*(intent.getIntExtra("adult",0)+intent.getIntExtra("child",0)+intent.getIntExtra("infant",0));
+        sub_total_data += ticket.getInt("price") * (intent.getIntExtra("adult", 0) + intent.getIntExtra("child", 0) + intent.getIntExtra("infant", 0));
 
         if(str.equals("depart_ticket")){
             flight_list_depart_adapter = new ConfirmationFlightListAdapter(flight_list_depart_array,this);
@@ -828,7 +838,8 @@ public class ConfirmationOrder extends BaseActivity {
 
         if(resultCode == RESULT_OK){
             if(requestCode == ADD_OR_EDIT_PAX){
-
+                baggage_depart_data = 0;
+                baggage_return_data = 0;
                 JSONObject json = arrayList.get(selected_arr);
                 try {
                     JSONObject data_from_intent = new JSONObject(data.getStringExtra("data"));
@@ -842,23 +853,35 @@ public class ConfirmationOrder extends BaseActivity {
 
                         for (int y = 0; y < json.getJSONArray("arr_baggage_depart").length(); y++) {
                             if ((!json.getJSONObject("baggage_depart").toString().equals("{}") && json.getJSONObject("baggage_depart").getString("code").equals(json.getJSONArray("arr_baggage_depart").getJSONObject(y).getString("code"))) ||
-                                    (json.getJSONObject("baggage_depart").toString().equals("{}") && y == 0))
+                                    (json.getJSONObject("baggage_depart").toString().equals("{}") && y == 0)) {
+                                baggage_depart_data += json.getJSONArray("arr_baggage_depart").getJSONObject(y).getDouble("fare");
                                 json.getJSONArray("arr_baggage_depart").getJSONObject(y).put("checked", true);
+                            }
                             else
                                 json.getJSONArray("arr_baggage_depart").getJSONObject(y).put("checked", false);
                         }
+                        Log.d("baggage",data_from_intent.getString("baggage_depart"));
+                        NumberFormat double_formatter = new DecimalFormat("#,###");
+                        baggage_depart.setText("Rp. "+double_formatter.format(baggage_depart_data));
 
                         if (intent.getBooleanExtra("isReturn", false)) {
                             json.put("baggage_return", new JSONObject(data_from_intent.getString("baggage_return")));
 
                             for (int y = 0; y < json.getJSONArray("arr_baggage_return").length(); y++) {
                                 if ((!json.getJSONObject("baggage_return").toString().equals("{}") && json.getJSONObject("baggage_return").getString("code").equals(json.getJSONArray("arr_baggage_return").getJSONObject(y).getString("code"))) ||
-                                        (json.getJSONObject("baggage_return").toString().equals("{}") && y == 0))
+                                        (json.getJSONObject("baggage_return").toString().equals("{}") && y == 0)) {
+                                    baggage_return_data += json.getJSONArray("arr_baggage_return").getJSONObject(y).getDouble("fare");
                                     json.getJSONArray("arr_baggage_return").getJSONObject(y).put("checked", true);
+                                }
                                 else
                                     json.getJSONArray("arr_baggage_return").getJSONObject(y).put("checked", false);
                             }
+                            baggage_return.setText("Rp. "+double_formatter.format(baggage_return_data));
                         }
+                        sub_total_data += baggage_depart_data + baggage_return_data;
+
+                        pajak.setText("Rp. "+double_formatter.format(sub_total_data*0.1));
+                        total.setText("Rp. "+double_formatter.format(sub_total_data+(sub_total_data*0.1)));
                     }
                     else if(intentString.equals("train")) {
                         json.put("no_id",data_from_intent.getString("no_id"));

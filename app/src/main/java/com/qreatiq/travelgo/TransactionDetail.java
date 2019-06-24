@@ -51,7 +51,7 @@ public class TransactionDetail extends BaseActivity {
     MaterialButton saveButton;
     String trip_id, trip_pack, urlPhoto, trip_loc, trip_date;
     RequestQueue requestQueue;
-    TextView TV_status_transaction, TV_buy_date, TV_trip_date, TV_trip_location;
+    TextView TV_status_transaction, TV_buy_date, TV_trip_date, TV_trip_location, tax, total;
     TextView TV_total_price, TV_tour_phone;
     double price;
     String tourPhone;
@@ -93,6 +93,8 @@ public class TransactionDetail extends BaseActivity {
         TV_trip_location = (TextView)findViewById(R.id.TV_trip_location);
         TV_total_price = (TextView)findViewById(R.id.TV_total_price);
         TV_tour_phone = (TextView)findViewById(R.id.TV_tour_phone);
+        tax = (TextView)findViewById(R.id.tax);
+        total = (TextView)findViewById(R.id.total);
 
         requestQueue = Volley.newRequestQueue(this);
 
@@ -220,6 +222,8 @@ public class TransactionDetail extends BaseActivity {
         NumberFormat formatter = new DecimalFormat("#,###");
         String formattedNumber = formatter.format(Double.parseDouble(String.valueOf(price)));
         TV_total_price.setText("Rp. "+formattedNumber);
+        tax.setText("Rp. "+formatter.format(Double.parseDouble(String.valueOf(price))*0.1));
+        total.setText("Rp. "+formatter.format(Double.parseDouble(String.valueOf(price)) + (Double.parseDouble(String.valueOf(price))*0.1)));
 
         TV_tour_phone.setText(tourPhone);
 

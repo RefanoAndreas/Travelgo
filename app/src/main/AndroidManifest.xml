@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:largeHeap="true"
         android:allowBackup="false"
         android:configChanges="locale|orientation"
         android:icon="@mipmap/ic_launcher_new"
