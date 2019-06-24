@@ -72,9 +72,7 @@ public class TransactionDetailAdapter extends RecyclerView.Adapter<TransactionDe
 
             transactionDetailHolder.name.setText(jsonObject.getString("trip_name"));
 
-            NumberFormat formatter = new DecimalFormat("#,###");
-            String formattedNumber = formatter.format(jsonObject.getDouble("trip_price"));
-            transactionDetailHolder.price.setText("Rp. "+formattedNumber);
+            transactionDetailHolder.price.setText("Rp. "+jsonObject.getString("trip_price"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

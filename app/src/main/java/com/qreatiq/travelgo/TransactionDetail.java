@@ -237,7 +237,7 @@ public class TransactionDetail extends BaseActivity {
                 if(!jsonArray.getJSONObject(x).getString("qty").equals("0")) {
                     jsonObject1.put("photo", jsonArray.getJSONObject(x).getString("photo"));
                     jsonObject1.put("trip_name", jsonArray.getJSONObject(x).getString("name"));
-                    jsonObject1.put("trip_price", jsonArray.getJSONObject(x).getString("price"));
+                    jsonObject1.put("trip_price", formatter.format(jsonArray.getJSONObject(x).getDouble("price"))+" x "+jsonArray.getJSONObject(x).getString("qty"));
 
                     tripPackList.add(jsonObject1);
                 }
