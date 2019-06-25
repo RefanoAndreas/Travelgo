@@ -98,6 +98,8 @@ public class D2NotifikasiDetail extends BaseActivity {
 
         url = C_URL+"history/detail?id="+sales_id+"&type="+type;
 
+        Log.d("url", url);
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -106,6 +108,7 @@ public class D2NotifikasiDetail extends BaseActivity {
 
                     NumberFormat formatter = new DecimalFormat("#,###");
                     String formattedNumber = formatter.format(response.getDouble("price"));
+
                     TV_price.setText("Rp. "+formattedNumber);
                     TV_order_date.setText(jsonDetail.getString("order_date"));
                     TV_no_order.setText(jsonDetail.getString("id"));
