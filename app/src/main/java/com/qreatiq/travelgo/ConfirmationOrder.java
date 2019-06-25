@@ -694,6 +694,13 @@ public class ConfirmationOrder extends BaseActivity {
             }
         }
 
+        if(userID.equals("Data not found")){
+            allow = false;
+            ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+            Snackbar snackbar=Snackbar.make(layout,"User not logged in",Snackbar.LENGTH_LONG);
+            snackbar.show();
+        }
+
         if(allow) {
             final ProgressDialog loading = new ProgressDialog(this);
             loading.setMax(100);
@@ -771,6 +778,13 @@ public class ConfirmationOrder extends BaseActivity {
                 snackbar.show();
                 allow = false;
             }
+        }
+
+        if(userID.equals("Data not found")){
+            allow = false;
+            ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+            Snackbar snackbar=Snackbar.make(layout,"User not logged in",Snackbar.LENGTH_LONG);
+            snackbar.show();
         }
 
         if(allow) {
@@ -913,6 +927,9 @@ public class ConfirmationOrder extends BaseActivity {
                 }
             }
             else if(requestCode == AUTH){
+                user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                userID = user_id.getString("access_token", "Data not found");
+
                 login.setVisibility(View.GONE);
                 login_data.setVisibility(View.VISIBLE);
                 getUser();
