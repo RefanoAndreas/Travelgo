@@ -157,6 +157,7 @@ public class D3Eticket extends BaseActivity {
             flight_train.setVisibility(View.VISIBLE);
             hotel.setVisibility(View.GONE);
             RV_penumpang_kereta.setVisibility(View.VISIBLE);
+            TV_booking_code_title.setText("Kode Booking Perjalanan");
 
             TV_title_info.setText("Informasi Kereta");
             typeIcon1.setImageResource(R.drawable.ic_train_black_24dp);
