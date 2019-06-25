@@ -649,6 +649,7 @@ public class ConfirmationOrder extends BaseActivity {
 //                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                         in.putExtra("type","flight");
                         in.putExtra("id",response.getString("id"));
+                        in.putExtra("total",sub_total_data+(sub_total_data*0.1));
                         in.putExtra("data",json.toString());
     //                    finish();
                         startActivity(in);

@@ -304,7 +304,7 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
         else{
-            message = "Oops something went wrong\nPlease check your connection";
+            message = "Oops something went wrong";
         }
         Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
         snackbar.show();
