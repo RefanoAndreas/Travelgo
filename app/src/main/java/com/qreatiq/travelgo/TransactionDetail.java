@@ -355,13 +355,14 @@ public class TransactionDetail extends BaseActivity {
         loading.setProgress(0);
         loading.show();
 
-        JSONObject jsonObject = new JSONObject();
+        final JSONObject jsonObject = new JSONObject();
 
         try {
             JSONArray participant = new JSONArray(ParticipantList.toString());
             JSONArray jsonArray = new JSONArray(trip_pack);
             jsonObject.put("participant", participant);
             jsonObject.put("trip_pack", jsonArray);
+            jsonObject.put("price", Double.parseDouble(String.valueOf(price)) + (Double.parseDouble(String.valueOf(price))*0.1));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -376,6 +377,9 @@ public class TransactionDetail extends BaseActivity {
                     in.putExtra("type","tour");
                     in.putExtra("id",response.getString("id"));
                     in.putExtra("trip_pack",jsonArray.toString());
+                    in.putExtra("price", price + (price*0.1));
+
+                    Log.d("price", String.valueOf(price + (price*0.1)));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -67,25 +67,30 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
         try {
             if(getIntent().getStringExtra("type").equals("tour")) {
                 JSONArray json = new JSONArray(getIntent().getStringExtra("trip_pack"));
-                for (int x = 0; x < json.length(); x++) {
-                    if (json.getJSONObject(x).getInt("qty") > 0) {
-                        gross_amount += json.getJSONObject(x).getDouble("price");
-                    }
-                }
+                gross_amount += getIntent().getDoubleExtra("price", 0);
+//                for (int x = 0; x < json.length(); x++) {
+//                    if (json.getJSONObject(x).getInt("qty") > 0) {
+//                        gross_amount += json.getJSONObject(x).getDouble("price");
+//                    }
+//                }
             }
             else if(getIntent().getStringExtra("type").equals("flight") || getIntent().getStringExtra("type").equals("train")) {
                 JSONObject json = new JSONObject(getIntent().getStringExtra("data"));
                 if(getIntent().getStringExtra("type").equals("train")) {
-                    gross_amount += json.getJSONObject("depart_ticket").getDouble("price");
-                    if (json.getBoolean("is_return"))
-                        gross_amount += json.getJSONObject("return_ticket").getDouble("price");
+//                    gross_amount += json.getJSONObject("depart_ticket").getDouble("price");
+//                    if (json.getBoolean("is_return"))
+//                        gross_amount += json.getJSONObject("return_ticket").getDouble("price");
+                    gross_amount += json.getInt("price");
                 }
-                else
-                    gross_amount += getIntent().getDoubleExtra("total",0);
+                else {
+//                    gross_amount += getIntent().getDoubleExtra("total", 0);
+                    gross_amount += json.getInt("price");
+                }
             }
             else if(getIntent().getStringExtra("type").equals("hotel")) {
                 JSONObject json = new JSONObject(getIntent().getStringExtra("data"));
-                gross_amount += json.getJSONObject("room_selected").getInt("price");
+//                gross_amount += json.getJSONObject("room_selected").getInt("price");
+                gross_amount += json.getInt("price");
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -109,7 +114,7 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
                 for (int x = 0; x < json.length(); x++) {
                     if (json.getJSONObject(x).getInt("qty") > 0) {
                         itemDetailsArrayList.add(new ItemDetails(String.valueOf(x),
-                                json.getJSONObject(x).getInt("price"),
+                                json.getJSONObject(x).getInt("price")+(json.getJSONObject(x).getInt("price")*0.1),
                                 json.getJSONObject(x).getInt("qty"),
                                 json.getJSONObject(x).getString("name")));
                     }
@@ -117,20 +122,34 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
             }
             else if(getIntent().getStringExtra("type").equals("flight")) {
                 JSONObject json = new JSONObject(getIntent().getStringExtra("data"));
+//                itemDetailsArrayList.add(new ItemDetails("1",
+//                        json.getJSONObject("depart_ticket").getInt("price"),
+//                        1,
+//                        json.getJSONObject("depart_ticket").getString("departAirport")+" > "+json.getJSONObject("depart_ticket").getString("arrivalAirport")));
                 itemDetailsArrayList.add(new ItemDetails("1",
-                        json.getJSONObject("depart_ticket").getInt("price"),
+                        json.getInt("price"),
                         1,
                         json.getJSONObject("depart_ticket").getString("departAirport")+" > "+json.getJSONObject("depart_ticket").getString("arrivalAirport")));
                 if(json.getBoolean("is_return"))
+                {
+//                    itemDetailsArrayList.add(new ItemDetails("2",
+//                            json.getJSONObject("return_ticket").getInt("price"),
+//                            1,
+//                            json.getJSONObject("return_ticket").getString("departAirport")+" > "+json.getJSONObject("return_ticket").getString("arrivalAirport")));
                     itemDetailsArrayList.add(new ItemDetails("2",
-                            json.getJSONObject("return_ticket").getInt("price"),
+                            json.getInt("price"),
                             1,
-                            json.getJSONObject("return_ticket").getString("departAirport")+" > "+json.getJSONObject("return_ticket").getString("arrivalAirport")));
+                            json.getJSONObject("depart_ticket").getString("departAirport")+" > "+json.getJSONObject("depart_ticket").getString("arrivalAirport")));
+                }
             }
             else if(getIntent().getStringExtra("type").equals("train")) {
                 JSONObject json = new JSONObject(getIntent().getStringExtra("data"));
+//                itemDetailsArrayList.add(new ItemDetails("1",
+//                        json.getJSONObject("depart_ticket").getInt("price"),
+//                        1,
+//                        json.getJSONObject("depart_ticket").getString("departStation")+" > "+json.getJSONObject("depart_ticket").getString("arrivalStation")));
                 itemDetailsArrayList.add(new ItemDetails("1",
-                        json.getJSONObject("depart_ticket").getInt("price"),
+                        json.getInt("price"),
                         1,
                         json.getJSONObject("depart_ticket").getString("departStation")+" > "+json.getJSONObject("depart_ticket").getString("arrivalStation")));
                 if(json.getBoolean("is_return"))
@@ -141,8 +160,12 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
             }
             else if(getIntent().getStringExtra("type").equals("hotel")) {
                 JSONObject json = new JSONObject(getIntent().getStringExtra("data"));
+//                itemDetailsArrayList.add(new ItemDetails("1",
+//                        json.getJSONObject("room_selected").getInt("price"),
+//                        1,
+//                        json.getJSONObject("room_selected").getString("name")));
                 itemDetailsArrayList.add(new ItemDetails("1",
-                        json.getJSONObject("room_selected").getInt("price"),
+                        json.getInt("price"),
                         1,
                         json.getJSONObject("room_selected").getString("name")));
             }

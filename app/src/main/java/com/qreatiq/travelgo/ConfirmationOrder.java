@@ -634,6 +634,7 @@ public class ConfirmationOrder extends BaseActivity {
             json.put("adult", getIntent().getIntExtra("adult", 0));
             json.put("child", getIntent().getIntExtra("child", 0));
             json.put("infant", getIntent().getIntExtra("infant", 0));
+            json.put("price", sub_total_data+(sub_total_data*0.1));
 
             logLargeString(json.toString());
             Log.d("auth",base_shared_pref.getString("access_token", ""));
@@ -713,6 +714,7 @@ public class ConfirmationOrder extends BaseActivity {
             json.put("child", getIntent().getIntExtra("child", 0));
             json.put("infant", getIntent().getIntExtra("infant", 0));
             json.put("duration", durasi);
+            json.put("price", sub_total_data+(sub_total_data*0.1));
 
             Log.d("data",json.toString());
             Log.d("auth",base_shared_pref.getString("access_token", ""));
@@ -787,6 +789,7 @@ public class ConfirmationOrder extends BaseActivity {
             json.put("total_room", getIntent().getIntExtra("room",0));
             json.put("special_request", new JSONArray(special_request_array.toString()));
             json.put("guest_info", new JSONArray(arrayList.toString()));
+            json.put("price", sub_total_data+(sub_total_data*0.1));
 
             Log.d("data",json.toString());
             Log.d("auth",base_shared_pref.getString("access_token", ""));
