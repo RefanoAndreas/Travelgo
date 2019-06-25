@@ -84,6 +84,8 @@ public class FlightSearchJadwal extends BaseActivity {
         intentString = intent.getStringExtra("origin");
         if(intent.getStringExtra("origin").equals("train") || intent.getStringExtra("origin").equals("flight")) {
 
+            Log.d("kelas", intent.getStringExtra("kelas"));
+
             if (!intent.getBooleanExtra("isOpposite", false))
                 date = new Date(intent.getLongExtra("tanggal_berangkat", 0));
             else
@@ -95,9 +97,9 @@ public class FlightSearchJadwal extends BaseActivity {
             try {
                 origin = new JSONObject(intent.getStringExtra("depart_data"));
                 destination = new JSONObject(intent.getStringExtra("arrive_data"));
+                kelas = intent.getStringExtra("kelas");
 
                 if(intent.getStringExtra("origin").equals("train")){
-                    kelas = intent.getStringExtra("kelas");
 
                     filter.put("min_price",0);
                     filter.put("max_price",300000000);

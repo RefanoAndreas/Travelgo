@@ -1,7 +1,9 @@
 package com.qreatiq.travelgo;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
@@ -149,7 +151,7 @@ public class ConfirmationOrder extends BaseActivity {
             guestData.setText("Data Tamu");
             TV_routeType.setVisibility(View.GONE);
 //            isiDataPeserta.setText("Isi data tamu");
-            card_dataPemesan.setVisibility(View.GONE);
+//            card_dataPemesan.setVisibility(View.GONE);
 
             try {
                 hotel_detail();
@@ -623,6 +625,17 @@ public class ConfirmationOrder extends BaseActivity {
             loading.setProgress(0);
             loading.show();
 
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Booking is Failed");
+            alert.setCancelable(true);
+            alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            final AlertDialog alertDialog = alert.create();
+
             final JSONObject json = new JSONObject();
             json.put("depart_ticket", new JSONObject(getIntent().getStringExtra("depart_ticket")));
             if(intent.getBooleanExtra("isReturn",false)) {
@@ -644,16 +657,23 @@ public class ConfirmationOrder extends BaseActivity {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
+//                    Log.d("status", response.toString());
                     try {
-                        loading.dismiss();
-                        Intent in = new Intent(ConfirmationOrder.this, Payment.class);
+                        if(response.getString("status").equals("failed")){
+                            loading.dismiss();
+                            alertDialog.show();
+                        }
+                        else {
+                            loading.dismiss();
+                            Intent in = new Intent(ConfirmationOrder.this, Payment.class);
 //                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        in.putExtra("type","flight");
-                        in.putExtra("id",response.getString("id"));
-                        in.putExtra("total",sub_total_data+(sub_total_data*0.1));
-                        in.putExtra("data",json.toString());
-    //                    finish();
-                        startActivity(in);
+                            in.putExtra("type", "flight");
+                            in.putExtra("id", response.getString("id"));
+                            in.putExtra("total", sub_total_data + (sub_total_data * 0.1));
+                            in.putExtra("data", json.toString());
+                            //                    finish();
+                            startActivity(in);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
