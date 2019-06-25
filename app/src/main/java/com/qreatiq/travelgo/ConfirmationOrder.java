@@ -456,14 +456,14 @@ public class ConfirmationOrder extends BaseActivity {
         String[] depart_str = ticket.getString("departTimeNumber").split(" ");
         String[] arrive_str = ticket.getString("arriveTimeNumber").split(" ");
 
-        Date depart_date = new Date(Integer.parseInt(depart_str[0])-1900,
-                Integer.parseInt(depart_str[1]),
+        Date depart_date = new Date(Integer.parseInt(depart_str[0]) - 1900,
+                Integer.parseInt(depart_str[1]) - 1,
                 Integer.parseInt(depart_str[2]),
                 Integer.parseInt(depart_str[3]),
                 Integer.parseInt(depart_str[4]),
                 Integer.parseInt(depart_str[5]));
-        Date arrive_date = new Date(Integer.parseInt(arrive_str[0])-1900,
-                Integer.parseInt(arrive_str[1]),
+        Date arrive_date = new Date(Integer.parseInt(arrive_str[0]) - 1900,
+                Integer.parseInt(arrive_str[1]) - 1,
                 Integer.parseInt(arrive_str[2]),
                 Integer.parseInt(arrive_str[3]),
                 Integer.parseInt(arrive_str[4]),
