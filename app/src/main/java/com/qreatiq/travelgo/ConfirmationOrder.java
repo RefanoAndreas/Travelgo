@@ -73,7 +73,7 @@ public class ConfirmationOrder extends BaseActivity {
     ConfirmationTrainListAdapter train_list_adapter;
     ConfirmationHotelListAdapter hotel_list_adapter;
 
-    int ADD_OR_EDIT_PAX = 10, ADD_OR_EDIT_GUEST = 11, selected_arr = 0, AUTH = 12;
+    int ADD_OR_EDIT_PAX = 10, ADD_OR_EDIT_GUEST = 11, selected_arr = 0, AUTH = 12, PHONE = 50;
     double sub_total_data = 0, sub_total_per_pax_data = 0, baggage_depart_data = 0, baggage_return_data = 0;
 
     @Override
@@ -721,6 +721,24 @@ public class ConfirmationOrder extends BaseActivity {
             snackbar.show();
         }
 
+        Log.d("phone", TV_teleponPemesan.getText().toString());
+        if(TV_teleponPemesan.getText().equals("Add Phone Number")){
+            allow = false;
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Please enter phone number");
+            alert.setCancelable(true);
+            alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            final AlertDialog alertDialog = alert.create();
+            alertDialog.show();
+
+            TV_teleponPemesan.setText("Cick here to add phone number");
+        }
+
         if(allow) {
             final ProgressDialog loading = new ProgressDialog(this);
             loading.setMax(100);
@@ -729,6 +747,17 @@ public class ConfirmationOrder extends BaseActivity {
             loading.setCancelable(false);
             loading.setProgress(0);
             loading.show();
+
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Booking is Failed");
+            alert.setCancelable(true);
+            alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            final AlertDialog alertDialog = alert.create();
 
             final JSONObject json = new JSONObject();
             json.put("depart_ticket", new JSONObject(getIntent().getStringExtra("depart_ticket")));
@@ -752,14 +781,21 @@ public class ConfirmationOrder extends BaseActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
-                        loading.dismiss();
-                        Intent in = new Intent(ConfirmationOrder.this, Payment.class);
+                        Log.d("response",response.toString());
+                        if(response.getString("status").equals("failed")){
+                            loading.dismiss();
+                            alertDialog.show();
+                        }
+                        else {
+                            loading.dismiss();
+                            Intent in = new Intent(ConfirmationOrder.this, Payment.class);
 //                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        in.putExtra("type","train");
-                        in.putExtra("id",response.getString("id"));
-                        in.putExtra("data",json.toString());
-    //                    finish();
-                        startActivity(in);
+                            in.putExtra("type", "train");
+                            in.putExtra("id", response.getString("id"));
+                            in.putExtra("data", json.toString());
+                            //                    finish();
+                            startActivity(in);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -816,6 +852,17 @@ public class ConfirmationOrder extends BaseActivity {
             loading.setProgress(0);
             loading.show();
 
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setTitle("Booking is Failed");
+            alert.setCancelable(true);
+            alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            final AlertDialog alertDialog = alert.create();
+
             final JSONObject json = new JSONObject();
             json.put("hotel_selected", new JSONObject(getIntent().getStringExtra("hotel_selected")));
             json.put("room_selected", new JSONObject(getIntent().getStringExtra("room_selected")));
@@ -834,14 +881,20 @@ public class ConfirmationOrder extends BaseActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     try {
-                        loading.dismiss();
-                        Intent in = new Intent(ConfirmationOrder.this, Payment.class);
+                        if(response.getString("status").equals("failed")){
+                            loading.dismiss();
+                            alertDialog.show();
+                        }
+                        else {
+                            loading.dismiss();
+                            Intent in = new Intent(ConfirmationOrder.this, Payment.class);
 //                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        in.putExtra("type","hotel");
-                        in.putExtra("id",response.getString("id"));
-                        in.putExtra("data",json.toString());
+                            in.putExtra("type", "hotel");
+                            in.putExtra("id", response.getString("id"));
+                            in.putExtra("data", json.toString());
 //                        finish();
-                        startActivity(in);
+                            startActivity(in);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -954,6 +1007,12 @@ public class ConfirmationOrder extends BaseActivity {
                 login_data.setVisibility(View.VISIBLE);
                 getUser();
             }
+            else if(requestCode == PHONE){
+                user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
+                userID = user_id.getString("access_token", "Data not found");
+
+                getUser();
+            }
         }
     }
 
@@ -969,6 +1028,15 @@ public class ConfirmationOrder extends BaseActivity {
                         TV_emailPemesan.setText(!response.getJSONObject("user").isNull("email") ? response.getJSONObject("user").getString("email") : "");
                         if(!response.getJSONObject("user").isNull("phone_number"))
                             TV_teleponPemesan.setText(response.getJSONObject("user").getString("phone_number"));
+                        else{
+                            TV_teleponPemesan.setText("Add Phone Number");
+                            TV_teleponPemesan.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    startActivityForResult(new Intent(ConfirmationOrder.this, ProfileEdit.class).putExtra("origin", "order"), PHONE);
+                                }
+                            });
+                        }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

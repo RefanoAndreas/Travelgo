@@ -1,6 +1,7 @@
 package com.qreatiq.travelgo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -177,7 +178,14 @@ public class ProfileEdit extends BaseActivity {
                 public void onResponse(JSONObject response) {
                     try {
                         if (response.getString("status").equals("success")) {
-                            ProfileEdit.super.onBackPressed();
+                            Intent intent = getIntent();
+                            if(intent.hasExtra("origin")){
+                                Intent in = new Intent();
+                                setResult(RESULT_OK, in);
+                                finish();
+                            }
+                            else
+                                ProfileEdit.super.onBackPressed();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
