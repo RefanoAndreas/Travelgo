@@ -68,6 +68,9 @@ public class HotelSearch extends BaseActivity {
 
         checkin = Calendar.getInstance();
         checkout = Calendar.getInstance();
+        checkout.setTime(end_date);
+        checkout.add(Calendar.DATE, 1);
+        end_date = checkout.getTime();
 
         searchBtn = (MaterialButton)findViewById(R.id.search_hotel);
         searchBtn.setOnClickListener(new View.OnClickListener() {

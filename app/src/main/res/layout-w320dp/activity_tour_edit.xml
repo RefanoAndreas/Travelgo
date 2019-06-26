@@ -54,13 +54,21 @@
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
-                        <com.makeramen.roundedimageview.RoundedImageView
+
+                        <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/no_image_available"
                             android:id="@+id/image"
-                            android:scaleType="centerCrop"
-                            app:riv_corner_radius="8dp"/>
+                            android:scaleType="centerCrop"/>
+
+                        <!--<com.makeramen.roundedimageview.RoundedImageView-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="match_parent"-->
+                            <!--android:src="@drawable/no_image_available"-->
+                            <!--android:id="@+id/image"-->
+                            <!--android:scaleType="centerCrop"-->
+                            <!--app:riv_corner_radius="8dp"/>-->
                         <android.support.constraint.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="40dp"

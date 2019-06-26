@@ -119,6 +119,8 @@ public class TourEdit extends BaseActivity {
                         telp.setText(respon.getString("phone"));
                         tour_id = respon.getString("id");
 
+                        Log.d("url", C_URL_IMAGES+"tour?image="+respon.getString("urlPhoto")+"&mime="+respon.getString("mimePhoto"));
+
                         Picasso.get()
                                 .load(C_URL_IMAGES + "tour?image=" + respon.getString("urlPhoto")+"&mime="+respon.getString("mimePhoto"))
                                 .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
