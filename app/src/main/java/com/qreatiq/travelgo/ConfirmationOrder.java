@@ -261,13 +261,7 @@ public class ConfirmationOrder extends BaseActivity {
                 e.printStackTrace();
             }
 
-            NumberFormat double_formatter = new DecimalFormat("#,###");
-            sub_total.setText("Rp. "+double_formatter.format(sub_total_per_pax_data)+" x "+(intent.getIntExtra("adult",0)+intent.getIntExtra("child",0)+intent.getIntExtra("infant",0))+
-                    "\nRp. "+double_formatter.format(sub_total_data));
-            baggage_depart.setText("Rp. "+double_formatter.format(baggage_depart_data));
-            baggage_return.setText("Rp. "+double_formatter.format(baggage_return_data));
-            pajak.setText("Rp. "+double_formatter.format(sub_total_data*0.1));
-            total.setText("Rp. "+double_formatter.format(sub_total_data+(sub_total_data*0.1)));
+            set_total_flight();
             titleData.setText("Rincian Pesawat");
         }
         else if(intentString.equals("train")){
@@ -358,7 +352,7 @@ public class ConfirmationOrder extends BaseActivity {
                     if (intent.getBooleanExtra("isReturn", false))
                         startActivityForResult(new Intent(ConfirmationOrder.this, DataPenumpang.class)
                                         .putExtra("packageName", intentString)
-                                        .putExtra("data", arrayList.get(selected_arr).toString())
+                                        .putExtra("data", arrayList.get(position).toString())
                                         .putExtra("depart_ticket", intent.getStringExtra("depart_ticket"))
                                         .putExtra("return_ticket", intent.getStringExtra("return_ticket"))
                                         .putExtra("isReturn", intent.getBooleanExtra("isReturn", false)),
@@ -367,7 +361,7 @@ public class ConfirmationOrder extends BaseActivity {
                     else
                         startActivityForResult(new Intent(ConfirmationOrder.this, DataPenumpang.class)
                                         .putExtra("packageName", intentString)
-                                        .putExtra("data", arrayList.get(selected_arr).toString())
+                                        .putExtra("data", arrayList.get(position).toString())
                                         .putExtra("depart_ticket", intent.getStringExtra("depart_ticket"))
                                         .putExtra("isReturn", intent.getBooleanExtra("isReturn", false)),
                                 ADD_OR_EDIT_PAX
@@ -421,6 +415,15 @@ public class ConfirmationOrder extends BaseActivity {
         });
     }
 
+    private void set_total_flight(){
+        NumberFormat double_formatter = new DecimalFormat("#,###");
+        sub_total.setText("Rp. "+double_formatter.format(sub_total_per_pax_data)+" x "+(intent.getIntExtra("adult",0)+intent.getIntExtra("child",0)+intent.getIntExtra("infant",0))+
+                "\nRp. "+double_formatter.format(sub_total_data));
+        baggage_depart.setText("Rp. "+double_formatter.format(baggage_depart_data));
+        baggage_return.setText("Rp. "+double_formatter.format(baggage_return_data));
+        pajak.setText("Rp. "+double_formatter.format(sub_total_data*0.1));
+        total.setText("Rp. "+double_formatter.format(sub_total_data+(sub_total_data*0.1)));
+    }
     private void hotel_detail() throws JSONException {
         JSONObject json = new JSONObject();
         JSONObject hotel_selected = new JSONObject(intent.getStringExtra("hotel_selected"));
@@ -576,12 +579,12 @@ public class ConfirmationOrder extends BaseActivity {
                             else
                                 _array.getJSONObject(y).put("checked",false);
                         }
-                        if(type.equals("depart")) {
-                            arrayList.get(x).put("arr_baggage_depart", _array);
-                        }
-                        else {
-                            arrayList.get(x).put("arr_baggage_return", _array);
-                        }
+                        JSONObject json = arrayList.get(x);
+                        if(type.equals("depart"))
+                            json.put("arr_baggage_depart", _array);
+                        else
+                            json.put("arr_baggage_return", _array);
+                        arrayList.set(x,json);
                         adapter.notifyItemChanged(x);
                     }
                 } catch (JSONException e) {
@@ -930,10 +933,9 @@ public class ConfirmationOrder extends BaseActivity {
 
         if(resultCode == RESULT_OK){
             if(requestCode == ADD_OR_EDIT_PAX){
-                baggage_depart_data = 0;
-                baggage_return_data = 0;
-                JSONObject json = arrayList.get(selected_arr);
+
                 try {
+                    JSONObject json = arrayList.get(selected_arr);
                     JSONObject data_from_intent = new JSONObject(data.getStringExtra("data"));
                     json.put("edit",true);
                     json.put("title",data_from_intent.getString("title"));
@@ -943,43 +945,64 @@ public class ConfirmationOrder extends BaseActivity {
                         json.put("no_passport",data_from_intent.getString("no_passport"));
                         json.put("baggage_depart", new JSONObject(data_from_intent.getString("baggage_depart")));
 
-                        for (int y = 0; y < json.getJSONArray("arr_baggage_depart").length(); y++) {
-                            if ((!json.getJSONObject("baggage_depart").toString().equals("{}") && json.getJSONObject("baggage_depart").getString("code").equals(json.getJSONArray("arr_baggage_depart").getJSONObject(y).getString("code"))) ||
+                        JSONArray jsonArray = json.getJSONArray("arr_baggage_depart");
+                        for (int y = 0; y < jsonArray.length(); y++)
+                            jsonArray.getJSONObject(y).put("checked", false);
+                        for (int y = 0; y < jsonArray.length(); y++) {
+                            if ((!json.getJSONObject("baggage_depart").toString().equals("{}") &&
+                                    json.getJSONObject("baggage_depart").getString("code").equals(
+                                            jsonArray.getJSONObject(y).getString("code"))) ||
                                     (json.getJSONObject("baggage_depart").toString().equals("{}") && y == 0)) {
-                                baggage_depart_data += json.getJSONArray("arr_baggage_depart").getJSONObject(y).getDouble("fare");
-                                json.getJSONArray("arr_baggage_depart").getJSONObject(y).put("checked", true);
+//                                baggage_depart_data += json.getJSONArray("arr_baggage_depart").getJSONObject(y).getDouble("fare");
+                                jsonArray.getJSONObject(y).put("checked", true);
                             }
                             else
-                                json.getJSONArray("arr_baggage_depart").getJSONObject(y).put("checked", false);
+                                jsonArray.getJSONObject(y).put("checked", false);
                         }
-                        Log.d("baggage",data_from_intent.getString("baggage_depart"));
-                        NumberFormat double_formatter = new DecimalFormat("#,###");
-                        baggage_depart.setText("Rp. "+double_formatter.format(baggage_depart_data));
 
                         if (intent.getBooleanExtra("isReturn", false)) {
                             json.put("baggage_return", new JSONObject(data_from_intent.getString("baggage_return")));
 
-                            for (int y = 0; y < json.getJSONArray("arr_baggage_return").length(); y++) {
-                                if ((!json.getJSONObject("baggage_return").toString().equals("{}") && json.getJSONObject("baggage_return").getString("code").equals(json.getJSONArray("arr_baggage_return").getJSONObject(y).getString("code"))) ||
+                            jsonArray = json.getJSONArray("arr_baggage_depart");
+                            for (int y = 0; y < jsonArray.length(); y++)
+                                jsonArray.getJSONObject(y).put("checked", false);
+                            for (int y = 0; y < jsonArray.length(); y++) {
+                                if ((!json.getJSONObject("baggage_return").toString().equals("{}") &&
+                                        json.getJSONObject("baggage_return").getString("code").equals(
+                                                jsonArray.getJSONObject(y).getString("code"))) ||
                                         (json.getJSONObject("baggage_return").toString().equals("{}") && y == 0)) {
-                                    baggage_return_data += json.getJSONArray("arr_baggage_return").getJSONObject(y).getDouble("fare");
-                                    json.getJSONArray("arr_baggage_return").getJSONObject(y).put("checked", true);
+//                                    baggage_return_data += json.getJSONArray("arr_baggage_return").getJSONObject(y).getDouble("fare");
+                                    jsonArray.getJSONObject(y).put("checked", true);
                                 }
                                 else
-                                    json.getJSONArray("arr_baggage_return").getJSONObject(y).put("checked", false);
+                                    jsonArray.getJSONObject(y).put("checked", false);
                             }
-                            baggage_return.setText("Rp. "+double_formatter.format(baggage_return_data));
                         }
-                        sub_total_data += baggage_depart_data + baggage_return_data;
-
-                        pajak.setText("Rp. "+double_formatter.format(sub_total_data*0.1));
-                        total.setText("Rp. "+double_formatter.format(sub_total_data+(sub_total_data*0.1)));
                     }
                     else if(intentString.equals("train")) {
                         json.put("no_id",data_from_intent.getString("no_id"));
                         json.put("phone",data_from_intent.getString("no_id"));
                     }
-                    adapter.notifyItemChanged(selected_arr);
+                    arrayList.set(selected_arr,json);
+                    adapter.notifyDataSetChanged();
+                    logLargeString(arrayList.toString());
+
+                    baggage_depart_data = 0;
+                    baggage_return_data = 0;
+                    for(int y=0;y<arrayList.size();y++) {
+                        for (int x = 0; x < arrayList.get(y).getJSONArray("arr_baggage_depart").length(); x++) {
+                            JSONObject jsonObject = arrayList.get(y).getJSONArray("arr_baggage_depart").getJSONObject(x);
+                            if (jsonObject.getBoolean("checked"))
+                                baggage_depart_data += jsonObject.getDouble("fare");
+                        }
+                        for (int x = 0; x < arrayList.get(y).getJSONArray("arr_baggage_return").length(); x++) {
+                            JSONObject jsonObject = arrayList.get(y).getJSONArray("arr_baggage_return").getJSONObject(x);
+                            if (jsonObject.getBoolean("checked"))
+                                baggage_return_data += jsonObject.getDouble("fare");
+                        }
+                    }
+                    sub_total_data += baggage_depart_data + baggage_return_data;
+                    set_total_flight();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
