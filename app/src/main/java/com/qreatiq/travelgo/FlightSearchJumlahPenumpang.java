@@ -69,6 +69,25 @@ public class FlightSearchJumlahPenumpang extends BottomSheetDialogFragment {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 adult_data = newVal;
+
+                if(newVal == 9)
+                    child.setMaxValue(0);
+                else if(newVal == 8)
+                    child.setMaxValue(1);
+                else if(newVal == 7)
+                    child.setMaxValue(2);
+                else if(newVal == 6)
+                    child.setMaxValue(3);
+                else if(newVal == 5)
+                    child.setMaxValue(4);
+                else if(newVal == 4)
+                    child.setMaxValue(5);
+                else if(newVal == 3)
+                    child.setMaxValue(6);
+                else if(newVal == 2)
+                    child.setMaxValue(7);
+                else if(newVal == 1)
+                    child.setMaxValue(8);
             }
         });
 

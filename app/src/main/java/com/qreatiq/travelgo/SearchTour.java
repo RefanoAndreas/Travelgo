@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,7 @@ public class SearchTour extends BaseActivity {
     SearchTourSpotAdapter mAdapter;
     SearchTourAdapter search_adapter;
     ArrayList<JSONObject> spotList = new ArrayList<JSONObject>(),search_array = new ArrayList<JSONObject>();
-    TextView search;
+    TextView search, no_data;
     LinearLayout headline;
 
     ChipGroup rekomendasi_layout;
@@ -61,6 +62,7 @@ public class SearchTour extends BaseActivity {
         search_list = (RecyclerView) findViewById(R.id.search_list);
         headline = (LinearLayout) findViewById(R.id.headline);
         rekomendasi_layout = (ChipGroup) findViewById(R.id.rekomendasi_layout);
+        no_data = (TextView)findViewById(R.id.no_data);
 
         mRecyclerView = findViewById(R.id.RV_spotWisata);
         mRecyclerView.setHasFixedSize(true);
@@ -152,17 +154,24 @@ public class SearchTour extends BaseActivity {
                     search_array.clear();
                     search_adapter.notifyDataSetChanged();
                     JSONArray jsonArray = response.getJSONArray("location");
-                    for(int x=0; x<jsonArray.length(); x++){
-                        JSONObject jsonObject = new JSONObject();
+                    Log.d("respon", String.valueOf(jsonArray.length()));
+                    if(jsonArray.length() > 0) {
+                        no_data.setVisibility(View.GONE);
+                        for (int x = 0; x < jsonArray.length(); x++) {
+                            JSONObject jsonObject = new JSONObject();
 
-                        jsonObject.put("name", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
-                        jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
-                        search_array.add(jsonObject);
+                            jsonObject.put("name", capitalizeString(jsonArray.getJSONObject(x).getString("name")));
+                            jsonObject.put("id", jsonArray.getJSONObject(x).getString("id"));
+                            search_array.add(jsonObject);
 
-                        if(search_array.size() == 0)
-                            search_adapter.notifyDataSetChanged();
-                        else
-                            search_adapter.notifyItemInserted(x);
+                            if (search_array.size() == 0)
+                                search_adapter.notifyDataSetChanged();
+                            else
+                                search_adapter.notifyItemInserted(x);
+                        }
+                    }
+                    else{
+                        no_data.setVisibility(View.VISIBLE);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

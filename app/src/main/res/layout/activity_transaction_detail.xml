@@ -244,7 +244,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Total"
+                                android:text="Sub Total"
                                 android:textColor="#20272B"
                                 android:fontFamily="@font/montserrat_semi_bold"
                                 android:layout_weight="1"/>
@@ -282,7 +282,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Sub Total"
+                                android:text="Total"
                                 android:textColor="#20272B"
                                 android:fontFamily="@font/montserrat_semi_bold"
                                 android:layout_weight="1"/>

@@ -69,7 +69,7 @@
         <activity android:name=".SearchTour" />
         <activity
             android:name=".TransactionDetail"
-            android:label="Transaction Detail" />
+            android:label="Notification Detail" />
         <activity
             android:name=".FlightSearch"
             android:label="Pesan Tiket pesawat" />

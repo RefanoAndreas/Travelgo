@@ -118,6 +118,7 @@ public class DataPenumpang extends BaseActivity {
             phone_layout.setVisibility(View.GONE);
 
             try {
+                Log.d("dataFlight", data.toString());
                 depart_ticket = new JSONObject(getIntent().getStringExtra("depart_ticket"));
                 if(getIntent().getBooleanExtra("isReturn",false))
                     return_ticket = new JSONObject(getIntent().getStringExtra("return_ticket"));

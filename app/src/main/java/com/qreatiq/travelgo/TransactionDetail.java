@@ -227,7 +227,7 @@ public class TransactionDetail extends BaseActivity {
 
         TV_tour_phone.setText(tourPhone);
 
-//        Log.d("trip_pack", trip_pack);
+        Log.d("trip_pack", trip_pack);
 
         try {
             JSONArray jsonArray = new JSONArray(trip_pack);
@@ -235,6 +235,7 @@ public class TransactionDetail extends BaseActivity {
                 JSONObject jsonObject1 = new JSONObject();
 
                 if(!jsonArray.getJSONObject(x).getString("qty").equals("0")) {
+                    Log.d("trip_price", jsonArray.getJSONObject(x).getString("price"));
                     jsonObject1.put("photo", jsonArray.getJSONObject(x).getString("photo"));
                     jsonObject1.put("trip_name", jsonArray.getJSONObject(x).getString("name"));
                     jsonObject1.put("trip_price", formatter.format(jsonArray.getJSONObject(x).getDouble("price"))+" x "+jsonArray.getJSONObject(x).getString("qty"));
@@ -258,7 +259,9 @@ public class TransactionDetail extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    Log.d("responJson", response.toString());
                     JSONObject jsonDetail = response.getJSONObject("detail");
+                    Log.d("jsonDetail", jsonDetail.toString());
 
                     TV_status_transaction.setText(jsonDetail.getString("status"));
                     TV_buy_date.setText(jsonDetail.getString("order_date"));
@@ -282,11 +285,15 @@ public class TransactionDetail extends BaseActivity {
                             .getJSONObject(0)
                             .getJSONObject("trip_pack");
 
+                    int subTotalTour = 0;
                     for(int x=0; x<jsonDetail.getJSONArray("detail").length();x++){
 
                         JSONObject jsonObjectPack = jsonDetail.getJSONArray("detail").getJSONObject(x);
 
                         JSONObject jsonObject1 = new JSONObject();
+                        NumberFormat formatter = new DecimalFormat("#,###");
+
+                        Log.d("logTrip", jsonObjectPack.toString());
 
                         urlPhoto = C_URL_IMAGES+"trip-pack?image="
                                 +jsonObjectPack.getJSONObject("trip_pack").getString("urlPhoto")
@@ -294,8 +301,11 @@ public class TransactionDetail extends BaseActivity {
 
                         jsonObject1.put("photo", urlPhoto);
                         jsonObject1.put("trip_name", jsonObjectPack.getJSONObject("trip_pack").getString("name"));
-                        jsonObject1.put("trip_price", jsonObjectPack.getJSONObject("trip_pack").getString("price"));
+                        jsonObject1.put("trip_price", formatter.format(jsonObjectPack.getDouble("price"))+" x "+jsonObjectPack.getString("pack_quantity"));
                         Log.d("trip", jsonObject1.toString());
+
+                        subTotalTour += jsonObjectPack.getDouble("price") * jsonObjectPack.getInt("pack_quantity");
+//                        Log.d("subTotal", String.valueOf(subTotalTour));
 
                         tripPackList.add(jsonObject1);
 
@@ -315,7 +325,9 @@ public class TransactionDetail extends BaseActivity {
 
                     NumberFormat formatter = new DecimalFormat("#,###");
                     String formattedNumber = formatter.format(response.getDouble("price"));
-                    TV_total_price.setText("Rp. "+formattedNumber);
+                    TV_total_price.setText("Rp. "+formatter.format(subTotalTour));
+                    tax.setText("Rp. "+formatter.format(subTotalTour*0.1));
+                    total.setText("Rp. "+formattedNumber);
 
                     TV_tour_phone.setText(jsonTripPack.getJSONObject("trip").getJSONObject("tour").getString("phone"));
 
