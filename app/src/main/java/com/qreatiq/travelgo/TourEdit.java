@@ -166,7 +166,7 @@ public class TourEdit extends BaseActivity {
 
     public String getStringFile(Bitmap bmp) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+        bmp.compress(Bitmap.CompressFormat.JPEG, 40, baos);
         byte[] imageBytes = baos.toByteArray();
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
@@ -189,7 +189,7 @@ public class TourEdit extends BaseActivity {
                 json.put("phone", telp.getText().toString());
                 if (filePath != null) {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                    json.put("image", getStringFile(bitmap));
+                    json.put("image", BitMapToString(bitmap,40));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -144,6 +144,7 @@ public class D3Eticket extends BaseActivity {
 
     private void eTicket(){
         url = C_URL+"eTicket?id="+sales_detail_id+"&type="+type;
+        Log.d("url",url);
 
         if(type.equals("flight")) {
             flight_train.setVisibility(View.VISIBLE);
@@ -201,7 +202,7 @@ public class D3Eticket extends BaseActivity {
 
                             jsonObject.put("name", jsonPassenger.getString("title")+" "+jsonPassenger.getString("name"));
                             jsonObject.put("facilities", "Bagasi: "+jsonPassenger.getString("baggage"));
-
+                            jsonObject.put("type", jsonPassenger.getString("type"));
 
                             flightPassengerList.add(jsonObject);
                             if (x != 0)

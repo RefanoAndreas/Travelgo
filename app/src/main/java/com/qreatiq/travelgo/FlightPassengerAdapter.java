@@ -49,6 +49,7 @@ public class FlightPassengerAdapter extends RecyclerView.Adapter<FlightPassenger
         try {
             viewHolder.name.setText(jsonObject.getString("name"));
             viewHolder.facilities.setText(jsonObject.getString("facilities"));
+            viewHolder.type.setText(jsonObject.getString("type"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

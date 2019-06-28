@@ -41,7 +41,7 @@ public class ConfirmationPaxAdapter extends RecyclerView.Adapter<ConfirmationPax
     public class ViewHolder extends RecyclerView.ViewHolder {
         LinearLayout add_passenger;
         CardView edit;
-        TextView name,isiDataPeserta;
+        TextView name,isiDataPeserta,category;
         View view;
 
         public ViewHolder(@NonNull View itemView) {
@@ -51,6 +51,7 @@ public class ConfirmationPaxAdapter extends RecyclerView.Adapter<ConfirmationPax
             edit = (CardView) itemView.findViewById(R.id.edit);
             name = (TextView) itemView.findViewById(R.id.name);
             isiDataPeserta = (TextView) itemView.findViewById(R.id.isiDataPeserta);
+            category = (TextView) itemView.findViewById(R.id.type);
             view = itemView;
         }
     }
@@ -89,6 +90,7 @@ public class ConfirmationPaxAdapter extends RecyclerView.Adapter<ConfirmationPax
                 }
 
                 viewHolder.name.setText(str);
+                viewHolder.category.setText(jsonObject.getString("category"));
             }
             viewHolder.view.setOnClickListener(new View.OnClickListener() {
                 @Override

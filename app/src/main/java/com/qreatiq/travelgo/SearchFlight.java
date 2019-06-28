@@ -42,7 +42,7 @@ public class SearchFlight extends BaseActivity {
 
     EditText tour_search;
     LinearLayout headline;
-    TextView no_data;
+    TextView no_data,title_2;
 
     String shared_last_search = "";
 
@@ -62,6 +62,7 @@ public class SearchFlight extends BaseActivity {
         last_search_list = (RecyclerView) findViewById(R.id.last_search_list);
         popular_city_list = (RecyclerView) findViewById(R.id.popular_city_list);
         no_data = (TextView) findViewById(R.id.no_data);
+        title_2 = (TextView) findViewById(R.id.title_2);
 
         try {
             data = new JSONObject(getIntent().getStringExtra("data"));
@@ -74,10 +75,12 @@ public class SearchFlight extends BaseActivity {
             else if(in.getStringExtra("type").equals("hotel")) {
                 json = new JSONArray(base_shared_pref.getString("hotel.last_search", "[]"));
                 shared_last_search = "hotel.last_search";
+                title_2.setText("Destinasi Populer");
             }
             else if(in.getStringExtra("type").equals("train")) {
                 json = new JSONArray(base_shared_pref.getString("train.last_search", "[]"));
                 shared_last_search = "train.last_search";
+                title_2.setText("Kota atau Stasiun populer");
             }
 
             for(int x=json.length()-1;x>=0;x--) {

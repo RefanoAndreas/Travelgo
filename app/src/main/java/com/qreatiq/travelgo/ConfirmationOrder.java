@@ -421,8 +421,9 @@ public class ConfirmationOrder extends BaseActivity {
                 "\nRp. "+double_formatter.format(sub_total_data));
         baggage_depart.setText("Rp. "+double_formatter.format(baggage_depart_data));
         baggage_return.setText("Rp. "+double_formatter.format(baggage_return_data));
-        pajak.setText("Rp. "+double_formatter.format(sub_total_data*0.1));
-        total.setText("Rp. "+double_formatter.format(sub_total_data+(sub_total_data*0.1)));
+        double grand_total = sub_total_data+baggage_depart_data+baggage_return_data;
+        pajak.setText("Rp. "+double_formatter.format(grand_total*0.1));
+        total.setText("Rp. "+double_formatter.format(grand_total+(grand_total*0.1)));
     }
     private void hotel_detail() throws JSONException {
         JSONObject json = new JSONObject();
@@ -935,7 +936,7 @@ public class ConfirmationOrder extends BaseActivity {
             if(requestCode == ADD_OR_EDIT_PAX){
 
                 try {
-                    JSONObject json = arrayList.get(selected_arr);
+                    JSONObject json = new JSONObject(arrayList.get(selected_arr).toString());
                     JSONObject data_from_intent = new JSONObject(data.getStringExtra("data"));
                     json.put("edit",true);
                     json.put("title",data_from_intent.getString("title"));
@@ -945,9 +946,10 @@ public class ConfirmationOrder extends BaseActivity {
                         json.put("no_passport",data_from_intent.getString("no_passport"));
                         json.put("baggage_depart", new JSONObject(data_from_intent.getString("baggage_depart")));
 
-                        JSONArray jsonArray = json.getJSONArray("arr_baggage_depart");
-                        for (int y = 0; y < jsonArray.length(); y++)
+                        JSONArray jsonArray = new JSONArray(json.getJSONArray("arr_baggage_depart").toString());
+                        for (int y = 0; y < jsonArray.length(); y++) {
                             jsonArray.getJSONObject(y).put("checked", false);
+                        }
                         for (int y = 0; y < jsonArray.length(); y++) {
                             if ((!json.getJSONObject("baggage_depart").toString().equals("{}") &&
                                     json.getJSONObject("baggage_depart").getString("code").equals(
@@ -959,11 +961,12 @@ public class ConfirmationOrder extends BaseActivity {
                             else
                                 jsonArray.getJSONObject(y).put("checked", false);
                         }
+                        json.put("arr_baggage_depart",jsonArray);
 
                         if (intent.getBooleanExtra("isReturn", false)) {
                             json.put("baggage_return", new JSONObject(data_from_intent.getString("baggage_return")));
 
-                            jsonArray = json.getJSONArray("arr_baggage_depart");
+                            jsonArray = json.getJSONArray("arr_baggage_return");
                             for (int y = 0; y < jsonArray.length(); y++)
                                 jsonArray.getJSONObject(y).put("checked", false);
                             for (int y = 0; y < jsonArray.length(); y++) {
@@ -977,6 +980,7 @@ public class ConfirmationOrder extends BaseActivity {
                                 else
                                     jsonArray.getJSONObject(y).put("checked", false);
                             }
+                            json.put("arr_baggage_return",jsonArray);
                         }
                     }
                     else if(intentString.equals("train")) {
@@ -1001,7 +1005,6 @@ public class ConfirmationOrder extends BaseActivity {
                                 baggage_return_data += jsonObject.getDouble("fare");
                         }
                     }
-                    sub_total_data += baggage_depart_data + baggage_return_data;
                     set_total_flight();
                 } catch (JSONException e) {
                     e.printStackTrace();

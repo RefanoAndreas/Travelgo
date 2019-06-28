@@ -244,8 +244,8 @@ public class DataPenumpang extends BaseActivity {
         baggage_adapter.setOnItemClickListener(new PassengerBaggageAdapter.ClickListener() {
             @Override
             public void onItemClick(int position) {
-                selected_baggage_index = position;
                 PassengerSelectBaggageModal modal = new PassengerSelectBaggageModal();
+                modal.selected = position;
                 modal.show(getSupportFragmentManager(),"modal");
             }
         });

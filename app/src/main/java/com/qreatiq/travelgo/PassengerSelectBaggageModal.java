@@ -45,7 +45,7 @@ public class PassengerSelectBaggageModal extends DialogFragment {
     Context context;
     String url;
     DataPenumpang parent;
-
+    int selected;
     TextInputEditText search;
 
     @Nullable
@@ -71,10 +71,10 @@ public class PassengerSelectBaggageModal extends DialogFragment {
         parent = (DataPenumpang) getActivity();
 
         try {
-            for(int x=0;x<parent.baggage_array.get(parent.selected_baggage_index).getJSONArray("baggage").length();x++){
-                JSONObject data = parent.baggage_array.get(parent.selected_baggage_index).getJSONArray("baggage").getJSONObject(x);
+            NumberFormat double_formatter = new DecimalFormat("#,###");
+            for(int x=0;x<parent.baggage_array.get(selected).getJSONArray("baggage").length();x++){
+                JSONObject data = parent.baggage_array.get(selected).getJSONArray("baggage").getJSONObject(x);
                 JSONObject json = new JSONObject();
-                NumberFormat double_formatter = new DecimalFormat("#,###");
                 json.put("name",data.getString("label")+"\nRp. "+double_formatter.format(data.getDouble("fare")));
                 arrayList.add(json);
             }
@@ -96,10 +96,10 @@ public class PassengerSelectBaggageModal extends DialogFragment {
             public void onItemClick(int position) {
 
                 try {
-                    for(int x=0;x<parent.baggage_array.get(parent.selected_baggage_index).getJSONArray("baggage").length();x++)
-                        parent.baggage_array.get(parent.selected_baggage_index).getJSONArray("baggage").getJSONObject(x).put("checked",false);
-                    parent.baggage_array.get(parent.selected_baggage_index).getJSONArray("baggage").getJSONObject(position).put("checked",true);
-                    parent.baggage_adapter.notifyItemChanged(parent.selected_baggage_index);
+                    for(int x=0;x<parent.baggage_array.get(selected).getJSONArray("baggage").length();x++)
+                        parent.baggage_array.get(selected).getJSONArray("baggage").getJSONObject(x).put("checked",false);
+                    parent.baggage_array.get(selected).getJSONArray("baggage").getJSONObject(position).put("checked",true);
+                    parent.baggage_adapter.notifyItemChanged(selected);
                     dismiss();
                 } catch (JSONException e) {
                     e.printStackTrace();
