@@ -74,7 +74,7 @@ public class ConfirmationOrder extends BaseActivity {
     ConfirmationHotelListAdapter hotel_list_adapter;
 
     int ADD_OR_EDIT_PAX = 10, ADD_OR_EDIT_GUEST = 11, selected_arr = 0, AUTH = 12, PHONE = 50;
-    double sub_total_data = 0, sub_total_per_pax_data = 0, baggage_depart_data = 0, baggage_return_data = 0;
+    double sub_total_data = 0, sub_total_per_pax_data = 0, baggage_depart_data = 0, baggage_return_data = 0, depart_data = 0, return_data = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -425,6 +425,7 @@ public class ConfirmationOrder extends BaseActivity {
         pajak.setText("Rp. "+double_formatter.format(grand_total*0.1));
         total.setText("Rp. "+double_formatter.format(grand_total+(grand_total*0.1)));
     }
+
     private void hotel_detail() throws JSONException {
         JSONObject json = new JSONObject();
         JSONObject hotel_selected = new JSONObject(intent.getStringExtra("hotel_selected"));
@@ -534,15 +535,17 @@ public class ConfirmationOrder extends BaseActivity {
                 flight_list_return_array.add(json);
         }
         sub_total_per_pax_data += ticket.getInt("price");
-        sub_total_data += ticket.getInt("price") * (intent.getIntExtra("adult", 0) + intent.getIntExtra("child", 0) + intent.getIntExtra("infant", 0));
+        sub_total_data += ticket.getInt("price") * (intent.getIntExtra("adult", 0) + intent.getIntExtra("child", 0));
 
         if(str.equals("depart_ticket")){
+            depart_data += ticket.getInt("price") * (intent.getIntExtra("adult", 0) + intent.getIntExtra("child", 0));
             flight_list_depart_adapter = new ConfirmationFlightListAdapter(flight_list_depart_array,this);
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
             flight_depart.setLayoutManager(mLayoutManager);
             flight_depart.setAdapter(flight_list_depart_adapter);
         }
         else{
+            return_data += ticket.getInt("price") * (intent.getIntExtra("adult", 0) + intent.getIntExtra("child", 0));
             flight_list_return_adapter = new ConfirmationFlightListAdapter(flight_list_return_array,this);
             LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
             flight_return.setLayoutManager(mLayoutManager);
@@ -642,8 +645,10 @@ public class ConfirmationOrder extends BaseActivity {
 
             final JSONObject json = new JSONObject();
             json.put("depart_ticket", new JSONObject(getIntent().getStringExtra("depart_ticket")));
+            json.put("depart_fare", depart_data);
             if(intent.getBooleanExtra("isReturn",false)) {
                 json.put("return_ticket", new JSONObject(getIntent().getStringExtra("return_ticket")));
+                json.put("return_fare", return_data);
             }
             json.put("is_return", getIntent().getBooleanExtra("isReturn",false));
             json.put("class", getIntent().getStringExtra("kelas"));
@@ -651,7 +656,9 @@ public class ConfirmationOrder extends BaseActivity {
             json.put("adult", getIntent().getIntExtra("adult", 0));
             json.put("child", getIntent().getIntExtra("child", 0));
             json.put("infant", getIntent().getIntExtra("infant", 0));
-            json.put("price", sub_total_data+(sub_total_data*0.1));
+            double grand_total = sub_total_data+baggage_depart_data+baggage_return_data;
+            json.put("tax", grand_total*0.1);
+            json.put("price", grand_total+(grand_total*0.1));
 
             logLargeString(json.toString());
             Log.d("auth",base_shared_pref.getString("access_token", ""));

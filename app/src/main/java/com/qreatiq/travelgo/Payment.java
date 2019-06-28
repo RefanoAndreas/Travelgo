@@ -127,20 +127,39 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
 //                        1,
 //                        json.getJSONObject("depart_ticket").getString("departAirport")+" > "+json.getJSONObject("depart_ticket").getString("arrivalAirport")));
                 itemDetailsArrayList.add(new ItemDetails("1",
-                        json.getInt("price"),
+                        json.getDouble("depart_fare"),
                         1,
                         json.getJSONObject("depart_ticket").getString("departAirport")+" > "+json.getJSONObject("depart_ticket").getString("arrivalAirport")));
-                if(json.getBoolean("is_return"))
-                {
+                if(json.getBoolean("is_return")) {
 //                    itemDetailsArrayList.add(new ItemDetails("2",
 //                            json.getJSONObject("return_ticket").getInt("price"),
 //                            1,
 //                            json.getJSONObject("return_ticket").getString("departAirport")+" > "+json.getJSONObject("return_ticket").getString("arrivalAirport")));
                     itemDetailsArrayList.add(new ItemDetails("2",
-                            json.getInt("price"),
+                            json.getDouble("return_fare"),
                             1,
-                            json.getJSONObject("depart_ticket").getString("departAirport")+" > "+json.getJSONObject("depart_ticket").getString("arrivalAirport")));
+                            json.getJSONObject("depart_ticket").getString("arrivalAirport")+" > "+json.getJSONObject("depart_ticket").getString("departAirport")));
                 }
+
+                double baggage_depart = 0,baggage_return = 0;
+                for(int x=0;x<json.getJSONArray("pax").length();x++){
+                    baggage_depart += json.getJSONArray("pax").getJSONObject(x).getJSONObject("baggage_depart").getDouble("fare");
+
+                    if(json.getBoolean("is_return"))
+                        baggage_return += json.getJSONArray("pax").getJSONObject(x).getJSONObject("baggage_return").getDouble("fare");
+                }
+
+                itemDetailsArrayList.add(new ItemDetails("3",
+                        baggage_depart,
+                        1,"Baggage Depart"));
+                if(json.getBoolean("is_return"))
+                    itemDetailsArrayList.add(new ItemDetails("4",
+                            baggage_return,
+                            1, "Baggage Return"));
+
+                itemDetailsArrayList.add(new ItemDetails("5",
+                        json.getDouble("tax"),
+                        1,"Tax"));
             }
             else if(getIntent().getStringExtra("type").equals("train")) {
                 JSONObject json = new JSONObject(getIntent().getStringExtra("data"));
