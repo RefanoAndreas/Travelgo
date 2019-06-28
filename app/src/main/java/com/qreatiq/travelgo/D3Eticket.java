@@ -231,7 +231,7 @@ public class D3Eticket extends BaseActivity {
                             jsonObject.put("name", jsonPassenger.getString("title")+" "+jsonPassenger.getString("name"));
                             jsonObject.put("no_id", "KTP - "+jsonPassenger.getString("id_card_no"));
                             jsonObject.put("class_train", jsonETicket.getString("class"));
-
+                            jsonObject.put("type", jsonPassenger.getString("type"));
 
                             trainPassengerList.add(jsonObject);
                             if (x != 0)

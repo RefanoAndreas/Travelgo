@@ -53,6 +53,7 @@ public class TrainPassengerAdapter extends RecyclerView.Adapter<TrainPassengerAd
             viewHolder.name.setText(jsonObject.getString("name"));
             viewHolder.class_train.setText(jsonObject.getString("class_train"));
             viewHolder.id_no.setText(jsonObject.getString("no_id"));
+            viewHolder.type.setText(jsonObject.getString("type"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

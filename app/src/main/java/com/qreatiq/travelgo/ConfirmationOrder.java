@@ -999,10 +999,12 @@ public class ConfirmationOrder extends BaseActivity {
                             if (jsonObject.getBoolean("checked"))
                                 baggage_depart_data += jsonObject.getDouble("fare");
                         }
-                        for (int x = 0; x < arrayList.get(y).getJSONArray("arr_baggage_return").length(); x++) {
-                            JSONObject jsonObject = arrayList.get(y).getJSONArray("arr_baggage_return").getJSONObject(x);
-                            if (jsonObject.getBoolean("checked"))
-                                baggage_return_data += jsonObject.getDouble("fare");
+                        if (intent.getBooleanExtra("isReturn", false)) {
+                            for (int x = 0; x < arrayList.get(y).getJSONArray("arr_baggage_return").length(); x++) {
+                                JSONObject jsonObject = arrayList.get(y).getJSONArray("arr_baggage_return").getJSONObject(x);
+                                if (jsonObject.getBoolean("checked"))
+                                    baggage_return_data += jsonObject.getDouble("fare");
+                            }
                         }
                     }
                     set_total_flight();

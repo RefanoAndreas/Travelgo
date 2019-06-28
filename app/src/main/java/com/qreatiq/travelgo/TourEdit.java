@@ -1,10 +1,12 @@
 package com.qreatiq.travelgo;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -182,50 +185,69 @@ public class TourEdit extends BaseActivity {
         else if(telp.getText().toString().equals(""))
             telp_layout.setError("Telp is empty");
         else {
-            JSONObject json = new JSONObject();
-            try {
-                json.put("id", tour_id);
-                json.put("name", name.getText().toString());
-                json.put("phone", telp.getText().toString());
-                if (filePath != null) {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                    json.put("image", BitMapToString(bitmap,40));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            final ProgressDialog loading = new ProgressDialog(this);
+            loading.setMax(100);
+            loading.setTitle("Saving your tour profile...");
+            loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            loading.setCancelable(false);
+            loading.setProgress(0);
+            loading.show();
 
-            logLargeString(json.toString());
-
-            url = C_URL + "tourProfile";
-
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
+            new Handler().postDelayed(new Runnable() {
                 @Override
-                public void onResponse(JSONObject response) {
+                public void run() {
+                    JSONObject json = new JSONObject();
+                    try {
+                        json.put("id", tour_id);
+                        json.put("name", name.getText().toString());
+                        json.put("phone", telp.getText().toString());
+                        if (filePath != null) {
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                            json.put("image", BitMapToString(bitmap,40));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-                    onBackPressed();
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    error_exception(error,layout);
-                }
-            }){
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    HashMap<String, String> headers = new HashMap<String, String>();
-                    headers.put("Content-Type", "application/json");
-                    headers.put("Accept", "application/json");
-                    headers.put("Authorization", user_ID);
-                    return headers;
-                }
-            };
+//            logLargeString(json.toString());
 
-            requestQueue.add(jsonObjectRequest);
+                    url = C_URL + "tourProfile";
+
+                    JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            loading.dismiss();
+                            onBackPressed();
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            loading.dismiss();
+                            error_exception(error,layout);
+                        }
+                    }){
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            HashMap<String, String> headers = new HashMap<String, String>();
+                            headers.put("Content-Type", "application/json");
+                            headers.put("Accept", "application/json");
+                            headers.put("Authorization", user_ID);
+                            return headers;
+                        }
+                    };
+
+                    jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                            60000,
+                            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                    requestQueue.add(jsonObjectRequest);
+                }
+            },100);
+
         }
 
     }
