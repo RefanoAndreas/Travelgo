@@ -26,7 +26,7 @@ import java.util.ArrayList;
 
 public class Filter extends BaseActivity {
 
-    TextView minPrice, maxPrice, reset;
+    TextView minPrice, maxPrice, reset, price_label;
     CrystalRangeSeekbar rangeSeekbar;
 
     ArrayList<JSONObject> arrayTimeDeparture = new ArrayList<JSONObject>();
@@ -62,6 +62,7 @@ public class Filter extends BaseActivity {
         rangeSeekbar = (CrystalRangeSeekbar)findViewById(R.id.rangeSeekbarPrice);
         minPrice = (TextView)findViewById(R.id.minimumPrice);
         maxPrice = (TextView)findViewById(R.id.maximumPrice);
+        price_label = (TextView)findViewById(R.id.price_label);
         ranking_layout = (LinearLayout) findViewById(R.id.ranking_layout);
         transit = (LinearLayout) findViewById(R.id.transit);
         train_class = (LinearLayout) findViewById(R.id.train_class);
@@ -136,6 +137,7 @@ public class Filter extends BaseActivity {
             depart_layout.setVisibility(View.GONE);
             arrive_layout.setVisibility(View.GONE);
             ranking_layout.setVisibility(View.VISIBLE);
+            price_label.setText("Harga per kamar, per malam");
 
             try {
                 if(!filter.toString().equals("{}")) {

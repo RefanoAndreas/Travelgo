@@ -1,10 +1,13 @@
 package com.qreatiq.travelgo;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -14,6 +17,8 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.util.Base64;
 import android.util.Log;
@@ -72,6 +77,21 @@ public class TourEdit extends BaseActivity {
         setContentView(R.layout.activity_tour_edit);
 
         set_toolbar();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) !=
+                PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[] {
+                            Manifest.permission.CAMERA,
+                    },
+                    1);
+        }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[] {
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    },
+                    1);
+        }
 
         name = (TextInputEditText)findViewById(R.id.TIET_tourName_tourEdit);
 //        desc = (TextInputEditText)findViewById(R.id.TIET_tourDesc_tourEdit);
@@ -273,16 +293,24 @@ public class TourEdit extends BaseActivity {
             if(requestCode==PICK_FROM_CAMERA){
                 filePath = data.getData();
                 Bitmap bitmap=(Bitmap) data.getExtras().get("data");
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+                byte[] bitmapdata = baos.toByteArray();
+                Bitmap bitmap1 = BitmapFactory.decodeByteArray(bitmapdata,0,bitmapdata.length);
 
-                imageView.setImageBitmap(bitmap);
+                imageView.setImageBitmap(bitmap1);
             }
             else if(requestCode==PICK_FROM_GALLERY){
 
                 filePath = data.getData();
                 try {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+                    byte[] bitmapdata = baos.toByteArray();
+                    Bitmap bitmap1 = BitmapFactory.decodeByteArray(bitmapdata,0,bitmapdata.length);
 
-                    imageView.setImageBitmap(bitmap);
+                    imageView.setImageBitmap(bitmap1);
                 } catch (IOException e) {
                     Log.i("TAG", "Some exception " + e);
                 }

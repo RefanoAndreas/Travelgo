@@ -88,6 +88,10 @@ public class HotelSearch extends BaseActivity {
                     Snackbar snackbar = Snackbar.make(layout,"Jumlah Kamar kosong",Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
+                else if(start_date == end_date){
+                    Snackbar snackbar = Snackbar.make(layout,"Tanggal Check-in sama dengan Check-out",Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
                 else {
                     startActivity(new Intent(HotelSearch.this, FlightSearchJadwal.class)
                             .putExtra("origin", "hotel")
@@ -169,7 +173,7 @@ public class HotelSearch extends BaseActivity {
                     showDate(simpledateformat.format(end_date), "end");
 
                     int difference= ((int)((end_date.getTime()/(24*60*60*1000)) - (int)(start_date.getTime()/(24*60*60*1000))));
-                    duration.setText(String.valueOf(difference)+" malam");
+                    duration.setText(difference+" malam");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

@@ -140,7 +140,7 @@ public class FlightSearchJadwal extends BaseActivity {
                 title = (TextView) findViewById(R.id.title);
 
                 title.setText(hotel_city.getString("city_label")+", "+hotel_city.getString("poi_label"));
-                SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
+                SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                 tripInfo.setText(format.format(check_in_date) + " - "+format.format(check_out_date)+", " +
                         String.valueOf(intent.getIntExtra("guest", 0)) + " Tamu, " +
                         String.valueOf(intent.getIntExtra("room", 0)) + " Kamar");
