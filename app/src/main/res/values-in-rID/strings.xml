@@ -14,4 +14,8 @@
     <string name="save_label">Simpan</string>
     <string name="cancel_label">Batal</string>
     <string name="image_label">Gambar</string>
+    <string name="menu_home">Beranda</string>
+    <string name="menu_notification">Notifikasi</string>
+    <string name="menu_profile">Profil</string>
+    <string name="menu_tour">Tur</string>
 </resources>

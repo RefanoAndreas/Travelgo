@@ -36,7 +36,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pilih jumlah penumpang"
+            android:text="@string/passenger_title"
             android:textSize="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="24dp"
@@ -54,7 +54,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Dewasa\n3+ Tahun"
+                android:text="@string/train_passenger_adult_title"
                 android:textSize="12dp"
                 android:textAlignment="center"/>
 
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textSize="12dp"
-                android:text="Bayi\n&lt; 3 Tahun"
+                android:text="@string/train_passenger_infant_title"
                 android:textAlignment="center"/>
         </LinearLayout>
         <LinearLayout
@@ -117,7 +117,7 @@
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:backgroundTint="@color/colorPrimary"
-            android:text="Save Changes"
+            android:text="@string/save_label"
             android:fontFamily="@font/montserrat_medium"
             android:id="@+id/submit"/>
     </LinearLayout>

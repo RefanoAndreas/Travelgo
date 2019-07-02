@@ -75,12 +75,12 @@ public class SearchFlight extends BaseActivity {
             else if(in.getStringExtra("type").equals("hotel")) {
                 json = new JSONArray(base_shared_pref.getString("hotel.last_search", "[]"));
                 shared_last_search = "hotel.last_search";
-                title_2.setText("Destinasi Populer");
+                title_2.setText(getResources().getString(R.string.city_search_hotel_popular_label));
             }
             else if(in.getStringExtra("type").equals("train")) {
                 json = new JSONArray(base_shared_pref.getString("train.last_search", "[]"));
                 shared_last_search = "train.last_search";
-                title_2.setText("Kota atau Stasiun populer");
+                title_2.setText(getResources().getString(R.string.city_search_train_popular_label));
             }
 
             for(int x=json.length()-1;x>=0;x--) {
@@ -107,17 +107,17 @@ public class SearchFlight extends BaseActivity {
         popular_city_list.setAdapter(popular_city_adapter);
 
         if(in.getStringExtra("type").equals("flight")){
-            tour_search.setHint("Cari kota atau bandara");
+            tour_search.setHint(getResources().getString(R.string.city_search_flight_search_label));
 
             get_popular_airport();
         }
         else if(in.getStringExtra("type").equals("hotel")){
-            tour_search.setHint("Cari kota");
+            tour_search.setHint(getResources().getString(R.string.city_search_hotel_search_label));
 
             get_popular_hotel_city();
         }
         else if(in.getStringExtra("type").equals("train")){
-            tour_search.setHint("Cari kota atau stasiun");
+            tour_search.setHint(getResources().getString(R.string.city_search_train_search_label));
 
             get_popular_station();
         }

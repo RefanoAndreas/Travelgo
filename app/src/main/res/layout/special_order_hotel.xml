@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Permintaan Khusus"
+            android:text="@string/confirmation_special_request_title"
             android:layout_margin="16dp"
             android:textSize="16dp"/>
 

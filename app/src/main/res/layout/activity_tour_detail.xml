@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Detail"
+                android:text="@string/detail_label"
                 android:textSize="16dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textColor="@android:color/black"/>
@@ -109,7 +109,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="View More"
+                android:text="@string/view_more_label"
                 android:fontFamily="@font/montserrat_medium"
                 android:textColor="#0E64FF"/>
 
@@ -117,7 +117,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Facilities"
+                android:text="@string/facilities_label"
                 android:textSize="16dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textColor="@android:color/black"/>
@@ -264,7 +264,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
-                android:text="Package Tour"
+                android:text="@string/tour_detail_package_tour_label"
                 android:textSize="16dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textColor="@android:color/black"/>
@@ -321,7 +321,7 @@
             android:layout_marginRight="16dp"
             android:textColor="@android:color/white"
             android:fontFamily="@font/montserrat_medium"
-            android:text="PAY PACKAGE"/>
+            android:text="@string/tour_detail_pay_label"/>
     </android.support.constraint.ConstraintLayout>
 
 </android.support.design.widget.CoordinatorLayout>

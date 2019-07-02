@@ -54,7 +54,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tujuan"
+                        android:text="@string/hotel_search_destination_label"
                         android:textColor="@android:color/white"
                         android:fontFamily="@font/montserrat_medium"/>
                     <TextView
@@ -229,7 +229,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Total Tamu"
+                                        android:text="@string/hotel_search_total_guest_label"
                                         android:textAlignment="center"/>
                                     <TextView
                                         android:layout_width="match_parent"
@@ -249,7 +249,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="Kamar"
+                                        android:text="@string/hotel_search_room_label"
                                         android:textAlignment="center"/>
                                     <TextView
                                         android:layout_width="match_parent"
@@ -283,7 +283,7 @@
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:insetBottom="0dp"
         android:insetTop="0dp"
-        android:text="Cari Kamar"
+        android:text="@string/find_room_label"
         app:cornerRadius="0dp"/>
 
 

@@ -40,7 +40,7 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginLeft="32dp"
                     android:layout_marginRight="32dp"
-                    android:text="Kode Booking Penerbangan"
+                    android:text="@string/e_ticket_booking_code_label"
                     android:fontFamily="@font/montserrat_semi_bold"/>
                 <TextView
                     android:id="@+id/TV_bookingCode"
@@ -58,7 +58,7 @@
                     android:layout_marginLeft="32dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="32dp"
-                    android:text="Tunjukkan kode pada saat check-in"/>
+                    android:text="@string/e_ticket_subtitle_label"/>
 
             </LinearLayout>
 
@@ -74,7 +74,7 @@
                     android:id="@+id/TV_title_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Informasi Pesawat"
+                    android:text="@string/e_ticket_flight_detail_label"
                     android:textColor="#424242"
                     android:textSize="16dp"
                     android:layout_margin="16dp"
@@ -106,7 +106,7 @@
                     android:id="@+id/TV_title_guest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Data Penumpang"
+                    android:text="@string/e_ticket_passenger_detail_label"
                     android:textColor="#424242"
                     android:textSize="16dp"
                     android:layout_margin="16dp"
@@ -187,7 +187,7 @@
                     android:id="@+id/TV_title_tips"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tips Perjalanan"
+                    android:text="@string/e_ticket_travel_advice_label"
                     android:textColor="#424242"
                     android:textSize="16dp"
                     android:layout_margin="16dp"

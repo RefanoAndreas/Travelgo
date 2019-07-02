@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
                 android:layout_marginLeft="8dp"
-                android:text="Upload Photo"
+                android:text="@string/upload_photo_label"
                 android:textSize="12dp"/>
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>

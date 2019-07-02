@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Nama"/>
+                    android:text="@string/name_label"/>
                 <TextView
                     android:id="@+id/TV_name"
                     android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Telepon"/>
+                    android:text="@string/phone_label"/>
                 <TextView
                     android:id="@+id/TV_phone"
                     android:layout_width="match_parent"
@@ -98,7 +98,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Trip"/>
+                    android:text="@string/trip_label"/>
                 <TextView
                     android:id="@+id/TV_trip"
                     android:layout_width="match_parent"
@@ -140,7 +140,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Tanggal"/>
+                    android:text="@string/date_label"/>
                 <TextView
                     android:id="@+id/TV_date"
                     android:layout_width="match_parent"
@@ -160,7 +160,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Peserta"/>
+                    android:text="@string/participant_label"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/RV_participant"
@@ -184,7 +184,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Total Harga"/>
+                    android:text="@string/total_price_label"/>
                 <TextView
                     android:id="@+id/TV_price_total"
                     android:layout_width="match_parent"

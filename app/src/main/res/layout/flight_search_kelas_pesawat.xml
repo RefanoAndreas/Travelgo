@@ -36,7 +36,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pilih kelas Penerbangan"
+            android:text="@string/filter_class_label"
             android:textSize="16dp"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="24dp"
@@ -77,7 +77,7 @@
             android:insetBottom="0dp"
             android:id="@+id/submit"
             android:backgroundTint="@color/colorPrimary"
-            android:text="Save Changes"
+            android:text="@string/save_label"
             android:fontFamily="@font/montserrat_medium"/>
     </LinearLayout>
 

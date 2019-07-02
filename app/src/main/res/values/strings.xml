@@ -33,10 +33,199 @@
     <string name="manifest_tour_list_title">List Tour Packages</string>
     <string name="tour_edit_title">Tour Profile</string>
     <string name="image_label">Image</string>
+    <string name="adult_label">Adult</string>
+    <string name="child_label">Child</string>
+    <string name="infant_label">Infant</string>
     <string name="name_label">Name</string>
+    <string name="start_date_label">Start Date</string>
+    <string name="end_date_label">End Date</string>
+    <string name="from_label">From</string>
+    <string name="to_label">To</string>
+    <string name="email_label">E-mail</string>
+    <string name="password_label">Password</string>
+    <string name="retype_password_label">Retype Password</string>
+    <string name="forgot_password_label">Forgot Password?</string>
     <string name="phone_label">Phone</string>
+    <string name="location_label">Location</string>
+    <string name="trip_label">Trip</string>
+    <string name="date_label">Date</string>
+    <string name="participant_label">Participant</string>
+    <string name="total_price_label">Total Price</string>
     <string name="save_label">Save Changes</string>
     <string name="cancel_label">Cancel</string>
+    <string name="submit_label">Submit</string>
+    <string name="login_label">Login</string>
+    <string name="signup_label">Sign Up</string>
+    <string name="next_label">Next</string>
+    <string name="facebook_label">Facebook</string>
+    <string name="find_ticket_label">Find Ticket</string>
+    <string name="find_tour_label">Find Tour</string>
+    <string name="find_room_label">Find Room</string>
+    <string name="sort_label">Sort</string>
+    <string name="filter_label">Filter</string>
+    <string name="flight_label">Flight</string>
+    <string name="train_label">Train</string>
+    <string name="hotel_label">Hotel</string>
+    <string name="entertainment_label">Entertainment</string>
+    <string name="wifi_label">Wi-Fi</string>
+    <string name="no_data_label">No Data Found</string>
+    <string name="facilities_label">Facilities</string>
+    <string name="description_label">Description</string>
+    <string name="view_more_label">View More</string>
+    <string name="near_location_label">Nearest Popular Location</string>
+    <string name="keyword_label">Keyword</string>
+    <string name="upload_photo_label">Upload Photo</string>
+    <string name="price_label">Price</string>
+    <string name="detail_label">Detail</string>
+    <string name="user_not_logged_in_label">User not logged in</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_tour">Tour</string>
+    <string name="menu_notification">Notification</string>
+    <string name="menu_profile">Profile</string>
+
+    <string name="captcha_title">Please enter this CAPTCHA</string>
+
+    <string name="confirmation_room_label">Room</string>
+    <string name="confirmation_day_label">Day</string>
+    <string name="confirmation_flight_depart_title">Depart ticket use </string>
+    <string name="confirmation_flight_return_title">Return ticket use </string>
+    <string name="confirmation_flight_detail_title">Flight Detail</string>
+    <string name="confirmation_hotel_detail_title">Hotel Detail</string>
+    <string name="confirmation_train_detail_title">Train Detail</string>
+    <string name="confirmation_requester_title">Contact Details</string>
+    <string name="confirmation_guest_title">Guest Data</string>
+    <string name="confirmation_passenger_title">Passenger Data</string>
+    <string name="confirmation_special_request_title">Special Requests</string>
+    <string name="confirmation_special_request_add_label">Add Special Requests</string>
+    <string name="confirmation_price_detail_title">Price Details</string>
+    <string name="confirmation_return_label">Return</string>
+    <string name="confirmation_one_way_label">One Way</string>
+    <string name="confirmation_subtotal_label">Subtotal</string>
+    <string name="confirmation_baggage_depart_label">Baggage Depart</string>
+    <string name="confirmation_baggage_return_label">Baggage Return</string>
+    <string name="confirmation_total_label">Total</string>
+    <string name="confirmation_tax_label">Tax</string>
+    <string name="confirmation_booking_progress_label">Booking is in progress</string>
+    <string name="confirmation_error_requester_phone_label">Please enter phone number</string>
+
+    <string name="notification_no_tour_label">No Tour Found</string>
+
+    <string name="notification_detail_booking_no_label">Booking Number</string>
+    <string name="notification_detail_booking_at_label">Booking Date</string>
+    <string name="notification_detail_booking_price_label">Booking Total Price</string>
+    <string name="notification_detail_e_ticket_label">E-ticket</string>
+
+    <string name="e_ticket_booking_code_label">Booking Code</string>
+    <string name="e_ticket_subtitle_label">Show this code on check-in</string>
+    <string name="e_ticket_flight_detail_label">Flight Detail</string>
+    <string name="e_ticket_passenger_detail_label">Passenger Detail</string>
+    <string name="e_ticket_travel_advice_label">Travel Advice</string>
+
+    <string name="filter_title">Filter</string>
+    <string name="filter_reset_label">Reset</string>
+    <string name="filter_price_label">Price per people</string>
+    <string name="filter_stars_label">Hotel Stars</string>
+    <string name="filter_transit_label">Transit</string>
+    <string name="filter_transit_direct_label">Direct</string>
+    <string name="filter_class_label">Class</string>
+    <string name="filter_class_economy_label">Economy</string>
+    <string name="filter_class_business_label">Business</string>
+    <string name="filter_class_executive_label">Executive</string>
+    <string name="filter_depart_time_label">Depart Time</string>
+    <string name="filter_arrive_time_label">Arrive Time</string>
+    <string name="filter_travel_time_label">Choose Travel Time</string>
+    <string name="filter_depart_date_label">Depart Date</string>
+    <string name="filter_return_date_label">Return Date</string>
+    <string name="filter_min_price_label">Minimum Price</string>
+    <string name="filter_max_price_label">Maximum Price</string>
+    <string name="filter_see_all_label">See All</string>
+    <string name="filter_duration_label">Duration</string>
+
+    <string name="flight_search_depart_city_label">Depart City</string>
+    <string name="flight_search_arrive_city_label">Arrive City</string>
+    <string name="flight_search_roundtrip_label">Round trip?</string>
+    <string name="flight_search_depart_date_label">Depart Date</string>
+    <string name="flight_search_return_date_label">Return Date</string>
+    <string name="flight_search_passenger_label">Passenger</string>
+    <string name="flight_search_class_label">Class</string>
+    <string name="flight_search_class_economy_label">Economy</string>
+    <string name="flight_search_class_business_label">Business</string>
+    <string name="flight_search_class_first_label">First</string>
+
+    <string name="hotel_detail_choose_room_label">Choose Room</string>
+
+    <string name="hotel_search_destination_label">Destination</string>
+    <string name="hotel_search_night_label">Night</string>
+    <string name="hotel_search_total_guest_label">Total Guest</string>
+    <string name="hotel_search_room_label">Room</string>
+
+    <string name="login_subtitle_label">Or login with your social account</string>
+    <string name="login_bottom_1_label">Don\'t have any account yet? </string>
+    <string name="login_bottom_2_label">SIGN UP </string>
+    <string name="login_bottom_3_label">now</string>
+
+    <string name="tour_search_label">Search</string>
+
+    <string name="tour_create_create_tour_label">Create Tour Package</string>
+    <string name="tour_create_list_package_label">List Package</string>
+
+    <string name="tour_detail_package_tour_label">Package Tour</string>
+    <string name="tour_detail_pay_label">PAY PACKAGE</string>
+
+    <string name="tour_list_no_trip_label">No Trip Available</string>
+    <string name="tour_list_no_tour_label">No Tour Found</string>
+
+    <string name="transaction_detail_status_label">Status</string>
+    <string name="transaction_detail_purchase_date_label">Purchasing Date</string>
+    <string name="transaction_detail_travel_date_label">Travel Date</string>
+    <string name="transaction_detail_participant_title">Participant Data</string>
+    <string name="transaction_detail_participant_label">Participant</string>
+    <string name="transaction_detail_add_participant_label">Add Participant Data</string>
+    <string name="transaction_detail_travel_packet_label">Travel Packet</string>
+    <string name="transaction_detail_tour_contact_label">Tour Contact</string>
+
+    <string name="bagasi_penumpang_depart_title">Depart Flight</string>
+    <string name="bagasi_penumpang_return_title">Return Flight</string>
+
+    <string name="city_detail_top_place_label">Top place to visit</string>
+
+    <string name="rating_city_detail_title">Give rating to this city</string>
+
+    <string name="media_title">Choose Media</string>
+    <string name="media_camera_title">From Camera</string>
+    <string name="media_gallery_title">From Gallery</string>
+
+    <string name="passenger_title">Total Passenger</string>
+    <string name="flight_passenger_adult_title">Adult\n12+ Year Old</string>
+    <string name="flight_passenger_child_title">Child\n2-11 Year Old</string>
+    <string name="flight_passenger_infant_title">Infant\n&lt; 2 Year Old</string>
+    <string name="train_passenger_adult_title">Adult\n3+ Year Old</string>
+    <string name="train_passenger_infant_title">Infant\n&lt; 3 Year Old</string>
+
+    <string name="manifest_train_search_title">Purchase Train Ticket</string>
+    <string name="manifest_flight_search_title">Purchase Flight Ticket</string>
+    <string name="manifest_hotel_search_title">Purchase Hotel Room</string>
+    <string name="manifest_confirmation_title">Booking Confirmation</string>
+    <string name="manifest_history_purchase_title">History Purchase</string>
+    <string name="manifest_notifikasi_title">Notification</string>
+    <string name="manifest_notifikasi_detail_title">Notification Detail</string>
+    <string name="manifest_history_sales_title">History Sales</string>
+    <string name="manifest_tour_detail_title">Detail Tour</string>
+    <string name="manifest_create_tour_title">Create Tour Package</string>
+    <string name="manifest_create_package_title">Create Packages</string>
+    <string name="manifest_tour_edit_title">Edit Tour</string>
+    <string name="manifest_profile_edit_title">Edit Profile</string>
+    <string name="manifest_my_profile_title">My Profile</string>
+    <string name="manifest_change_date_title">Ubah Tanggal</string>
+
+    <string name="city_search_last_search_label">Your Last Search</string>
+    <string name="city_search_flight_search_label">Search City or Airport</string>
+    <string name="city_search_flight_popular_label">Popular City or Popular Airport</string>
+    <string name="city_search_train_search_label">Search City or Station</string>
+    <string name="city_search_train_popular_label">Popular City or Popular Station</string>
+    <string name="city_search_hotel_search_label">Search City</string>
+    <string name="city_search_hotel_popular_label">Popular Destination</string>
 
     <string-array name="titleName">
         <item>Bapak</item>

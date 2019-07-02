@@ -148,7 +148,7 @@ public class ConfirmationOrder extends BaseActivity {
             flight_baggage_depart.setVisibility(View.GONE);
             flight_baggage_return.setVisibility(View.GONE);
             list_hotel.setVisibility(View.VISIBLE);
-            guestData.setText("Data Tamu");
+            guestData.setText(getResources().getString(R.string.confirmation_guest_title));
             TV_routeType.setVisibility(View.GONE);
 //            isiDataPeserta.setText("Isi data tamu");
 //            card_dataPemesan.setVisibility(View.GONE);
@@ -172,12 +172,12 @@ public class ConfirmationOrder extends BaseActivity {
 
                 NumberFormat double_formatter = new DecimalFormat("#,###");
                 sub_total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_per_pax_data))+" x "+
-                        String.valueOf(getIntent().getIntExtra("room",0))+" Kamar x "+
-                        hotel.getString("duration")+" Hari"+
+                        String.valueOf(getIntent().getIntExtra("room",0))+" "+getResources().getString(R.string.confirmation_room_label)+" x "+
+                        hotel.getString("duration")+" "+getResources().getString(R.string.confirmation_day_label)+
                         "\nRp. "+String.valueOf(double_formatter.format(sub_total_data)));
                 pajak.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data*0.1)));
                 total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data+(sub_total_data*0.1))));
-                titleData.setText("Rincian Hotel");
+                titleData.setText(getResources().getString(R.string.confirmation_hotel_detail_title));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -232,16 +232,16 @@ public class ConfirmationOrder extends BaseActivity {
 
             list_flight.setVisibility(View.VISIBLE);
             specialRequestLinear.setVisibility(View.GONE);
-            guestData.setText("Data Penumpang");
+            guestData.setText(getResources().getString(R.string.confirmation_passenger_title));
 
             try {
                 JSONObject depart_data = new JSONObject(intent.getStringExtra("depart_data"));
                 JSONObject arrive_data = new JSONObject(intent.getStringExtra("arrive_data"));
                 TV_routeInfo.setText(depart_data.getString("city")+" -> "+arrive_data.getString("city"));
                 if(intent.getBooleanExtra("isReturn",false))
-                    TV_routeType.setText("Pulang Pergi");
+                    TV_routeType.setText(getResources().getString(R.string.confirmation_return_label));
                 else
-                    TV_routeType.setText("Sekali Jalan");
+                    TV_routeType.setText(getResources().getString(R.string.confirmation_one_way_label));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -262,14 +262,14 @@ public class ConfirmationOrder extends BaseActivity {
             }
 
             set_total_flight();
-            titleData.setText("Rincian Pesawat");
+            titleData.setText(getResources().getString(R.string.confirmation_flight_detail_title));
         }
         else if(intentString.equals("train")){
             flight_baggage_depart.setVisibility(View.GONE);
             flight_baggage_return.setVisibility(View.GONE);
             list_train.setVisibility(View.VISIBLE);
             specialRequestLinear.setVisibility(View.GONE);
-            guestData.setText("Data Penumpang");
+            guestData.setText(getResources().getString(R.string.confirmation_passenger_title));
 
             try {
                 for(int x=0;x<intent.getIntExtra("adult",0);x++)
@@ -294,9 +294,9 @@ public class ConfirmationOrder extends BaseActivity {
                 JSONObject arrive_data = new JSONObject(intent.getStringExtra("arrive_data"));
                 TV_routeInfo.setText(depart_data.getString("city")+" -> "+arrive_data.getString("city"));
                 if(intent.getBooleanExtra("isReturn",false))
-                    TV_routeType.setText("Pulang Pergi");
+                    TV_routeType.setText(getResources().getString(R.string.confirmation_return_label));
                 else
-                    TV_routeType.setText("Sekali Jalan");
+                    TV_routeType.setText(getResources().getString(R.string.confirmation_one_way_label));
 
                 if(intent.getBooleanExtra("isReturn",false)){
                     border.setVisibility(View.VISIBLE);
@@ -319,7 +319,7 @@ public class ConfirmationOrder extends BaseActivity {
                     "\nRp. "+String.valueOf(double_formatter.format(sub_total_data)));
             pajak.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data*0.1)));
             total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data+(sub_total_data*0.1))));
-            titleData.setText("Rincian Kereta");
+            titleData.setText(getResources().getString(R.string.confirmation_train_detail_title));
 //            isiDataPeserta.setText("Isi data penumpang");
         }
 
@@ -417,7 +417,7 @@ public class ConfirmationOrder extends BaseActivity {
 
     private void set_total_flight(){
         NumberFormat double_formatter = new DecimalFormat("#,###");
-        sub_total.setText("Rp. "+double_formatter.format(sub_total_per_pax_data)+" x "+(intent.getIntExtra("adult",0)+intent.getIntExtra("child",0)+intent.getIntExtra("infant",0))+
+        sub_total.setText("Rp. "+double_formatter.format(sub_total_per_pax_data)+" x "+(intent.getIntExtra("adult",0)+intent.getIntExtra("child",0))+
                 "\nRp. "+double_formatter.format(sub_total_data));
         baggage_depart.setText("Rp. "+double_formatter.format(baggage_depart_data));
         baggage_return.setText("Rp. "+double_formatter.format(baggage_return_data));
@@ -498,9 +498,9 @@ public class ConfirmationOrder extends BaseActivity {
         for(int x=0;x<ticket.getJSONArray("segment").length();x++) {
             json = new JSONObject();
             if(x == 0 && str.equals("depart_ticket"))
-                json.put("title", "Tiket berangkat menggunakan "+ticket.getString("airlines"));
+                json.put("title", getResources().getString(R.string.confirmation_flight_depart_title)+ticket.getString("airlines"));
             if(x == 0 && str.equals("return_ticket"))
-                json.put("title", "Tiket kembali menggunakan "+ticket.getString("airlines"));
+                json.put("title", getResources().getString(R.string.confirmation_flight_return_title)+ticket.getString("airlines"));
             JSONObject jsonObject = ticket.getJSONArray("segment").getJSONObject(x).getJSONArray("flightDetail").getJSONObject(0);
 //            Log.d("data",jsonObject.toString());
             SimpleDateFormat format = new SimpleDateFormat("EEEE d MMM yyyy . kk:mm");
@@ -619,14 +619,14 @@ public class ConfirmationOrder extends BaseActivity {
         if(userID.equals("Data not found")){
             allow = false;
             ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
-            Snackbar snackbar=Snackbar.make(layout,"User not logged in",Snackbar.LENGTH_LONG);
+            Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.user_not_logged_in_label),Snackbar.LENGTH_LONG);
             snackbar.show();
         }
 
         if(allow) {
             final ProgressDialog loading = new ProgressDialog(this);
             loading.setMax(100);
-            loading.setTitle("Booking is in progress");
+            loading.setTitle(getResources().getString(R.string.confirmation_booking_progress_label));
             loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             loading.setCancelable(false);
             loading.setProgress(0);
@@ -728,24 +728,16 @@ public class ConfirmationOrder extends BaseActivity {
         if(userID.equals("Data not found")){
             allow = false;
             ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
-            Snackbar snackbar=Snackbar.make(layout,"User not logged in",Snackbar.LENGTH_LONG);
+            Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.user_not_logged_in_label),Snackbar.LENGTH_LONG);
             snackbar.show();
         }
 
         Log.d("phone", TV_teleponPemesan.getText().toString());
         if(TV_teleponPemesan.getText().equals("Add Phone Number")){
             allow = false;
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("Please enter phone number");
-            alert.setCancelable(true);
-            alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            final AlertDialog alertDialog = alert.create();
-            alertDialog.show();
+            ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+            Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.confirmation_error_requester_phone_label),Snackbar.LENGTH_LONG);
+            snackbar.show();
 
             TV_teleponPemesan.setText("Cick here to add phone number");
         }
@@ -753,7 +745,7 @@ public class ConfirmationOrder extends BaseActivity {
         if(allow) {
             final ProgressDialog loading = new ProgressDialog(this);
             loading.setMax(100);
-            loading.setTitle("Booking is in progress");
+            loading.setTitle(getResources().getString(R.string.confirmation_booking_progress_label));
             loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             loading.setCancelable(false);
             loading.setProgress(0);
@@ -850,14 +842,14 @@ public class ConfirmationOrder extends BaseActivity {
         if(userID.equals("Data not found")){
             allow = false;
             ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
-            Snackbar snackbar=Snackbar.make(layout,"User not logged in",Snackbar.LENGTH_LONG);
+            Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.user_not_logged_in_label),Snackbar.LENGTH_LONG);
             snackbar.show();
         }
 
         if(allow) {
             final ProgressDialog loading = new ProgressDialog(this);
             loading.setMax(100);
-            loading.setTitle("Booking is in progress");
+            loading.setTitle(getResources().getString(R.string.confirmation_booking_progress_label));
             loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             loading.setCancelable(false);
             loading.setProgress(0);

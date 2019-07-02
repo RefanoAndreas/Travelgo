@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:text="Name"/>
+                    android:text="@string/name_label"/>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -62,7 +62,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="Start Date"/>
+                    android:text="@string/start_date_label"/>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="End Date"/>
+                    android:text="@string/end_date_label"/>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="Deskripsi"/>
+                    android:text="@string/description_label"/>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -128,7 +128,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="Location"/>
+                    android:text="@string/location_label"/>
 
                 <!--<android.support.v7.widget.AppCompatSpinner-->
                     <!--android:layout_width="match_parent"-->
@@ -161,7 +161,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="Keyword"/>
+                    android:text="@string/keyword_label"/>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -190,7 +190,7 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="Facilities"/>
+                    android:text="@string/facilities_label"/>
                 <GridView
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
@@ -206,7 +206,7 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="32dp"
-                    android:text="Create Tour Package"
+                    android:text="@string/tour_create_create_tour_label"
                     android:id="@+id/create_tour_pack"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"/>
@@ -227,11 +227,11 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="16dp"
-                    android:text="List Package"/>
+                    android:text="@string/tour_create_list_package_label"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No Data Found"
+                    android:text="@string/no_data_label"
                     android:visibility="visible"
                     android:layout_marginBottom="16dp"
                     android:id="@+id/no_data"
@@ -261,7 +261,7 @@
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:insetBottom="0dp"
         android:insetTop="0dp"
-        android:text="save changes"
+        android:text="@string/save_label"
         app:cornerRadius="0dp"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Filter"
+                android:text="@string/filter_title"
                 android:textSize="16dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat_medium"/>
@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="Reset"
+                android:text="@string/filter_reset_label"
                 android:textColor="@color/colorPrimary"
                 android:layout_weight="1"
                 android:textSize="12dp"
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/price_label"
-                android:text="Harga per orang"
+                android:text="@string/filter_price_label"
                 android:textColor="#7D7D7D"
                 android:textSize="12dp" />
 
@@ -152,7 +152,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bintang"
+                android:text="@string/filter_stars_label"
                 android:textColor="#7D7D7D"
                 android:textSize="12dp"/>
 
@@ -216,7 +216,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Transit"
+                android:text="@string/filter_transit_label"
                 android:textColor="#7D7D7D"
                 android:textSize="12dp" />
             <android.support.design.chip.ChipGroup
@@ -228,7 +228,7 @@
                 <android.support.design.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Langsung"
+                    android:text="@string/filter_transit_direct_label"
                     android:textColor="#424242"
                     android:textSize="12dp"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -274,7 +274,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Kelas"
+                android:text="@string/filter_class_label"
                 android:textColor="#7D7D7D"
                 android:textSize="12dp" />
             <android.support.design.chip.ChipGroup
@@ -286,7 +286,7 @@
                 <android.support.design.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ekonomi"
+                    android:text="@string/filter_class_economy_label"
                     android:textColor="#424242"
                     android:textSize="12dp"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -297,7 +297,7 @@
                 <android.support.design.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Bisnis"
+                    android:text="@string/filter_class_business_label"
                     android:textColor="#424242"
                     android:textSize="12dp"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -308,7 +308,7 @@
                 <android.support.design.chip.Chip
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Eksekutif"
+                    android:text="@string/filter_class_executive_label"
                     android:textColor="#424242"
                     android:textSize="12dp"
                     style="@style/Widget.MaterialComponents.Chip.Filter"
@@ -330,7 +330,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Waktu berangkat"
+                android:text="@string/filter_depart_time_label"
                 android:textColor="#7D7D7D"
                 android:textSize="12dp" />
             <GridView
@@ -348,7 +348,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Waktu tiba"
+                android:text="@string/filter_arrive_time_label"
                 android:textColor="#7D7D7D"
                 android:textSize="12dp" />
             <GridView
@@ -375,7 +375,7 @@
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:insetBottom="0dp"
         android:insetTop="0dp"
-        android:text="save changes"
+        android:text="@string/save_label"
         app:cornerRadius="0dp"/>
 
 </android.support.constraint.ConstraintLayout>

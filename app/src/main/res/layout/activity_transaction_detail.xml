@@ -60,7 +60,7 @@
                                 android:layout_weight="1"
                                 android:textSize="14dp"
                                 android:textColor="#7D7D7D"
-                                android:text="Status"/>
+                                android:text="@string/transaction_detail_status_label"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                                 android:layout_marginTop="10dp"
                                 android:textSize="14dp"
                                 android:textColor="#7D7D7D"
-                                android:text="Tanggal Pembelian"/>
+                                android:text="@string/transaction_detail_purchase_date_label"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
                                 android:layout_marginTop="10dp"
                                 android:textSize="14dp"
                                 android:textColor="#7D7D7D"
-                                android:text="Tanggal Perjalanan"/>
+                                android:text="@string/transaction_detail_travel_date_label"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -84,7 +84,7 @@
                                 android:layout_marginTop="10dp"
                                 android:textSize="14dp"
                                 android:textColor="#7D7D7D"
-                                android:text="Lokasi"/>
+                                android:text="@string/location_label"/>
                             <!--<TextView-->
                                 <!--android:layout_width="wrap_content"-->
                                 <!--android:layout_height="wrap_content"-->
@@ -149,7 +149,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Data Peserta"
+                            android:text="@string/transaction_detail_participant_title"
                             android:textColor="#424242"
                             android:textSize="16dp"
                             android:layout_margin="16dp"
@@ -173,7 +173,7 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Peserta"
+                                    android:text="@string/transaction_detail_participant_label"
                                     android:fontFamily="@font/montserrat_medium"/>
                                 <android.support.v7.widget.RecyclerView
                                     android:id="@+id/RV_participant"
@@ -190,7 +190,7 @@
                                 android:id="@+id/isiDataPeserta"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Isi data peserta"
+                                android:text="@string/transaction_detail_add_participant_label"
                                 android:layout_marginTop="16dp"
                                 android:textColor="@color/colorPrimary"
                                 android:fontFamily="@font/montserrat_semi_bold"/>
@@ -213,7 +213,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:textColor="#7D7D7D"
-                            android:text="Paket Perjalanan"/>
+                            android:text="@string/transaction_detail_travel_packet_label"/>
 
                         <!--<include-->
                             <!--layout="@layout/transaction_detail_item"/>-->
@@ -244,7 +244,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Sub Total"
+                                android:text="@string/confirmation_subtotal_label"
                                 android:textColor="#20272B"
                                 android:fontFamily="@font/montserrat_semi_bold"
                                 android:layout_weight="1"/>
@@ -263,7 +263,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Pajak"
+                                android:text="@string/confirmation_tax_label"
                                 android:textColor="#20272B"
                                 android:fontFamily="@font/montserrat_semi_bold"
                                 android:layout_weight="1"/>
@@ -282,7 +282,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Total"
+                                android:text="@string/confirmation_total_label"
                                 android:textColor="#20272B"
                                 android:fontFamily="@font/montserrat_semi_bold"
                                 android:layout_weight="1"/>
@@ -315,7 +315,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Hubungi Tour"
+                        android:text="@string/transaction_detail_tour_contact_label"
                         android:textColor="#424242"
                         android:layout_weight="1"/>
                     <TextView
@@ -342,7 +342,7 @@
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:insetBottom="0dp"
         android:insetTop="0dp"
-        android:text="Submit"
+        android:text="@string/submit_label"
         app:cornerRadius="0dp"/>
 
 

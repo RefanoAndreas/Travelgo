@@ -10,7 +10,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Choose Media"/>
+            android:text="@string/media_title"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="From Camera"/>
+            android:text="@string/media_camera_title"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,6 +40,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="From Gallery"/>
+            android:text="@string/media_gallery_title"/>
     </LinearLayout>
 </LinearLayout>

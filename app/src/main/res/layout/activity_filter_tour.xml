@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Filter"
+                android:text="@string/filter_label"
                 android:textSize="16dp"
                 android:layout_weight="1"
                 android:fontFamily="@font/montserrat_medium"/>
@@ -32,7 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="Reset"
+                android:text="@string/filter_reset_label"
                 android:textColor="@color/colorPrimary"
                 android:layout_weight="1"
                 android:textSize="12dp"
@@ -67,7 +67,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Pilih Tanggal Perjalanan"
+                        android:text="@string/filter_travel_time_label"
                         android:textColor="#7D7D7D"
                         android:textSize="12dp"/>
 
@@ -88,7 +88,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Tanggal Berangkat"
+                                android:text="@string/filter_depart_date_label"
                                 android:textColor="#7D7D7D"
                                 android:textSize="10dp" />
 
@@ -114,7 +114,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
-                                android:text="Kembali"
+                                android:text="@string/filter_return_date_label"
                                 android:textColor="#424242"
                                 android:textSize="10dp" />
 
@@ -160,7 +160,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Harga minimum"
+                                android:text="@string/filter_min_price_label"
                                 android:textColor="#7D7D7D"
                                 android:textSize="10dp" />
 
@@ -185,7 +185,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:gravity="right"
-                                android:text="Harga Maximum"
+                                android:text="@string/filter_max_price_label"
                                 android:textColor="#424242"
                                 android:textSize="10dp" />
 
@@ -235,7 +235,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Lokasi"
+                            android:text="@string/location_label"
                             android:textColor="#7D7D7D"
                             android:textSize="12dp"
                             android:layout_weight="1"/>
@@ -243,7 +243,7 @@
                             android:id="@+id/see_locationBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Lihat Semua"
+                            android:text="@string/filter_see_all_label"
                             android:textColor="@color/colorPrimary"
                             android:gravity="right"
                             android:textSize="12dp"/>
@@ -285,7 +285,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Jangka Waktu"
+                            android:text="@string/filter_duration_label"
                             android:textColor="#7D7D7D"
                             android:textSize="12dp"
                             android:layout_weight="1"/>
@@ -293,7 +293,7 @@
                             android:id="@+id/see_durationBtn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Lihat Semua"
+                            android:text="@string/filter_see_all_label"
                             android:textColor="@color/colorPrimary"
                             android:gravity="right"
                             android:textSize="12dp"/>
@@ -327,7 +327,7 @@
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:insetBottom="0dp"
         android:insetTop="0dp"
-        android:text="save changes"
+        android:text="@string/save_label"
         app:cornerRadius="0dp"/>
 
 </android.support.constraint.ConstraintLayout>

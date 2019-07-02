@@ -40,7 +40,7 @@
                         android:id="@+id/titleData"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Rincian Pesawat"
+                        android:text="@string/confirmation_flight_detail_title"
                         android:textColor="#424242"
                         android:textSize="16dp"
                         android:layout_marginBottom="16dp"
@@ -131,7 +131,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Data Pemesan"
+                        android:text="@string/confirmation_requester_title"
                         android:textColor="#424242"
                         android:textSize="16dp"
                         android:layout_margin="16dp"
@@ -166,7 +166,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Nama"/>
+                                android:text="@string/name_label"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="E-mail"/>
+                                android:text="@string/email_label"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -198,7 +198,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Telepon"/>
+                                android:text="@string/phone_label"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -227,7 +227,7 @@
                         android:id="@+id/dataGuestTV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Data Tamu"
+                        android:text="@string/confirmation_guest_title"
                         android:textColor="#424242"
                         android:textSize="16dp"
                         android:layout_margin="16dp"
@@ -267,7 +267,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Permintaan Khusus"
+                                android:text="@string/confirmation_special_request_title"
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="@font/montserrat_medium"
                                 android:textColor="#0E64FF"/>
@@ -281,7 +281,7 @@
                                 android:id="@+id/specialRequestAdd"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Tambah Permintaan Khusus"
+                                android:text="@string/confirmation_special_request_add_label"
                                 android:layout_marginTop="8dp"
                                 android:textColor="@color/colorPrimary"
                                 android:fontFamily="@font/montserrat_semi_bold"/>
@@ -307,7 +307,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Rincian Harga"
+                        android:text="@string/confirmation_price_detail_title"
                         android:textColor="#424242"
                         android:textSize="16dp"
                         android:layout_margin="16dp"
@@ -332,7 +332,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Subtotal"
+                                android:text="@string/confirmation_subtotal_label"
                                 android:layout_weight="2"/>
                             <TextView
                                 android:layout_width="match_parent"
@@ -352,7 +352,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Bagasi Pergi"
+                                android:text="@string/confirmation_baggage_depart_label"
                                 android:layout_weight="2"/>
                             <TextView
                                 android:layout_width="match_parent"
@@ -371,7 +371,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Bagasi Pulang"
+                                android:text="@string/confirmation_baggage_return_label"
                                 android:layout_weight="2"/>
                             <TextView
                                 android:layout_width="match_parent"
@@ -392,12 +392,11 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Pajak"
+                                android:text="@string/confirmation_tax_label"
                                 android:layout_weight="1"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Termasuk"
                                 android:id="@+id/pajak"
                                 android:gravity="right"
                                 android:layout_weight="1"/>
@@ -414,7 +413,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Total"
+                                android:text="@string/confirmation_total_label"
                                 android:layout_weight="1"/>
                             <TextView
                                 android:layout_width="match_parent"
@@ -443,7 +442,7 @@
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:insetBottom="0dp"
         android:insetTop="0dp"
-        android:text="Lanjut"
+        android:text="@string/next_label"
         app:cornerRadius="0dp"/>
 
     <View

@@ -168,16 +168,22 @@ public class FragmentProfile extends Fragment {
                     public void onClick(View v) {
                         Context context = LocaleManager.setLocale(getActivity(), "en");
                         Resources resources = context.getResources();
+
                         account_profile.setText(resources.getString(R.string.profile_edit_profile_label));
                         tour_profile.setText(resources.getString(R.string.profile_tour_profile_label));
                         list_package.setText(resources.getString(R.string.profile_list_package_label));
                         history_purchasing.setText(resources.getString(R.string.profile_history_purchasing_label));
                         history_transaction.setText(resources.getString(R.string.profile_history_transaction_label));
                         language.setText(resources.getString(R.string.profile_language_label));
+
                         BottomNavContainer parent = (BottomNavContainer) getActivity();
                         parent.edit_base_shared_pref.putString("lang","en");
                         parent.edit_base_shared_pref.commit();
                         alertDialog.dismiss();
+
+                        Intent in = new Intent(getActivity(), BottomNavContainer.class);
+                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(in);
                     }
                 });
 
@@ -197,6 +203,10 @@ public class FragmentProfile extends Fragment {
                         parent.edit_base_shared_pref.putString("lang","in");
                         parent.edit_base_shared_pref.commit();
                         alertDialog.dismiss();
+
+                        Intent in = new Intent(getActivity(), BottomNavContainer.class);
+                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(in);
                     }
                 });
             }

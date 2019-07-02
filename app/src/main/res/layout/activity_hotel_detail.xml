@@ -107,7 +107,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:text="Fasilitas"
+                android:text="@string/facilities_label"
                 android:textSize="16dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textColor="@android:color/black"/>
@@ -129,7 +129,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:text="Deskripsi"
+                android:text="@string/description_label"
                 android:textSize="16dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textColor="@android:color/black"/>
@@ -153,7 +153,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:text="View More"
+                android:text="@string/view_more_label"
                 android:fontFamily="@font/montserrat_medium"
                 android:textColor="#0E64FF"/>
 
@@ -163,7 +163,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:text="Lokasi Populer Terdekat"
+                android:text="@string/near_location_label"
                 android:textSize="16dp"
                 android:fontFamily="@font/montserrat_semi_bold"
                 android:textColor="@android:color/black"/>
@@ -213,7 +213,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Pilih Kamar"
+                    android:text="@string/hotel_detail_choose_room_label"
                     android:textSize="16dp"
                     android:fontFamily="@font/montserrat_semi_bold"
                     android:textColor="@android:color/black"/>

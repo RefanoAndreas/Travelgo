@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/type"
-            android:text="Pesawat pergi"
+            android:text="@string/bagasi_penumpang_depart_title"
             android:textColor="@android:color/black"/>
         <TextView
             android:layout_width="match_parent"

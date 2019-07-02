@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:background="@android:color/transparent"
-                android:hint="Cari kota atau bandara"
+                android:hint="@string/city_search_flight_search_label"
                 android:imeOptions="actionSearch"
                 android:inputType="text"
                 android:scrollHorizontally="true"
@@ -64,7 +64,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No Data Found"
+        android:text="@string/no_data_label"
         android:gravity="center"
         app:layout_constraintTop_toBottomOf="@id/tour_topNav"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:text="Pencarian terakhir anda"
+            android:text="@string/city_search_last_search_label"
             android:textColor="#7D7D7D"
             android:textSize="16dp" />
 
@@ -106,7 +106,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginTop="30dp"
             android:id="@+id/title_2"
-            android:text="Kota atau Bandara populer"
+            android:text="@string/city_search_flight_popular_label"
             android:textColor="#7D7D7D"
             android:textSize="16dp" />
 

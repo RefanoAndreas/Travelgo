@@ -57,7 +57,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginRight="8dp"
-                        android:text="Nomor Pesanan"/>
+                        android:text="@string/notification_detail_booking_no_label"/>
                     <TextView
                         android:id="@+id/TV_no_order"
                         android:layout_width="0dp"
@@ -79,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginRight="8dp"
-                        android:text="Dipesan pada tanggal"/>
+                        android:text="@string/notification_detail_booking_at_label"/>
                     <TextView
                         android:id="@+id/TV_order_date"
                         android:layout_width="0dp"
@@ -101,7 +101,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:layout_marginRight="8dp"
-                        android:text="Total harga"/>
+                        android:text="@string/notification_detail_booking_price_label"/>
                     <TextView
                         android:id="@+id/TV_price"
                         android:layout_width="0dp"
@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 style="@style/SemiBold_42_16dp"
-                android:text="E-Ticket"/>
+                android:text="@string/notification_detail_e_ticket_label"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"

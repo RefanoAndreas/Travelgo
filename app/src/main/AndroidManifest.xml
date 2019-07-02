@@ -29,62 +29,62 @@
         <activity android:name=".TrainSearchJadwal" />
         <activity
             android:name=".TrainSearch"
-            android:label="Pesan Tiket Kereta" />
+            android:label="@string/manifest_train_search_title" />
         <activity
             android:name=".ConfirmationOrder"
-            android:label="Konfirmasi Pesanan" />
+            android:label="@string/manifest_confirmation_title" />
         <activity
             android:name=".HotelDetail"
             android:label="" />
         <activity
             android:name=".FilterHotel"
-            android:label="Filter" />
+            android:label="@string/filter_label" />
         <activity android:name=".HotelSearchResult" />
         <activity
             android:name=".HotelSearch"
-            android:label="Pesan Kamar Hotel" />
+            android:label="@string/manifest_flight_search_title" />
         <activity
             android:name=".HistoryPurchasing"
-            android:label="History Purchasing" />
+            android:label="@string/manifest_history_purchase_title" />
         <activity
             android:name=".FilterTourLocation"
-            android:label="Lokasi" />
+            android:label="@string/location_label" />
         <activity
             android:name=".FilterTour"
-            android:label="Filter" />
+            android:label="@string/filter_label" />
         <activity android:name=".FlightSearchJadwal" />
         <activity android:name=".D3Eticket" />
         <activity
             android:name=".D2NotifikasiDetail"
-            android:label="Detail Notifikasi" />
+            android:label="@string/manifest_notifikasi_detail_title" />
         <activity
             android:name=".D1Notifikasi"
-            android:label="Notifikasi" />
+            android:label="@string/manifest_notifikasi_title" />
         <activity
             android:name=".DataPenumpang"
             android:label="Isi Data Penumpang" />
         <activity
             android:name=".Filter"
-            android:label="Filter" />
+            android:label="@string/filter_label" />
         <activity android:name=".SearchTour" />
         <activity
             android:name=".TransactionDetail"
-            android:label="Notification Detail" />
+            android:label="@string/manifest_notifikasi_detail_title" />
         <activity
             android:name=".FlightSearch"
-            android:label="Pesan Tiket pesawat" />
+            android:label="@string/manifest_flight_search_title" />
         <activity
             android:name=".ChangeDateActivity"
-            android:label="Ubah Tanggal" />
+            android:label="@string/manifest_change_date_title" />
         <activity
             android:name=".HistoryTransaction"
-            android:label="History Sales" />
+            android:label="@string/manifest_history_sales_title" />
         <activity
             android:name=".CityDetail"
             android:label="" />
         <activity
             android:name=".TourDetail"
-            android:label="Detail Tour" />
+            android:label="@string/manifest_tour_detail_title" />
         <activity android:name=".BottomNavContainer" />
         <activity
             android:name=".SplashActivity"
@@ -100,22 +100,22 @@
         <activity android:name=".LogSign" />
         <activity
             android:name=".TourCreatePackage"
-            android:label="Create Tour Package" />
+            android:label="@string/manifest_create_tour_title" />
         <activity
             android:name=".TourCreate"
-            android:label="Create Packages" />
+            android:label="@string/manifest_create_package_title" />
         <activity
             android:name=".TourList"
             android:label="@string/manifest_tour_list_title" />
         <activity
             android:name=".TourEdit"
-            android:label="Edit Tour" />
+            android:label="@string/manifest_tour_edit_title" />
         <activity
             android:name=".ProfileEdit"
-            android:label="Edit Profile" />
+            android:label="@string/manifest_profile_edit_title" />
         <activity
             android:name=".MainActivity"
-            android:label="My Profile" />
+            android:label="@string/manifest_my_profile_title" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
