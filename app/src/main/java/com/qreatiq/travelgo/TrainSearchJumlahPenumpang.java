@@ -4,9 +4,12 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +22,7 @@ public class TrainSearchJumlahPenumpang extends BottomSheetDialogFragment {
     NumberPicker adult,infant;
     TrainSearch parent;
     MaterialButton submit;
+    CoordinatorLayout layout;
     int adult_data = 1, infant_data = 0;
 
     @Nullable
@@ -47,6 +51,7 @@ public class TrainSearchJumlahPenumpang extends BottomSheetDialogFragment {
         adult = (NumberPicker) view.findViewById(R.id.adult);
         infant = (NumberPicker) view.findViewById(R.id.infant);
         submit = (MaterialButton) view.findViewById(R.id.submit);
+        layout = (CoordinatorLayout) view.findViewById(R.id.layout);
 
         adult_data = parent.adult;
         infant_data = parent.infant;
@@ -71,13 +76,22 @@ public class TrainSearchJumlahPenumpang extends BottomSheetDialogFragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                parent.adult = adult_data;
-                parent.infant = infant_data;
+                if(adult_data >= infant_data) {
+                    parent.adult = adult_data;
+                    parent.infant = infant_data;
 
-                parent.adult_label.setText(String.valueOf(parent.adult)+" Dewasa");
-                parent.infant_label.setText(String.valueOf(parent.infant)+" Bayi");
+                    parent.adult_label.setText(parent.adult + " Dewasa");
+                    parent.infant_label.setText(parent.infant + " Bayi");
 
-                dismiss();
+                    dismiss();
+                }
+                else{
+                    adult.setValue(parent.adult);
+                    infant.setValue(parent.infant);
+
+                    Snackbar snackbar = Snackbar.make(layout,"Jumlah bayi harus kurang dari atau sama dengan jumlah dewasa",Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
             }
         });
     }
