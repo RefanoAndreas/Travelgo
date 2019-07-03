@@ -78,21 +78,6 @@ public class TourEdit extends BaseActivity {
 
         set_toolbar();
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) !=
-                PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, new String[] {
-                            Manifest.permission.CAMERA,
-                    },
-                    1);
-        }
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
-                PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this, new String[] {
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                    },
-                    1);
-        }
-
         name = (TextInputEditText)findViewById(R.id.TIET_tourName_tourEdit);
 //        desc = (TextInputEditText)findViewById(R.id.TIET_tourDesc_tourEdit);
         telp = (TextInputEditText)findViewById(R.id.TIET_tourPhone_tourEdit);

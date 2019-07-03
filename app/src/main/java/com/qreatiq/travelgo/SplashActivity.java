@@ -1,11 +1,15 @@
 package com.qreatiq.travelgo;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
@@ -28,8 +32,7 @@ public class SplashActivity extends BaseActivity {
         version_label = (TextView) findViewById(R.id.version);
         version_label.setText("v"+version);
 
-        handler = new Handler();
-        handler.postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 startActivity(new Intent(SplashActivity.this, BottomNavContainer.class));

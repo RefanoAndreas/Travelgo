@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:largeHeap="true"
@@ -69,7 +70,7 @@
         <activity android:name=".SearchTour" />
         <activity
             android:name=".TransactionDetail"
-            android:label="@string/manifest_notifikasi_detail_title" />
+            android:label="@string/manifest_transaction_detail_title" />
         <activity
             android:name=".FlightSearch"
             android:label="@string/manifest_flight_search_title" />

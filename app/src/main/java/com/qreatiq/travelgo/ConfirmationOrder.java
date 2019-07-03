@@ -193,6 +193,7 @@ public class ConfirmationOrder extends BaseActivity {
                     json.put("label","Isi Data Dewasa "+(x+1));
                     json.put("type","Dewasa "+(x+1));
                     json.put("category","adult");
+                    json.put("category_label",getResources().getString(R.string.adult_label));
                     json.put("baggage_depart",new JSONObject());
                     json.put("baggage_return",new JSONObject());
                     json.put("for","flight");
@@ -207,6 +208,7 @@ public class ConfirmationOrder extends BaseActivity {
                     json.put("label","Isi Data Anak "+(x+1));
                     json.put("type","Anak "+(x+1));
                     json.put("category","child");
+                    json.put("category_label",getResources().getString(R.string.child_label));
                     json.put("baggage_depart",new JSONObject());
                     json.put("baggage_return",new JSONObject());
                     json.put("for","flight");
@@ -221,6 +223,7 @@ public class ConfirmationOrder extends BaseActivity {
                     json.put("label","Isi Data Bayi "+(x+1));
                     json.put("type","Bayi "+(x+1));
                     json.put("category","infant");
+                    json.put("category_label",getResources().getString(R.string.infant_label));
                     json.put("baggage_depart",new JSONObject());
                     json.put("baggage_return",new JSONObject());
                     json.put("for","flight");
@@ -280,11 +283,28 @@ public class ConfirmationOrder extends BaseActivity {
                             "\"label\":\"Isi Data Dewasa "+(x+1)+"\"," +
                             "\"type\":\"Dewasa "+(x+1)+"\"," +
                             "\"category\":\"adult\"," +
+                            "\"category_label\":\""+getResources().getString(R.string.adult_label)+"\"," +
                             "\"for\":\"train\"}"));
                 for(int x=0;x<intent.getIntExtra("child",0);x++)
-                    arrayList.add(new JSONObject("{\"edit\":false,\"title\":\"\",\"name\":\"\",\"label\":\"Isi Data Anak "+(x+1)+"\",\"type\":\"Anak "+(x+1)+"\",\"category\":\"child\",\"for\":\"train\"}"));
+                    arrayList.add(new JSONObject("{" +
+                            "\"edit\":false," +
+                            "\"title\":\"\"," +
+                            "\"name\":\"\"," +
+                            "\"label\":\"Isi Data Anak "+(x+1)+"\"," +
+                            "\"type\":\"Anak "+(x+1)+"\"," +
+                            "\"category\":\"child\"," +
+                            "\"category_label\":\""+getResources().getString(R.string.child_label)+"\"," +
+                            "\"for\":\"train\"}"));
                 for(int x=0;x<intent.getIntExtra("infant",0);x++)
-                    arrayList.add(new JSONObject("{\"edit\":false,\"title\":\"\",\"name\":\"\",\"label\":\"Isi Data Bayi "+(x+1)+"\",\"type\":\"Bayi "+(x+1)+"\",\"category\":\"infant\",\"for\":\"train\"}"));
+                    arrayList.add(new JSONObject("{" +
+                            "\"edit\":false," +
+                            "\"title\":\"\"," +
+                            "\"name\":\"\"," +
+                            "\"label\":\"Isi Data Bayi "+(x+1)+"\"," +
+                            "\"type\":\"Bayi "+(x+1)+"\"," +
+                            "\"category\":\"infant\"," +
+                            "\"category_label\":\""+getResources().getString(R.string.infant_label)+"\"," +
+                            "\"for\":\"train\"}"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

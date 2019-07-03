@@ -90,7 +90,7 @@ public class ConfirmationPaxAdapter extends RecyclerView.Adapter<ConfirmationPax
                 }
 
                 viewHolder.name.setText(str);
-                viewHolder.category.setText(jsonObject.getString("category"));
+                viewHolder.category.setText(jsonObject.getString("category_label"));
             }
             viewHolder.view.setOnClickListener(new View.OnClickListener() {
                 @Override

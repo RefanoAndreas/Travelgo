@@ -210,6 +210,7 @@
     <string name="manifest_history_purchase_title">History Purchase</string>
     <string name="manifest_notifikasi_title">Notification</string>
     <string name="manifest_notifikasi_detail_title">Notification Detail</string>
+    <string name="manifest_transaction_detail_title">Transaction Detail</string>
     <string name="manifest_history_sales_title">History Sales</string>
     <string name="manifest_tour_detail_title">Detail Tour</string>
     <string name="manifest_create_tour_title">Create Tour Package</string>
