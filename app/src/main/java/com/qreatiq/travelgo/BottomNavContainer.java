@@ -148,15 +148,15 @@ public class BottomNavContainer extends BaseActivity {
 
     public void entertainment(View v){
         new AlertDialog.Builder(this)
-                .setTitle("Notice")
-                .setMessage("Fitur ini dalam tahap pengembangan")
+                .setTitle(getResources().getString(R.string.home_development_title))
+                .setMessage(getResources().getString(R.string.home_development_label))
                 .show();
     }
 
     public void wifi(View v){
         new AlertDialog.Builder(this)
-                .setTitle("Notice")
-                .setMessage("Fitur ini dalam tahap pengembangan")
+                .setTitle(getResources().getString(R.string.home_development_title))
+                .setMessage(getResources().getString(R.string.home_development_label))
                  .show();
     }
 

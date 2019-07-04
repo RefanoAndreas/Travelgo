@@ -150,7 +150,7 @@ public class D3Eticket extends BaseActivity {
             flight_train.setVisibility(View.VISIBLE);
             hotel.setVisibility(View.GONE);
             RV_penumpang_pesawat.setVisibility(View.VISIBLE);
-            TV_title_info.setText("Informasi Pesawat");
+            TV_title_info.setText(getResources().getString(R.string.confirmation_flight_detail_title));
             typeIcon1.setImageResource(R.drawable.ic_flight_takeoff_black_24dp);
             typeIcon2.setImageResource(R.drawable.ic_flight_land_black_24dp);
         }
@@ -158,18 +158,18 @@ public class D3Eticket extends BaseActivity {
             flight_train.setVisibility(View.VISIBLE);
             hotel.setVisibility(View.GONE);
             RV_penumpang_kereta.setVisibility(View.VISIBLE);
-            TV_booking_code_title.setText("Kode Booking Perjalanan");
+            TV_booking_code_title.setText(getResources().getString(R.string.e_ticket_booking_code_label));
 
-            TV_title_info.setText("Informasi Kereta");
+            TV_title_info.setText(getResources().getString(R.string.confirmation_train_detail_title));
             typeIcon1.setImageResource(R.drawable.ic_train_black_24dp);
             typeIcon2.setImageResource(R.drawable.ic_train_black_24dp);
             TV_info_class.setVisibility(View.VISIBLE);
         }
         else if(type.equals("hotel")){
-            TV_title_info.setText("Informasi Hotel");
-            TV_title_guest.setText("Data Tamu");
-            TV_title_tips.setText("Tips Penginapan");
-            TV_booking_code_title.setText("Nomor Pesanan");
+            TV_title_info.setText(getResources().getString(R.string.confirmation_hotel_detail_title));
+            TV_title_guest.setText(getResources().getString(R.string.confirmation_guest_title));
+            TV_title_tips.setText(getResources().getString(R.string.e_ticket_stay_advice_label));
+            TV_booking_code_title.setText(getResources().getString(R.string.e_ticket_order_number_label));
 
             flight_train.setVisibility(View.GONE);
             hotel.setVisibility(View.VISIBLE);
@@ -200,15 +200,28 @@ public class D3Eticket extends BaseActivity {
                             JSONObject jsonObject = new JSONObject();
                             JSONObject jsonPassenger = jsonETicket.getJSONArray("passenger").getJSONObject(x);
 
-                            jsonObject.put("name", jsonPassenger.getString("title")+" "+jsonPassenger.getString("name"));
-                            jsonObject.put("facilities", "Bagasi: "+jsonPassenger.getString("baggage"));
-                            jsonObject.put("type", jsonPassenger.getString("type"));
+                            jsonObject.put("name", getResources().getStringArray(R.array.titleName)[jsonPassenger.getInt("title")]+" "+jsonPassenger.getString("name"));
+                            jsonObject.put("facilities", getResources().getString(R.string.baggage_label)+" : "+jsonPassenger.getString("baggage"));
+                            jsonObject.put("type", getResources().getStringArray(R.array.category)[jsonPassenger.getInt("type")]);
 
                             flightPassengerList.add(jsonObject);
                             if (x != 0)
                                 adapter_flight_passenger.notifyItemInserted(x);
                             else
                                 adapter_flight_passenger.notifyDataSetChanged();
+                        }
+
+                        String[] advice = getResources().getStringArray(R.array.flight_advice);
+                        for(int x=0;x<advice.length;x++){
+                            tips.add("\u2022"+advice[x]);
+                            TextView TV_tips = new TextView(D3Eticket.this);
+                            TV_tips.setText(tips.get(x));
+
+                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            params.setMargins(0,0,0,16);
+                            TV_tips.setLayoutParams(params);
+
+                            linear_tips.addView(TV_tips);
                         }
                     }
                     else if(type.equals("train")){
@@ -228,16 +241,29 @@ public class D3Eticket extends BaseActivity {
                             JSONObject jsonObject = new JSONObject();
                             JSONObject jsonPassenger = jsonETicket.getJSONArray("passenger").getJSONObject(x);
 
-                            jsonObject.put("name", jsonPassenger.getString("title")+" "+jsonPassenger.getString("name"));
+                            jsonObject.put("name", getResources().getStringArray(R.array.titleName)[jsonPassenger.getInt("title")]+" "+jsonPassenger.getString("name"));
                             jsonObject.put("no_id", "KTP - "+jsonPassenger.getString("id_card_no"));
                             jsonObject.put("class_train", jsonETicket.getString("class"));
-                            jsonObject.put("type", jsonPassenger.getString("type"));
+                            jsonObject.put("type", getResources().getStringArray(R.array.category)[jsonPassenger.getInt("type")]);
 
                             trainPassengerList.add(jsonObject);
                             if (x != 0)
                                 adapter_train_passenger.notifyItemInserted(x);
                             else
                                 adapter_train_passenger.notifyDataSetChanged();
+                        }
+
+                        String[] advice = getResources().getStringArray(R.array.train_advice);
+                        for(int x=0;x<advice.length;x++){
+                            tips.add("\u2022"+advice[x]);
+                            TextView TV_tips = new TextView(D3Eticket.this);
+                            TV_tips.setText(tips.get(x));
+
+                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            params.setMargins(0,0,0,16);
+                            TV_tips.setLayoutParams(params);
+
+                            linear_tips.addView(TV_tips);
                         }
                     }
                     else if(type.equals("hotel")){
@@ -247,13 +273,13 @@ public class D3Eticket extends BaseActivity {
                         TV_hotel_address.setText(jsonETicket.getJSONObject("room").getJSONObject("hotel").getString("address"));
                         TV_checkin_date.setText(jsonETicket.getString("checkin"));
                         TV_checkout_date.setText(jsonETicket.getString("checkout"));
-                        TV_info_total_guest.setText(jsonETicket.getString("total_guest")+" Tamu "+
-                                jsonETicket.getString("total_room")+" Kamar");
+                        TV_info_total_guest.setText(jsonETicket.getString("total_guest")+" "+getResources().getString(R.string.guest_label)+" "+
+                                jsonETicket.getString("total_room")+" "+getResources().getString(R.string.room_label));
                         TV_bookingCode.setText(jsonETicket.getString("reservationNo"));
 
                         if(jsonETicket.getJSONObject("room").getString("breakfast").equals("1")) {
                             TV_facilitiesHotel.setVisibility(View.VISIBLE);
-                            TV_facilitiesHotel.setText("Termasuk Sarapan");
+                            TV_facilitiesHotel.setText(getResources().getString(R.string.e_ticket_breakfast_include_label));
                         }
 //                        TV_tipe_bed.setText("Tipe Bed: "+ );
 
@@ -270,21 +296,20 @@ public class D3Eticket extends BaseActivity {
                             else
                                 adapter_guest_request.notifyDataSetChanged();
                         }
+
+                        String[] advice = getResources().getStringArray(R.array.hotel_advice);
+                        for(int x=0;x<advice.length;x++){
+                            tips.add("\u2022"+advice[x]);
+                            TextView TV_tips = new TextView(D3Eticket.this);
+                            TV_tips.setText(tips.get(x));
+
+                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                            params.setMargins(0,0,0,16);
+                            TV_tips.setLayoutParams(params);
+
+                            linear_tips.addView(TV_tips);
+                        }
                     }
-
-                    for(int x=0;x<jsonTips.length();x++){
-                        tips.add("\u2022"+jsonTips.getJSONObject(x).getString("tips"));
-                        TextView TV_tips = new TextView(D3Eticket.this);
-                        TV_tips.setText(tips.get(x));
-
-                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-                        params.setMargins(0,0,0,16);
-                        TV_tips.setLayoutParams(params);
-
-                        linear_tips.addView(TV_tips);
-                    }
-
-
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

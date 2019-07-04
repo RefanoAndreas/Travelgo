@@ -25,7 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tour Profile"
+                android:text="@string/tour_edit_title"
                 android:textSize="20dp"
                 android:textColor="@android:color/black"
                 style="@style/SemiBold_42_16dp"/>
@@ -33,7 +33,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Name"/>
+                android:text="@string/image_label"/>
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -54,19 +54,21 @@
                     <android.support.constraint.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <ImageView
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:src="@drawable/no_image_available"
                             android:id="@+id/image"
                             android:scaleType="centerCrop"/>
+
                         <!--<com.makeramen.roundedimageview.RoundedImageView-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="match_parent"-->
-                            <!--android:src="@drawable/no_image_available"-->
-                            <!--android:id="@+id/image"-->
-                            <!--android:scaleType="centerCrop"-->
-                            <!--app:riv_corner_radius="8dp"/>-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:src="@drawable/no_image_available"-->
+                        <!--android:id="@+id/image"-->
+                        <!--android:scaleType="centerCrop"-->
+                        <!--app:riv_corner_radius="8dp"/>-->
                         <android.support.constraint.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
@@ -96,7 +98,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Tour Name"/>
+                android:text="@string/name_label"/>
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/TIL_tourName_tourEdit"
                 android:layout_width="match_parent"
@@ -118,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Telepon"/>
+                android:text="@string/phone_label"/>
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/TIL_tourPhone_tourEdit"
                 android:layout_width="match_parent"
@@ -172,7 +174,7 @@
                     android:layout_height="wrap_content"
                     android:minHeight="56dp"
                     android:layout_marginRight="8dp"
-                    android:text="save changes"
+                    android:text="@string/save_label"
                     android:onClick="submit"
                     android:background="#0d63fe"
                     android:textSize="12dp"/>
@@ -185,7 +187,7 @@
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     app:strokeColor="#0d63fe"
                     android:layout_marginLeft="8dp"
-                    android:text="Cancel"
+                    android:text="@string/cancel_label"
                     android:onClick="cancel"
                     android:background="#0d63fe"
                     android:textSize="12dp"/>

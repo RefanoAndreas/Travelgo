@@ -48,7 +48,7 @@ public class TourCreatePackage extends BaseActivity {
         set_toolbar();
 
         if(getIntent().getStringExtra("type").equals("edit"))
-            setTitle("Edit Tour Package");
+            setTitle(getResources().getString(R.string.manifest_edit_tour_title));
 
         name = (TextInputEditText) findViewById(R.id.name);
         price = (TextInputEditText) findViewById(R.id.price);
@@ -185,11 +185,11 @@ public class TourCreatePackage extends BaseActivity {
 
     public void submit(View v){
         if(name.getText().toString().equals(""))
-            name_layout.setError("Name is empty");
+            name_layout.setError(getResources().getString(R.string.error_name_label));
         else if(price_data == 0)
-            price_layout.setError("Price is empty");
+            price_layout.setError(getResources().getString(R.string.error_price_label));
         else if(!data.has("image") && bitmap == null) {
-            Snackbar snackbar = Snackbar.make(layout,"Image is empty",Snackbar.LENGTH_LONG);
+            Snackbar snackbar = Snackbar.make(layout,getResources().getString(R.string.error_image_label),Snackbar.LENGTH_LONG);
             snackbar.show();
         }
         else {

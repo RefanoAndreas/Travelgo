@@ -49,7 +49,7 @@ public class HotelSearchResult extends BaseActivity {
         mRecyclerView = findViewById(R.id.RV_hotel_result);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new HotelListAdapter(hotelList);
+        mAdapter = new HotelListAdapter(hotelList,this);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);

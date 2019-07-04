@@ -16,7 +16,7 @@ import com.shawnlin.numberpicker.NumberPicker;
 
 public class TrainSearchKelas extends BottomSheetDialogFragment {
 
-    String[] data = {"Ekonomi","Bisnis","Eksekutif"};
+    String[] data = new String[3];
     MaterialButton submit;
     NumberPicker numberPicker;
     TrainSearch parent;
@@ -24,12 +24,14 @@ public class TrainSearchKelas extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-
         View v = inflater.inflate(R.layout.train_search_kelas, container, false);
 
         submit = (MaterialButton) v.findViewById(R.id.submit);
         parent = (TrainSearch) getActivity();
+
+        data[0] = getResources().getString(R.string.flight_search_class_economy_label);
+        data[1] = getResources().getString(R.string.flight_search_class_business_label);
+        data[2] = getResources().getString(R.string.flight_search_class_executive_label);
 
         numberPicker = (NumberPicker) v.findViewById(R.id.flightSearch_kelaspesawat_np1);
         numberPicker.setMinValue(1);

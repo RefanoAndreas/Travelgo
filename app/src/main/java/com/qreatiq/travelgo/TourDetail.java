@@ -134,8 +134,8 @@ public class TourDetail extends BaseActivity {
         expandBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(expandBtn.getText().toString().equals("View More")){
-                    expandBtn.setText("View Less");
+                if(expandBtn.getText().toString().equals(getResources().getString(R.string.view_more_label))){
+                    expandBtn.setText(getResources().getString(R.string.view_less_label));
                     animator = ObjectAnimator.ofInt(
                             locationDesc,"maxLines", 500
                     );
@@ -143,7 +143,7 @@ public class TourDetail extends BaseActivity {
                     animator.start();
                 }
                 else{
-                    expandBtn.setText("View More");
+                    expandBtn.setText(getResources().getString(R.string.view_more_label));
                     animator = ObjectAnimator.ofInt(
                             locationDesc,"maxLines", 4
                     );
@@ -242,7 +242,7 @@ public class TourDetail extends BaseActivity {
     }
 
     public void set_cart(){
-        total_packages_label.setText(String.valueOf(total_pack)+" Package"+(total_pack > 0 ? "s" : ""));
+        total_packages_label.setText(String.valueOf(total_pack)+" "+getResources().getString(R.string.package_label)+(total_pack > 0 ? "s" : ""));
         NumberFormat formatter = new DecimalFormat("#,###");
         String formattedNumber = formatter.format(total_price);
         total_price_label.setText("Rp. "+formattedNumber);
@@ -283,7 +283,7 @@ public class TourDetail extends BaseActivity {
                 try {
                     JSONObject jsonObject = response.getJSONObject("trip");
                     locationName.setText(jsonObject.getString("name"));
-                    TV_tour_name.setText("Managed by "+jsonObject.getString("tour_name"));
+                    TV_tour_name.setText(getResources().getString(R.string.managed_by_label)+" "+jsonObject.getString("tour_name"));
                     TV_trip_date.setText(jsonObject.getString("trip_date")+" @ "+jsonObject.getString("location_trip"));
                     locationDesc.setText(jsonObject.getString("description"));
 

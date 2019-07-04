@@ -77,19 +77,19 @@ public class HotelSearch extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(city_data.toString().equals("{}")){
-                    Snackbar snackbar = Snackbar.make(layout,"Kota Tujuan kosong",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(layout,getResources().getString(R.string.hotel_search_error_destination_label),Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
                 else if(guest == 0){
-                    Snackbar snackbar = Snackbar.make(layout,"Jumlah Tamu kosong",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(layout,getResources().getString(R.string.hotel_search_error_total_guest_label),Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
                 else if(room == 0){
-                    Snackbar snackbar = Snackbar.make(layout,"Jumlah Kamar kosong",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(layout,getResources().getString(R.string.hotel_search_error_total_room_label),Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
                 else if(start_date == end_date){
-                    Snackbar snackbar = Snackbar.make(layout,"Tanggal Check-in sama dengan Check-out",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(layout,getResources().getString(R.string.hotel_search_error_same_date_label),Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
                 else {
@@ -123,7 +123,7 @@ public class HotelSearch extends BaseActivity {
         showDate(simpledateformat.format(end_date),"end");
 
         int difference= ((int)((end_date.getTime()/(24*60*60*1000)) - (int)(start_date.getTime()/(24*60*60*1000))));
-        duration.setText(String.valueOf(difference)+" malam");
+        duration.setText(String.valueOf(difference)+" "+getResources().getString(R.string.hotel_search_night_label));
     }
 
     public void startDate(View v){
@@ -173,7 +173,7 @@ public class HotelSearch extends BaseActivity {
                     showDate(simpledateformat.format(end_date), "end");
 
                     int difference= ((int)((end_date.getTime()/(24*60*60*1000)) - (int)(start_date.getTime()/(24*60*60*1000))));
-                    duration.setText(difference+" malam");
+                    duration.setText(difference+" "+getResources().getString(R.string.hotel_search_night_label));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -187,7 +187,7 @@ public class HotelSearch extends BaseActivity {
         else if(type == "end")
             tanggalCheckout.setText(date);
         else if(type == "duration")
-            duration.setText(date+" malam");
+            duration.setText(date+" "+getResources().getString(R.string.hotel_search_night_label));
     }
 
 }

@@ -35,7 +35,7 @@
                     android:id="@+id/RV_tourCreatePackages_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="true"
+                    android:nestedScrollingEnabled="false"
                     android:paddingTop="16dp"
                     android:paddingBottom="16dp"/>
                 <TextView
@@ -43,12 +43,13 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:text="Name"/>
+                    android:text="@string/name_label"/>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
+                    android:id="@+id/name_layout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
@@ -61,12 +62,13 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="Start Date"/>
+                    android:text="@string/start_date_label"/>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
+                    android:id="@+id/start_date_layout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
@@ -80,12 +82,13 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="End Date"/>
+                    android:text="@string/end_date_label"/>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
+                    android:id="@+id/end_date_layout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
@@ -100,15 +103,17 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="Deskripsi"/>
+                    android:text="@string/description_label"/>
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
+                    android:id="@+id/description_layout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     app:boxBackgroundColor="@android:color/white">
                     <android.support.design.widget.TextInputEditText
+                        android:id="@+id/tripDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textMultiLine"
@@ -123,16 +128,17 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="Location"/>
+                    android:text="@string/location_label"/>
+
                 <!--<android.support.v7.widget.AppCompatSpinner-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="56dp"-->
-                    <!--android:layout_marginRight="16dp"-->
-                    <!--android:layout_marginLeft="16dp"-->
-                    <!--style="@style/SpinnerTheme"-->
-                    <!--android:spinnerMode="dialog"-->
-                    <!--android:prompt="@string/location_prompt"-->
-                    <!--android:entries="@array/location_array">-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="56dp"-->
+                <!--android:layout_marginRight="16dp"-->
+                <!--android:layout_marginLeft="16dp"-->
+                <!--style="@style/SpinnerTheme"-->
+                <!--android:spinnerMode="dialog"-->
+                <!--android:prompt="@string/location_prompt"-->
+                <!--android:entries="@array/location_array">-->
                 <!--</android.support.v7.widget.AppCompatSpinner>-->
 
                 <android.support.design.widget.TextInputLayout
@@ -140,6 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="16dp"
                     android:layout_marginLeft="16dp"
+                    android:id="@+id/location_layout"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
@@ -154,7 +161,36 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="12dp"
-                    android:text="Facilities"/>
+                    android:text="@string/keyword_label"/>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:id="@+id/keyword_layout"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:imeOptions="actionDone"
+                        android:id="@+id/keyword"/>
+                </android.support.design.widget.TextInputLayout>
+                <android.support.design.chip.ChipGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:id="@+id/keyword_chip_layout"></android.support.design.chip.ChipGroup>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="12dp"
+                    android:text="@string/facilities_label"/>
                 <GridView
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
@@ -170,8 +206,8 @@
                     android:layout_marginRight="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="32dp"
-                    android:text="Create Tour Package"
-                    android:onClick="createTourPack"
+                    android:text="@string/tour_create_create_tour_label"
+                    android:id="@+id/create_tour_pack"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"/>
 
@@ -191,11 +227,11 @@
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
                     android:layout_marginBottom="16dp"
-                    android:text="List Package"/>
+                    android:text="@string/tour_create_list_package_label"/>
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No Data Found"
+                    android:text="@string/no_data_label"
                     android:visibility="visible"
                     android:layout_marginBottom="16dp"
                     android:id="@+id/no_data"
@@ -203,7 +239,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/RV_tourCreatePackages_2"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="200dp"
                     android:nestedScrollingEnabled="true"
                     android:scrollbars="none">
                 </android.support.v7.widget.RecyclerView>
@@ -225,7 +261,7 @@
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:insetBottom="0dp"
         android:insetTop="0dp"
-        android:text="save changes"
+        android:text="@string/save_label"
         app:cornerRadius="0dp"/>
 
 </android.support.constraint.ConstraintLayout>

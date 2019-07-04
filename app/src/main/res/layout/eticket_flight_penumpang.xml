@@ -32,7 +32,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Fasilitas"/>
+            android:text="@string/facilities_label"/>
         <TextView
             android:id="@+id/TV_facilities"
             android:layout_width="match_parent"

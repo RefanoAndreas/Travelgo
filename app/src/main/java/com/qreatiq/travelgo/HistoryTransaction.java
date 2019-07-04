@@ -55,7 +55,7 @@ public class HistoryTransaction extends BaseActivity {
         mRecyclerView = findViewById(R.id.RV_historyTransaction);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new NotifikasiAdapter(historyList);
+        mAdapter = new NotifikasiAdapter(historyList,this);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);

@@ -80,8 +80,8 @@ public class TrainSearchJumlahPenumpang extends BottomSheetDialogFragment {
                     parent.adult = adult_data;
                     parent.infant = infant_data;
 
-                    parent.adult_label.setText(parent.adult + " Dewasa");
-                    parent.infant_label.setText(parent.infant + " Bayi");
+                    parent.adult_label.setText(parent.adult + " " + getResources().getString(R.string.adult_label));
+                    parent.infant_label.setText(parent.infant + " " + getResources().getString(R.string.infant_label));
 
                     dismiss();
                 }
@@ -89,7 +89,7 @@ public class TrainSearchJumlahPenumpang extends BottomSheetDialogFragment {
                     adult.setValue(parent.adult);
                     infant.setValue(parent.infant);
 
-                    Snackbar snackbar = Snackbar.make(layout,"Jumlah bayi harus kurang dari atau sama dengan jumlah dewasa",Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(layout,getResources().getString(R.string.data_penumpang_error_adult_infant_title),Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             }

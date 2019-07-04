@@ -107,7 +107,7 @@ public class FilterTour extends BaseActivity {
 
             for(int x=0;x<4;x++){
                 final JSONObject json = new JSONObject();
-                json.put("label",(x+1)+" Hari "+x+" Malam");
+                json.put("label",(x+1)+" "+getResources().getString(R.string.day_label)+" "+x+" "+getResources().getString(R.string.night_label));
                 if(!filter.toString().equals("{}")) {
                     int counter = 0;
                     for(int y=0;y<filter.getJSONArray("time_range").length();y++) {

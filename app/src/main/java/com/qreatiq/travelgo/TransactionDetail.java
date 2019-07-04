@@ -270,7 +270,7 @@ public class TransactionDetail extends BaseActivity {
                         JSONObject jsonParticipant = jsonDetail.getJSONArray("participant").getJSONObject(x);
 
                         JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("title", jsonParticipant.getString("title"));
+                        jsonObject.put("title", jsonParticipant.getInt("title"));
                         jsonObject.put("name", jsonParticipant.getString("name"));
 
                         ParticipantList.add(jsonObject);

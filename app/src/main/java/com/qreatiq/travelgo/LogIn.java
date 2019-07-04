@@ -202,7 +202,7 @@ public class LogIn extends BaseActivity {
     private void loginFB(JSONObject object){
         final ProgressDialog loading = new ProgressDialog(this);
         loading.setMax(100);
-        loading.setTitle("Logging In via Facebook");
+        loading.setTitle(getResources().getString(R.string.login_via_facebook_dialog_title));
         loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         loading.setCancelable(false);
         loading.setProgress(0);
@@ -269,18 +269,18 @@ public class LogIn extends BaseActivity {
     public void login(View v){
 
         if(email.getText().toString().equals("")){
-            emailLayout.setError("Email is empty");
+            emailLayout.setError(getResources().getString(R.string.data_penumpang_error_email_empty_title));
         }
         else if(password.getText().toString().equals("")){
-            passwordLayout.setError("Password is empty");
+            passwordLayout.setError(getResources().getString(R.string.error_password_label));
         }
         else if(!isValidEmail(email.getText().toString())){
-            emailLayout.setError("Email is not in email format");
+            emailLayout.setError(getResources().getString(R.string.data_penumpang_error_email_format_title));
         }
         else {
             final ProgressDialog loading = new ProgressDialog(this);
             loading.setMax(100);
-            loading.setTitle("Logging In");
+            loading.setTitle(getResources().getString(R.string.login_via_system_dialog_title));
             loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             loading.setCancelable(false);
             loading.setProgress(0);
@@ -329,9 +329,9 @@ public class LogIn extends BaseActivity {
 
 
                         } else if (response.getString("status").equals("invalid email")) {
-                            emailLayout.setError("Invalid Email");
+                            emailLayout.setError(getResources().getString(R.string.login_error_email_label));
                         } else {
-                            passwordLayout.setError("Invalid Password");
+                            passwordLayout.setError(getResources().getString(R.string.login_error_password_label));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();

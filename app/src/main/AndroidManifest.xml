@@ -43,7 +43,7 @@
         <activity android:name=".HotelSearchResult" />
         <activity
             android:name=".HotelSearch"
-            android:label="@string/manifest_flight_search_title" />
+            android:label="@string/manifest_hotel_search_title" />
         <activity
             android:name=".HistoryPurchasing"
             android:label="@string/manifest_history_purchase_title" />
@@ -63,7 +63,7 @@
             android:label="@string/manifest_notifikasi_title" />
         <activity
             android:name=".DataPenumpang"
-            android:label="Isi Data Penumpang" />
+            android:label="@string/confirmation_passenger_title" />
         <activity
             android:name=".Filter"
             android:label="@string/filter_label" />

@@ -113,9 +113,9 @@ public class FlightSearchJumlahPenumpang extends BottomSheetDialogFragment {
                     parent.child = child_data;
                     parent.infant = infant_data;
 
-                    parent.adult_label.setText(String.valueOf(parent.adult) + " Dewasa");
-                    parent.child_label.setText(String.valueOf(parent.child) + " Anak");
-                    parent.infant_label.setText(String.valueOf(parent.infant) + " Bayi");
+                    parent.adult_label.setText(String.valueOf(parent.adult) + " " + getResources().getString(R.string.adult_label));
+                    parent.child_label.setText(String.valueOf(parent.child) + " " + getResources().getString(R.string.child_label));
+                    parent.infant_label.setText(String.valueOf(parent.infant) + " " + getResources().getString(R.string.infant_label));
 
                     dismiss();
                 }
@@ -124,7 +124,7 @@ public class FlightSearchJumlahPenumpang extends BottomSheetDialogFragment {
                     child.setValue(parent.child);
                     infant.setValue(parent.infant);
 
-                    Snackbar snackbar = Snackbar.make(layout,"Jumlah bayi harus kurang dari atau sama dengan jumlah dewasa",Snackbar.LENGTH_LONG);
+                    Snackbar snackbar = Snackbar.make(layout,getResources().getString(R.string.data_penumpang_error_adult_infant_title),Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
             }

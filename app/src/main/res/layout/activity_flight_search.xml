@@ -63,7 +63,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rounded_white_10dp"
-                        android:hint="Select Airport"
+                        android:hint="@string/flight_search_choose_airport_label"
                         android:singleLine="true"
                         android:padding="10dp"/>
                     <TextView
@@ -79,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/rounded_white_10dp"
                         android:singleLine="true"
-                        android:hint="Select Airport"
+                        android:hint="@string/flight_search_choose_airport_label"
                         android:padding="10dp"/>
                 </LinearLayout>
 
@@ -260,7 +260,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:id="@+id/adult_label"
-                                    android:text="1 Dewasa"
+                                    android:text="@string/flight_search_adult_label"
                                     android:textSize="16dp"
                                     android:fontFamily="@font/montserrat_medium"
                                     android:textColor="@android:color/black"/>
@@ -269,7 +269,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:id="@+id/child_label"
-                                    android:text="0 Anak"
+                                    android:text="@string/flight_search_child_label"
                                     android:textSize="16dp"
                                     android:fontFamily="@font/montserrat_medium"
                                     android:textColor="@android:color/black"/>
@@ -278,7 +278,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:id="@+id/infant_label"
-                                    android:text="0 Bayi"
+                                    android:text="@string/flight_search_infant_label"
                                     android:textSize="16dp"
                                     android:fontFamily="@font/montserrat_medium"
                                     android:textColor="@android:color/black"/>

@@ -19,7 +19,7 @@ import org.json.JSONObject;
 
 public class FilterTourDuration extends BottomSheetDialogFragment {
 
-    String[] data = {"1 Hari", "2 Hari", "3 Hari", "4 Hari"};
+    String[] data = new String[4];
     MaterialButton submit;
     int duration = 1;
     FilterTour parent;
@@ -29,6 +29,11 @@ public class FilterTourDuration extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.filter_tour_duration, container, false);
+
+        data[0] = "1 "+getResources().getString(R.string.day_label);
+        data[1] = "2 "+getResources().getString(R.string.day_label);
+        data[2] = "3 "+getResources().getString(R.string.day_label);
+        data[3] = "4 "+getResources().getString(R.string.day_label);
 
         NumberPicker numberPicker = (NumberPicker) v.findViewById(R.id.tour_duration_np1);
         numberPicker.setMinValue(1);
@@ -43,6 +48,8 @@ public class FilterTourDuration extends BottomSheetDialogFragment {
         super.onViewCreated(view, savedInstanceState);
 
         parent = (FilterTour)getActivity();
+
+
 
         submit = (MaterialButton)view.findViewById(R.id.save_button);
         duration_tour = (NumberPicker)view.findViewById(R.id.tour_duration_np1);
@@ -79,7 +86,7 @@ public class FilterTourDuration extends BottomSheetDialogFragment {
                     }
                     if(counter == parent.time_range_array.size()){
                         JSONObject json = new JSONObject();
-                        json.put("label",duration+" Hari "+(duration-1)+" Malam");
+                        json.put("label",duration+" "+getResources().getString(R.string.day_label)+" "+(duration-1)+" "+getResources().getString(R.string.night_label));
                         json.put("checked", true);
                         json.put("data",duration);
                         parent.time_range_array.add(json);

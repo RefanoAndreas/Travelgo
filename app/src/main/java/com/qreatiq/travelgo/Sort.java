@@ -51,12 +51,12 @@ public class Sort extends BaseActivity {
         if(intentString.equals("hotel")){
             sortItem = getResources().getStringArray(R.array.sort_hotel);
             try {
-                array.add(new JSONObject("{\"label\":\"Popularitas\",\"data\":\"popularity\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.sort_item_hotel_1_label)+"\",\"data\":\"popularity\",\"checked\":false}"));
 //                array.add(new JSONObject("{\"label\":\"Bintang 5-1\",\"data\":\"rank_desc\",\"checked\":false}"));
 //                array.add(new JSONObject("{\"label\":\"Bintang 1-5\",\"data\":\"rank_asc\",\"checked\":false}"));
-                array.add(new JSONObject("{\"label\":\"Nilai Ulasan\",\"data\":\"review_desc\",\"checked\":false}"));
-                array.add(new JSONObject("{\"label\":\"Harga tertinggi\",\"data\":\"price_desc\",\"checked\":false}"));
-                array.add(new JSONObject("{\"label\":\"Harga terendah\",\"data\":\"price_asc\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.sort_item_hotel_2_label)+"\",\"data\":\"review_desc\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.sort_item_hotel_3_label)+"\",\"data\":\"price_desc\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.sort_item_hotel_4_label)+"\",\"data\":\"price_asc\",\"checked\":false}"));
 
                 if(!sort.toString().equals("{}")){
                     for(int x=0;x<array.size();x++){
@@ -73,12 +73,12 @@ public class Sort extends BaseActivity {
         else{
             sortItem = getResources().getStringArray(R.array.sort_flight_train);
             try {
-                array.add(new JSONObject("{\"label\":\"Berangkat paling awal\",\"data\":\"early_depart\",\"checked\":false}"));
-                array.add(new JSONObject("{\"label\":\"Berangkat paling akhir\",\"data\":\"late_depart\",\"checked\":false}"));
-                array.add(new JSONObject("{\"label\":\"Tiba paling awal\",\"data\":\"early_arrive\",\"checked\":false}"));
-                array.add(new JSONObject("{\"label\":\"Tiba paling akhir\",\"data\":\"late_arrive\",\"checked\":false}"));
-                array.add(new JSONObject("{\"label\":\"Harga tertinggi\",\"data\":\"price_desc\",\"checked\":false}"));
-                array.add(new JSONObject("{\"label\":\"Harga terendah\",\"data\":\"price_asc\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.sort_item_flight_1_label)+"\",\"data\":\"early_depart\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.sort_item_flight_2_label)+"\",\"data\":\"late_depart\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.sort_item_flight_3_label)+"\",\"data\":\"early_arrive\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.sort_item_flight_4_label)+"\",\"data\":\"late_arrive\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.sort_item_hotel_3_label)+"\",\"data\":\"price_desc\",\"checked\":false}"));
+                array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.sort_item_hotel_4_label)+"\",\"data\":\"price_asc\",\"checked\":false}"));
 
                 if(!sort.toString().equals("{}")){
                     for(int x=0;x<array.size();x++){

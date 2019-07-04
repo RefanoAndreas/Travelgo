@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                android:text="Data Penumpang"
+                android:text="@string/confirmation_passenger_title"
                 android:textSize="16dp"
                 android:textColor="@color/c42"
                 android:fontFamily="@font/montserrat_semi_bold"/>
@@ -43,7 +43,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Titel"
+                    android:text="@string/title_label"
                     android:textSize="12dp"/>
 
                 <Spinner
@@ -65,7 +65,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
-                android:text="Nama"
+                android:text="@string/name_label"
                 android:textSize="12dp"/>
 
             <android.support.design.widget.TextInputLayout
@@ -94,7 +94,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No. ID"
+                    android:text="@string/id_label"
                     android:textSize="12dp"/>
 
                 <android.support.design.widget.TextInputLayout
@@ -124,7 +124,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="No. Paspor"
+                    android:text="@string/passport_label"
                     android:textSize="12dp"/>
 
                 <android.support.design.widget.TextInputLayout
@@ -154,7 +154,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Email"
+                    android:text="@string/email_label"
                     android:textSize="12dp"/>
 
                 <android.support.design.widget.TextInputLayout
@@ -185,7 +185,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Phone"
+                    android:text="@string/phone_label"
                     android:textSize="12dp"/>
 
                 <android.support.design.widget.TextInputLayout
@@ -216,7 +216,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Bagasi Penumpang"
+                    android:text="@string/data_penumpang_baggage_title"
                     android:textSize="16dp"
 
                     android:layout_marginBottom="10dp"
@@ -246,7 +246,7 @@
                     android:layout_marginRight="8dp"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:text="simpan"/>
+                    android:text="@string/save_label"/>
 
                 <android.support.design.button.MaterialButton
                     android:layout_width="wrap_content"
@@ -258,7 +258,7 @@
                     android:insetBottom="0dp"
                     android:id="@+id/batal"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:text="Batal"/>
+                    android:text="@string/cancel_label"/>
             </LinearLayout>
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

@@ -113,11 +113,11 @@ public class D2NotifikasiDetail extends BaseActivity {
                     TV_order_date.setText(jsonDetail.getString("order_date"));
                     TV_no_order.setText(jsonDetail.getString("id"));
 
-                    if(jsonDetail.getString("status").equals("pending")){
-                        TV_status_order.setText("Pesanan Belum Dibayar");
+                    if(jsonDetail.getInt("status") == 1){
+                        TV_status_order.setText(getResources().getString(R.string.notification_detail_order_unpaid_label));
                     }
-                    else if(jsonDetail.getString("status").equals("berhasil")){
-                        TV_status_order.setText("Pesanan Berhasil");
+                    else if(jsonDetail.getInt("status") == 0){
+                        TV_status_order.setText(getResources().getString(R.string.notification_detail_order_success_label));
                     }
 
                     if(type.equals("flight") || type.equals("train")) {

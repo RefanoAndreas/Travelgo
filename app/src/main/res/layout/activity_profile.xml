@@ -12,9 +12,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
+
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <View
                 android:layout_width="match_parent"
@@ -22,13 +23,13 @@
                 android:minHeight="330dp"
                 app:layout_constraintTop_toTopOf="@id/circleImage"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginTop="64dp"
+                android:layout_marginTop="48dp"
                 android:background="@drawable/card"/>
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/circleImage"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
                 android:src="@drawable/no_profile_picture"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -77,24 +78,24 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/kawan"
-                app:layout_constraintBottom_toTopOf="@id/bottomNav"
-                android:layout_marginTop="16dp"
+
                 android:paddingLeft="16dp"
                 android:orientation="vertical">
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/editProfileBtn"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp">
+                    android:layout_height="48dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:text="Account Profile"
+                        android:text="@string/profile_edit_profile_label"
                         android:textSize="16dp"
+                        android:id="@+id/account_profile"
                         android:textColor="#777777"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -112,15 +113,16 @@
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/tourProfileBtn"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp">
+                    android:layout_height="48dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:text="Tour Profile"
+                        android:text="@string/profile_tour_profile_label"
                         android:textSize="16dp"
+                        android:id="@+id/tour_profile"
                         android:textColor="#777777"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -138,15 +140,16 @@
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/listPackageBtn"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp">
+                    android:layout_height="48dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:text="List Package"
+                        android:text="@string/profile_list_package_label"
                         android:textSize="16dp"
+                        android:id="@+id/list_package"
                         android:textColor="#777777"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -171,8 +174,9 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:text="History Purchasing"
+                        android:text="@string/profile_history_purchasing_label"
                         android:textSize="16dp"
+                        android:id="@+id/history_purchasing"
                         android:textColor="#777777"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -197,8 +201,9 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:text="History Sales"
+                        android:text="@string/profile_history_transaction_label"
                         android:textSize="16dp"
+                        android:id="@+id/history_transaction"
                         android:textColor="#777777"/>
                     <ImageView
                         android:layout_width="wrap_content"
@@ -223,7 +228,8 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        android:text="Language"
+                        android:text="@string/profile_language_label"
+                        android:id="@+id/language"
                         android:textSize="16dp"
                         android:textColor="#777777"/>
                     <ImageView
@@ -242,16 +248,16 @@
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/logoutBtn"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp">
+                    android:layout_height="48dp">
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="18dp"
-                        android:text="Log Out"
-                        android:textColor="@android:color/holo_red_light"
-                        android:textSize="16dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        android:text="Log Out"
+                        android:textSize="16dp"
+                        android:textColor="@android:color/holo_red_light"/>
                 </android.support.constraint.ConstraintLayout>
             </LinearLayout>
         </android.support.constraint.ConstraintLayout>

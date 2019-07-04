@@ -79,13 +79,13 @@ public class Filter extends BaseActivity {
         arrive_layout = (LinearLayout) findViewById(R.id.arrive_layout);
 
         try {
-            transit_array.add(new JSONObject("{\"label\":\"Langsung\",\"data\":1,\"checked\":false}"));
+            transit_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.filter_transit_direct_label)+"\",\"data\":1,\"checked\":false}"));
             transit_array.add(new JSONObject("{\"label\":\"1 Transit\",\"data\":2,\"checked\":false}"));
             transit_array.add(new JSONObject("{\"label\":\"2+ Transit\",\"data\":3,\"checked\":false}"));
 
-            train_class_array.add(new JSONObject("{\"label\":\"Ekonomi\",\"data\":\"ekonomi\",\"checked\":false}"));
-            train_class_array.add(new JSONObject("{\"label\":\"Bisnis\",\"data\":\"bisnis\",\"checked\":false}"));
-            train_class_array.add(new JSONObject("{\"label\":\"Eksekutif\",\"data\":\"eksekutif\",\"checked\":false}"));
+            train_class_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.filter_class_economy_label)+"\",\"data\":\"ekonomi\",\"checked\":false}"));
+            train_class_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.filter_class_business_label)+"\",\"data\":\"bisnis\",\"checked\":false}"));
+            train_class_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.filter_class_first_label)+"\",\"data\":\"eksekutif\",\"checked\":false}"));
 
             ranking_array.add(new JSONObject("{\"label\":\"1 star\",\"data\":1,\"checked\":false}"));
             ranking_array.add(new JSONObject("{\"label\":\"2 star\",\"data\":2,\"checked\":false}"));
@@ -137,7 +137,7 @@ public class Filter extends BaseActivity {
             depart_layout.setVisibility(View.GONE);
             arrive_layout.setVisibility(View.GONE);
             ranking_layout.setVisibility(View.VISIBLE);
-            price_label.setText("Harga per kamar, per malam");
+            price_label.setText(getResources().getString(R.string.filter_price_per_room_label));
 
             try {
                 if(!filter.toString().equals("{}")) {

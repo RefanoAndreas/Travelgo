@@ -186,13 +186,13 @@ public class TourEdit extends BaseActivity {
 
     public void submit(View v){
         if(name.getText().toString().equals(""))
-            name_layout.setError("Name is empty");
+            name_layout.setError(getResources().getString(R.string.name_label));
         else if(telp.getText().toString().equals(""))
-            telp_layout.setError("Telp is empty");
+            telp_layout.setError(getResources().getString(R.string.phone_label));
         else {
             final ProgressDialog loading = new ProgressDialog(this);
             loading.setMax(100);
-            loading.setTitle("Saving your tour profile...");
+            loading.setTitle(getResources().getString(R.string.tour_edit_save_title));
             loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             loading.setCancelable(false);
             loading.setProgress(0);

@@ -186,13 +186,13 @@ public class SignUp extends BaseActivity {
 
     private void signUp() {
         if(email.getText().toString().equals("")){
-            emailLayout.setError("Email is empty");
+            emailLayout.setError(getResources().getString(R.string.data_penumpang_error_email_empty_title));
         }
         else if(password.getText().toString().equals("")){
-            passwordLayout.setError("Password is empty");
+            passwordLayout.setError(getResources().getString(R.string.error_password_label));
         }
         else if(!isValidEmail(email.getText().toString())){
-            emailLayout.setError("Email is not in email format");
+            emailLayout.setError(getResources().getString(R.string.data_penumpang_error_email_format_title));
         }
         else {
             final ProgressDialog loading = new ProgressDialog(this);

@@ -147,7 +147,7 @@ public class TourCreate extends BaseActivity {
 
         intent = getIntent();
         if(intent.getStringExtra("type").equals("edit"))
-            setTitle("Edit Package");
+            setTitle(getResources().getString(R.string.manifest_edit_package_title));
 
         user_id = getSharedPreferences("user_id", Context.MODE_PRIVATE);
         userID = user_id.getString("access_token", "Data not found");
@@ -605,45 +605,45 @@ public class TourCreate extends BaseActivity {
             }
 
             if(array_background.length() == 1){
-                Snackbar snackbar=Snackbar.make(layout,"Tour Foto belum ditambah",Snackbar.LENGTH_LONG);
+                Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.tour_create_error_photo_label),Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
             else if(tripName.getText().toString().equals("")){
-                tripName.setError("Nama kosong");
-                name_layout.setError("Nama kosong");
-                Snackbar snackbar=Snackbar.make(layout,"Nama kosong",Snackbar.LENGTH_LONG);
+                tripName.setError(getResources().getString(R.string.error_name_label));
+                name_layout.setError(getResources().getString(R.string.error_name_label));
+                Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.error_name_label),Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
             else if(start_date.getText().toString().equals("")){
-                start_date_layout.setError("Tanggal Mulai kosong");
-                start_date.setError("Tanggal Mulai kosong");
-                Snackbar snackbar=Snackbar.make(layout,"Tanggal Mulai kosong",Snackbar.LENGTH_LONG);
+                start_date_layout.setError(getResources().getString(R.string.tour_create_error_start_date_label));
+                start_date.setError(getResources().getString(R.string.tour_create_error_start_date_label));
+                Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.tour_create_error_start_date_label),Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
             else if(end_date.getText().toString().equals("")){
-                end_date_layout.setError("Tanggal Selesai kosong");
-                end_date.setError("Tanggal Selesai kosong");
-                Snackbar snackbar=Snackbar.make(layout,"Tanggal Selesai kosong",Snackbar.LENGTH_LONG);
+                end_date_layout.setError(getResources().getString(R.string.tour_create_error_end_date_label));
+                end_date.setError(getResources().getString(R.string.tour_create_error_end_date_label));
+                Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.tour_create_error_end_date_label),Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
             else if(tripDesc.getText().toString().equals("")){
-                description_layout.setError("Deskripsi kosong");
-                tripDesc.setError("Deskripsi kosong");
-                Snackbar snackbar=Snackbar.make(layout,"Deskripsi kosong",Snackbar.LENGTH_LONG);
+                description_layout.setError(getResources().getString(R.string.tour_create_error_description_label));
+                tripDesc.setError(getResources().getString(R.string.tour_create_error_description_label));
+                Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.tour_create_error_description_label),Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
             else if(location.getText().toString().equals("")){
-                location_layout.setError("Lokasi kosong");
-                location.setError("Lokasi kosong");
-                Snackbar snackbar=Snackbar.make(layout,"Lokasi kosong",Snackbar.LENGTH_LONG);
+                location_layout.setError(getResources().getString(R.string.tour_create_error_location_label));
+                location.setError(getResources().getString(R.string.tour_create_error_location_label));
+                Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.tour_create_error_location_label),Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
             else if(array_facilities.length() == 0){
-                Snackbar snackbar=Snackbar.make(layout,"Tour Fasilitas belum dipilih",Snackbar.LENGTH_LONG);
+                Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.tour_create_error_tour_facilities_label),Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
             else if(array_trip_pack.length() == 0){
-                Snackbar snackbar=Snackbar.make(layout,"Tour Package tidak ada",Snackbar.LENGTH_LONG);
+                Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.tour_create_error_tour_package_label),Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
             else {
@@ -675,9 +675,9 @@ public class TourCreate extends BaseActivity {
                 final ProgressDialog loading = new ProgressDialog(this);
                 loading.setMax(100);
                 if(intent.getStringExtra("type").equals("edit"))
-                    loading.setTitle("Editing Package");
+                    loading.setTitle(getResources().getString(R.string.manifest_editing_package_title));
                 else
-                    loading.setTitle("Creating Package");
+                    loading.setTitle(getResources().getString(R.string.manifest_creating_package_title));
                 loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
                 loading.setCancelable(false);
                 loading.setProgress(0);

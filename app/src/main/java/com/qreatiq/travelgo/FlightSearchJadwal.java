@@ -120,9 +120,9 @@ public class FlightSearchJadwal extends BaseActivity {
 
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             tripInfo.setText(format.format(date) + ", " +
-                    String.valueOf(adult_pax) + " Dewasa, " +
-                    String.valueOf(child_pax) + " Anak, " +
-                    String.valueOf(infant_pax) + " Bayi, " +
+                    adult_pax + " "+getResources().getString(R.string.adult_label)+", " +
+                    child_pax + " "+getResources().getString(R.string.child_label)+", " +
+                    infant_pax + " "+getResources().getString(R.string.infant_label)+", " +
                     kelas);
 
             try {
@@ -142,8 +142,8 @@ public class FlightSearchJadwal extends BaseActivity {
                 title.setText(hotel_city.getString("city_label")+", "+hotel_city.getString("poi_label"));
                 SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                 tripInfo.setText(format.format(check_in_date) + " - "+format.format(check_out_date)+", " +
-                        String.valueOf(intent.getIntExtra("guest", 0)) + " Tamu, " +
-                        String.valueOf(intent.getIntExtra("room", 0)) + " Kamar");
+                        intent.getIntExtra("guest", 0) + " "+getResources().getString(R.string.guest_label)+", " +
+                        intent.getIntExtra("room", 0) + " "+getResources().getString(R.string.room_label));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -174,7 +174,7 @@ public class FlightSearchJadwal extends BaseActivity {
             });
         }
         else{
-            hotel_adapter = new HotelListAdapter(ticketList);
+            hotel_adapter = new HotelListAdapter(ticketList,this);
             mRecyclerView.setAdapter(hotel_adapter);
 
             hotel_adapter.setOnItemClickListner(new HotelListAdapter.ClickListener() {
@@ -722,9 +722,9 @@ public class FlightSearchJadwal extends BaseActivity {
 
                         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
                         String text = format.format(date) + ", " +
-                                adult_pax + " Dewasa, " +
-                                child_pax + " Anak, " +
-                                infant_pax + " Bayi";
+                                adult_pax + " "+getResources().getString(R.string.adult_label)+", " +
+                                child_pax + " "+getResources().getString(R.string.child_label)+", " +
+                                infant_pax + " "+getResources().getString(R.string.infant_label);
                         for(int x=0;x<filter.getJSONArray("class").length();x++)
                             text += ", "+filter.getJSONArray("class").getJSONObject(x).getString("label");
 

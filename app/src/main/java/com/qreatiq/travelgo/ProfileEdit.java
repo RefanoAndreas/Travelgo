@@ -155,9 +155,9 @@ public class ProfileEdit extends BaseActivity {
 
     private void saveEditProfile(){
         if(name.getText().toString().equals(""))
-            nameLayout.setError("Name is empty");
+            nameLayout.setError(getResources().getString(R.string.error_name_label));
         else if(phone.getText().toString().equals(""))
-            phoneLayout.setError("Phone is empty");
+            phoneLayout.setError(getResources().getString(R.string.error_phone_label));
         else {
             url = C_URL + "profile";
 

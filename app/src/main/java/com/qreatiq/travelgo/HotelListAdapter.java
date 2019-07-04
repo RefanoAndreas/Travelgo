@@ -29,8 +29,9 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.Hote
     Context context;
     ClickListener clickListener;
 
-    public HotelListAdapter(ArrayList<JSONObject> hotelList) {
+    public HotelListAdapter(ArrayList<JSONObject> hotelList,Context context) {
         this.hotelList = hotelList;
+        this.context = context;
     }
 
     public class HotelListHolder extends RecyclerView.ViewHolder {
@@ -73,7 +74,7 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.Hote
             hotelListHolder.hotelLocation.setText(jsonObject.getString("location"));
 
             DecimalFormat formatter = new DecimalFormat("#,###,###");
-            hotelListHolder.hotelPrice.setText("Rp. "+formatter.format(jsonObject.getInt("price"))+" per malam");
+            hotelListHolder.hotelPrice.setText("Rp. "+formatter.format(jsonObject.getInt("price"))+context.getResources().getString(R.string.schedule_per_night_label));
 
             hotelListHolder.rating.setRating((float) jsonObject.getDouble("rating"));
 

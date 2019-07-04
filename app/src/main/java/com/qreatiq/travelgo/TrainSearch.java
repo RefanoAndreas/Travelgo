@@ -138,15 +138,15 @@ public class TrainSearch extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(depart_data.toString().equals("{}")){
-                    Snackbar snackbar = Snackbar.make(layout,"Kota Keberangkatan kosong",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(layout,getResources().getString(R.string.flight_search_error_departure_city_label),Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
                 else if(arrive_data.toString().equals("{}")){
-                    Snackbar snackbar = Snackbar.make(layout,"Kota Tujuan kosong",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(layout,getResources().getString(R.string.flight_search_error_arrival_city_label),Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
                 else if(adult == 0 && infant == 0){
-                    Snackbar snackbar = Snackbar.make(layout,"Passenger kosong",Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(layout,getResources().getString(R.string.flight_search_error_passenger_label),Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
                 else {

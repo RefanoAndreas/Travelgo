@@ -1,5 +1,6 @@
 package com.qreatiq.travelgo;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.design.chip.Chip;
@@ -23,9 +24,11 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.No
     ArrayList<JSONObject> notifList;
     ClickListener clickListener;
     ScrollListener scrollListener;
+    Context context;
 
-    public NotifikasiAdapter(ArrayList<JSONObject> notifList){
+    public NotifikasiAdapter(ArrayList<JSONObject> notifList,Context context){
         this.notifList = notifList;
+        this.context = context;
     }
 
     public class NotifikasiHolder extends RecyclerView.ViewHolder {
@@ -73,12 +76,12 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.No
             notifikasiHolder.mTextView3.setText(jsonObject.getString("info2"));
             notifikasiHolder.mTextView4.setText(jsonObject.getString("info3"));
             notifikasiHolder.mTextView5.setText(jsonObject.getString("info4"));
-            notifikasiHolder.mChip1.setText(jsonObject.getString("status"));
+            notifikasiHolder.mChip1.setText(context.getResources().getStringArray(R.array.status_sales)[jsonObject.getInt("status")]);
 
-            if(jsonObject.getString("status").equals("berhasil")){
+            if(jsonObject.getInt("status") == 0){
                 notifikasiHolder.mChip1.setChipBackgroundColorResource(R.color.colorPrimary);
             }
-            else if(jsonObject.getString("status").equals("Dipesan")){
+            else if(jsonObject.getInt("status") == 2){
                 notifikasiHolder.mChip1.setChipBackgroundColorResource(R.color.colorGreen);
                 notifikasiHolder.mChip1.setTextColor(Color.parseColor("#424242"));
             }

@@ -47,7 +47,7 @@ public class ParticipantListAdapter extends RecyclerView.Adapter<ParticipantList
     public void onBindViewHolder(@NonNull ParticipantListHolder participantListHolder, final int i) {
         final JSONObject jsonObject = participantList.get(i);
         try {
-            participantListHolder.mTextView1.setText(jsonObject.getString("title")+" "+jsonObject.getString("name"));
+            participantListHolder.mTextView1.setText(context.getResources().getStringArray(R.array.titleName)[jsonObject.getInt("title")]+" "+jsonObject.getString("name"));
 
             participantListHolder.layout.setOnClickListener(new View.OnClickListener() {
                 @Override

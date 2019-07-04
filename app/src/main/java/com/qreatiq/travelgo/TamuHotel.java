@@ -73,8 +73,8 @@ public class TamuHotel extends BottomSheetDialogFragment {
                 parent.guest = guest_data;
                 parent.room = room_data;
 
-                parent.guest_label.setText(String.valueOf(parent.guest)+" Tamu");
-                parent.room_label.setText(String.valueOf(parent.room)+" Kamar");
+                parent.guest_label.setText(String.valueOf(parent.guest)+" "+getResources().getString(R.string.guest_label));
+                parent.room_label.setText(String.valueOf(parent.room)+" "+getResources().getString(R.string.room_label));
 
                 dismiss();
             }

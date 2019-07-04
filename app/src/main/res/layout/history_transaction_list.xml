@@ -17,7 +17,7 @@
             android:id="@+id/itemRV_historyTransaction_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nama Paket Perjalanan"
+            android:text="@string/travel_packet_label"
             android:textSize="16dp"
             android:textColor="#424242"
             app:fontFamily="@font/montserrat_semi_bold"

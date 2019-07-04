@@ -14,7 +14,7 @@
             android:id="@+id/isiDataPeserta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Isi data peserta"
+            android:text="@string/list_participant_label"
             android:textColor="@color/colorPrimary"
             android:fontFamily="@font/montserrat_semi_bold"
             android:drawableRight="@drawable/ic_chevron_right_777777_24dp"

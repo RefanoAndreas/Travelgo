@@ -88,8 +88,8 @@ public class DataPenumpang extends BaseActivity {
         phone = (TextInputEditText) findViewById(R.id.phone);
 
         if(intentString.equals("tour") || intentString.equals("hotel")){
-            getSupportActionBar().setTitle("Isi Data Tamu");
-            titleData.setText("Data Tamu");
+            getSupportActionBar().setTitle(getResources().getString(R.string.confirmation_guest_title));
+            titleData.setText(getResources().getString(R.string.confirmation_guest_title));
             linearBagasi.setVisibility(View.GONE);
             idNo_layout.setVisibility(View.GONE);
             pasporNo_layout.setVisibility(View.GONE);
@@ -103,7 +103,7 @@ public class DataPenumpang extends BaseActivity {
                 try {
                     String title = data.getString("title");
                     if (!title.equals(""))
-                        spinner_titel.setSelection(getIndex(spinner_titel, title));
+                        spinner_titel.setSelection(data.getInt("title"));
                     name.setText(data.getString("name"));
                     email.setText(data.getString("email"));
                     phone.setText(data.getString("phone"));
@@ -125,7 +125,7 @@ public class DataPenumpang extends BaseActivity {
 
                 String title = data.getString("title");
                 if(!title.equals(""))
-                    spinner_titel.setSelection(getIndex(spinner_titel,title));
+                    spinner_titel.setSelection(data.getInt("title"));
                 name.setText(data.getString("name"));
                 no_passport.setText(data.getString("no_passport"));
 
@@ -163,34 +163,34 @@ public class DataPenumpang extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(name.getText().toString().equals("")){
-                    name.setError("Nama kosong");
-                    Snackbar snackbar=Snackbar.make(layout,"Nama kosong",Snackbar.LENGTH_LONG);
+                    name.setError(getResources().getString(R.string.data_penumpang_error_name_empty_title));
+                    Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.data_penumpang_error_name_empty_title),Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
                 else if(email.getText().toString().equals("") && getIntent().getStringExtra("packageName").equals("hotel")){
-                    email.setError("Email kosong");
-                    Snackbar snackbar=Snackbar.make(layout,"Email kosong",Snackbar.LENGTH_LONG);
+                    email.setError(getResources().getString(R.string.data_penumpang_error_email_empty_title));
+                    Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.data_penumpang_error_email_empty_title),Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
                 else if(!isEmailValid(email.getText()) && getIntent().getStringExtra("packageName").equals("hotel")){
-                    email.setError("Email not in email format");
-                    Snackbar snackbar=Snackbar.make(layout,"Email not in email format",Snackbar.LENGTH_LONG);
+                    email.setError(getResources().getString(R.string.data_penumpang_error_email_format_title));
+                    Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.data_penumpang_error_email_format_title),Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
                 else if(phone.getText().toString().equals("") && getIntent().getStringExtra("packageName").equals("hotel")){
-                    phone.setError("Phone kosong");
-                    Snackbar snackbar=Snackbar.make(layout,"Phone kosong",Snackbar.LENGTH_LONG);
+                    phone.setError(getResources().getString(R.string.data_penumpang_error_phone_empty_title));
+                    Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.data_penumpang_error_phone_empty_title),Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
                 else if(no_id.getText().toString().equals("") && getIntent().getStringExtra("packageName").equals("train")){
-                    no_id.setError("No ID kosong");
-                    Snackbar snackbar=Snackbar.make(layout,"No ID kosong",Snackbar.LENGTH_LONG);
+                    no_id.setError(getResources().getString(R.string.data_penumpang_error_id_empty_title));
+                    Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.data_penumpang_error_id_empty_title),Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
                 else {
                     JSONObject json = new JSONObject();
                     try {
-                        json.put("title", spinner_titel.getSelectedItem().toString());
+                        json.put("title", spinner_titel.getSelectedItemPosition());
                         json.put("name", name.getText().toString());
 
                         if(getIntent().getStringExtra("packageName").equals("flight")) {

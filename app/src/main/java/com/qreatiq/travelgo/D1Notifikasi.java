@@ -76,10 +76,10 @@ public class D1Notifikasi extends BaseActivity {
         dataIntent = intent.getStringExtra("data");
 
         if(dataIntent.equals("sales")){
-            getSupportActionBar().setTitle("History Sales");
+            getSupportActionBar().setTitle(getResources().getString(R.string.manifest_history_sales_title));
         }
         else if(dataIntent.equals("purchasing")){
-            getSupportActionBar().setTitle("History Purchasing");
+            getSupportActionBar().setTitle(getResources().getString(R.string.manifest_history_purchase_title));
         }
 
         swipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe);
@@ -99,7 +99,7 @@ public class D1Notifikasi extends BaseActivity {
         mRecyclerView = findViewById(R.id.RV_notif);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new NotifikasiAdapter(notifList);
+        mAdapter = new NotifikasiAdapter(notifList,this);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -168,15 +168,18 @@ public class D1Notifikasi extends BaseActivity {
                             jsonObject.put("info1", jsonSales.getString("info1"));
                             jsonObject.put("info2", jsonSales.getString("info2"));
                             if(jsonSales.getString("salesType").equals("flight") || jsonSales.getString("salesType").equals("train")) {
-                                jsonObject.put("info3", jsonSales.getString("info3") + " Penumpang");
-                                jsonObject.put("info4", jsonSales.getString("info4"));
+                                jsonObject.put("info3", jsonSales.getString("info3") + " "+getResources().getString(R.string.flight_search_passenger_label));
+                                if(jsonSales.getString("info4").equals("Pulang Pergi"))
+                                    jsonObject.put("info4", getResources().getString(R.string.roundtrip_label));
+                                else
+                                    jsonObject.put("info4", getResources().getString(R.string.confirmation_one_way_label));
                             }
                             else {
                                 jsonObject.put("info3", jsonSales.getString("info3"));
-                                jsonObject.put("info4", jsonSales.getString("info4")+" Malam");
+                                jsonObject.put("info4", jsonSales.getString("info4")+" "+getResources().getString(R.string.hotel_search_night_label));
                             }
 
-                            jsonObject.put("status", jsonSales.getString("status"));
+                            jsonObject.put("status", jsonSales.getInt("status"));
 
                             notifList.add(jsonObject);
                             if (x != 0)
@@ -200,7 +203,7 @@ public class D1Notifikasi extends BaseActivity {
                             jsonObject.put("info2", jsonSales.getString("info2"));
                             jsonObject.put("info3", jsonSales.getString("info3"));
                             jsonObject.put("info4", jsonSales.getString("info4"));
-                            jsonObject.put("status", "Dipesan");
+                            jsonObject.put("status", jsonSales.getInt("status"));
 
                             notifList.add(jsonObject);
                             if(x != 0)
@@ -227,18 +230,18 @@ public class D1Notifikasi extends BaseActivity {
                             jsonObject.put("info1", jsonSales.getString("info1"));
                             jsonObject.put("info2", jsonSales.getString("info2"));
                             if(jsonSales.getString("salesType").equals("flight") || jsonSales.getString("salesType").equals("train")) {
-                                jsonObject.put("info3", jsonSales.getString("info3") + " Penumpang");
-                                jsonObject.put("info4", jsonSales.getString("info4"));
+                                jsonObject.put("info3", jsonSales.getString("info3") + " "+getResources().getString(R.string.flight_search_passenger_label));
+                                if(jsonSales.getString("info4").equals("Pulang Pergi"))
+                                    jsonObject.put("info4", getResources().getString(R.string.roundtrip_label));
+                                else
+                                    jsonObject.put("info4", getResources().getString(R.string.confirmation_one_way_label));
                             }
                             else {
                                 jsonObject.put("info3", jsonSales.getString("info3"));
-                                jsonObject.put("info4", jsonSales.getString("info4")+" Malam");
+                                jsonObject.put("info4", jsonSales.getString("info4")+" "+getResources().getString(R.string.hotel_search_night_label));
                             }
 
-                            if(jsonSales.getString("type").equals("sales"))
-                                jsonObject.put("status", "Dipesan");
-                            else
-                                jsonObject.put("status", jsonSales.getString("status"));
+                            jsonObject.put("status", jsonSales.getInt("status"));
 
                             notifList.add(jsonObject);
                             if(x != 0)

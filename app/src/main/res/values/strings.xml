@@ -36,7 +36,10 @@
     <string name="adult_label">Adult</string>
     <string name="child_label">Child</string>
     <string name="infant_label">Infant</string>
+    <string name="title_label">Title</string>
     <string name="name_label">Name</string>
+    <string name="id_label">No. ID</string>
+    <string name="passport_label">No. Passport</string>
     <string name="start_date_label">Start Date</string>
     <string name="end_date_label">End Date</string>
     <string name="from_label">From</string>
@@ -49,6 +52,10 @@
     <string name="location_label">Location</string>
     <string name="trip_label">Trip</string>
     <string name="date_label">Date</string>
+    <string name="baggage_label">Baggage</string>
+    <string name="guest_label">Guest</string>
+    <string name="room_label">Room</string>
+    <string name="roundtrip_label">Round trip</string>
     <string name="participant_label">Participant</string>
     <string name="total_price_label">Total Price</string>
     <string name="save_label">Save Changes</string>
@@ -63,6 +70,8 @@
     <string name="find_room_label">Find Room</string>
     <string name="sort_label">Sort</string>
     <string name="filter_label">Filter</string>
+    <string name="day_label">Day</string>
+    <string name="night_label">Night</string>
     <string name="flight_label">Flight</string>
     <string name="train_label">Train</string>
     <string name="hotel_label">Hotel</string>
@@ -72,12 +81,32 @@
     <string name="facilities_label">Facilities</string>
     <string name="description_label">Description</string>
     <string name="view_more_label">View More</string>
+    <string name="view_less_label">View Less</string>
     <string name="near_location_label">Nearest Popular Location</string>
     <string name="keyword_label">Keyword</string>
+    <string name="package_label">Package</string>
     <string name="upload_photo_label">Upload Photo</string>
+    <string name="managed_by_label">Managed By</string>
+    <string name="travel_packet_label">Travel Packet Name</string>
     <string name="price_label">Price</string>
     <string name="detail_label">Detail</string>
+    <string name="change_language_label">Change Language</string>
+    <string name="check_in_label">Check-In</string>
+    <string name="check_out_label">Check-Out</string>
     <string name="user_not_logged_in_label">User not logged in</string>
+    <string name="error_name_label">Name is empty</string>
+    <string name="error_price_label">Price is empty</string>
+    <string name="error_image_label">Image is empty</string>
+    <string name="error_phone_label">Phone is empty</string>
+    <string name="error_password_label">Password is empty</string>
+
+    <string name="tour_create_error_photo_label">Photo tour is empty</string>
+    <string name="tour_create_error_start_date_label">Start Date is empty</string>
+    <string name="tour_create_error_end_date_label">End Date is empty</string>
+    <string name="tour_create_error_description_label">Description is empty</string>
+    <string name="tour_create_error_location_label">Location is empty</string>
+    <string name="tour_create_error_tour_facilities_label">Tour Facilities is empty</string>
+    <string name="tour_create_error_tour_package_label">Tour Package is empty</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_tour">Tour</string>
@@ -86,10 +115,16 @@
 
     <string name="captcha_title">Please enter this CAPTCHA</string>
 
+    <string name="tour_edit_save_title">Saving your tour profile...</string>
+
     <string name="confirmation_room_label">Room</string>
     <string name="confirmation_day_label">Day</string>
-    <string name="confirmation_flight_depart_title">Depart ticket use </string>
-    <string name="confirmation_flight_return_title">Return ticket use </string>
+    <string name="confirmation_flight_depart_title">Depart ticket use</string>
+    <string name="confirmation_flight_return_title">Return ticket use</string>
+    <string name="confirmation_flight_fill_guest_label">Fill Guest Data</string>
+    <string name="confirmation_flight_fill_adult_label">Fill Adult Data</string>
+    <string name="confirmation_flight_fill_child_label">Fill Child Data</string>
+    <string name="confirmation_flight_fill_infant_label">Fill Infant Data</string>
     <string name="confirmation_flight_detail_title">Flight Detail</string>
     <string name="confirmation_hotel_detail_title">Hotel Detail</string>
     <string name="confirmation_train_detail_title">Train Detail</string>
@@ -98,6 +133,11 @@
     <string name="confirmation_passenger_title">Passenger Data</string>
     <string name="confirmation_special_request_title">Special Requests</string>
     <string name="confirmation_special_request_add_label">Add Special Requests</string>
+    <string name="confirmation_special_request_list_1_label">Free Smoke Room</string>
+    <string name="confirmation_special_request_list_2_label">Late Check-In</string>
+    <string name="confirmation_special_request_list_3_label">Early Check-In</string>
+    <string name="confirmation_special_request_list_4_label">Extra Bed</string>
+    <string name="confirmation_special_request_list_5_label">Top Stories Room</string>
     <string name="confirmation_price_detail_title">Price Details</string>
     <string name="confirmation_return_label">Return</string>
     <string name="confirmation_one_way_label">One Way</string>
@@ -108,19 +148,26 @@
     <string name="confirmation_tax_label">Tax</string>
     <string name="confirmation_booking_progress_label">Booking is in progress</string>
     <string name="confirmation_error_requester_phone_label">Please enter phone number</string>
+    <string name="confirmation_error_not_logged_in_label">Please Login to Fill Contact Details</string>
 
     <string name="notification_no_tour_label">No Tour Found</string>
+    <string name="notification_booked_label">Booked</string>
 
     <string name="notification_detail_booking_no_label">Booking Number</string>
     <string name="notification_detail_booking_at_label">Booking Date</string>
     <string name="notification_detail_booking_price_label">Booking Total Price</string>
     <string name="notification_detail_e_ticket_label">E-ticket</string>
+    <string name="notification_detail_order_unpaid_label">Booking is not paid yet</string>
+    <string name="notification_detail_order_success_label">Booking is success</string>
 
     <string name="e_ticket_booking_code_label">Booking Code</string>
     <string name="e_ticket_subtitle_label">Show this code on check-in</string>
     <string name="e_ticket_flight_detail_label">Flight Detail</string>
     <string name="e_ticket_passenger_detail_label">Passenger Detail</string>
     <string name="e_ticket_travel_advice_label">Travel Advice</string>
+    <string name="e_ticket_stay_advice_label">Stay Advice</string>
+    <string name="e_ticket_breakfast_include_label">Breakfast Include</string>
+    <string name="e_ticket_order_number_label">Order Number</string>
 
     <string name="filter_title">Filter</string>
     <string name="filter_reset_label">Reset</string>
@@ -132,6 +179,7 @@
     <string name="filter_class_economy_label">Economy</string>
     <string name="filter_class_business_label">Business</string>
     <string name="filter_class_executive_label">Executive</string>
+    <string name="filter_class_first_label">First</string>
     <string name="filter_depart_time_label">Depart Time</string>
     <string name="filter_arrive_time_label">Arrive Time</string>
     <string name="filter_travel_time_label">Choose Travel Time</string>
@@ -141,6 +189,7 @@
     <string name="filter_max_price_label">Maximum Price</string>
     <string name="filter_see_all_label">See All</string>
     <string name="filter_duration_label">Duration</string>
+    <string name="filter_price_per_room_label">Price per room, per night</string>
 
     <string name="flight_search_depart_city_label">Depart City</string>
     <string name="flight_search_arrive_city_label">Arrive City</string>
@@ -152,6 +201,16 @@
     <string name="flight_search_class_economy_label">Economy</string>
     <string name="flight_search_class_business_label">Business</string>
     <string name="flight_search_class_first_label">First</string>
+    <string name="flight_search_class_executive_label">Executive</string>
+    <string name="flight_search_adult_label">1 Adult</string>
+    <string name="flight_search_child_label">0 Child</string>
+    <string name="flight_search_infant_label">0 Infant</string>
+    <string name="flight_search_choose_station_label">Choose Station</string>
+    <string name="flight_search_choose_airport_label">Choose Airport</string>
+    <string name="flight_search_choose_destination_label">Choose Destination</string>
+    <string name="flight_search_error_departure_city_label">Departure city is empty</string>
+    <string name="flight_search_error_arrival_city_label">Arrival City is empty</string>
+    <string name="flight_search_error_passenger_label">Total Passenger is empty</string>
 
     <string name="hotel_detail_choose_room_label">Choose Room</string>
 
@@ -159,6 +218,10 @@
     <string name="hotel_search_night_label">Night</string>
     <string name="hotel_search_total_guest_label">Total Guest</string>
     <string name="hotel_search_room_label">Room</string>
+    <string name="hotel_search_error_destination_label">Destination is empty</string>
+    <string name="hotel_search_error_total_guest_label">Total Guest is empty</string>
+    <string name="hotel_search_error_total_room_label">Total Room is empty</string>
+    <string name="hotel_search_error_same_date_label">Check-In Date is same with Check-Out Date</string>
 
     <string name="login_subtitle_label">Or login with your social account</string>
     <string name="login_bottom_1_label">Don\'t have any account yet? </string>
@@ -205,7 +268,7 @@
 
     <string name="manifest_train_search_title">Purchase Train Ticket</string>
     <string name="manifest_flight_search_title">Purchase Flight Ticket</string>
-    <string name="manifest_hotel_search_title">Purchase Hotel Room</string>
+    <string name="manifest_hotel_search_title">Purchase Hotel Ticket</string>
     <string name="manifest_confirmation_title">Booking Confirmation</string>
     <string name="manifest_history_purchase_title">History Purchase</string>
     <string name="manifest_notifikasi_title">Notification</string>
@@ -214,7 +277,11 @@
     <string name="manifest_history_sales_title">History Sales</string>
     <string name="manifest_tour_detail_title">Detail Tour</string>
     <string name="manifest_create_tour_title">Create Tour Package</string>
+    <string name="manifest_edit_tour_title">Edit Tour Package</string>
     <string name="manifest_create_package_title">Create Packages</string>
+    <string name="manifest_edit_package_title">Edit Packages</string>
+    <string name="manifest_creating_package_title">Creating Packages</string>
+    <string name="manifest_editing_package_title">Editing Packages</string>
     <string name="manifest_tour_edit_title">Edit Tour</string>
     <string name="manifest_profile_edit_title">Edit Profile</string>
     <string name="manifest_my_profile_title">My Profile</string>
@@ -228,12 +295,75 @@
     <string name="city_search_hotel_search_label">Search City</string>
     <string name="city_search_hotel_popular_label">Popular Destination</string>
 
+    <string name="data_penumpang_baggage_title">Passenger Baggage</string>
+    <string name="data_penumpang_error_adult_infant_title">Total infant must be lower or equal than total adult</string>
+    <string name="data_penumpang_error_name_empty_title">Name is empty</string>
+    <string name="data_penumpang_error_email_empty_title">E-mail is empty</string>
+    <string name="data_penumpang_error_email_format_title">E-mail is not in E-mail format</string>
+    <string name="data_penumpang_error_phone_empty_title">Phone is empty</string>
+    <string name="data_penumpang_error_id_empty_title">ID is empty</string>
+
+    <string name="schedule_per_people_label">Per People</string>
+    <string name="schedule_per_night_label">Per Night</string>
+
+    <string name="login_via_facebook_dialog_title">Logging In via Facebook</string>
+    <string name="login_via_system_dialog_title">Logging In</string>
+    <string name="login_error_email_label">Invalid Email</string>
+    <string name="login_error_password_label">Invalid Password</string>
+
+    <string name="sort_item_hotel_1_label">Popularity</string>
+    <string name="sort_item_hotel_2_label">Rating</string>
+    <string name="sort_item_hotel_3_label">Highest Price</string>
+    <string name="sort_item_hotel_4_label">Lowest Price</string>
+    <string name="sort_item_flight_1_label">Earliest Depart</string>
+    <string name="sort_item_flight_2_label">Latest Depart</string>
+    <string name="sort_item_flight_3_label">Earliest Arrive</string>
+    <string name="sort_item_flight_4_label">Latest Arrive</string>
+
+    <string name="home_development_title">Notice</string>
+    <string name="home_development_label">This feature is in development</string>
+
+    <string name="hotel_guest_title">Guest Hotel</string>
+    <string name="hotel_guest_total_guest_label">Total Guest</string>
+
+    <string name="list_participant_label">Fill passenger data</string>
+
     <string-array name="titleName">
-        <item>Bapak</item>
-        <item>Ibu</item>
-        <item>Tuan</item>
-        <item>Nyonya</item>
-        <item>Nona</item>
+        <item>Mr.</item>
+        <item>Mrs.</item>
+        <item>Ms.</item>
+    </string-array>
+
+    <string-array name="category">
+        <item>Adult</item>
+        <item>Child</item>
+        <item>Infant</item>
+    </string-array>
+
+    <string-array name="status_sales">
+        <item>Success</item>
+        <item>Pending</item>
+        <item>Booked</item>
+    </string-array>
+
+    <string-array name="flight_advice">
+        <item>Show your E-ticket and your identification card on check-in process (e.g. KTP/SIM/PASPOR)</item>
+        <item>Check-In no longer than 90 minutes before departure</item>
+        <item>All time shown above are in local airport time</item>
+    </string-array>
+
+    <string-array name="train_advice">
+        <item>Use this E-ticket to print your boarding pass at 7 days before departure</item>
+        <item>To board on train, bring your identification card as shown on your booking data</item>
+        <item>Please arrive at platform 30 minutes before departure</item>
+        <item>If you are using transit train, please check-in and print your next train boarding pass on transit station</item>
+        <item>Make sure bring all your stuff from depart, transit, and arrive train</item>
+    </string-array>
+
+    <string-array name="hotel_advice">
+        <item>Show your E-ticket and your identification card on check-in process (e.g. KTP/SIM/PASPOR)</item>
+        <item>Special request is not available guarantee</item>
+        <item>Change or canceled policy may different on every hotel</item>
     </string-array>
 
     <string-array name="sort_flight_train">

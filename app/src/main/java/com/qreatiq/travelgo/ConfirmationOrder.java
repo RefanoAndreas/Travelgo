@@ -130,17 +130,17 @@ public class ConfirmationOrder extends BaseActivity {
             try {
                 arrayList.add(new JSONObject("{" +
                         "\"edit\":false," +
-                        "\"title\":\"\"," +
+                        "\"title\":0," +
                         "\"name\":\"\"," +
-                        "\"label\":\"Isi Data Tamu\"," +
+                        "\"label\":\""+getResources().getString(R.string.confirmation_flight_fill_guest_label)+"\"," +
                         "\"type\":\"Tamu\"," +
                         "\"for\":\"hotel\"}"));
 
-                special_request_array.add(new JSONObject("{\"label\":\"Kamar Bebas Rokok\",\"checked\":false}"));
-                special_request_array.add(new JSONObject("{\"label\":\"Check-in Terlambat\",\"checked\":false}"));
-                special_request_array.add(new JSONObject("{\"label\":\"Check-in lebih cepat\",\"checked\":false}"));
-                special_request_array.add(new JSONObject("{\"label\":\"Kasur Extra\",\"checked\":false}"));
-                special_request_array.add(new JSONObject("{\"label\":\"Lantai Atas\",\"checked\":false}"));
+                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_1_label)+"\",\"checked\":false}"));
+                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_2_label)+"\",\"checked\":false}"));
+                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_3_label)+"\",\"checked\":false}"));
+                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_4_label)+"\",\"checked\":false}"));
+                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_5_label)+"\",\"checked\":false}"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -187,12 +187,12 @@ public class ConfirmationOrder extends BaseActivity {
                 for(int x=0;x<intent.getIntExtra("adult",0);x++) {
                     JSONObject json = new JSONObject();
                     json.put("edit",false);
-                    json.put("title","");
+                    json.put("title",0);
                     json.put("name","");
                     json.put("no_passport","");
-                    json.put("label","Isi Data Dewasa "+(x+1));
-                    json.put("type","Dewasa "+(x+1));
-                    json.put("category","adult");
+                    json.put("label",getResources().getString(R.string.confirmation_flight_fill_adult_label)+(x+1));
+                    json.put("type",getResources().getString(R.string.adult_label)+" "+(x+1));
+                    json.put("category",0);
                     json.put("category_label",getResources().getString(R.string.adult_label));
                     json.put("baggage_depart",new JSONObject());
                     json.put("baggage_return",new JSONObject());
@@ -202,12 +202,12 @@ public class ConfirmationOrder extends BaseActivity {
                 for(int x=0;x<intent.getIntExtra("child",0);x++) {
                     JSONObject json = new JSONObject();
                     json.put("edit",false);
-                    json.put("title","");
+                    json.put("title",0);
                     json.put("name","");
                     json.put("no_passport","");
-                    json.put("label","Isi Data Anak "+(x+1));
-                    json.put("type","Anak "+(x+1));
-                    json.put("category","child");
+                    json.put("label",getResources().getString(R.string.confirmation_flight_fill_child_label)+(x+1));
+                    json.put("type",getResources().getString(R.string.child_label)+" "+(x+1));
+                    json.put("category",1);
                     json.put("category_label",getResources().getString(R.string.child_label));
                     json.put("baggage_depart",new JSONObject());
                     json.put("baggage_return",new JSONObject());
@@ -217,12 +217,12 @@ public class ConfirmationOrder extends BaseActivity {
                 for(int x=0;x<intent.getIntExtra("infant",0);x++) {
                     JSONObject json = new JSONObject();
                     json.put("edit",false);
-                    json.put("title","");
+                    json.put("title",0);
                     json.put("name","");
                     json.put("no_passport","");
-                    json.put("label","Isi Data Bayi "+(x+1));
-                    json.put("type","Bayi "+(x+1));
-                    json.put("category","infant");
+                    json.put("label",getResources().getString(R.string.confirmation_flight_fill_infant_label)+(x+1));
+                    json.put("type",getResources().getString(R.string.infant_label)+" "+(x+1));
+                    json.put("category",2);
                     json.put("category_label",getResources().getString(R.string.infant_label));
                     json.put("baggage_depart",new JSONObject());
                     json.put("baggage_return",new JSONObject());
@@ -278,31 +278,31 @@ public class ConfirmationOrder extends BaseActivity {
                 for(int x=0;x<intent.getIntExtra("adult",0);x++)
                     arrayList.add(new JSONObject("{" +
                             "\"edit\":false," +
-                            "\"title\":\"\"," +
+                            "\"title\":0," +
                             "\"name\":\"\"," +
-                            "\"label\":\"Isi Data Dewasa "+(x+1)+"\"," +
-                            "\"type\":\"Dewasa "+(x+1)+"\"," +
-                            "\"category\":\"adult\"," +
+                            "\"label\":\""+getResources().getString(R.string.confirmation_flight_fill_adult_label)+" "+(x+1)+"\"," +
+                            "\"type\":\""+getResources().getString(R.string.adult_label)+" "+(x+1)+"\"," +
+                            "\"category\":0," +
                             "\"category_label\":\""+getResources().getString(R.string.adult_label)+"\"," +
                             "\"for\":\"train\"}"));
                 for(int x=0;x<intent.getIntExtra("child",0);x++)
                     arrayList.add(new JSONObject("{" +
                             "\"edit\":false," +
-                            "\"title\":\"\"," +
+                            "\"title\":0," +
                             "\"name\":\"\"," +
-                            "\"label\":\"Isi Data Anak "+(x+1)+"\"," +
-                            "\"type\":\"Anak "+(x+1)+"\"," +
-                            "\"category\":\"child\"," +
+                            "\"label\":\""+getResources().getString(R.string.confirmation_flight_fill_child_label)+" "+(x+1)+"\"," +
+                            "\"type\":\""+getResources().getString(R.string.child_label)+" "+(x+1)+"\"," +
+                            "\"category\":1," +
                             "\"category_label\":\""+getResources().getString(R.string.child_label)+"\"," +
                             "\"for\":\"train\"}"));
                 for(int x=0;x<intent.getIntExtra("infant",0);x++)
                     arrayList.add(new JSONObject("{" +
                             "\"edit\":false," +
-                            "\"title\":\"\"," +
+                            "\"title\":0," +
                             "\"name\":\"\"," +
-                            "\"label\":\"Isi Data Bayi "+(x+1)+"\"," +
-                            "\"type\":\"Bayi "+(x+1)+"\"," +
-                            "\"category\":\"infant\"," +
+                            "\"label\":\""+getResources().getString(R.string.confirmation_flight_fill_infant_label)+" "+(x+1)+"\"," +
+                            "\"type\":\""+getResources().getString(R.string.infant_label)+" "+(x+1)+"\"," +
+                            "\"category\":2," +
                             "\"category_label\":\""+getResources().getString(R.string.infant_label)+"\"," +
                             "\"for\":\"train\"}"));
             } catch (JSONException e) {
@@ -466,7 +466,7 @@ public class ConfirmationOrder extends BaseActivity {
         json.put("room_name",room_selected.getString("name"));
         json.put("check_in",format.format(check_in_date));
         json.put("check_out",format.format(check_out_date));
-        json.put("total_guest",intent.getIntExtra("guest",0)+" Tamu");
+        json.put("total_guest",intent.getIntExtra("guest",0)+" "+getResources().getString(R.string.guest_label));
 
         hotel_list_array.add(json);
 
@@ -958,7 +958,7 @@ public class ConfirmationOrder extends BaseActivity {
                     JSONObject json = new JSONObject(arrayList.get(selected_arr).toString());
                     JSONObject data_from_intent = new JSONObject(data.getStringExtra("data"));
                     json.put("edit",true);
-                    json.put("title",data_from_intent.getString("title"));
+                    json.put("title",data_from_intent.getInt("title"));
                     json.put("name",data_from_intent.getString("name"));
 
                     if(intentString.equals("flight")) {

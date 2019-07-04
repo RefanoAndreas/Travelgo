@@ -55,7 +55,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Kota Keberangkatan"
+                        android:text="@string/flight_search_depart_city_label"
                         android:textColor="@android:color/white"
                         android:fontFamily="@font/montserrat_medium"/>
                     <TextView
@@ -63,13 +63,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/rounded_white_10dp"
-                        android:hint="Pilih Stasiun"
+                        android:hint="@string/flight_search_choose_station_label"
                         android:singleLine="true"
                         android:padding="10dp"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Kota Tujuan"
+                        android:text="@string/flight_search_arrive_city_label"
                         android:textColor="@android:color/white"
                         android:fontFamily="@font/montserrat_medium"
                         android:layout_marginTop="16dp"/>
@@ -79,7 +79,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/rounded_white_10dp"
                         android:singleLine="true"
-                        android:hint="Pilih Stasiun"
+                        android:hint="@string/flight_search_choose_station_label"
                         android:padding="10dp"/>
                 </LinearLayout>
 
@@ -117,7 +117,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="8dp"
-                        android:text="Pulang Pergi?"/>
+                        android:text="@string/flight_search_roundtrip_label"/>
                     <Switch
                         android:id="@+id/TrainSearch_switch"
                         android:layout_width="wrap_content"
@@ -169,7 +169,7 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Berangkat"/>
+                                    android:text="@string/flight_search_depart_date_label"/>
                                 <TextView
                                     android:id="@+id/TV_tanggalBerangkat"
                                     android:layout_width="match_parent"
@@ -191,7 +191,7 @@
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="Kembali"/>
+                                    android:text="@string/flight_search_return_date_label"/>
                                 <TextView
                                     android:id="@+id/TV_tanggalKembali"
                                     android:layout_width="match_parent"
@@ -241,7 +241,7 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Penumpang"/>
+                                android:text="@string/flight_search_passenger_label"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -253,7 +253,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="1 Dewasa"
+                                    android:text="@string/flight_search_adult_label"
                                     android:id="@+id/adult_label"
                                     android:textSize="16dp"
                                     android:fontFamily="@font/montserrat_medium"
@@ -262,7 +262,7 @@
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="0 Bayi"
+                                    android:text="@string/flight_search_infant_label"
                                     android:id="@+id/infant_label"
                                     android:textSize="16dp"
                                     android:fontFamily="@font/montserrat_medium"
@@ -309,11 +309,11 @@
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Kelas"/>
+                                android:text="@string/flight_search_class_label"/>
                             <TextView
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Ekonomi"
+                                android:text="@string/flight_search_class_economy_label"
                                 android:layout_marginTop="4dp"
                                 android:id="@+id/kelas"
                                 android:textSize="16dp"
@@ -338,7 +338,7 @@
         style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
         android:insetBottom="0dp"
         android:insetTop="0dp"
-        android:text="Cari Tiket"
+        android:text="@string/find_ticket_label"
         app:cornerRadius="0dp"/>
 
 
