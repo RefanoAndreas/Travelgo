@@ -176,6 +176,12 @@
                         android:imeOptions="actionDone"
                         android:id="@+id/keyword"/>
                 </android.support.design.widget.TextInputLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginLeft="16dp"
+                    android:text="@string/tour_create_add_keyword_label"/>
                 <android.support.design.chip.ChipGroup
                     android:layout_width="match_parent"
                     android:layout_height="50dp"

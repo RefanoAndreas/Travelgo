@@ -149,6 +149,7 @@ public class D1Notifikasi extends BaseActivity {
         else
             url = C_URL+"history";
         url += "?page="+page;
+        Log.d("url",url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -203,7 +204,7 @@ public class D1Notifikasi extends BaseActivity {
                             jsonObject.put("info2", jsonSales.getString("info2"));
                             jsonObject.put("info3", jsonSales.getString("info3"));
                             jsonObject.put("info4", jsonSales.getString("info4"));
-                            jsonObject.put("status", jsonSales.getInt("status"));
+                            jsonObject.put("status", 0);
 
                             notifList.add(jsonObject);
                             if(x != 0)
