@@ -244,10 +244,10 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
         if (result.getResponse() != null) {
             switch (result.getStatus()) {
                 case TransactionResult.STATUS_SUCCESS:
-                    set_transaction_reference(result.getResponse().getTransactionId(),"success");
+                    set_transaction_reference(result.getResponse().getTransactionId(),0);
                     break;
                 case TransactionResult.STATUS_PENDING:
-                    set_transaction_reference(result.getResponse().getTransactionId(),"pending");
+                    set_transaction_reference(result.getResponse().getTransactionId(),1);
                     break;
                 case TransactionResult.STATUS_FAILED:
                     Toast.makeText(this, "Transaction Failed. ID: " + result.getResponse().getTransactionId() + ". Message: " + result.getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
@@ -355,7 +355,7 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
 
     }
 
-    public void set_transaction_reference(String reference_id,String status){
+    public void set_transaction_reference(String reference_id,int status){
         String url = "";
         if(getIntent().getStringExtra("type").equals("tour"))
             url = C_URL+"sales/tour/reference";

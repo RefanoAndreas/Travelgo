@@ -62,9 +62,9 @@ public class PassengerBaggageAdapter extends RecyclerView.Adapter<PassengerBagga
             viewHolder.airlines.setText(jsonObject.getString("airlines"));
 
             if(!jsonObject.getBoolean("is_return"))
-                viewHolder.type.setText("Pesawat Pergi");
+                viewHolder.type.setText(context.getResources().getString(R.string.bagasi_penumpang_depart_title));
             else
-                viewHolder.type.setText("Pesawat Pulang");
+                viewHolder.type.setText(context.getResources().getString(R.string.bagasi_penumpang_return_title));
 
             int index = 0;
             for(int x=0;x<jsonObject.getJSONArray("baggage").length();x++){

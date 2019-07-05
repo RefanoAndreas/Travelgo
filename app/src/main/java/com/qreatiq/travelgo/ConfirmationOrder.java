@@ -133,7 +133,7 @@ public class ConfirmationOrder extends BaseActivity {
                         "\"title\":0," +
                         "\"name\":\"\"," +
                         "\"label\":\""+getResources().getString(R.string.confirmation_flight_fill_guest_label)+"\"," +
-                        "\"type\":\"Tamu\"," +
+                        "\"type\":\""+getResources().getString(R.string.guest_label)+"\"," +
                         "\"for\":\"hotel\"}"));
 
                 special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_1_label)+"\",\"checked\":false}"));
@@ -190,7 +190,7 @@ public class ConfirmationOrder extends BaseActivity {
                     json.put("title",0);
                     json.put("name","");
                     json.put("no_passport","");
-                    json.put("label",getResources().getString(R.string.confirmation_flight_fill_adult_label)+(x+1));
+                    json.put("label",getResources().getString(R.string.confirmation_flight_fill_adult_label)+" "+(x+1));
                     json.put("type",getResources().getString(R.string.adult_label)+" "+(x+1));
                     json.put("category",0);
                     json.put("category_label",getResources().getString(R.string.adult_label));
@@ -205,7 +205,7 @@ public class ConfirmationOrder extends BaseActivity {
                     json.put("title",0);
                     json.put("name","");
                     json.put("no_passport","");
-                    json.put("label",getResources().getString(R.string.confirmation_flight_fill_child_label)+(x+1));
+                    json.put("label",getResources().getString(R.string.confirmation_flight_fill_child_label)+" "+(x+1));
                     json.put("type",getResources().getString(R.string.child_label)+" "+(x+1));
                     json.put("category",1);
                     json.put("category_label",getResources().getString(R.string.child_label));
@@ -220,7 +220,7 @@ public class ConfirmationOrder extends BaseActivity {
                     json.put("title",0);
                     json.put("name","");
                     json.put("no_passport","");
-                    json.put("label",getResources().getString(R.string.confirmation_flight_fill_infant_label)+(x+1));
+                    json.put("label",getResources().getString(R.string.confirmation_flight_fill_infant_label)+" "+(x+1));
                     json.put("type",getResources().getString(R.string.infant_label)+" "+(x+1));
                     json.put("category",2);
                     json.put("category_label",getResources().getString(R.string.infant_label));
@@ -630,7 +630,7 @@ public class ConfirmationOrder extends BaseActivity {
         for(int x=0;x<arrayList.size();x++){
             if(!arrayList.get(x).getBoolean("edit")){
                 ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
-                Snackbar snackbar = Snackbar.make(layout, "Data "+arrayList.get(x).getString("type")+" belum diisi", Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(layout, arrayList.get(x).getString("type")+" "+getResources().getString(R.string.error_data_label), Snackbar.LENGTH_LONG);
                 snackbar.show();
                 allow = false;
             }
@@ -653,7 +653,7 @@ public class ConfirmationOrder extends BaseActivity {
             loading.show();
 
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("Booking is Failed");
+            alert.setTitle(getResources().getString(R.string.confirmation_booking_failed_label));
             alert.setCancelable(true);
             alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                 @Override
@@ -739,7 +739,7 @@ public class ConfirmationOrder extends BaseActivity {
         for(int x=0;x<arrayList.size();x++){
             if(!arrayList.get(x).getBoolean("edit")){
                 ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
-                Snackbar snackbar = Snackbar.make(layout, "Data "+arrayList.get(x).getString("type")+" belum diisi", Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(layout, arrayList.get(x).getString("type")+" "+getResources().getString(R.string.error_data_label), Snackbar.LENGTH_LONG);
                 snackbar.show();
                 allow = false;
             }
@@ -772,7 +772,7 @@ public class ConfirmationOrder extends BaseActivity {
             loading.show();
 
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("Booking is Failed");
+            alert.setTitle(getResources().getString(R.string.confirmation_booking_failed_label));
             alert.setCancelable(true);
             alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                 @Override
@@ -853,7 +853,7 @@ public class ConfirmationOrder extends BaseActivity {
         for(int x=0;x<arrayList.size();x++){
             if(!arrayList.get(x).getBoolean("edit")){
                 ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
-                Snackbar snackbar = Snackbar.make(layout, "Data "+arrayList.get(x).getString("type")+" belum diisi", Snackbar.LENGTH_LONG);
+                Snackbar snackbar = Snackbar.make(layout, arrayList.get(x).getString("type")+" "+getResources().getString(R.string.error_data_label), Snackbar.LENGTH_LONG);
                 snackbar.show();
                 allow = false;
             }
@@ -876,7 +876,7 @@ public class ConfirmationOrder extends BaseActivity {
             loading.show();
 
             AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            alert.setTitle("Booking is Failed");
+            alert.setTitle(getResources().getString(R.string.confirmation_booking_failed_label));
             alert.setCancelable(true);
             alert.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                 @Override

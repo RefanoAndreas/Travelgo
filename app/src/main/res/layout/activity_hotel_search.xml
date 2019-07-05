@@ -234,7 +234,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="1 Tamu"
+                                        android:text="@string/hotel_search_init_guest_label"
                                         android:id="@+id/guest_label"
                                         android:textSize="16dp"
                                         android:fontFamily="@font/montserrat_medium"
@@ -254,7 +254,7 @@
                                     <TextView
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:text="1 Kamar"
+                                        android:text="@string/hotel_search_init_room_label"
                                         android:id="@+id/room_label"
                                         android:textSize="16dp"
                                         android:fontFamily="@font/montserrat_medium"

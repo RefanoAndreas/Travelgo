@@ -99,6 +99,7 @@
     <string name="error_image_label">Image is empty</string>
     <string name="error_phone_label">Phone is empty</string>
     <string name="error_password_label">Password is empty</string>
+    <string name="error_data_label">data is empty</string>
 
     <string name="tour_create_add_keyword_label">Press enter to add new keyword</string>
     <string name="tour_create_error_photo_label">Photo tour is empty</string>
@@ -148,6 +149,7 @@
     <string name="confirmation_total_label">Total</string>
     <string name="confirmation_tax_label">Tax</string>
     <string name="confirmation_booking_progress_label">Booking is in progress</string>
+    <string name="confirmation_booking_failed_label">Booking is failed</string>
     <string name="confirmation_error_requester_phone_label">Please enter phone number</string>
     <string name="confirmation_error_not_logged_in_label">Please Login to Fill Contact Details</string>
 
@@ -223,6 +225,8 @@
     <string name="hotel_search_error_total_guest_label">Total Guest is empty</string>
     <string name="hotel_search_error_total_room_label">Total Room is empty</string>
     <string name="hotel_search_error_same_date_label">Check-In Date is same with Check-Out Date</string>
+    <string name="hotel_search_init_guest_label">1 Guest</string>
+    <string name="hotel_search_init_room_label">1 Room</string>
 
     <string name="login_subtitle_label">Or login with your social account</string>
     <string name="login_bottom_1_label">Don\'t have any account yet? </string>
@@ -248,6 +252,7 @@
     <string name="transaction_detail_add_participant_label">Add Participant Data</string>
     <string name="transaction_detail_travel_packet_label">Travel Packet</string>
     <string name="transaction_detail_tour_contact_label">Tour Contact</string>
+    <string name="transaction_detail_error_participant_label">Participant Empty</string>
 
     <string name="bagasi_penumpang_depart_title">Depart Flight</string>
     <string name="bagasi_penumpang_return_title">Return Flight</string>
@@ -287,6 +292,7 @@
     <string name="manifest_profile_edit_title">Edit Profile</string>
     <string name="manifest_my_profile_title">My Profile</string>
     <string name="manifest_change_date_title">Ubah Tanggal</string>
+    <string name="manifest_sort_title">Sort</string>
 
     <string name="city_search_last_search_label">Your Last Search</string>
     <string name="city_search_flight_search_label">Search City or Airport</string>
@@ -322,7 +328,7 @@
     <string name="sort_item_flight_4_label">Latest Arrive</string>
 
     <string name="home_development_title">Notice</string>
-    <string name="home_development_label">This feature is in development</string>
+    <string name="home_development_label">This feature under development</string>
 
     <string name="hotel_guest_title">Guest Hotel</string>
     <string name="hotel_guest_total_guest_label">Total Guest</string>

@@ -153,11 +153,13 @@ public class TransactionDetail extends BaseActivity {
         mAdapterParticipant.setOnItemClickListener(new ParticipantListAdapter.ClickListener() {
             @Override
             public void onItemClick(int position) {
-                selected_arr = position;
-                startActivityForResult(new Intent(TransactionDetail.this, DataPenumpang.class)
-                        .putExtra("packageName", "tour")
-                        .putExtra("data",ParticipantList.get(selected_arr).toString()),
-                        EDIT_GUEST);
+                if (intentString.equals("pay")) {
+                    selected_arr = position;
+                    startActivityForResult(new Intent(TransactionDetail.this, DataPenumpang.class)
+                                    .putExtra("packageName", "tour")
+                                    .putExtra("data", ParticipantList.get(selected_arr).toString()),
+                            EDIT_GUEST);
+                }
             }
         });
 
@@ -166,7 +168,7 @@ public class TransactionDetail extends BaseActivity {
             public void onClick(View v) {
                 if(ParticipantList.size() == 0){
                     ConstraintLayout layout=(ConstraintLayout) findViewById(R.id.layout);
-                    Snackbar snackbar=Snackbar.make(layout,"Data Peserta kosong",Snackbar.LENGTH_LONG);
+                    Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.transaction_detail_error_participant_label),Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
                 else {
@@ -214,7 +216,7 @@ public class TransactionDetail extends BaseActivity {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("dd/MM/yyyy ");
 
-        TV_status_transaction.setText("Pending");
+        TV_status_transaction.setText(getResources().getStringArray(R.array.status_sales)[1]);
         TV_buy_date.setText(mdformat.format(calendar.getTime()));
         TV_trip_date.setText(trip_date);
         TV_trip_location.setText(trip_loc);
@@ -263,7 +265,7 @@ public class TransactionDetail extends BaseActivity {
                     JSONObject jsonDetail = response.getJSONObject("detail");
                     Log.d("jsonDetail", jsonDetail.toString());
 
-                    TV_status_transaction.setText(jsonDetail.getString("status"));
+                    TV_status_transaction.setText(getResources().getStringArray(R.array.status_sales)[jsonDetail.getInt("status")]);
                     TV_buy_date.setText(jsonDetail.getString("order_date"));
 
                     for(int x=0; x<jsonDetail.getJSONArray("participant").length();x++){
@@ -361,7 +363,7 @@ public class TransactionDetail extends BaseActivity {
 
         final ProgressDialog loading = new ProgressDialog(this);
         loading.setMax(100);
-        loading.setTitle("Booking is in progress");
+        loading.setTitle(getResources().getString(R.string.confirmation_booking_progress_label));
         loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         loading.setCancelable(false);
         loading.setProgress(0);
@@ -378,6 +380,10 @@ public class TransactionDetail extends BaseActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        Log.d("data",jsonObject.toString());
+        Log.d("url",url);
+        Log.d("auth",userID);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override

@@ -14,6 +14,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -48,6 +50,7 @@ public class D1Notifikasi extends BaseActivity {
     ArrayList<JSONObject> notifList = new ArrayList<>();
     SwipeRefreshLayout swipeLayout;
     RecyclerViewSkeletonScreen skeleton;
+    TextView no_data;
 
     int page = 1;
     Handler mHandler = new Handler();
@@ -74,6 +77,7 @@ public class D1Notifikasi extends BaseActivity {
 
         intent = getIntent();
         dataIntent = intent.getStringExtra("data");
+        no_data = (TextView) findViewById(R.id.no_data);
 
         if(dataIntent.equals("sales")){
             getSupportActionBar().setTitle(getResources().getString(R.string.manifest_history_sales_title));
@@ -150,6 +154,7 @@ public class D1Notifikasi extends BaseActivity {
             url = C_URL+"history";
         url += "?page="+page;
         Log.d("url",url);
+        Log.d("auth",userID);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -157,100 +162,113 @@ public class D1Notifikasi extends BaseActivity {
 
                 try {
                     if(dataIntent.equals("purchasing")) {
-                        for (int x = 0; x < response.getJSONObject("purchasing").getJSONArray("data").length(); x++) {
-                            JSONObject jsonObject = new JSONObject();
-                            JSONObject jsonSales = response.getJSONObject("purchasing").getJSONArray("data").getJSONObject(x);
+                        if(response.getJSONObject("purchasing").getJSONArray("data").length() > 0) {
+                            for (int x = 0; x < response.getJSONObject("purchasing").getJSONArray("data").length(); x++) {
+                                JSONObject jsonObject = new JSONObject();
+                                JSONObject jsonSales = response.getJSONObject("purchasing").getJSONArray("data").getJSONObject(x);
 
-                            jsonObject.put("id", jsonSales.getString("id"));
-                            jsonObject.put("date1", jsonSales.getString("buy_date"));
-                            jsonObject.put("type", "purchasing");
-                            jsonObject.put("salesType", jsonSales.getString("salesType"));
+                                jsonObject.put("id", jsonSales.getString("id"));
+                                jsonObject.put("date1", jsonSales.getString("buy_date"));
+                                jsonObject.put("type", "purchasing");
+                                jsonObject.put("salesType", jsonSales.getString("salesType"));
 
-                            jsonObject.put("info1", jsonSales.getString("info1"));
-                            jsonObject.put("info2", jsonSales.getString("info2"));
-                            if(jsonSales.getString("salesType").equals("flight") || jsonSales.getString("salesType").equals("train")) {
-                                jsonObject.put("info3", jsonSales.getString("info3") + " "+getResources().getString(R.string.flight_search_passenger_label));
-                                if(jsonSales.getString("info4").equals("Pulang Pergi"))
-                                    jsonObject.put("info4", getResources().getString(R.string.roundtrip_label));
+                                jsonObject.put("info1", jsonSales.getString("info1"));
+                                jsonObject.put("info2", jsonSales.getString("info2"));
+                                if (jsonSales.getString("salesType").equals("flight") || jsonSales.getString("salesType").equals("train")) {
+                                    jsonObject.put("info3", jsonSales.getString("info3") + " " + getResources().getString(R.string.flight_search_passenger_label));
+                                    if (jsonSales.getString("info4").equals("Pulang Pergi"))
+                                        jsonObject.put("info4", getResources().getString(R.string.roundtrip_label));
+                                    else
+                                        jsonObject.put("info4", getResources().getString(R.string.confirmation_one_way_label));
+                                } else {
+                                    jsonObject.put("info3", jsonSales.getString("info3"));
+                                    jsonObject.put("info4", jsonSales.getString("info4") + " " + getResources().getString(R.string.hotel_search_night_label));
+                                }
+
+                                jsonObject.put("status", jsonSales.getInt("status"));
+
+                                notifList.add(jsonObject);
+                                if (x != 0)
+                                    mAdapter.notifyItemInserted(x);
                                 else
-                                    jsonObject.put("info4", getResources().getString(R.string.confirmation_one_way_label));
+                                    mAdapter.notifyDataSetChanged();
                             }
-                            else {
-                                jsonObject.put("info3", jsonSales.getString("info3"));
-                                jsonObject.put("info4", jsonSales.getString("info4")+" "+getResources().getString(R.string.hotel_search_night_label));
-                            }
-
-                            jsonObject.put("status", jsonSales.getInt("status"));
-
-                            notifList.add(jsonObject);
-                            if (x != 0)
-                                mAdapter.notifyItemInserted(x);
-                            else
-                                mAdapter.notifyDataSetChanged();
                         }
+                        else
+                            no_data.setVisibility(View.VISIBLE);
                     }
                     else if(dataIntent.equals("sales")) {
-                        for(int x=0;x<response.getJSONObject("sales").getJSONArray("data").length();x++) {
-                            JSONObject jsonSales= response.getJSONObject("sales").getJSONArray("data").getJSONObject(x);
+                        if(response.getJSONObject("sales").getJSONArray("data").length() > 0) {
+                            for (int x = 0; x < response.getJSONObject("sales").getJSONArray("data").length(); x++) {
+                                JSONObject jsonSales = response.getJSONObject("sales").getJSONArray("data").getJSONObject(x);
 
-                            JSONObject jsonObject = new JSONObject();
+                                JSONObject jsonObject = new JSONObject();
 
-                            jsonObject.put("id", jsonSales.getString("sales_id"));
-                            jsonObject.put("date1", jsonSales.getString("date1"));
-                            jsonObject.put("type", "sales");
-                            jsonObject.put("salesType", "tour");
+                                jsonObject.put("id", jsonSales.getString("sales_id"));
+                                jsonObject.put("date1", jsonSales.getString("date1"));
+                                jsonObject.put("type", "sales");
+                                jsonObject.put("salesType", "tour");
 
-                            jsonObject.put("info1", jsonSales.getString("info1"));
-                            jsonObject.put("info2", jsonSales.getString("info2"));
-                            jsonObject.put("info3", jsonSales.getString("info3"));
-                            jsonObject.put("info4", jsonSales.getString("info4"));
-                            jsonObject.put("status", 0);
+                                jsonObject.put("info1", jsonSales.getString("info1"));
+                                jsonObject.put("info2", jsonSales.getString("info2"));
+                                jsonObject.put("info3", jsonSales.getString("info3"));
+                                jsonObject.put("info4", jsonSales.getString("info4"));
+                                jsonObject.put("status", 2);
 
-                            notifList.add(jsonObject);
-                            if(x != 0)
-                                mAdapter.notifyItemInserted(x);
-                            else
-                                mAdapter.notifyDataSetChanged();
+                                notifList.add(jsonObject);
+                                if (x != 0)
+                                    mAdapter.notifyItemInserted(x);
+                                else
+                                    mAdapter.notifyDataSetChanged();
 
+                            }
                         }
+                        else
+                            no_data.setVisibility(View.VISIBLE);
                     }
                     else{
-                        for(int x=0;x<response.getJSONObject("history").getJSONArray("data").length();x++) {
-                            JSONObject jsonSales= response.getJSONObject("history").getJSONArray("data").getJSONObject(x);
+                        if(response.getJSONObject("history").getJSONArray("data").length() > 0) {
+                            for (int x = 0; x < response.getJSONObject("history").getJSONArray("data").length(); x++) {
+                                JSONObject jsonSales = response.getJSONObject("history").getJSONArray("data").getJSONObject(x);
 
-                            JSONObject jsonObject = new JSONObject();
+                                JSONObject jsonObject = new JSONObject();
 
-                            Log.d("json", jsonSales.toString());
+                                Log.d("json", jsonSales.toString());
 
-                            jsonObject.put("id", jsonSales.getString("id"));
-                            jsonObject.put("date1", jsonSales.getString("buy_date"));
-                            jsonObject.put("type", jsonSales.getString("type"));
-                            jsonObject.put("salesType", jsonSales.getString("salesType"));
+                                jsonObject.put("id", jsonSales.getString("id"));
+                                jsonObject.put("date1", jsonSales.getString("buy_date"));
+                                jsonObject.put("type", jsonSales.getString("type"));
+                                jsonObject.put("salesType", jsonSales.getString("salesType"));
 //                            jsonObject.put("salesType", "flight");
 
-                            jsonObject.put("info1", jsonSales.getString("info1"));
-                            jsonObject.put("info2", jsonSales.getString("info2"));
-                            if(jsonSales.getString("salesType").equals("flight") || jsonSales.getString("salesType").equals("train")) {
-                                jsonObject.put("info3", jsonSales.getString("info3") + " "+getResources().getString(R.string.flight_search_passenger_label));
-                                if(jsonSales.getString("info4").equals("Pulang Pergi"))
-                                    jsonObject.put("info4", getResources().getString(R.string.roundtrip_label));
+                                jsonObject.put("info1", jsonSales.getString("info1"));
+                                jsonObject.put("info2", jsonSales.getString("info2"));
+                                if (jsonSales.getString("salesType").equals("flight") || jsonSales.getString("salesType").equals("train")) {
+                                    jsonObject.put("info3", jsonSales.getString("info3") + " " + getResources().getString(R.string.flight_search_passenger_label));
+                                    if (jsonSales.getString("info4").equals("Pulang Pergi"))
+                                        jsonObject.put("info4", getResources().getString(R.string.roundtrip_label));
+                                    else
+                                        jsonObject.put("info4", getResources().getString(R.string.confirmation_one_way_label));
+                                } else {
+                                    jsonObject.put("info3", jsonSales.getString("info3"));
+                                    jsonObject.put("info4", jsonSales.getString("info4") + " " + getResources().getString(R.string.hotel_search_night_label));
+                                }
+
+                                if(!jsonSales.getString("type").equals("sales"))
+                                    jsonObject.put("status", jsonSales.getInt("status"));
                                 else
-                                    jsonObject.put("info4", getResources().getString(R.string.confirmation_one_way_label));
+                                    jsonObject.put("status", 2);
+
+                                notifList.add(jsonObject);
+                                if (x != 0)
+                                    mAdapter.notifyItemInserted(x);
+                                else
+                                    mAdapter.notifyDataSetChanged();
+
                             }
-                            else {
-                                jsonObject.put("info3", jsonSales.getString("info3"));
-                                jsonObject.put("info4", jsonSales.getString("info4")+" "+getResources().getString(R.string.hotel_search_night_label));
-                            }
-
-                            jsonObject.put("status", jsonSales.getInt("status"));
-
-                            notifList.add(jsonObject);
-                            if(x != 0)
-                                mAdapter.notifyItemInserted(x);
-                            else
-                                mAdapter.notifyDataSetChanged();
-
                         }
+                        else
+                            no_data.setVisibility(View.VISIBLE);
                     }
                     swipeLayout.setRefreshing(false);
                     if(page == 1)
