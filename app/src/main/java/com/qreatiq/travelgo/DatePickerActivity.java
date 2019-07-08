@@ -47,7 +47,7 @@ public class DatePickerActivity extends BaseActivity {
 
 //        calendar.set(Calendar.DATE,Calendar.getInstance().getActualMinimum(Calendar.DATE));
 //        long date = calendar.getTime().getTime();
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         start_date = new Date(intent.getLongExtra("start_date",0));
         if(intent.getBooleanExtra("isReturn",false))
@@ -59,6 +59,7 @@ public class DatePickerActivity extends BaseActivity {
         calendarView.state().edit()
                 .setMinimumDate(CalendarDay.from(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH)+1,calendar.get(Calendar.DAY_OF_MONTH)))
                 .commit();
+
         if(intent.getBooleanExtra("isReturn",false)) {
             calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_RANGE);
             if(start_date.getTime() != end_date.getTime()) {
@@ -98,7 +99,6 @@ public class DatePickerActivity extends BaseActivity {
                     Date d = new Date(dates.get(x).getYear()-1900,dates.get(x).getMonth()-1,dates.get(x).getDay());
                     dateSelected.add(d.getTime());
                 }
-                Log.d("data",dateSelected.toString());
             }
         });
 
@@ -106,7 +106,11 @@ public class DatePickerActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if(dateSelected.toString().equals("[]")){
-                    Snackbar snackbar = Snackbar.make(layout,"Date is not in range", Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar = Snackbar.make(layout,getResources().getString(R.string.datepicker_error_date_empty_label), Snackbar.LENGTH_SHORT);
+                    snackbar.show();
+                }
+                else if(intent.getBooleanExtra("isReturn",false) && dateSelected.size() == 1) {
+                    Snackbar snackbar = Snackbar.make(layout,getResources().getString(R.string.datepicker_error_date_return_label), Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
                 else{

@@ -335,6 +335,9 @@
 
     <string name="list_participant_label">Fill passenger data</string>
 
+    <string name="datepicker_error_date_empty_label">Date is empty</string>
+    <string name="datepicker_error_date_return_label">Date return is empty</string>
+
     <string-array name="titleName">
         <item>Mr.</item>
         <item>Mrs.</item>

@@ -195,7 +195,7 @@ public class D1Notifikasi extends BaseActivity {
                                     mAdapter.notifyDataSetChanged();
                             }
                         }
-                        else
+                        else if(response.getJSONObject("purchasing").getJSONArray("data").length() == 0 && notifList.size() == 0)
                             no_data.setVisibility(View.VISIBLE);
                     }
                     else if(dataIntent.equals("sales")) {
@@ -225,7 +225,7 @@ public class D1Notifikasi extends BaseActivity {
 
                             }
                         }
-                        else
+                        else if(response.getJSONObject("sales").getJSONArray("data").length() == 0 && notifList.size() == 0)
                             no_data.setVisibility(View.VISIBLE);
                     }
                     else{
@@ -270,7 +270,7 @@ public class D1Notifikasi extends BaseActivity {
 
                             }
                         }
-                        else
+                        else if(response.getJSONObject("history").getJSONArray("data").length() == 0 && notifList.size() == 0)
                             no_data.setVisibility(View.VISIBLE);
                     }
                     swipeLayout.setRefreshing(false);
