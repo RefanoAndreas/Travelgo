@@ -110,6 +110,7 @@ public class TourCreate extends BaseActivity {
 
     TextView no_data;
     ConstraintLayout layout;
+    boolean from_system = false;
 
     Intent intent;
 
@@ -342,21 +343,24 @@ public class TourCreate extends BaseActivity {
             }
         });
 
-        keyword.setOnKeyListener(new View.OnKeyListener() {
+        keyword.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if((event.getAction() == KeyEvent.ACTION_DOWN) && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)){
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.length() > 0 && String.valueOf(s.charAt(s.length()-1)).equals("\n")) {
                     int counter = 0;
-                    for(int x=0;x<keyword_array.size();x++) {
-                        if(keyword.getText().toString().toLowerCase().equals(keyword_array.get(x).toLowerCase()))
-                           break;
+                    for (int x = 0; x < keyword_array.size(); x++) {
+                        if (keyword.getText().toString().toLowerCase().equals(keyword_array.get(x).toLowerCase()))
+                            break;
                         counter++;
                     }
 
-//                    Log.d("data", String.valueOf(counter));
-//                    Log.d("data", String.valueOf(keyword_array.size()-1));
-                    if(counter == keyword_array.size()) {
-                        final View view = LayoutInflater.from(TourCreate.this).inflate(R.layout.chip_with_exit,null);
+                    if (counter == keyword_array.size()) {
+                        final View view = LayoutInflater.from(TourCreate.this).inflate(R.layout.chip_with_exit, null);
                         Chip chip = (Chip) view.findViewById(R.id.chip);
                         chip.setText(keyword.getText().toString());
                         keyword_chip_layout.addView(view);
@@ -366,8 +370,8 @@ public class TourCreate extends BaseActivity {
                             @Override
                             public void onClick(View v) {
                                 keyword_chip_layout.removeView(view);
-                                int index=0;
-                                for(int x=0;x<keyword_array.size();x++) {
+                                int index = 0;
+                                for (int x = 0; x < keyword_array.size(); x++) {
                                     if (keyword_array.get(x).equals(keyword.getText().toString())) {
                                         index = x;
                                         break;
@@ -377,10 +381,14 @@ public class TourCreate extends BaseActivity {
                             }
                         });
                     }
+
                     keyword.setText("");
-                    return true;
                 }
-                return false;
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
     }

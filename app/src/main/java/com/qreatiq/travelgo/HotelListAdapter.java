@@ -74,7 +74,7 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.Hote
             hotelListHolder.hotelLocation.setText(jsonObject.getString("location"));
 
             DecimalFormat formatter = new DecimalFormat("#,###,###");
-            hotelListHolder.hotelPrice.setText("Rp. "+formatter.format(jsonObject.getInt("price"))+context.getResources().getString(R.string.schedule_per_night_label));
+            hotelListHolder.hotelPrice.setText("Rp. "+formatter.format(jsonObject.getInt("price"))+" "+context.getResources().getString(R.string.schedule_per_night_label));
 
             hotelListHolder.rating.setRating((float) jsonObject.getDouble("rating"));
 

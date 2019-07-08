@@ -463,7 +463,7 @@ public class FlightSearchJadwal extends BaseActivity {
         });
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                60000,
+                600000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonObjectRequest);
@@ -561,7 +561,7 @@ public class FlightSearchJadwal extends BaseActivity {
         });
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                60000,
+                600000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonObjectRequest);
@@ -639,7 +639,7 @@ public class FlightSearchJadwal extends BaseActivity {
         });
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                120000,
+                600000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonObjectRequest);

@@ -163,6 +163,7 @@ public class D1Notifikasi extends BaseActivity {
                 try {
                     if(dataIntent.equals("purchasing")) {
                         if(response.getJSONObject("purchasing").getJSONArray("data").length() > 0) {
+                            no_data.setVisibility(View.GONE);
                             for (int x = 0; x < response.getJSONObject("purchasing").getJSONArray("data").length(); x++) {
                                 JSONObject jsonObject = new JSONObject();
                                 JSONObject jsonSales = response.getJSONObject("purchasing").getJSONArray("data").getJSONObject(x);
@@ -199,6 +200,7 @@ public class D1Notifikasi extends BaseActivity {
                     }
                     else if(dataIntent.equals("sales")) {
                         if(response.getJSONObject("sales").getJSONArray("data").length() > 0) {
+                            no_data.setVisibility(View.GONE);
                             for (int x = 0; x < response.getJSONObject("sales").getJSONArray("data").length(); x++) {
                                 JSONObject jsonSales = response.getJSONObject("sales").getJSONArray("data").getJSONObject(x);
 
@@ -228,6 +230,7 @@ public class D1Notifikasi extends BaseActivity {
                     }
                     else{
                         if(response.getJSONObject("history").getJSONArray("data").length() > 0) {
+                            no_data.setVisibility(View.GONE);
                             for (int x = 0; x < response.getJSONObject("history").getJSONArray("data").length(); x++) {
                                 JSONObject jsonSales = response.getJSONObject("history").getJSONArray("data").getJSONObject(x);
 
