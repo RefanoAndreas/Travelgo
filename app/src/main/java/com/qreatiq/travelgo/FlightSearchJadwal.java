@@ -472,7 +472,7 @@ public class FlightSearchJadwal extends BaseActivity {
     public void trainData() throws JSONException, UnsupportedEncodingException {
         skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_jadwal_flight_train_item).show();
         String kelas = intent.getStringExtra("kelas");
-        SimpleDateFormat format = new SimpleDateFormat("d/MM/yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String url = C_URL+"train/search?origin="+origin.getString("code")+
                 "&destination="+destination.getString("code")+
                 "&time="+format.format(date)+

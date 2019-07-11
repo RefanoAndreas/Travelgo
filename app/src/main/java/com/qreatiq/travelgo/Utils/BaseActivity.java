@@ -67,14 +67,14 @@ public class BaseActivity extends AppCompatActivity {
     public String android_id;
 
     public RequestQueue requestQueue;
-//    public String C_URL = "http://safanci.com/stagging1/travelgo/api/";
-//    public String C_URL_IMAGES = "http://safanci.com/stagging1/travelgo/api/images/";
+    public String C_URL = "http://safanci.com/stagging1/travelgo/api/";
+    public String C_URL_IMAGES = "http://safanci.com/stagging1/travelgo/api/images/";
 
-    public String C_URL = "http://travelgolaravel.propertigo.id/api/";
-    public String C_URL_IMAGES = "http://travelgolaravel.propertigo.id/api/images/";
+//    public String C_URL = "http://travelgolaravel.propertigo.id/api/";
+//    public String C_URL_IMAGES = "http://travelgolaravel.propertigo.id/api/images/";
 
     public boolean production = false;
-    public String version = "2.4";
+    public String version = "2.5";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

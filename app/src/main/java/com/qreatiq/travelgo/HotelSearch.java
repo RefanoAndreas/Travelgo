@@ -133,6 +133,7 @@ public class HotelSearch extends BaseActivity {
         in.putExtra("start_date",start_date.getTime());
         in.putExtra("end_date",end_date.getTime());
         in.putExtra("isReturn",true);
+        in.putExtra("type","hotel");
         startActivityForResult(in,START_DATE);
     }
 
@@ -143,6 +144,7 @@ public class HotelSearch extends BaseActivity {
         in.putExtra("start_date",start_date.getTime());
         in.putExtra("end_date",end_date.getTime());
         in.putExtra("isReturn",true);
+        in.putExtra("type","hotel");
         startActivityForResult(in,END_DATE);
     }
 

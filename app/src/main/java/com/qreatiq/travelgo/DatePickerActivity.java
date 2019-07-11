@@ -110,7 +110,11 @@ public class DatePickerActivity extends BaseActivity {
                     snackbar.show();
                 }
                 else if(intent.getBooleanExtra("isReturn",false) && dateSelected.size() == 1) {
-                    Snackbar snackbar = Snackbar.make(layout,getResources().getString(R.string.datepicker_error_date_return_label), Snackbar.LENGTH_SHORT);
+                    Snackbar snackbar;
+                    if(getIntent().hasExtra("type") && getIntent().getStringExtra("type").equals("hotel"))
+                        snackbar = Snackbar.make(layout,getResources().getString(R.string.datepicker_error_check_out_label), Snackbar.LENGTH_SHORT);
+                    else
+                        snackbar = Snackbar.make(layout,getResources().getString(R.string.datepicker_error_date_return_label), Snackbar.LENGTH_SHORT);
                     snackbar.show();
                 }
                 else{
