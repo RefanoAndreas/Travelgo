@@ -5,6 +5,7 @@ import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,12 +79,15 @@ public class HotelListAdapter extends RecyclerView.Adapter<HotelListAdapter.Hote
 
             hotelListHolder.rating.setRating((float) jsonObject.getDouble("rating"));
 
-            if(!jsonObject.getString("photo").equals(""))
+
+            if(jsonObject.has("photo") && !jsonObject.getString("photo").equals("")) {
+                Log.d("photo",jsonObject.getString("photo"));
                 Picasso.get()
-                    .load(jsonObject.getString("photo"))
-                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
-                    .into(hotelListHolder.mImageView);
+                        .load(jsonObject.getString("photo"))
+                        .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                        .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                        .into(hotelListHolder.mImageView);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

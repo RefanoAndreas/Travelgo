@@ -194,7 +194,7 @@ public class D3Eticket extends BaseActivity {
                         TV_info_arrival.setText(jsonETicket.getString("arrival_time")+" - "
                                 +jsonETicket.getString("arrival_airport")+" "+jsonETicket.getJSONObject("arrival").getJSONObject("city").getString("name"));
                         TV_info_destination.setText(jsonETicket.getJSONObject("arrival").getString("name"));
-                        TV_bookingCode.setText(jsonETicket.getString("bookingCode"));
+                        TV_bookingCode.setText(jsonETicket.has("bookingCode") && !jsonETicket.isNull("bookingCode") ? jsonETicket.getString("bookingCode") : getResources().getString(R.string.e_ticket_wait_booking_code_label));
 
                         for(int x=0;x<jsonETicket.getJSONArray("passenger").length();x++){
                             JSONObject jsonObject = new JSONObject();
@@ -235,7 +235,7 @@ public class D3Eticket extends BaseActivity {
                         TV_info_arrival.setText(jsonETicket.getString("arrival_time")+" - "
                                 +jsonETicket.getString("arrival_station")+" "+jsonETicket.getJSONObject("arrival").getJSONObject("city").getString("name"));
                         TV_info_destination.setText(jsonETicket.getJSONObject("arrival").getString("name"));
-                        TV_bookingCode.setText(jsonETicket.getString("bookingCode"));
+                        TV_bookingCode.setText(jsonETicket.has("bookingCode") && !jsonETicket.isNull("bookingCode") ? jsonETicket.getString("bookingCode") : getResources().getString(R.string.e_ticket_wait_booking_code_label));
 
                         for(int x=0;x<jsonETicket.getJSONArray("passenger").length();x++){
                             JSONObject jsonObject = new JSONObject();
@@ -275,7 +275,7 @@ public class D3Eticket extends BaseActivity {
                         TV_checkout_date.setText(jsonETicket.getString("checkout"));
                         TV_info_total_guest.setText(jsonETicket.getString("total_guest")+" "+getResources().getString(R.string.guest_label)+" "+
                                 jsonETicket.getString("total_room")+" "+getResources().getString(R.string.room_label));
-                        TV_bookingCode.setText(jsonETicket.getString("reservationNo"));
+                        TV_bookingCode.setText(jsonETicket.has("reservationNo") && !jsonETicket.isNull("reservationNo") ? jsonETicket.getString("reservationNo") : getResources().getString(R.string.e_ticket_wait_booking_code_label));
 
                         if(jsonETicket.getJSONObject("room").getString("breakfast").equals("1")) {
                             TV_facilitiesHotel.setVisibility(View.VISIBLE);

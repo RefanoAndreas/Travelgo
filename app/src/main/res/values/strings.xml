@@ -339,6 +339,8 @@
     <string name="datepicker_error_date_return_label">Return date is empty</string>
     <string name="datepicker_error_check_out_label">Check out date is empty</string>
 
+    <string name="e_ticket_wait_booking_code_label">Waiting</string>
+
     <string-array name="titleName">
         <item>Mr.</item>
         <item>Mrs.</item>
