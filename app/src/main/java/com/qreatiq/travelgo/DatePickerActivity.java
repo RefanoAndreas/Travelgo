@@ -34,7 +34,7 @@ public class DatePickerActivity extends BaseActivity {
     MaterialButton submit;
     CoordinatorLayout layout;
     Calendar calendar = Calendar.getInstance();
-    boolean flag=true;
+    boolean flag=false;
     ArrayList<Long> dateSelected = new ArrayList<Long>();
     Date start_date,end_date;
 
@@ -84,9 +84,30 @@ public class DatePickerActivity extends BaseActivity {
         calendarView.setOnDateChangedListener(new OnDateSelectedListener() {
             @Override
             public void onDateSelected(@NonNull MaterialCalendarView widget, @NonNull CalendarDay date, boolean selected) {
-                dateSelected.clear();
-                Date d = new Date(date.getYear()-1900,date.getMonth()-1,date.getDay());
-                dateSelected.add(d.getTime());
+                if(flag){
+                    flag = false;
+                    return;
+                }
+
+                if(getIntent().getStringExtra("type").equals("flight") || getIntent().getStringExtra("type").equals("train") || getIntent().getStringExtra("type").equals("tour")) {
+                    if ((intent.getBooleanExtra("isReturn", false) && dateSelected.size() >= 2) || !intent.getBooleanExtra("isReturn", false))
+                        dateSelected.clear();
+
+                    if (intent.getBooleanExtra("isReturn", false) && dateSelected.size() == 1) {
+                        flag = true;
+                        calendarView.setSelectedDate(date);
+                    }
+                }
+                else{
+                    dateSelected.clear();
+                }
+
+//                if(selected) {
+                    Date d = new Date(date.getYear() - 1900, date.getMonth() - 1, date.getDay());
+                    dateSelected.add(d.getTime());
+//                }
+
+                Log.d("date",dateSelected.toString());
             }
         });
 
@@ -105,6 +126,7 @@ public class DatePickerActivity extends BaseActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(dateSelected.toString().equals("[]")){
                     Snackbar snackbar = Snackbar.make(layout,getResources().getString(R.string.datepicker_error_date_empty_label), Snackbar.LENGTH_SHORT);
                     snackbar.show();

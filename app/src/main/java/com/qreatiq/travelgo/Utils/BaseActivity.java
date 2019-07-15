@@ -73,8 +73,8 @@ public class BaseActivity extends AppCompatActivity {
 //    public String C_URL = "http://travelgolaravel.propertigo.id/api/";
 //    public String C_URL_IMAGES = "http://travelgolaravel.propertigo.id/api/images/";
 
-    public boolean production = false;
-    public String version = "2.5";
+    public boolean production = true;
+    public String version = "2.6";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -304,7 +304,7 @@ public class BaseActivity extends AppCompatActivity {
             }
         }
         else{
-            message = "Oops something went wrong";
+            message = "Server timeout";
         }
         Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
         snackbar.show();

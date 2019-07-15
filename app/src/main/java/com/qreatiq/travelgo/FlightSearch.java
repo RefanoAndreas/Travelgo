@@ -209,6 +209,7 @@ public class FlightSearch extends BaseActivity {
         if(isReturn)
             in.putExtra("end_date",end_date.getTime());
         in.putExtra("isReturn",isReturn);
+        in.putExtra("type","flight");
         startActivityForResult(in,START_DATE);
     }
 
@@ -220,6 +221,7 @@ public class FlightSearch extends BaseActivity {
         if(isReturn)
             in.putExtra("end_date",end_date.getTime());
         in.putExtra("isReturn",isReturn);
+        in.putExtra("type","flight");
         startActivityForResult(in,END_DATE);
     }
 
@@ -251,6 +253,9 @@ public class FlightSearch extends BaseActivity {
 
                         start_date = new Date(json.getLong(0));
                         end_date = new Date(json.getLong(json.length() - 1));
+
+                        Log.d("start_date",simpledateformat.format(start_date));
+                        Log.d("end_date",simpledateformat.format(end_date));
 
                         showDate(simpledateformat.format(start_date), "start");
                         showDate(simpledateformat.format(end_date), "end");

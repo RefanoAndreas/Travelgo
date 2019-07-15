@@ -203,6 +203,7 @@ public class TrainSearch extends BaseActivity {
         if(isReturn)
             in.putExtra("end_date",end_date.getTime());
         in.putExtra("isReturn",isReturn);
+        in.putExtra("type","train");
         startActivityForResult(in,START_DATE);
     }
 
@@ -214,6 +215,7 @@ public class TrainSearch extends BaseActivity {
         if(isReturn)
             in.putExtra("end_date",end_date.getTime());
         in.putExtra("isReturn",isReturn);
+        in.putExtra("type","train");
         startActivityForResult(in,END_DATE);
     }
 

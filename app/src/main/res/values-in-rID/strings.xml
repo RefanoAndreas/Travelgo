@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Travelgo</string>
-    <string name="profile_edit_profile_label" translatable="false">Profil Akun</string>
+    <string name="profile_edit_profile_label">Profil Akun</string>
     <string name="profile_tour_profile_label">Profil Tur</string>
     <string name="profile_list_package_label">Daftar Paket</string>
     <string name="profile_history_purchasing_label">Riwayat Pembelian</string>
@@ -18,4 +18,381 @@
     <string name="menu_notification">Notifikasi</string>
     <string name="menu_profile">Profil</string>
     <string name="menu_tour">Tur</string>
+
+    <string name="location_prompt">Pilih Lokasi</string>
+
+    <string-array name="location_array">
+        <item>Bali</item>
+        <item>Surabaya</item>
+        <item>Malang</item>
+        <item>Medan</item>
+        <item>Makassar</item>
+        <item>Manado</item>
+    </string-array>
+    <string name="title_activity_tour_create_package">Pembuatan Paket Tur</string>
+
+    <string name="facebook_app_id">534717363703723</string>
+    <string name="fb_login_protocol_scheme">fb534717363703723</string>
+
+
+    <string name="cityDetail_Detail">
+        Bali adalah sebuah pulau di Indonesia yang terkenal dengan gunung berapi berhutannya, sawah ikonik, pantai, dan terumbu karang. Pulau ini adalah rumah bagi situs-situs keagamaan seperti sisi tebing Pura Uluwatu.
+        \ n \ n
+        Di selatan, kota tepi pantai Kuta memiliki bar-bar yang semarak, sedangkan Seminyak, Sanur dan Nusa Dua adalah kota resor yang populer. Pulau ini juga dikenal dengan retret yoga dan meditasi.
+        \ n \ n
+        Bali adalah sebuah pulau di Indonesia yang terkenal dengan gunung berapi berhutannya, sawah ikonik, pantai, dan terumbu karang. Pulau ini adalah rumah bagi situs-situs keagamaan seperti sisi tebing Pura Uluwatu. Di selatan, kota tepi pantai Kuta memiliki bar-bar yang semarak, sedangkan Seminyak, Sanur dan Nusa Dua adalah kota resor yang populer. Pulau ini juga dikenal dengan retret yoga dan meditasi.
+    </string>
+
+    <string name="adult_label">Dewasa</string>
+    <string name="child_label">Anak-anak</string>
+    <string name="infant_label">Bayi</string>
+    <string name="title_label">Gelar</string>
+    <string name="id_label">No. Tanda Pengenal</string>
+    <string name="passport_label">No. Passport</string>
+    <string name="start_date_label">Tanggal Awal</string>
+    <string name="end_date_label">Tanggal Akhir</string>
+    <string name="from_label">Dari</string>
+    <string name="to_label">Ke</string>
+    <string name="email_label">Surel</string>
+    <string name="password_label">Kata Sandi</string>
+    <string name="retype_password_label">Ketik Ulang Kata Sandi</string>
+    <string name="forgot_password_label">Pulihkan Password?</string>
+    <string name="location_label">Lokasi</string>
+    <string name="trip_label">Perjalanan</string>
+    <string name="date_label">Tanggal</string>
+    <string name="baggage_label">Bagasi</string>
+    <string name="guest_label">Tamu</string>
+    <string name="room_label">Kamar</string>
+    <string name="roundtrip_label">Perjalanan Pulang Pergi</string>
+    <string name="participant_label">Peserta</string>
+    <string name="total_price_label">Total Biaya</string>
+    <string name="submit_label">Ajukan</string>
+    <string name="login_label">Masuk</string>
+    <string name="signup_label">Daftar</string>
+    <string name="next_label">Selanjutnya</string>
+    <string name="facebook_label">Facebook</string>
+    <string name="find_ticket_label">Temukan Tiket</string>
+    <string name="find_tour_label">Temukan Tour</string>
+    <string name="find_room_label">Temukan Kamar</string>
+    <string name="sort_label">Urutkan</string>
+    <string name="filter_label">Saring</string>
+    <string name="day_label">Siang</string>
+    <string name="night_label">Malam</string>
+    <string name="flight_label">Penerbangan</string>
+    <string name="train_label">Kereta</string>
+    <string name="hotel_label">Hotel</string>
+    <string name="entertainment_label">Hiburan</string>
+    <string name="wifi_label">Wi-Fi</string>
+    <string name="no_data_label">Tidak ada data ditemukan</string>
+    <string name="facilities_label">Fasilitas</string>
+    <string name="description_label">Deskripsi</string>
+    <string name="view_more_label">Tampilan Lebih</string>
+    <string name="view_less_label">Tampilan Sedikit</string>
+    <string name="near_location_label">Lokasi Populer Terdekat</string>
+    <string name="keyword_label">Kata Kunci</string>
+    <string name="package_label">Paket</string>
+    <string name="upload_photo_label">Unggah Foto</string>
+    <string name="managed_by_label">Dikelola Oleh</string>
+    <string name="travel_packet_label">Nama Paket Perjalanan</string>
+    <string name="price_label">Harga</string>
+    <string name="detail_label">Detail</string>
+    <string name="change_language_label">Ubah Bahasa</string>
+    <string name="check_in_label">Check-In</string>
+    <string name="check_out_label">Check-Out</string>
+    <string name="user_not_logged_in_label">Pengguna Tidak Masuk</string>
+    <string name="error_name_label">Nama kosong</string>
+    <string name="error_price_label">Harga kosong</string>
+    <string name="error_image_label">Gambar tidak ada</string>
+    <string name="error_phone_label">Nomor telepon kosong</string>
+    <string name="error_password_label">Kata sandi kosong</string>
+    <string name="error_data_label">Data tidak ada</string>
+
+    <string name="tour_create_add_keyword_label">Tekan enter untuk menambahkan kata kunci baru</string>
+    <string name="tour_create_error_photo_label">Foto tur kosong</string>
+    <string name="tour_create_error_start_date_label">Tanggal awal kosong</string>
+    <string name="tour_create_error_end_date_label">Tanggal akhir kosong</string>
+    <string name="tour_create_error_description_label">Deskripsi kosong</string>
+    <string name="tour_create_error_location_label">Lokasi kosong</string>
+    <string name="tour_create_error_tour_facilities_label">Fasilitas tur kosong</string>
+    <string name="tour_create_error_tour_package_label">Paket tur kosong</string>
+
+
+    <string name="captcha_title">Mohon masukan CAPTCHA</string>
+
+    <string name="tour_edit_save_title">Menyimpan profil tur anda...</string>
+
+    <string name="confirmation_room_label">Kamar</string>
+    <string name="confirmation_day_label">Day</string>
+    <string name="confirmation_flight_depart_title">Depart ticket use</string>
+    <string name="confirmation_flight_return_title">Return ticket use</string>
+    <string name="confirmation_flight_fill_guest_label">Isi data tamu</string>
+    <string name="confirmation_flight_fill_adult_label">Isi data tamu dewasa</string>
+    <string name="confirmation_flight_fill_child_label">Isi data tamu anak</string>
+    <string name="confirmation_flight_fill_infant_label">Isi data tamu bayi</string>
+    <string name="confirmation_flight_detail_title">Detail Penerbangan</string>
+    <string name="confirmation_hotel_detail_title">Detail Hotel</string>
+    <string name="confirmation_train_detail_title">Detail Kereta</string>
+    <string name="confirmation_requester_title">Detail Kontak</string>
+    <string name="confirmation_guest_title">Data Tamu</string>
+    <string name="confirmation_passenger_title">Data Penumpang</string>
+    <string name="confirmation_special_request_title">Permintaan Khusus</string>
+    <string name="confirmation_special_request_add_label">Tambah Permintaan Khusus</string>
+    <string name="confirmation_special_request_list_1_label">Kamar Bebas Asap</string>
+    <string name="confirmation_special_request_list_2_label">Terlambat Check-In</string>
+    <string name="confirmation_special_request_list_3_label">Check-In Lebih Awal</string>
+    <string name="confirmation_special_request_list_4_label">Kasur Tambahan</string>
+    <string name="confirmation_special_request_list_5_label">Kamar Lantai Teratas</string>
+    <string name="confirmation_price_detail_title">Detail Harga</string>
+    <string name="confirmation_return_label">Pulang-Pergi</string>
+    <string name="confirmation_one_way_label">Satu Arah</string>
+    <string name="confirmation_subtotal_label">Subtotal</string>
+    <string name="confirmation_baggage_depart_label">Bagasi Keberangkatan</string>
+    <string name="confirmation_baggage_return_label">Bagasi Kepulangan</string>
+    <string name="confirmation_total_label">Total</string>
+    <string name="confirmation_tax_label">Pajak</string>
+    <string name="confirmation_booking_progress_label">Pemesanan sedang berlangsung</string>
+    <string name="confirmation_booking_failed_label">Pemesanan gagal</string>
+    <string name="confirmation_error_requester_phone_label">Silahkan masukan nomor telepon</string>
+    <string name="confirmation_error_not_logged_in_label">Silahkan Login untuk Mengisi Detail Kontak</string>
+
+    <string name="notification_no_tour_label">Tidak ada tur ditemukan</string>
+    <string name="notification_booked_label">Dipesan</string>
+
+    <string name="notification_detail_booking_no_label">Nomor Pemesanan</string>
+    <string name="notification_detail_booking_at_label">Tanggal Pemesanan</string>
+    <string name="notification_detail_booking_price_label">Total Harga Pemesanan</string>
+    <string name="notification_detail_e_ticket_label">E-ticket</string>
+    <string name="notification_detail_order_unpaid_label">Pesanan belum dibayarkan</string>
+    <string name="notification_detail_order_success_label">Pemesanan Berhasil</string>
+
+    <string name="e_ticket_booking_code_label">Kode Pemesanan</string>
+    <string name="e_ticket_subtitle_label">Tampilkan kode ini saat check-in</string>
+    <string name="e_ticket_flight_detail_label">Detail Penerbangan</string>
+    <string name="e_ticket_passenger_detail_label">Detail Penumpang</string>
+    <string name="e_ticket_travel_advice_label">Saran Perjalanan</string>
+    <string name="e_ticket_stay_advice_label">Saran Menginap</string>
+    <string name="e_ticket_breakfast_include_label">Termasuk Sarapan</string>
+    <string name="e_ticket_order_number_label">No Order</string>
+
+    <string name="filter_title">Saring</string>
+    <string name="filter_reset_label">Setel Ulang</string>
+    <string name="filter_price_label">Harga per Orang</string>
+    <string name="filter_stars_label">Bintang Hotel</string>
+    <string name="filter_transit_label">Transit</string>
+    <string name="filter_transit_direct_label">Langsung</string>
+    <string name="filter_class_label">Kelas</string>
+    <string name="filter_class_economy_label">Ekonomi</string>
+    <string name="filter_class_business_label">Bisnis</string>
+    <string name="filter_class_executive_label">Eksekutif</string>
+    <string name="filter_class_first_label">Kelas Utama</string>
+    <string name="filter_depart_time_label">Waktu Keberangkatan</string>
+    <string name="filter_arrive_time_label">Waktu Kedatangan</string>
+    <string name="filter_travel_time_label">Pilih Waktu Perjalanan</string>
+    <string name="filter_depart_date_label">Tanggal Keberangkatan</string>
+    <string name="filter_return_date_label">Tanggal Kepulangan</string>
+    <string name="filter_min_price_label">Harga Minimum</string>
+    <string name="filter_max_price_label">Harga Maksimum</string>
+    <string name="filter_see_all_label">Lihat Semua</string>
+    <string name="filter_duration_label">Durasi</string>
+    <string name="filter_price_per_room_label">Harga per kamar, per malam</string>
+
+    <string name="flight_search_depart_city_label">Kota Keberangkatan</string>
+    <string name="flight_search_arrive_city_label">Kota Kedatangan</string>
+    <string name="flight_search_roundtrip_label">Pulang-Pergi?</string>
+    <string name="flight_search_depart_date_label">Tanggal Keberangkatan</string>
+    <string name="flight_search_return_date_label">Tanggal Kepulangan</string>
+    <string name="flight_search_passenger_label">Penumpang</string>
+    <string name="flight_search_class_label">Kelas</string>
+    <string name="flight_search_class_economy_label">Ekonomi</string>
+    <string name="flight_search_class_business_label">Bisnis</string>
+    <string name="flight_search_class_first_label">Kelas Utama</string>
+    <string name="flight_search_class_executive_label">Eksekutif</string>
+    <string name="flight_search_adult_label">1 Dewasa</string>
+    <string name="flight_search_child_label">0 Anak</string>
+    <string name="flight_search_infant_label">0 Bayi</string>
+    <string name="flight_search_choose_station_label">Pilih Stasiun</string>
+    <string name="flight_search_choose_airport_label">Pilih Bandara</string>
+    <string name="flight_search_choose_destination_label">Pilih Tujuan</string>
+    <string name="flight_search_error_departure_city_label">Kota Keberangkatan Kosong</string>
+    <string name="flight_search_error_arrival_city_label">Kota Kedatangan Kosong</string>
+    <string name="flight_search_error_passenger_label">Jumlah Penumpang Kosong</string>
+
+    <string name="hotel_detail_choose_room_label">Pilih Ruangan</string>
+
+    <string name="hotel_search_destination_label">Tujuan</string>
+    <string name="hotel_search_night_label">Malam</string>
+    <string name="hotel_search_total_guest_label">Jumlah Tamu</string>
+    <string name="hotel_search_room_label">Kamar</string>
+    <string name="hotel_search_error_destination_label">Tujuan Kosong</string>
+    <string name="hotel_search_error_total_guest_label">Total Tamu Kosong</string>
+    <string name="hotel_search_error_total_room_label">Total Kamar Kosong</string>
+    <string name="hotel_search_error_same_date_label">Tanggal Check-In sama dengan tanggal Check-Out</string>
+    <string name="hotel_search_init_guest_label">1 Tamu</string>
+    <string name="hotel_search_init_room_label">1 Kamar</string>
+
+    <string name="login_subtitle_label">Atau login dengan akun sosial Anda</string>
+    <string name="login_bottom_1_label">Belum punya akun?</string>
+    <string name="login_bottom_2_label">DAFTAR</string>
+    <string name="login_bottom_3_label">Sekarang</string>
+
+    <string name="tour_search_label">Cari</string>
+
+    <string name="tour_create_create_tour_label">Buat Paket Trip</string>
+    <string name="tour_create_list_package_label">Daftar Paket</string>
+
+    <string name="tour_detail_package_tour_label">Paket Tour</string>
+    <string name="tour_detail_pay_label">BAYAR PAKET</string>
+
+    <string name="tour_list_no_trip_label">Tidak Ada Perjalanan</string>
+    <string name="tour_list_no_tour_label">Tidak ada Tour Ditemukan</string>
+
+    <string name="transaction_detail_status_label">Status</string>
+    <string name="transaction_detail_purchase_date_label">Tanggal Pembelian</string>
+    <string name="transaction_detail_travel_date_label">Tanggal Perjalanan</string>
+    <string name="transaction_detail_participant_title">Data Peserta</string>
+    <string name="transaction_detail_participant_label">Peserta</string>
+    <string name="transaction_detail_add_participant_label">Tambah Data Peserta</string>
+    <string name="transaction_detail_travel_packet_label">Paket Perjalanan</string>
+    <string name="transaction_detail_tour_contact_label">Kontak Tur</string>
+    <string name="transaction_detail_error_participant_label">Peserta Kosong</string>
+
+    <string name="bagasi_penumpang_depart_title">Keberangkatan</string>
+    <string name="bagasi_penumpang_return_title">Kepulangan</string>
+
+    <string name="city_detail_top_place_label">Tempat terbaik untuk dikunjungi</string>
+
+    <string name="rating_city_detail_title">Berikan peringkat untuk kota ini</string>
+
+    <string name="media_title">Pilih Media</string>
+    <string name="media_camera_title">Dari Kamera</string>
+    <string name="media_gallery_title">Dari Galeri</string>
+
+    <string name="passenger_title">Total Penumpang</string>
+    <string name="flight_passenger_adult_title">Dewasa\n12+ Tahun</string>
+    <string name="flight_passenger_child_title">Anak\n2-11 Tahun</string>
+    <string name="flight_passenger_infant_title">Bayi\n&lt; 2 Tahun</string>
+    <string name="train_passenger_adult_title">Dewasa\n3+ Year Old</string>
+    <string name="train_passenger_infant_title">Bayi\n&lt; 3 Year Old</string>
+
+    <string name="manifest_train_search_title">Beli Tiket Kereta</string>
+    <string name="manifest_flight_search_title">Beli Tiket Pesawat</string>
+    <string name="manifest_hotel_search_title">Beli Tiket Hotel</string>
+    <string name="manifest_confirmation_title">Konfirmasi Pemesanan</string>
+    <string name="manifest_history_purchase_title">Riwayat Pemesanan</string>
+    <string name="manifest_notifikasi_title">Pemberitahuan</string>
+    <string name="manifest_notifikasi_detail_title">Detail Pemberitahuan</string>
+    <string name="manifest_transaction_detail_title">Detail Transaksi</string>
+    <string name="manifest_history_sales_title">Riwayat Penjualan</string>
+    <string name="manifest_tour_detail_title">Detail Tur</string>
+    <string name="manifest_create_tour_title">Buat Paket Tur</string>
+    <string name="manifest_edit_tour_title">Edit Paket Tur</string>
+    <string name="manifest_create_package_title">Buat Paket</string>
+    <string name="manifest_edit_package_title">Edit Paket</string>
+    <string name="manifest_creating_package_title">Buat Paket</string>
+    <string name="manifest_editing_package_title">Edit Paket</string>
+    <string name="manifest_tour_edit_title">Edit Tur</string>
+    <string name="manifest_profile_edit_title">Edit Profil</string>
+    <string name="manifest_my_profile_title">Profil Saya</string>
+    <string name="manifest_change_date_title">Ubah Tanggal</string>
+    <string name="manifest_sort_title">Sortir</string>
+
+    <string name="city_search_last_search_label">Pencarian Terakhir</string>
+    <string name="city_search_flight_search_label">Cari Kota atau Bandara</string>
+    <string name="city_search_flight_popular_label">Kota Populer atau Bandara Populer</string>
+    <string name="city_search_train_search_label">Cari Kota atau Stasiun</string>
+    <string name="city_search_train_popular_label">Kota Populer atau Stasiun Populer</string>
+    <string name="city_search_hotel_search_label">Cari Kota</string>
+    <string name="city_search_hotel_popular_label">Tujuan Populer</string>
+
+    <string name="data_penumpang_baggage_title">Bagasi Penumpang</string>
+    <string name="data_penumpang_error_adult_infant_title">Total bayi harus lebih rendah atau sama dengan total orang dewasa</string>
+    <string name="data_penumpang_error_name_empty_title">Nama kosong</string>
+    <string name="data_penumpang_error_email_empty_title">Surel kosong</string>
+    <string name="data_penumpang_error_email_format_title">Surel kosong atau tidak sesuai dengan format surel</string>
+    <string name="data_penumpang_error_phone_empty_title">Nomor telepon kosong</string>
+    <string name="data_penumpang_error_id_empty_title">Identitas kosong</string>
+
+    <string name="schedule_per_people_label">Per Orang</string>
+    <string name="schedule_per_night_label">Per Malam</string>
+
+    <string name="login_via_facebook_dialog_title">Masuk Melalui Facebook</string>
+    <string name="login_via_system_dialog_title">Masuk</string>
+    <string name="login_error_email_label">Surel Tidak Valid</string>
+    <string name="login_error_password_label">Kata Sandi Salah</string>
+
+    <string name="sort_item_hotel_1_label">Popularitas</string>
+    <string name="sort_item_hotel_2_label">Peringkat</string>
+    <string name="sort_item_hotel_3_label">Harga Tertinggi</string>
+    <string name="sort_item_hotel_4_label">Harga Terendah</string>
+    <string name="sort_item_flight_1_label">Berangkat Paling Awal</string>
+    <string name="sort_item_flight_2_label">Berangkat Terakhir</string>
+    <string name="sort_item_flight_3_label">Tiba Paling Awal</string>
+    <string name="sort_item_flight_4_label">Tiba Terakhir</string>
+
+    <string name="home_development_title">Perhatian</string>
+    <string name="home_development_label">Fitur ini sedang dikembangkan</string>
+
+    <string name="hotel_guest_title">Tamu Hotel</string>
+    <string name="hotel_guest_total_guest_label">Total Tamu</string>
+
+    <string name="list_participant_label">Isi data penumpang</string>
+
+    <string name="datepicker_error_date_empty_label">Tanggal Kosong</string>
+    <string name="datepicker_error_date_return_label">Tanggal kembali kosong</string>
+    <string name="datepicker_error_check_out_label">Tanggal Check-Out kosong</string>
+
+    <string-array name="titleName">
+        <item>Tuan</item>
+        <item>Nyonya</item>
+        <item>Nona</item>
+    </string-array>
+
+    <string-array name="category">
+        <item>Dewasa</item>
+        <item>Anak</item>
+        <item>Bayi</item>
+    </string-array>
+
+    <string-array name="status_sales">
+        <item>Sukses</item>
+        <item>Tertunda</item>
+        <item>Terpesan</item>
+    </string-array>
+
+    <string-array name="flight_advice">
+        <item>Tunjukkan tiket elektronik dan kartu identitas Anda pada proses check-in (mis. KTP / SIM / PASPOR)</item>
+        <item>Check-In tidak lebih dari 90 menit sebelum keberangkatan</item>
+        <item>Semua waktu yang ditunjukkan di atas adalah dalam waktu bandara setempat</item>
+    </string-array>
+
+    <string-array name="train_advice">
+        <item>Gunakan E-tiket ini untuk mencetak boarding pass Anda pada 7 hari sebelum keberangkatan</item>
+        <item>Untuk naik kereta, bawa kartu identitas Anda seperti yang ditunjukkan pada data pemesanan Anda</item>
+        <item>Silakan tiba di platform 30 menit sebelum keberangkatan</item>
+        <item>Jika Anda menggunakan kereta transit, silakan check-in dan cetak pas naik kereta berikutnya di stasiun transit</item>
+        <item>Pastikan membawa semua barang Anda dari berangkat, transit, dan kereta tiba</item>
+    </string-array>
+
+    <string-array name="hotel_advice">
+        <item>Tunjukkan tiket elektronik dan kartu identitas Anda pada proses check-in (mis. KTP / SIM / PASPOR)</item>
+        <item>Permintaan khusus tidak tersedia jaminan</item>
+        <item>Kebijakan mengubah atau membatalkan mungkin berbeda di setiap hotel</item>
+    </string-array>
+
+    <string-array name="sort_flight_train">
+        <item>Berangkat paling awal</item>
+        <item>Berangkat paling akhir</item>
+        <item>Tiba paling awal</item>
+        <item>Tiba paling akhir</item>
+        <item>Harga tertinggi</item>
+        <item>Harga terendah</item>
+    </string-array>
+    <string-array name="sort_hotel">
+        <item>Popularitas</item>
+        <item>Bintang 5-1</item>
+        <item>Bintang 1-5</item>
+        <item>Nilai Ulasan</item>
+        <item>Harga tertinggi</item>
+        <item>Harga terendah</item>
+    </string-array>
 </resources>
