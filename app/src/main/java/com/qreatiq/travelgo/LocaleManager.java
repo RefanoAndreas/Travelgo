@@ -55,10 +55,10 @@ public class LocaleManager {
     private static Context updateResources(Context context, String language) {
         String[] lang = language.split("_");
         Locale locale;
-        if(lang.length > 1)
+//        if(lang.length > 1)
             locale = new Locale(lang[0],lang[1]);
-        else
-            locale = new Locale(language);
+//        else
+//            locale = new Locale(language);
         Locale.setDefault(locale);
 
         Configuration configuration = context.getResources().getConfiguration();
@@ -71,10 +71,10 @@ public class LocaleManager {
     private static Context updateResourcesLegacy(Context context, String language) {
         String[] lang = language.split("_");
         Locale locale;
-        if(lang.length > 1)
+//        if(lang.length > 1)
             locale = new Locale(lang[0],lang[1]);
-        else
-            locale = new Locale(language);
+//        else
+//            locale = new Locale(language);
         Locale.setDefault(locale);
 
         Resources resources = context.getResources();

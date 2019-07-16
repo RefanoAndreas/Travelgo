@@ -90,7 +90,8 @@ public class BaseActivity extends AppCompatActivity {
 //        edit_base_shared_pref.remove("flight.last_search").commit();
 
         Log.d("lang",base_shared_pref.getString("lang","asdasdas"));
-        LocaleManager.setLocale(this,base_shared_pref.getString("lang","en"));
+        LocaleManager.setLocale(this,base_shared_pref.getString("lang","en_US"));
+        resetTitle();
 //        changeLang(base_shared_pref.getString("lang","id"));
 
         requestQueue = Volley.newRequestQueue(this);

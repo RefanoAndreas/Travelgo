@@ -89,8 +89,6 @@ public class FragmentProfile extends Fragment {
 //        user_ID = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
 //        userID = user_ID.getString("user_id", "Data not found");
 
-        getApplicationContext();
-
         btnLogout = (ConstraintLayout) getActivity().findViewById(R.id.logoutBtn);
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -166,15 +164,15 @@ public class FragmentProfile extends Fragment {
                 english.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Context context = LocaleManager.setLocale(getActivity(), "en_US");
-                        Resources resources = context.getResources();
-
-                        account_profile.setText(resources.getString(R.string.profile_edit_profile_label));
-                        tour_profile.setText(resources.getString(R.string.profile_tour_profile_label));
-                        list_package.setText(resources.getString(R.string.profile_list_package_label));
-                        history_purchasing.setText(resources.getString(R.string.profile_history_purchasing_label));
-                        history_transaction.setText(resources.getString(R.string.profile_history_transaction_label));
-                        language.setText(resources.getString(R.string.profile_language_label));
+//                        Context context = LocaleManager.setLocale(getActivity(), "en_US");
+//                        Resources resources = context.getResources();
+//
+//                        account_profile.setText(resources.getString(R.string.profile_edit_profile_label));
+//                        tour_profile.setText(resources.getString(R.string.profile_tour_profile_label));
+//                        list_package.setText(resources.getString(R.string.profile_list_package_label));
+//                        history_purchasing.setText(resources.getString(R.string.profile_history_purchasing_label));
+//                        history_transaction.setText(resources.getString(R.string.profile_history_transaction_label));
+//                        language.setText(resources.getString(R.string.profile_language_label));
 
                         parent.edit_base_shared_pref.putString("lang","en_US");
                         parent.edit_base_shared_pref.commit();
@@ -189,14 +187,14 @@ public class FragmentProfile extends Fragment {
                 indonesia.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Context context = LocaleManager.setLocale(getActivity(), "in_ID");
-                        Resources resources = context.getResources();
-                        account_profile.setText(resources.getString(R.string.profile_edit_profile_label));
-                        tour_profile.setText(resources.getString(R.string.profile_tour_profile_label));
-                        list_package.setText(resources.getString(R.string.profile_list_package_label));
-                        history_purchasing.setText(resources.getString(R.string.profile_history_purchasing_label));
-                        history_transaction.setText(resources.getString(R.string.profile_history_transaction_label));
-                        language.setText(resources.getString(R.string.profile_language_label));
+//                        Context context = LocaleManager.setLocale(getActivity(), "in_ID");
+//                        Resources resources = context.getResources();
+//                        account_profile.setText(resources.getString(R.string.profile_edit_profile_label));
+//                        tour_profile.setText(resources.getString(R.string.profile_tour_profile_label));
+//                        list_package.setText(resources.getString(R.string.profile_list_package_label));
+//                        history_purchasing.setText(resources.getString(R.string.profile_history_purchasing_label));
+//                        history_transaction.setText(resources.getString(R.string.profile_history_transaction_label));
+//                        language.setText(resources.getString(R.string.profile_language_label));
 
                         parent.edit_base_shared_pref.putString("lang","in_ID");
                         parent.edit_base_shared_pref.commit();
