@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -28,6 +29,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -51,10 +53,13 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.qreatiq.travelgo.LocaleManager;
 import com.qreatiq.travelgo.R;
 
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
+
+import static android.content.pm.PackageManager.GET_META_DATA;
 
 public class BaseActivity extends AppCompatActivity {
 
@@ -83,7 +88,10 @@ public class BaseActivity extends AppCompatActivity {
         base_shared_pref = getApplicationContext().getSharedPreferences("user_id",MODE_PRIVATE);
         edit_base_shared_pref = base_shared_pref.edit();
 //        edit_base_shared_pref.remove("flight.last_search").commit();
-        changeLang(base_shared_pref.getString("lang","en"));
+
+        Log.d("lang",base_shared_pref.getString("lang","asdasdas"));
+        LocaleManager.setLocale(this,base_shared_pref.getString("lang","en"));
+//        changeLang(base_shared_pref.getString("lang","id"));
 
         requestQueue = Volley.newRequestQueue(this);
         android_id = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
@@ -143,6 +151,17 @@ public class BaseActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+    }
+
+    private void resetTitle() {
+        try {
+            int label = getPackageManager().getActivityInfo(getComponentName(), GET_META_DATA).labelRes;
+            if (label != 0) {
+                setTitle(label);
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     public void changeLang(String lang) {
