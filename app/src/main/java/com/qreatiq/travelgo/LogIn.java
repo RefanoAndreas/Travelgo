@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.constraint.ConstraintLayout;
+import android.support.design.button.MaterialButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -50,6 +51,7 @@ public class LogIn extends BaseActivity {
     TextInputEditText email, password;
     TextView signUpBtn;
     Button loginBtn;
+    MaterialButton btnLogin;
     SharedPreferences userID, deviceToken, selected_package, city_id;
     String url, user_id, tokenDevice, selectedPack, cityID;
     TextInputLayout emailLayout, passwordLayout;
@@ -74,6 +76,7 @@ public class LogIn extends BaseActivity {
 
         city_id = getSharedPreferences("city_id", Context.MODE_PRIVATE);
         cityID = city_id.getString("city_id", "Data not found");
+        btnLogin = findViewById(R.id.btnLogin);
 
         Log.d("city", cityID);
 
@@ -175,6 +178,12 @@ public class LogIn extends BaseActivity {
                     }
                 });
 
+        btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                login();
+            }
+        });
     }
 
     public void facebook(View v){
@@ -266,7 +275,7 @@ public class LogIn extends BaseActivity {
     }
 
 
-    public void login(View v){
+    public void login(){
 
         if(email.getText().toString().equals("")){
             emailLayout.setError(getResources().getString(R.string.data_penumpang_error_email_empty_title));

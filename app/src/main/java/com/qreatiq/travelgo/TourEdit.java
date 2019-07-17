@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.constraint.ConstraintLayout;
@@ -19,6 +20,7 @@ import android.support.design.widget.TextInputLayout;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.CardView;
 import android.util.Base64;
 import android.util.Log;
@@ -50,6 +52,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -64,7 +67,7 @@ public class TourEdit extends BaseActivity {
     SharedPreferences userID;
     Bitmap bitmap;
 
-    Uri filePath;
+    Uri filePath = null;
 
     ConstraintLayout layout;
 
@@ -276,14 +279,19 @@ public class TourEdit extends BaseActivity {
 
         if(resultCode==RESULT_OK){
             if(requestCode==PICK_FROM_CAMERA){
-                filePath = data.getData();
-                Bitmap bitmap=(Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
-                byte[] bitmapdata = baos.toByteArray();
-                Bitmap bitmap1 = BitmapFactory.decodeByteArray(bitmapdata,0,bitmapdata.length);
+                try {
+                    File file = new File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg");
+                    filePath = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), filePath);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+                    byte[] bitmapdata = baos.toByteArray();
+                    Bitmap bitmap1 = BitmapFactory.decodeByteArray(bitmapdata,0,bitmapdata.length);
 
-                imageView.setImageBitmap(bitmap1);
+                    imageView.setImageBitmap(bitmap1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             else if(requestCode==PICK_FROM_GALLERY){
 

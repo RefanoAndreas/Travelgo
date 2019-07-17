@@ -16,6 +16,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -26,8 +27,10 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
 import android.util.Base64;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -57,6 +60,9 @@ import com.qreatiq.travelgo.LocaleManager;
 import com.qreatiq.travelgo.R;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.Date;
 import java.util.Locale;
 
 import static android.content.pm.PackageManager.GET_META_DATA;
@@ -80,6 +86,8 @@ public class BaseActivity extends AppCompatActivity {
 
     public boolean production = true;
     public String version = "2.7";
+
+    public Uri camera_uri;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -277,8 +285,16 @@ public class BaseActivity extends AppCompatActivity {
         bottomSheetDialog.show();
     }
 
+    private void capture_photo() {
+        Intent m_intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File file = new File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg");
+        Uri uri = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
+        m_intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, uri);
+        startActivityForResult(m_intent, PICK_FROM_CAMERA);
+    }
+
     public void camera(View v){
-        startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),PICK_FROM_CAMERA);
+        capture_photo();
     }
 
     public void gallery(View v){
