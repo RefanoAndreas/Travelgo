@@ -60,6 +60,7 @@ public class FragmentProfile extends Fragment {
     String url;
     TextView name, saldo_kawan;
     BottomNavContainer parent;
+    LinearLayout kawan;
 
     TextView account_profile,tour_profile,list_package,history_purchasing,history_transaction,language;
 
@@ -85,6 +86,7 @@ public class FragmentProfile extends Fragment {
         history_transaction = (TextView) view.findViewById(R.id.history_transaction);
         language = (TextView) view.findViewById(R.id.language);
         saldo_kawan = (TextView)view.findViewById(R.id.TV_saldo_kawan);
+        kawan = view.findViewById(R.id.kawan);
 
 //        user_ID = getActivity().getSharedPreferences("user_id", Context.MODE_PRIVATE);
 //        userID = user_ID.getString("user_id", "Data not found");
@@ -286,6 +288,11 @@ public class FragmentProfile extends Fragment {
                     NumberFormat formatter = new DecimalFormat("#,###");
                     String formattedNumber = formatter.format(response.getJSONObject("user").getDouble("saldo_kawan"));
                     saldo_kawan.setText("Rp. "+formattedNumber);
+
+                    if(response.getJSONObject("user").has("type_id") && response.getJSONObject("user").getString("type_id").equals("TYPE000001"))
+                        kawan.setVisibility(View.VISIBLE);
+                    else
+                        kawan.setVisibility(View.GONE);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
