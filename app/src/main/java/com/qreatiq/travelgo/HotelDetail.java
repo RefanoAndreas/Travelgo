@@ -98,8 +98,9 @@ public class HotelDetail extends BaseActivity {
 
             for(int x=0;x<hotel.getJSONArray("rooms").length();x++) {
                 JSONObject json = new JSONObject();
-                json.put("name",hotel.getJSONArray("rooms").getJSONObject(x).getString("name")+" ("+(hotel.getJSONArray("rooms").getJSONObject(x).getBoolean("breakfast") ? "With Breakfast" : "Room Only")+")");
-                json.put("breakfast",hotel.getJSONArray("rooms").getJSONObject(x).getBoolean("breakfast"));
+                int breakfast = hotel.getJSONArray("rooms").getJSONObject(x).getInt("breakfast");
+                json.put("name",hotel.getJSONArray("rooms").getJSONObject(x).getString("name")+" ("+(breakfast == 1 ? "With Breakfast" : "Room Only")+")");
+                json.put("breakfast",breakfast == 1 ? true : false);
                 json.put("price",hotel.getJSONArray("rooms").getJSONObject(x).getDouble("price"));
                 if(hotel.getJSONArray("photos").length() > 0)
                     json.put("photo",C_URL+"images/hotel?" +
@@ -109,7 +110,7 @@ public class HotelDetail extends BaseActivity {
                     json.put("photo","");
                 json.put("id",hotel.getJSONArray("rooms").getJSONObject(x).getString("id"));
 
-                json.put("roomID",hotel.getJSONArray("rooms").getJSONObject(x).getString("ID"));
+                json.put("roomID",hotel.getJSONArray("rooms").getJSONObject(x).getString("API_id"));
 
                 hotelRoomList.add(json);
             }
