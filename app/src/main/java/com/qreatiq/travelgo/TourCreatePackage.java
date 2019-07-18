@@ -2,7 +2,9 @@ package com.qreatiq.travelgo;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
@@ -10,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.os.Bundle;
+import android.support.v4.content.FileProvider;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -24,6 +27,8 @@ import com.squareup.picasso.Picasso;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
@@ -128,11 +133,11 @@ public class TourCreatePackage extends BaseActivity {
                     if(input.charAt(0) == '0')
                         input = input.substring(0);
                     DecimalFormat formatter = new DecimalFormat("#,###,###");
-                    String yourFormattedString = formatter.format(Double.parseDouble(input.replace(",", "")));
+                    String yourFormattedString = formatter.format(Double.parseDouble(input.replace(".", "")));
                     isManualChange = true;
                     price.setText(yourFormattedString);
                     price.setSelection(yourFormattedString.length());
-                    price_data = Double.parseDouble(input.replace(",", ""));
+                    price_data = Double.parseDouble(input.replace(".", ""));
                 }
                 else{
                     isManualChange = true;
@@ -163,11 +168,20 @@ public class TourCreatePackage extends BaseActivity {
 
         if(resultCode == RESULT_OK){
             if(requestCode==PICK_FROM_CAMERA){
-                filePath = data.getData();
-                bitmap=(Bitmap) data.getExtras().get("data");
+                try {
+                    File file = new File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg");
+                    filePath = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
+                    Bitmap bitmap1 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), filePath);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap1.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+                    byte[] bitmapdata = baos.toByteArray();
+                    bitmap= BitmapFactory.decodeByteArray(bitmapdata,0,bitmapdata.length);
 
-                image.setImageBitmap(bitmap);
-                bottomSheetDialog.hide();
+                    image.setImageBitmap(bitmap);
+                    bottomSheetDialog.hide();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             else if(requestCode==PICK_FROM_GALLERY){
 

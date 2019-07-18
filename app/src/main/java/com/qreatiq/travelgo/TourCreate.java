@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -24,6 +25,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -64,6 +66,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -517,20 +520,28 @@ public class TourCreate extends BaseActivity {
                 }
             }
             else if(requestCode==PICK_FROM_CAMERA){
-                filePath = data.getData();
-                Bitmap bitmap=(Bitmap) data.getExtras().get("data");
-
-                JSONObject json = new JSONObject();
                 try {
+                    File file = new File(Environment.getExternalStorageDirectory(), "MyPhoto.jpg");
+                    filePath = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
+                    Bitmap bitmap1 = MediaStore.Images.Media.getBitmap(this.getContentResolver(), filePath);
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap1.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+                    byte[] bitmapdata = baos.toByteArray();
+                    Bitmap bitmap=BitmapFactory.decodeByteArray(bitmapdata,0,bitmapdata.length);
+
+                    JSONObject json = new JSONObject();
                     json.put("status", "add");
                     json.put("background",bitmap);
                     json.put("background_data", link.BitMapToString(bitmap));
                     json.put("is_button_upload",false);
+
+                    photo_array.add(json);
+                    photo_adapter.notifyItemInserted(photo_array.size());
                 } catch (JSONException e) {
                     e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                photo_array.add(json);
-                photo_adapter.notifyItemInserted(photo_array.size());
 
                 bottomSheetDialog.dismiss();
             }

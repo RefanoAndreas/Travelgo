@@ -144,6 +144,7 @@ public class HotelDetail extends BaseActivity {
         mAdapter.setOnClickListener(new HotelRoomAdapter.ClickListener() {
             @Override
             public void onClick(int position) {
+                Log.d("room",hotelRoomList.get(position).toString());
                 startActivity(new Intent(HotelDetail.this, ConfirmationOrder.class)
                         .putExtra("origin", "hotel")
                         .putExtra("city", getIntent().getStringExtra("city"))

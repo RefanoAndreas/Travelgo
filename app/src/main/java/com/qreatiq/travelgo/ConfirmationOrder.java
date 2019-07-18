@@ -171,12 +171,12 @@ public class ConfirmationOrder extends BaseActivity {
 
 
                 NumberFormat double_formatter = new DecimalFormat("#,###");
-                sub_total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_per_pax_data))+" x "+
-                        String.valueOf(getIntent().getIntExtra("room",0))+" "+getResources().getString(R.string.confirmation_room_label)+" x "+
+                sub_total.setText("Rp. "+double_formatter.format(sub_total_per_pax_data)+" x "+
+                        getIntent().getIntExtra("room",0)+" "+getResources().getString(R.string.confirmation_room_label)+" x "+
                         hotel.getString("duration")+" "+getResources().getString(R.string.confirmation_day_label)+
-                        "\nRp. "+String.valueOf(double_formatter.format(sub_total_data)));
-                pajak.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data*0.1)));
-                total.setText("Rp. "+String.valueOf(double_formatter.format(sub_total_data+(sub_total_data*0.1))));
+                        "\nRp. "+double_formatter.format(sub_total_data));
+                pajak.setText("Rp. "+double_formatter.format(sub_total_data*0.1));
+                total.setText("Rp. "+double_formatter.format(sub_total_data+(sub_total_data*0.1)));
                 titleData.setText(getResources().getString(R.string.confirmation_hotel_detail_title));
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -89,7 +89,7 @@ public class DatePickerActivity extends BaseActivity {
                     return;
                 }
 
-                if(getIntent().getStringExtra("type").equals("flight") || getIntent().getStringExtra("type").equals("train") || getIntent().getStringExtra("type").equals("tour")) {
+                if(getIntent().hasExtra("type") && (getIntent().getStringExtra("type").equals("flight") || getIntent().getStringExtra("type").equals("train") || getIntent().getStringExtra("type").equals("tour"))) {
                     if ((intent.getBooleanExtra("isReturn", false) && dateSelected.size() >= 2) || !intent.getBooleanExtra("isReturn", false))
                         dateSelected.clear();
 
