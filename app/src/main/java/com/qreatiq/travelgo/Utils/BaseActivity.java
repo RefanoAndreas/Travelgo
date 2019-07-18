@@ -1,6 +1,7 @@
 package com.qreatiq.travelgo.Utils;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -58,6 +59,8 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.qreatiq.travelgo.LocaleManager;
 import com.qreatiq.travelgo.R;
+import com.zeugmasolutions.localehelper.LocaleHelper;
+import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegateImpl;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -96,10 +99,27 @@ public class BaseActivity extends AppCompatActivity {
         base_shared_pref = getApplicationContext().getSharedPreferences("user_id",MODE_PRIVATE);
         edit_base_shared_pref = base_shared_pref.edit();
 //        edit_base_shared_pref.remove("flight.last_search").commit();
+//        LocaleManager.setLocale(this,"in");
 
-        Log.d("lang",base_shared_pref.getString("lang","asdasdas"));
-        LocaleManager.setLocale(this,base_shared_pref.getString("lang","en_US"));
+
+        if (Build.VERSION.SDK_INT >= 24) {
+            Configuration config = getBaseContext().getResources().getConfiguration();
+            Locale locale = new Locale(base_shared_pref.getString("lang", "en"));
+            config.setLocale(locale);
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        }
+        else{
+            Configuration config = getResources().getConfiguration();
+            Locale locale = new Locale(base_shared_pref.getString("lang", "en"));
+            config.locale = locale;
+            getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+        }
+
+//        context = LocaleManager.setLocale(this,base_shared_pref.getString("lang","en_US"));
         resetTitle();
+
+//        attachBaseContext(context);
+
 //        changeLang(base_shared_pref.getString("lang","id"));
 
         requestQueue = Volley.newRequestQueue(this);
@@ -147,6 +167,11 @@ public class BaseActivity extends AppCompatActivity {
                 // result of the request.
             }
         }
+    }
+
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        super.attachBaseContext(newBase);
     }
 
     public void set_toolbar(){

@@ -12,7 +12,7 @@ import java.util.Locale;
 
 public class LocaleManager {
 
-    private static final String SELECTED_LANGUAGE = "en_US";
+    private static final String SELECTED_LANGUAGE = "en";
 
     public static Context onAttach(Context context) {
         String lang = getPersistedData(context, Locale.getDefault().getLanguage());
@@ -53,11 +53,10 @@ public class LocaleManager {
 
     @TargetApi(Build.VERSION_CODES.N)
     private static Context updateResources(Context context, String language) {
-        String[] lang = language.split("_");
         Locale locale;
-        if(lang.length > 1)
-            locale = new Locale(lang[0],lang[1]);
-        else
+//        if(lang.length > 1)
+//            locale = new Locale(lang[0],lang[1]);
+//        else
             locale = new Locale(language);
         Locale.setDefault(locale);
 
@@ -69,11 +68,10 @@ public class LocaleManager {
 
     @SuppressWarnings("deprecation")
     private static Context updateResourcesLegacy(Context context, String language) {
-        String[] lang = language.split("_");
         Locale locale;
-        if(lang.length > 1)
-            locale = new Locale(lang[0],lang[1]);
-        else
+//        if(lang.length > 1)
+//            locale = new Locale(lang[0],lang[1]);
+//        else
             locale = new Locale(language);
         Locale.setDefault(locale);
 

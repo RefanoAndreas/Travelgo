@@ -41,6 +41,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.zeugmasolutions.localehelper.LocaleHelper;
+import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegateImpl;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -154,11 +156,11 @@ public class FragmentProfile extends Fragment {
                 TextView english_lang = view.findViewById(R.id.english_lang);
                 TextView indo_lang = view.findViewById(R.id.indo_lang);
 
-                if(parent.base_shared_pref.getString("lang","en_US").equals("en_US")) {
+                if(parent.base_shared_pref.getString("lang", "en").equals("en")) {
                     english_lang.setTextSize(TypedValue.COMPLEX_UNIT_DIP,15);
                     english_lang.setTypeface(ResourcesCompat.getFont(getActivity(), R.font.montserrat_medium));
                 }
-                else if(parent.base_shared_pref.getString("lang","en_US").equals("in_ID")) {
+                else if(parent.base_shared_pref.getString("lang", "en").equals("in")) {
                     indo_lang.setTextSize(TypedValue.COMPLEX_UNIT_DIP,15);
                     indo_lang.setTypeface(ResourcesCompat.getFont(getActivity(), R.font.montserrat_medium));
                 }
@@ -166,8 +168,39 @@ public class FragmentProfile extends Fragment {
                 english.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        Context context = LocaleManager.setLocale(getActivity(), "en_US");
-//                        Resources resources = context.getResources();
+//                        Locale locale = new Locale("en");
+//                        Locale.setDefault(locale);
+//                        Resources resources = getActivity().getResources();
+//                        Configuration configuration = resources.getConfiguration();
+//                        configuration.locale = locale;
+//                        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+//
+//                        account_profile.setText(resources.getString(R.string.profile_edit_profile_label));
+//                        tour_profile.setText(resources.getString(R.string.profile_tour_profile_label));
+//                        list_package.setText(resources.getString(R.string.profile_list_package_label));
+//                        history_purchasing.setText(resources.getString(R.string.profile_history_purchasing_label));
+//                        history_transaction.setText(resources.getString(R.string.profile_history_transaction_label));
+//                        language.setText(resources.getString(R.string.profile_language_label));
+//                        LocaleManager.setLocale(getActivity(),"en");
+//                        reload();
+
+                        parent.edit_base_shared_pref.putString("lang","en");
+                        parent.edit_base_shared_pref.commit();
+                        alertDialog.dismiss();
+
+                        reload();
+                    }
+                });
+
+                indonesia.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+//                        Locale locale = new Locale("in");
+//                        Locale.setDefault(locale);
+//                        Resources resources = getActivity().getResources();
+//                        Configuration configuration = resources.getConfiguration();
+//                        configuration.locale = locale;
+//                        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
 //
 //                        account_profile.setText(resources.getString(R.string.profile_edit_profile_label));
 //                        tour_profile.setText(resources.getString(R.string.profile_tour_profile_label));
@@ -176,35 +209,14 @@ public class FragmentProfile extends Fragment {
 //                        history_transaction.setText(resources.getString(R.string.profile_history_transaction_label));
 //                        language.setText(resources.getString(R.string.profile_language_label));
 
-                        parent.edit_base_shared_pref.putString("lang","en_US");
+//                        LocaleManager.setLocale(getActivity(),"in");
+//                        reload();
+
+                        parent.edit_base_shared_pref.putString("lang","in");
                         parent.edit_base_shared_pref.commit();
                         alertDialog.dismiss();
 
-                        Intent in = new Intent(getActivity(), BottomNavContainer.class);
-                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(in);
-                    }
-                });
-
-                indonesia.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-//                        Context context = LocaleManager.setLocale(getActivity(), "in_ID");
-//                        Resources resources = context.getResources();
-//                        account_profile.setText(resources.getString(R.string.profile_edit_profile_label));
-//                        tour_profile.setText(resources.getString(R.string.profile_tour_profile_label));
-//                        list_package.setText(resources.getString(R.string.profile_list_package_label));
-//                        history_purchasing.setText(resources.getString(R.string.profile_history_purchasing_label));
-//                        history_transaction.setText(resources.getString(R.string.profile_history_transaction_label));
-//                        language.setText(resources.getString(R.string.profile_language_label));
-
-                        parent.edit_base_shared_pref.putString("lang","in_ID");
-                        parent.edit_base_shared_pref.commit();
-                        alertDialog.dismiss();
-
-                        Intent in = new Intent(getActivity(), BottomNavContainer.class);
-                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(in);
+                        reload();
                     }
                 });
             }
