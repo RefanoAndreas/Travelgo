@@ -210,8 +210,7 @@ public class TourEdit extends BaseActivity {
                         json.put("name", name.getText().toString());
                         json.put("phone", telp.getText().toString());
                         if (filePath != null) {
-                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                            json.put("image", BitMapToString(bitmap,40));
+                            json.put("image", BitMapToString(MediaStore.Images.Media.getBitmap(getContentResolver(), filePath),10));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -284,7 +283,7 @@ public class TourEdit extends BaseActivity {
                     filePath = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), filePath);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 60, baos);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 10, baos);
                     byte[] bitmapdata = baos.toByteArray();
                     Bitmap bitmap1 = BitmapFactory.decodeByteArray(bitmapdata,0,bitmapdata.length);
 
