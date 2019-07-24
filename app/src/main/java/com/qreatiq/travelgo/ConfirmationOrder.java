@@ -581,14 +581,23 @@ public class ConfirmationOrder extends BaseActivity {
     private void get_baggage(final String type) throws JSONException {
         String url;
         JSONObject ticket;
-        if(type.equals("depart")) {
+        if(type.equals("depart"))
             ticket = new JSONObject(intent.getStringExtra("depart_ticket"));
-            url = C_URL + "flight/baggage?origin=" + ticket.getJSONObject("departData").getString("code") + "&destination=" + ticket.getJSONObject("arrivalData").getString("code");
-        }
-        else {
+        else
             ticket = new JSONObject(intent.getStringExtra("return_ticket"));
-            url = C_URL + "flight/baggage?origin=" + ticket.getJSONObject("departData").getString("code") + "&destination=" + ticket.getJSONObject("arrivalData").getString("code");
-        }
+
+
+        url = C_URL + "flight/baggage?" +
+                "origin=" + ticket.getJSONObject("departData").getString("code") +
+                "&destination=" + ticket.getJSONObject("arrivalData").getString("code") +
+                "&depart_time=" + ticket.getString("departTimeNumber") +
+                "&return_time=" + ticket.getString("arriveTimeNumber") +
+                "&adult=" + intent.getIntExtra("adult",0) +
+                "&infant=" + intent.getIntExtra("infant",0) +
+                "&child=" + intent.getIntExtra("child",0) +
+                "&airlineID=" + ticket.getString("airlineID") +
+                "&return=" + intent.getBooleanExtra("isReturn", false);
+//        Log.d("url",url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
