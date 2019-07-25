@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.button.MaterialButton;
@@ -27,6 +28,7 @@ import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
@@ -585,13 +587,14 @@ public class ConfirmationOrder extends BaseActivity {
             ticket = new JSONObject(intent.getStringExtra("depart_ticket"));
         else
             ticket = new JSONObject(intent.getStringExtra("return_ticket"));
-
+        Log.d("ticket",ticket.toString());
 
         url = C_URL + "flight/baggage?" +
                 "origin=" + ticket.getJSONObject("departData").getString("code") +
                 "&destination=" + ticket.getJSONObject("arrivalData").getString("code") +
-                "&depart_time=" + ticket.getString("departTimeNumber") +
-                "&return_time=" + ticket.getString("arriveTimeNumber") +
+                "&depart_time=" + Uri.encode(ticket.getString("departTimeNumber")) +
+                "&return_time=" + Uri.encode(ticket.getString("arriveTimeNumber")) +
+                "&depart_id=" + Uri.encode(ticket.getString("id")) +
                 "&adult=" + intent.getIntExtra("adult",0) +
                 "&infant=" + intent.getIntExtra("infant",0) +
                 "&child=" + intent.getIntExtra("child",0) +
@@ -632,7 +635,18 @@ public class ConfirmationOrder extends BaseActivity {
                 error_exception(error,layout);
             }
         });
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                600000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(jsonObjectRequest);
+        requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+            @Override
+            public void onRequestFinished(Request<Object> request) {
+                requestQueue.getCache().clear();
+            }
+        });
     }
 
     private void submit_flight() throws JSONException {

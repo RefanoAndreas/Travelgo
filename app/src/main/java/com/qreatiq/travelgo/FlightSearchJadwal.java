@@ -414,6 +414,7 @@ public class FlightSearchJadwal extends BaseActivity {
                                 jsonObject.put("airlineID", jsonArray.getJSONObject(x).getString("airlineID"));
                                 jsonObject.put("airlineCode", jsonArray.getJSONObject(x).getString("airlineCode"));
                                 jsonObject.put("flightNumber", jsonArray.getJSONObject(x).getString("flightNumber"));
+                                jsonObject.put("id", jsonArray.getJSONObject(x).getString("journeyReference"));
 
                                 ticketList.add(jsonObject);
 
