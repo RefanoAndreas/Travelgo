@@ -349,6 +349,7 @@ public class FlightSearchJadwal extends BaseActivity {
                     "&child="+child_pax+
                     "&infant="+infant_pax+
                     "&airline_access_code="+captcha_input+
+                    "&token="+flight_shared_pref.getString("token","")+
                     "&android_id="+android_id;
         }
         else{
@@ -364,6 +365,7 @@ public class FlightSearchJadwal extends BaseActivity {
                     "&child="+child_pax+
                     "&infant="+infant_pax+
                     "&airline_access_code="+captcha_input+
+                    "&token="+flight_shared_pref.getString("token","")+
                     "&android_id="+android_id;
         }
 
@@ -375,8 +377,8 @@ public class FlightSearchJadwal extends BaseActivity {
 
         Log.d("url", url);
 
-        ticketList.clear();
-        mAdapter.notifyDataSetChanged();
+//        ticketList.clear();
+//        mAdapter.notifyDataSetChanged();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -386,6 +388,7 @@ public class FlightSearchJadwal extends BaseActivity {
 
                         if(response.getJSONArray("data").length() > 0) {
                             JSONArray jsonArray = response.getJSONArray("data");
+                            int index = 0,total = 0;
                             for (int x = 0; x < jsonArray.length(); x++) {
                                 JSONObject jsonObject = new JSONObject();
 
@@ -414,16 +417,25 @@ public class FlightSearchJadwal extends BaseActivity {
 
                                 ticketList.add(jsonObject);
 
-                                if (x == 0)
-                                    mAdapter.notifyDataSetChanged();
-                                else
-                                    mAdapter.notifyItemInserted(x);
+                                if(x == 0) {
+                                    index = jsonArray.getJSONObject(x).getInt("airline_index");
+                                    total = jsonArray.getJSONObject(x).getInt("total_airlines");
+                                }
                             }
 
+                            if(index == total) {
+                                mAdapter.notifyDataSetChanged();
+                                skeleton.hide();
+                            }
+                            else{
+                                flightData();
+                            }
                         }
-                        else
+                        else {
                             no_data.setVisibility(View.VISIBLE);
-                        skeleton.hide();
+                            skeleton.hide();
+                        }
+
                     }
                     else{
                         url_captcha = C_URL_IMAGES+"captcha?android_id="+android_id;
@@ -431,6 +443,8 @@ public class FlightSearchJadwal extends BaseActivity {
                                 .putExtra("url_captcha",url_captcha),CAPTCHA);
                     }
                 } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
             }
@@ -757,7 +771,7 @@ public class FlightSearchJadwal extends BaseActivity {
             }
             else if(requestCode == CAPTCHA){
                 try {
-                    captcha_input = intent.getStringExtra("captcha");
+                    captcha_input = data.getStringExtra("captcha");
                     flightData();
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -76,8 +76,8 @@ public class BaseActivity extends AppCompatActivity {
     public BottomSheetDialog bottomSheetDialog;
     public Toolbar toolbar;
 
-    public SharedPreferences base_shared_pref;
-    public SharedPreferences.Editor edit_base_shared_pref;
+    public SharedPreferences base_shared_pref,flight_shared_pref;
+    public SharedPreferences.Editor edit_base_shared_pref,edit_flight_shared_pref;
     public String android_id;
 
     public RequestQueue requestQueue;
@@ -98,6 +98,9 @@ public class BaseActivity extends AppCompatActivity {
 
         base_shared_pref = getApplicationContext().getSharedPreferences("user_id",MODE_PRIVATE);
         edit_base_shared_pref = base_shared_pref.edit();
+
+        flight_shared_pref = getApplicationContext().getSharedPreferences("flight",MODE_PRIVATE);
+        edit_flight_shared_pref = flight_shared_pref.edit();
 //        edit_base_shared_pref.remove("flight.last_search").commit();
 //        LocaleManager.setLocale(this,"in");
 

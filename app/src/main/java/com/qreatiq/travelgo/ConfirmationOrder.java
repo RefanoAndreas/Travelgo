@@ -596,8 +596,9 @@ public class ConfirmationOrder extends BaseActivity {
                 "&infant=" + intent.getIntExtra("infant",0) +
                 "&child=" + intent.getIntExtra("child",0) +
                 "&airlineID=" + ticket.getString("airlineID") +
+                "&token="+flight_shared_pref.getString("token","")+
                 "&return=" + intent.getBooleanExtra("isReturn", false);
-//        Log.d("url",url);
+        Log.d("url",url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
