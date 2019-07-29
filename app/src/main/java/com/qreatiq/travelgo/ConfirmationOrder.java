@@ -696,6 +696,7 @@ public class ConfirmationOrder extends BaseActivity {
             }
             json.put("is_return", getIntent().getBooleanExtra("isReturn",false));
             json.put("class", getIntent().getStringExtra("kelas"));
+            json.put("token", flight_shared_pref.getString("token",""));
             json.put("pax", new JSONArray(arrayList.toString()));
             json.put("adult", getIntent().getIntExtra("adult", 0));
             json.put("child", getIntent().getIntExtra("child", 0));
