@@ -88,7 +88,7 @@ public class BaseActivity extends AppCompatActivity {
 //    public String C_URL_IMAGES = "http://travelgolaravel.propertigo.id/api/images/";
 
     public boolean production = true;
-    public String version = "2.9";
+    public String version = "3.0";
 
     public Uri camera_uri;
 
