@@ -40,6 +40,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -75,7 +76,8 @@ public class ConfirmationOrder extends BaseActivity {
     ConfirmationTrainListAdapter train_list_adapter;
     ConfirmationHotelListAdapter hotel_list_adapter;
 
-    int ADD_OR_EDIT_PAX = 10, ADD_OR_EDIT_GUEST = 11, selected_arr = 0, AUTH = 12, PHONE = 50;
+    int ADD_OR_EDIT_PAX = 10, ADD_OR_EDIT_GUEST = 11, selected_arr = 0, AUTH = 12, PHONE = 50, CAPTCHA = 15;
+    String captcha_input = "";
     double sub_total_data = 0, sub_total_per_pax_data = 0, baggage_depart_data = 0, baggage_return_data = 0, depart_data = 0, return_data = 0;
 
     @Override
@@ -520,9 +522,9 @@ public class ConfirmationOrder extends BaseActivity {
         for(int x=0;x<ticket.getJSONArray("segment").length();x++) {
             json = new JSONObject();
             if(x == 0 && str.equals("depart_ticket"))
-                json.put("title", getResources().getString(R.string.confirmation_flight_depart_title)+ticket.getString("airlines"));
+                json.put("title", getResources().getString(R.string.confirmation_flight_depart_title)+" "+ticket.getString("airlines"));
             if(x == 0 && str.equals("return_ticket"))
-                json.put("title", getResources().getString(R.string.confirmation_flight_return_title)+ticket.getString("airlines"));
+                json.put("title", getResources().getString(R.string.confirmation_flight_return_title)+" "+ticket.getString("airlines"));
             JSONObject jsonObject = ticket.getJSONArray("segment").getJSONObject(x).getJSONArray("flightDetail").getJSONObject(0);
 //            Log.d("data",jsonObject.toString());
             SimpleDateFormat format = new SimpleDateFormat("EEEE d MMM yyyy . kk:mm");
@@ -696,6 +698,8 @@ public class ConfirmationOrder extends BaseActivity {
             }
             json.put("is_return", getIntent().getBooleanExtra("isReturn",false));
             json.put("class", getIntent().getStringExtra("kelas"));
+            json.put("captcha", captcha_input);
+            json.put("android_id", android_id);
             json.put("token", flight_shared_pref.getString("token",""));
             json.put("pax", new JSONArray(arrayList.toString()));
             json.put("adult", getIntent().getIntExtra("adult", 0));
@@ -715,12 +719,16 @@ public class ConfirmationOrder extends BaseActivity {
                 public void onResponse(JSONObject response) {
 //                    Log.d("status", response.toString());
                     try {
+                        loading.dismiss();
                         if(response.getString("status").equals("failed")){
-                            loading.dismiss();
                             alertDialog.show();
                         }
+                        else if(response.getString("status").equals("failed on captcha")){
+                            String url_captcha = C_URL_IMAGES+"captcha?android_id="+android_id;
+                            startActivityForResult(new Intent(ConfirmationOrder.this,CaptchaActivity.class)
+                                    .putExtra("url_captcha",url_captcha),CAPTCHA);
+                        }
                         else {
-                            loading.dismiss();
                             Intent in = new Intent(ConfirmationOrder.this, Payment.class);
 //                        in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                             in.putExtra("type", "flight");
@@ -1084,6 +1092,14 @@ public class ConfirmationOrder extends BaseActivity {
                 userID = user_id.getString("access_token", "Data not found");
 
                 getUser();
+            }
+            else if(requestCode == CAPTCHA){
+                try {
+                    captcha_input = data.getStringExtra("captcha");
+                    submit_flight();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }

@@ -227,6 +227,7 @@ public class FlightSearchJadwal extends BaseActivity {
         if(intentString.equals("flight")) {
             if(intent.getBooleanExtra("isReturn",false)) {
                 if (!intent.getBooleanExtra("isOpposite", false)) {
+                    logLargeString(ticketList.get(position).toString());
                     startActivity(new Intent(FlightSearchJadwal.this, FlightSearchJadwal.class)
                             .putExtra("origin", intentString)
                             .putExtra("depart_data", destination.toString())
@@ -415,6 +416,7 @@ public class FlightSearchJadwal extends BaseActivity {
                                 jsonObject.put("airlineCode", jsonArray.getJSONObject(x).getString("airlineCode"));
                                 jsonObject.put("flightNumber", jsonArray.getJSONObject(x).getString("flightNumber"));
                                 jsonObject.put("id", jsonArray.getJSONObject(x).getString("journeyReference"));
+                                jsonObject.put("flightClass", jsonArray.getJSONObject(x).getString("class"));
 
                                 ticketList.add(jsonObject);
 
