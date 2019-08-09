@@ -51,7 +51,7 @@ public class FlightSearchJadwal extends BaseActivity {
     private RecyclerView mRecyclerView;
     private TicketAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    ArrayList<JSONObject> ticketList = new ArrayList<>();
+    ArrayList<JSONObject> ticketList = new ArrayList<>(),returnList = new ArrayList<>();
     HotelListAdapter hotel_adapter;
 
     TextView tripInfo,title,no_data;
@@ -194,8 +194,20 @@ public class FlightSearchJadwal extends BaseActivity {
         try {
             no_data.setVisibility(View.GONE);
             if(intent.getStringExtra("origin").equals("flight")){
+                if((intent.getBooleanExtra("isReturn",false) && !intent.getBooleanExtra("isOpposite", false)) || !intent.getBooleanExtra("isReturn",false)) {
+                    flightData();
+                }
+                else{
+                    JSONArray array = new JSONArray(intent.getStringExtra("return_data"));
+                    JSONObject depart_ticket = new JSONObject(intent.getStringExtra("depart_ticket"));
+                    for(int x=0;x<array.length();x++) {
+                        if(array.getJSONObject(x).getString("airlines").equals(depart_ticket.getString("airlines")))
+                            ticketList.add(array.getJSONObject(x));
+                    }
 
-                flightData();
+                    mAdapter.notifyDataSetChanged();
+//                    skeleton.hide();
+                }
             }
             else if(intent.getStringExtra("origin").equals("train")){
                 trainData();
@@ -240,6 +252,7 @@ public class FlightSearchJadwal extends BaseActivity {
                             .putExtra("kelas", intent.getStringExtra("kelas"))
                             .putExtra("isReturn", true)
                             .putExtra("isOpposite", true)
+                            .putExtra("return_data", returnList.toString())
                             .putExtra("depart_ticket",ticketList.get(position).toString())
                     );
                 } else {
@@ -352,6 +365,7 @@ public class FlightSearchJadwal extends BaseActivity {
                     "&airline_access_code="+captcha_input+
                     "&token="+flight_shared_pref.getString("token","")+
                     "&android_id="+android_id;
+
         }
         else{
             Date depart_date = new Date(intent.getLongExtra("tanggal_berangkat", 0));
@@ -368,6 +382,8 @@ public class FlightSearchJadwal extends BaseActivity {
                     "&airline_access_code="+captcha_input+
                     "&token="+flight_shared_pref.getString("token","")+
                     "&android_id="+android_id;
+
+
         }
 
 
@@ -387,8 +403,8 @@ public class FlightSearchJadwal extends BaseActivity {
                 try {
                     if(response.getString("status").equals("success")) {
 
-                        if(response.getJSONArray("data").length() > 0) {
-                            JSONArray jsonArray = response.getJSONArray("data");
+                        if(response.getJSONArray("data_depart").length() > 0) {
+                            JSONArray jsonArray = response.getJSONArray("data_depart");
                             int index = 0,total = 0;
                             for (int x = 0; x < jsonArray.length(); x++) {
                                 JSONObject jsonObject = new JSONObject();
@@ -420,24 +436,62 @@ public class FlightSearchJadwal extends BaseActivity {
 
                                 ticketList.add(jsonObject);
 
+
+
                                 if(x == 0) {
                                     index = jsonArray.getJSONObject(x).getInt("airline_index");
                                     total = jsonArray.getJSONObject(x).getInt("total_airlines");
                                 }
                             }
 
-                            if(index == total) {
-                                mAdapter.notifyDataSetChanged();
-                                skeleton.hide();
+                            jsonArray = response.getJSONArray("data_return");
+                            for (int x = 0; x < jsonArray.length(); x++) {
+                                JSONObject jsonObject = new JSONObject();
+
+                                jsonObject.put("airlines", jsonArray.getJSONObject(x).getString("airlines"));
+                                jsonObject.put("flight_code", jsonArray.getJSONObject(x).getString("code"));
+                                jsonObject.put("departTime", jsonArray.getJSONObject(x).getString("time_depart_label"));
+                                jsonObject.put("arrivalTime", jsonArray.getJSONObject(x).getString("time_arrive_label"));
+                                jsonObject.put("duration", jsonArray.getJSONObject(x).getString("duration"));
+                                jsonObject.put("departAirport", destination.getString("code"));
+                                jsonObject.put("arrivalAirport", origin.getString("code"));
+                                jsonObject.put("departData", destination);
+                                jsonObject.put("arrivalData", origin);
+                                jsonObject.put("departTimeNumber", jsonArray.getJSONObject(x).getString("time_depart_number"));
+                                jsonObject.put("arriveTimeNumber", jsonArray.getJSONObject(x).getString("time_arrive_number"));
+                                if (jsonArray.getJSONObject(x).getInt("transit") >= 1)
+                                    jsonObject.put("totalTransit", jsonArray.getJSONObject(x).getString("transit") +
+                                            (jsonArray.getJSONObject(x).getInt("transit") > 2 ? " Transits" : " Transit")
+                                    );
+                                else
+                                    jsonObject.put("totalTransit", "Langsung");
+                                jsonObject.put("price", jsonArray.getJSONObject(x).getString("price"));
+                                jsonObject.put("segment", jsonArray.getJSONObject(x).getJSONArray("segment"));
+                                jsonObject.put("airlineID", jsonArray.getJSONObject(x).getString("airlineID"));
+                                jsonObject.put("airlineCode", jsonArray.getJSONObject(x).getString("airlineCode"));
+                                jsonObject.put("flightNumber", jsonArray.getJSONObject(x).getString("flightNumber"));
+                                jsonObject.put("id", jsonArray.getJSONObject(x).getString("journeyReference"));
+                                jsonObject.put("flightClass", jsonArray.getJSONObject(x).getString("class"));
+
+                                returnList.add(jsonObject);
                             }
-                            else{
-                                flightData();
-                            }
+
+//                            if(index == total) {
+//                                mAdapter.notifyDataSetChanged();
+//                                skeleton.hide();
+//                            }
+//                            else{
+//                                flightData();
+//                            }
+
+                            mAdapter.notifyDataSetChanged();
+                            skeleton.hide();
                         }
                         else {
                             no_data.setVisibility(View.VISIBLE);
                             skeleton.hide();
                         }
+
 
                     }
                     else{
@@ -446,8 +500,6 @@ public class FlightSearchJadwal extends BaseActivity {
                                 .putExtra("url_captcha",url_captcha),CAPTCHA);
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
             }
