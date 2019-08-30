@@ -354,9 +354,11 @@
     </string-array>
 
     <string-array name="status_sales">
-        <item>Success</item>
-        <item>Pending</item>
-        <item>Booked</item>
+        <item>Hold</item>
+        <item>Processed</item>
+        <item>Ticketed</item>
+        <item>Time Out</item>
+        <item>Time Limit</item>
     </string-array>
 
     <string-array name="flight_advice">

@@ -221,6 +221,7 @@ public class FlightSearch extends BaseActivity {
             @Override
             public void onResponse(JSONObject response) {
                 try {
+                    Log.d("token",response.getString("token"));
                     edit_flight_shared_pref.putString("token",response.getString("token"));
                     edit_flight_shared_pref.apply();
                 } catch (JSONException e) {

@@ -735,6 +735,8 @@ public class ConfirmationOrder extends BaseActivity {
                             in.putExtra("id", response.getString("id"));
                             in.putExtra("total", sub_total_data + (sub_total_data * 0.1));
                             in.putExtra("data", json.toString());
+                            in.putExtra("booking_code", response.getString("bookingCode"));
+                            in.putExtra("booking_date", response.getString("bookingDate"));
                             //                    finish();
                             startActivity(in);
                         }
@@ -849,6 +851,8 @@ public class ConfirmationOrder extends BaseActivity {
                             in.putExtra("type", "train");
                             in.putExtra("id", response.getString("id"));
                             in.putExtra("data", json.toString());
+                            in.putExtra("booking_code", response.getString("bookingCode"));
+                            in.putExtra("booking_date", response.getString("bookingDate"));
                             //                    finish();
                             startActivity(in);
                         }

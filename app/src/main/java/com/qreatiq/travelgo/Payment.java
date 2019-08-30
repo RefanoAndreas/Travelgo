@@ -29,6 +29,7 @@ import com.midtrans.sdk.corekit.core.themes.CustomColorTheme;
 import com.midtrans.sdk.corekit.models.BankType;
 import com.midtrans.sdk.corekit.models.CardRegistrationResponse;
 import com.midtrans.sdk.corekit.models.CustomerDetails;
+import com.midtrans.sdk.corekit.models.ExpiryModel;
 import com.midtrans.sdk.corekit.models.ItemDetails;
 import com.midtrans.sdk.corekit.models.snap.CreditCard;
 import com.midtrans.sdk.corekit.models.snap.TransactionResult;
@@ -48,6 +49,7 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
     Button buttonUiKit, buttonDirectCreditCard, buttonDirectBcaVa, buttonDirectMandiriVa,
             buttonDirectBniVa, buttonDirectAtmBersamaVa, buttonDirectPermataVa;
     ConstraintLayout layout;
+    JSONObject data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,12 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
         setContentView(R.layout.activity_payment);
 
         layout = (ConstraintLayout) findViewById(R.id.layout);
+
+        try {
+            data = new JSONObject(getIntent().getStringExtra("data"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         bindViews();
         // SDK initiation for UIflow
@@ -101,7 +109,6 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
 
         //set customer details
         transactionRequestNew.setCustomerDetails(initCustomerDetails());
-
 
         // set item details
 //        ItemDetails itemDetails = new ItemDetails("1", 20000, 1, "Trekking Shoes");
@@ -211,6 +218,10 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
         creditCard.setBank(BankType.BCA); //set spesific acquiring bank
 
         transactionRequestNew.setCreditCard(creditCard);
+        ExpiryModel expiryModel = new ExpiryModel();
+        expiryModel.setDuration(1);
+        expiryModel.setUnit(ExpiryModel.UNIT_HOUR);
+        transactionRequestNew.setExpiry(expiryModel);
 
         return transactionRequestNew;
     }
@@ -250,7 +261,10 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
                     set_transaction_reference(result.getResponse().getTransactionId(),1);
                     break;
                 case TransactionResult.STATUS_FAILED:
-                    Toast.makeText(this, "Transaction Failed. ID: " + result.getResponse().getTransactionId() + ". Message: " + result.getResponse().getStatusMessage(), Toast.LENGTH_LONG).show();
+                    Intent in = new Intent(Payment.this, BottomNavContainer.class);
+                    in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    in.putExtra("message","Transaction Timed Out");
+                    startActivity(in);
                     break;
             }
             result.getResponse().getValidationMessages();
@@ -371,9 +385,16 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
             json.put("id",getIntent().getStringExtra("id"));
             json.put("reference_id",reference_id);
             json.put("status",status);
+            if(getIntent().getStringExtra("type").equals("flight") || getIntent().getStringExtra("type").equals("train")) {
+                if(getIntent().getStringExtra("type").equals("flight"))
+                    json.put("data", data);
+                json.put("booking_code", getIntent().getStringExtra("booking_code"));
+                json.put("booking_date", getIntent().getStringExtra("booking_date"));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Log.d("data",json.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, json, new Response.Listener<JSONObject>() {
             @Override
