@@ -100,6 +100,8 @@
     <string name="error_phone_label">Phone is empty</string>
     <string name="error_password_label">Password is empty</string>
     <string name="error_data_label">data is empty</string>
+    <string name="yes_label">YES</string>
+    <string name="transaction_timeout_label">Please complete your transaction within 1 hour</string>
 
     <string name="tour_create_add_keyword_label">Press enter to add new keyword</string>
     <string name="tour_create_error_photo_label">Photo tour is empty</string>

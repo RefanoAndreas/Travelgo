@@ -1,8 +1,10 @@
 package com.qreatiq.travelgo;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -68,6 +70,8 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
         // SDK initiation for UIflow
         initMidtransSdk();
         initActionButtons();
+
+        show_timeout_dialog();
     }
 
     private TransactionRequest initTransactionRequest() {
@@ -287,7 +291,19 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
         buttonDirectBniVa = (Button) findViewById(R.id.button_direct_bni_va);
         buttonDirectPermataVa = (Button) findViewById(R.id.button_direct_permata_va);
         buttonDirectAtmBersamaVa = (Button) findViewById(R.id.button_direct_atm_bersama_va);
+    }
 
+    private void show_timeout_dialog(){
+        new AlertDialog.Builder(this)
+                .setTitle("Notice")
+                .setMessage(getString(R.string.transaction_timeout_label))
+                .setPositiveButton(R.string.yes_label, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 
     private void initActionButtons() {
@@ -391,6 +407,8 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
                 json.put("booking_code", getIntent().getStringExtra("booking_code"));
                 json.put("booking_date", getIntent().getStringExtra("booking_date"));
             }
+            else
+                json.put("reservation_no", getIntent().getStringExtra("reservation_no"));
         } catch (JSONException e) {
             e.printStackTrace();
         }

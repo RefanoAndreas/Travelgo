@@ -952,6 +952,7 @@ public class ConfirmationOrder extends BaseActivity {
                             in.putExtra("type", "hotel");
                             in.putExtra("id", response.getString("id"));
                             in.putExtra("data", json.toString());
+                            in.putExtra("reservation_no", response.getString("reservation_no"));
 //                        finish();
                             startActivity(in);
                         }
