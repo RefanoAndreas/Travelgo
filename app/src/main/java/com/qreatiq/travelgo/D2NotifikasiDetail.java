@@ -116,7 +116,7 @@ public class D2NotifikasiDetail extends BaseActivity {
                     if(jsonDetail.getInt("status") == 1){
                         TV_status_order.setText(getResources().getString(R.string.notification_detail_order_unpaid_label));
                     }
-                    else if(jsonDetail.getInt("status") == 0){
+                    else if(jsonDetail.getInt("status") == 2){
                         TV_status_order.setText(getResources().getString(R.string.notification_detail_order_success_label));
                     }
 

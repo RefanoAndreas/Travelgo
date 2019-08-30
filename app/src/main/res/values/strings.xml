@@ -160,7 +160,7 @@
     <string name="notification_detail_booking_at_label">Booking Date</string>
     <string name="notification_detail_booking_price_label">Booking Total Price</string>
     <string name="notification_detail_e_ticket_label">E-ticket</string>
-    <string name="notification_detail_order_unpaid_label">Booking is not paid yet</string>
+    <string name="notification_detail_order_unpaid_label">Booking is processed</string>
     <string name="notification_detail_order_success_label">Booking is success</string>
 
     <string name="e_ticket_booking_code_label">Booking Code</string>
