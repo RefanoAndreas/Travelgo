@@ -265,6 +265,7 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
                     set_transaction_reference(result.getResponse().getTransactionId(),1);
                     break;
                 case TransactionResult.STATUS_FAILED:
+                    set_transaction_reference(result.getResponse().getTransactionId(),3);
                     Intent in = new Intent(Payment.this, BottomNavContainer.class);
                     in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     in.putExtra("message","Transaction Timed Out");
@@ -385,7 +386,7 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
 
     }
 
-    public void set_transaction_reference(String reference_id,int status){
+    public void set_transaction_reference(String reference_id, final int status){
         String url = "";
         if(getIntent().getStringExtra("type").equals("tour"))
             url = C_URL+"sales/tour/reference";
@@ -419,6 +420,8 @@ public class Payment extends BaseActivity implements TransactionFinishedCallback
             public void onResponse(JSONObject response) {
                 Intent in = new Intent(Payment.this, BottomNavContainer.class);
                 in.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                if(status == 3)
+                    in.putExtra("message","Transaction Timed Out");
                 startActivity(in);
             }
         }, new Response.ErrorListener() {
