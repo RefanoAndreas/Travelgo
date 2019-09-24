@@ -140,11 +140,12 @@ public class ConfirmationOrder extends BaseActivity {
                         "\"type\":\""+getResources().getString(R.string.guest_label)+"\"," +
                         "\"for\":\"hotel\"}"));
 
-                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_1_label)+"\",\"checked\":false}"));
-                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_2_label)+"\",\"checked\":false}"));
-                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_3_label)+"\",\"checked\":false}"));
-                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_4_label)+"\",\"checked\":false}"));
-                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_5_label)+"\",\"checked\":false}"));
+//                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_1_label)+"\",\"checked\":false}"));
+//                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_2_label)+"\",\"checked\":false}"));
+//                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_3_label)+"\",\"checked\":false}"));
+//                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_4_label)+"\",\"checked\":false}"));
+//                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_5_label)+"\",\"checked\":false}"));
+                get_special_request();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -625,6 +626,49 @@ public class ConfirmationOrder extends BaseActivity {
                             json.put("arr_baggage_return", _array);
                         arrayList.set(x,json);
                         adapter.notifyItemChanged(x);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                error_exception(error,layout);
+            }
+        });
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                600000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(jsonObjectRequest);
+        requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+            @Override
+            public void onRequestFinished(Request<Object> request) {
+                requestQueue.getCache().clear();
+            }
+        });
+    }
+
+    private void get_special_request() {
+        String url;
+        url = C_URL + "hotel/special-request";
+        Log.d("url",url);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray _array = response.getJSONArray("data");
+
+                    for(int x=0;x<_array.length();x++) {
+                        JSONObject json = new JSONObject();
+                        json.put("id",_array.getJSONObject(x).getString("id"));
+                        json.put("label",_array.getJSONObject(x).getString("name"));
+                        json.put("checked",false);
+                        special_request_array.add(json);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();

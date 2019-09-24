@@ -162,8 +162,25 @@
     <string name="notification_detail_booking_at_label">Booking Date</string>
     <string name="notification_detail_booking_price_label">Booking Total Price</string>
     <string name="notification_detail_e_ticket_label">E-ticket</string>
-    <string name="notification_detail_order_unpaid_label">Booking is processed</string>
-    <string name="notification_detail_order_success_label">Booking is success</string>
+    <string name="notification_detail_order_processed_label">Booking is processed</string>
+    <string name="notification_detail_order_ticketed_label">Booking is ticketed</string>
+    <string name="notification_detail_order_hold_label">Booking is hold</string>
+    <string name="notification_detail_order_time_out_label">Booking is time out</string>
+    <string name="notification_detail_order_time_limit_label">Booking is time limit</string>
+    <string name="notification_detail_order_unpaid_label">Booking is unpaid</string>
+    <string name="notification_detail_order_accept_label">Booking is accept</string>
+    <string name="notification_detail_order_cancel_label">Booking is canceled</string>
+
+    <string-array name="status_sales">
+        <item>Hold</item>
+        <item>Processed</item>
+        <item>Ticketed</item>
+        <item>Time Out</item>
+        <item>Time Limit</item>
+        <item>Unpaid</item>
+        <item>Accept</item>
+        <item>Cancel</item>
+    </string-array>
 
     <string name="e_ticket_booking_code_label">Booking Code</string>
     <string name="e_ticket_subtitle_label">Show this code on check-in</string>
@@ -355,13 +372,7 @@
         <item>Infant</item>
     </string-array>
 
-    <string-array name="status_sales">
-        <item>Hold</item>
-        <item>Processed</item>
-        <item>Ticketed</item>
-        <item>Time Out</item>
-        <item>Time Limit</item>
-    </string-array>
+
 
     <string-array name="flight_advice">
         <item>Show your E-ticket and your identification card on check-in process (e.g. KTP/SIM/PASPOR)</item>

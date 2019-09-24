@@ -78,12 +78,13 @@ public class NotifikasiAdapter extends RecyclerView.Adapter<NotifikasiAdapter.No
             notifikasiHolder.mTextView5.setText(jsonObject.getString("info4"));
             notifikasiHolder.mChip1.setText(context.getResources().getStringArray(R.array.status_sales)[jsonObject.getInt("status")]);
 
-            if(jsonObject.getInt("status") == 0){
-                notifikasiHolder.mChip1.setChipBackgroundColorResource(R.color.colorPrimary);
-            }
-            else if(jsonObject.getInt("status") == 2){
+            if(jsonObject.getInt("status") == 2 || jsonObject.getInt("status") == 6){
                 notifikasiHolder.mChip1.setChipBackgroundColorResource(R.color.colorGreen);
                 notifikasiHolder.mChip1.setTextColor(Color.parseColor("#424242"));
+            }
+            else if(jsonObject.getInt("status") == 7){
+                notifikasiHolder.mChip1.setChipBackgroundColorResource(R.color.colorRed);
+                notifikasiHolder.mChip1.setTextColor(Color.parseColor("#FFFFFF"));
             }
             else{
                 notifikasiHolder.mChip1.setChipBackgroundColorResource(R.color.colorYellow);

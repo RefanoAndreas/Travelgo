@@ -113,12 +113,22 @@ public class D2NotifikasiDetail extends BaseActivity {
                     TV_order_date.setText(jsonDetail.getString("order_date"));
                     TV_no_order.setText(jsonDetail.getString("id"));
 
-                    if(jsonDetail.getInt("status") == 1){
+                    if(jsonDetail.getInt("status") == 0)
+                        TV_status_order.setText(getResources().getString(R.string.notification_detail_order_hold_label));
+                    else if(jsonDetail.getInt("status") == 1)
+                        TV_status_order.setText(getResources().getString(R.string.notification_detail_order_processed_label));
+                    else if(jsonDetail.getInt("status") == 2)
+                        TV_status_order.setText(getResources().getString(R.string.notification_detail_order_ticketed_label));
+                    else if(jsonDetail.getInt("status") == 3)
+                        TV_status_order.setText(getResources().getString(R.string.notification_detail_order_time_out_label));
+                    else if(jsonDetail.getInt("status") == 4)
+                        TV_status_order.setText(getResources().getString(R.string.notification_detail_order_time_limit_label));
+                    else if(jsonDetail.getInt("status") == 5)
                         TV_status_order.setText(getResources().getString(R.string.notification_detail_order_unpaid_label));
-                    }
-                    else if(jsonDetail.getInt("status") == 2){
-                        TV_status_order.setText(getResources().getString(R.string.notification_detail_order_success_label));
-                    }
+                    else if(jsonDetail.getInt("status") == 6)
+                        TV_status_order.setText(getResources().getString(R.string.notification_detail_order_accept_label));
+                    else if(jsonDetail.getInt("status") == 7)
+                        TV_status_order.setText(getResources().getString(R.string.notification_detail_order_cancel_label));
 
                     if(type.equals("flight") || type.equals("train")) {
                         for (int x = 0; x < jsonDetail.getJSONArray("detail").length(); x++) {
