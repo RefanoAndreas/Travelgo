@@ -2,6 +2,7 @@ package com.qreatiq.travelgo;
 
 import android.animation.ObjectAnimator;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.button.MaterialButton;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,13 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.ethanhua.skeleton.Skeleton;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
@@ -25,13 +33,18 @@ import com.squareup.picasso.Picasso;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class HotelDetail extends BaseActivity {
 
@@ -60,8 +73,8 @@ public class HotelDetail extends BaseActivity {
         setContentView(R.layout.activity_hotel_detail);
 
         set_toolbar();
+        init();
 
-        carouselView = (CarouselView) findViewById(R.id.hotel_Carousel);
 
         carouselView.setImageListener(new ImageListener() {
             @Override
@@ -81,11 +94,7 @@ public class HotelDetail extends BaseActivity {
         });
 
 
-        facilities = (GridView) findViewById(R.id.facilities);
-        name = (TextView) findViewById(R.id.name);
-        address = (TextView) findViewById(R.id.address);
-        rating = (RatingBar) findViewById(R.id.rating);
-        rating_number = (TextView) findViewById(R.id.rating_number);
+
 
         try {
             hotel = new JSONObject(getIntent().getStringExtra("hotel_selected"));
@@ -101,6 +110,7 @@ public class HotelDetail extends BaseActivity {
                 int breakfast = hotel.getJSONArray("rooms").getJSONObject(x).getInt("breakfast");
                 json.put("name",hotel.getJSONArray("rooms").getJSONObject(x).getString("name")+" ("+(breakfast == 1 ? "With Breakfast" : "Room Only")+")");
                 json.put("breakfast",breakfast == 1 ? true : false);
+                json.put("breakfast_data",hotel.getJSONArray("rooms").getJSONObject(x).getString("breakfast_data"));
                 json.put("price",hotel.getJSONArray("rooms").getJSONObject(x).getDouble("price"));
                 if(hotel.getJSONArray("photos").length() > 0)
                     json.put("photo",C_URL+"images/hotel?" +
@@ -133,13 +143,7 @@ public class HotelDetail extends BaseActivity {
             e.printStackTrace();
         }
 
-        mRecyclerView = findViewById(R.id.roomList_RV);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mAdapter = new HotelRoomAdapter(hotelRoomList);
 
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
 
         mAdapter.setOnClickListener(new HotelRoomAdapter.ClickListener() {
             @Override
@@ -152,12 +156,13 @@ public class HotelDetail extends BaseActivity {
                         .putExtra("room", getIntent().getIntExtra("room",0))
                         .putExtra("hotel_selected",getIntent().getStringExtra("hotel_selected"))
                         .putExtra("room_selected",hotelRoomList.get(position).toString())
+                        .putExtra("check_in", getIntent().getLongExtra("check_in",0))
+                        .putExtra("check_out", getIntent().getLongExtra("check_out",0))
                 );
             }
         });
 
-        description = (TextView) this.findViewById(R.id.hotelDesc);
-        expandBtn = (TextView) this.findViewById(R.id.btnExpand);
+
 
 
         expandBtn.setOnClickListener(new View.OnClickListener() {
@@ -182,7 +187,25 @@ public class HotelDetail extends BaseActivity {
 
             }
         });
+    }
 
+    private void init(){
+        carouselView = (CarouselView) findViewById(R.id.hotel_Carousel);
+        facilities = (GridView) findViewById(R.id.facilities);
+        name = (TextView) findViewById(R.id.name);
+        address = (TextView) findViewById(R.id.address);
+        rating = (RatingBar) findViewById(R.id.rating);
+        rating_number = (TextView) findViewById(R.id.rating_number);
+        description = (TextView) this.findViewById(R.id.hotelDesc);
+        expandBtn = (TextView) this.findViewById(R.id.btnExpand);
+
+        mRecyclerView = findViewById(R.id.roomList_RV);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mAdapter = new HotelRoomAdapter(hotelRoomList);
+
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
 }

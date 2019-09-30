@@ -78,7 +78,10 @@ public class ConfirmationOrder extends BaseActivity {
 
     int ADD_OR_EDIT_PAX = 10, ADD_OR_EDIT_GUEST = 11, selected_arr = 0, AUTH = 12, PHONE = 50, CAPTCHA = 15;
     String captcha_input = "";
-    double sub_total_data = 0, sub_total_per_pax_data = 0, baggage_depart_data = 0, baggage_return_data = 0, depart_data = 0, return_data = 0;
+    double sub_total_data = 0, sub_total_per_pax_data = 0, baggage_depart_data = 0,
+            baggage_return_data = 0, depart_data = 0, return_data = 0;
+
+    JSONObject hotel_selected = new JSONObject(), room_selected = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +135,9 @@ public class ConfirmationOrder extends BaseActivity {
 
         if(intentString.equals("hotel")){
             try {
+                hotel_selected = new JSONObject(getIntent().getStringExtra("hotel_selected"));
+                room_selected = new JSONObject(getIntent().getStringExtra("room_selected"));
+
                 arrayList.add(new JSONObject("{" +
                         "\"edit\":false," +
                         "\"title\":0," +
@@ -145,7 +151,7 @@ public class ConfirmationOrder extends BaseActivity {
 //                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_3_label)+"\",\"checked\":false}"));
 //                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_4_label)+"\",\"checked\":false}"));
 //                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_5_label)+"\",\"checked\":false}"));
-                get_special_request();
+                post_special_request();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -695,6 +701,55 @@ public class ConfirmationOrder extends BaseActivity {
         });
     }
 
+    private void post_special_request() throws JSONException {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
+
+        JSONObject data = new JSONObject();
+        data.put("hotel",hotel_selected);
+        data.put("room",room_selected);
+        data.put("check_in",simpleDateFormat.format(new Date(getIntent().getLongExtra("check_in",0))));
+        data.put("check_out",simpleDateFormat.format(new Date(getIntent().getLongExtra("check_out",0))));
+        String url = C_URL + "hotel/special-request";
+
+        final ProgressDialog loading = new ProgressDialog(this);
+        loading.setMax(100);
+        loading.setTitle(getResources().getString(R.string.confirmation_booking_progress_label));
+        loading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        loading.setCancelable(false);
+        loading.setProgress(0);
+        loading.show();
+
+        Log.d("url",url);
+        Log.d("data",data.toString());
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, data, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                loading.dismiss();
+                get_special_request();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                loading.dismiss();
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                error_exception(error,layout);
+            }
+        });
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                600000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(jsonObjectRequest);
+        requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+            @Override
+            public void onRequestFinished(Request<Object> request) {
+                requestQueue.getCache().clear();
+            }
+        });
+    }
+
     private void submit_flight() throws JSONException {
         boolean allow = true;
         for(int x=0;x<arrayList.size();x++){
@@ -1045,29 +1100,30 @@ public class ConfirmationOrder extends BaseActivity {
 
                     if(intentString.equals("flight")) {
                         json.put("no_passport",data_from_intent.getString("no_passport"));
-                        json.put("baggage_depart", new JSONObject(data_from_intent.getString("baggage_depart")));
+                        if(data_from_intent.has("baggage_depart")) {
+                            json.put("baggage_depart", new JSONObject(data_from_intent.getString("baggage_depart")));
 
-                        JSONArray jsonArray = new JSONArray(json.getJSONArray("arr_baggage_depart").toString());
-                        for (int y = 0; y < jsonArray.length(); y++) {
-                            jsonArray.getJSONObject(y).put("checked", false);
-                        }
-                        for (int y = 0; y < jsonArray.length(); y++) {
-                            if ((!json.getJSONObject("baggage_depart").toString().equals("{}") &&
-                                    json.getJSONObject("baggage_depart").getString("code").equals(
-                                            jsonArray.getJSONObject(y).getString("code"))) ||
-                                    (json.getJSONObject("baggage_depart").toString().equals("{}") && y == 0)) {
-//                                baggage_depart_data += json.getJSONArray("arr_baggage_depart").getJSONObject(y).getDouble("fare");
-                                jsonArray.getJSONObject(y).put("checked", true);
-                            }
-                            else
+                            JSONArray jsonArray = new JSONArray(json.getJSONArray("arr_baggage_depart").toString());
+                            for (int y = 0; y < jsonArray.length(); y++) {
                                 jsonArray.getJSONObject(y).put("checked", false);
+                            }
+                            for (int y = 0; y < jsonArray.length(); y++) {
+                                if ((!json.getJSONObject("baggage_depart").toString().equals("{}") &&
+                                        json.getJSONObject("baggage_depart").getString("code").equals(
+                                                jsonArray.getJSONObject(y).getString("code"))) ||
+                                        (json.getJSONObject("baggage_depart").toString().equals("{}") && y == 0)) {
+//                                baggage_depart_data += json.getJSONArray("arr_baggage_depart").getJSONObject(y).getDouble("fare");
+                                    jsonArray.getJSONObject(y).put("checked", true);
+                                } else
+                                    jsonArray.getJSONObject(y).put("checked", false);
+                            }
+                            json.put("arr_baggage_depart", jsonArray);
                         }
-                        json.put("arr_baggage_depart",jsonArray);
 
-                        if (intent.getBooleanExtra("isReturn", false)) {
+                        if (intent.getBooleanExtra("isReturn", false) && data_from_intent.has("baggage_return")) {
                             json.put("baggage_return", new JSONObject(data_from_intent.getString("baggage_return")));
 
-                            jsonArray = json.getJSONArray("arr_baggage_return");
+                            JSONArray jsonArray = json.getJSONArray("arr_baggage_return");
                             for (int y = 0; y < jsonArray.length(); y++)
                                 jsonArray.getJSONObject(y).put("checked", false);
                             for (int y = 0; y < jsonArray.length(); y++) {

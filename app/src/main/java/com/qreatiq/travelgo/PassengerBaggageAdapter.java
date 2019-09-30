@@ -74,7 +74,8 @@ public class PassengerBaggageAdapter extends RecyclerView.Adapter<PassengerBagga
                 }
             }
 
-            viewHolder.baggage.setText(jsonObject.getJSONArray("baggage").getJSONObject(index).getString("label"));
+            if(jsonObject.getJSONArray("baggage").length() > 0)
+                viewHolder.baggage.setText(jsonObject.getJSONArray("baggage").getJSONObject(index).getString("label"));
 
             viewHolder.view.setOnClickListener(new View.OnClickListener() {
                 @Override

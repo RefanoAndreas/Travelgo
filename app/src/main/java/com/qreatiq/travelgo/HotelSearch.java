@@ -17,6 +17,12 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONArray;
@@ -146,6 +152,45 @@ public class HotelSearch extends BaseActivity {
         in.putExtra("isReturn",true);
         in.putExtra("type","hotel");
         startActivityForResult(in,END_DATE);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        get_token();
+    }
+
+    public void get_token(){
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, C_URL+"flight/token", null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    edit_flight_shared_pref.putString("token",response.getString("token"));
+                    edit_flight_shared_pref.apply();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                error_exception(error,layout);
+            }
+        });
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                600000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(jsonObjectRequest);
+
+        requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+            @Override
+            public void onRequestFinished(Request<Object> request) {
+                requestQueue.getCache().clear();
+            }
+        });
     }
 
     @Override

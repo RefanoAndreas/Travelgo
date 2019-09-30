@@ -186,6 +186,8 @@ public class FlightSearchJadwal extends BaseActivity {
                             .putExtra("guest", getIntent().getIntExtra("guest",0))
                             .putExtra("room", getIntent().getIntExtra("room",0))
                             .putExtra("hotel_selected",ticketList.get(position).toString())
+                            .putExtra("check_in", check_in_date.getTime())
+                            .putExtra("check_out", check_out_date.getTime())
                     );
                 }
             });
@@ -641,7 +643,8 @@ public class FlightSearchJadwal extends BaseActivity {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String url = C_URL+"hotel/search?city="+hotel_city.getString("id")+
                 "&check_in="+format.format(check_in_date)+
-                "&check_out="+format.format(check_out_date);
+                "&check_out="+format.format(check_out_date)+
+                "&token="+flight_shared_pref.getString("token","");
 
         if(sort.has("data"))
             url += "&sort="+sort.getString("data");

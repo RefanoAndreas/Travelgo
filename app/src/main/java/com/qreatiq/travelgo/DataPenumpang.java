@@ -195,19 +195,22 @@ public class DataPenumpang extends BaseActivity {
 
                         if(getIntent().getStringExtra("packageName").equals("flight")) {
                             json.put("no_passport", no_passport.getText().toString());
-                            int selected = 0;
-                            for (int x = 0; x < baggage_array.get(0).getJSONArray("baggage").length(); x++) {
-                                if (baggage_array.get(0).getJSONArray("baggage").getJSONObject(x).getBoolean("checked"))
-                                    selected = x;
-                            }
-                            json.put("baggage_depart", baggage_array.get(0).getJSONArray("baggage").getJSONObject(selected));
-
-                            if (getIntent().getBooleanExtra("isReturn", false)) {
-                                for (int x = 0; x < baggage_array.get(1).getJSONArray("baggage").length(); x++) {
-                                    if (baggage_array.get(1).getJSONArray("baggage").getJSONObject(x).getBoolean("checked"))
+                            if(baggage_array.size() > 0) {
+                                int selected = 0;
+                                for (int x = 0; x < baggage_array.get(0).getJSONArray("baggage").length(); x++) {
+                                    if (baggage_array.get(0).getJSONArray("baggage").getJSONObject(x).getBoolean("checked"))
                                         selected = x;
                                 }
-                                json.put("baggage_return", baggage_array.get(1).getJSONArray("baggage").getJSONObject(selected));
+                                json.put("baggage_depart", baggage_array.get(0).getJSONArray("baggage").getJSONObject(selected));
+
+
+                                if (getIntent().getBooleanExtra("isReturn", false)) {
+                                    for (int x = 0; x < baggage_array.get(1).getJSONArray("baggage").length(); x++) {
+                                        if (baggage_array.get(1).getJSONArray("baggage").getJSONObject(x).getBoolean("checked"))
+                                            selected = x;
+                                    }
+                                    json.put("baggage_return", baggage_array.get(1).getJSONArray("baggage").getJSONObject(selected));
+                                }
                             }
                         }
                         else if(getIntent().getStringExtra("packageName").equals("train")) {
