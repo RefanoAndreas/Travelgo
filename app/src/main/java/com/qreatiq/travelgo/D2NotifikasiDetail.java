@@ -89,9 +89,13 @@ public class D2NotifikasiDetail extends BaseActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
 
         detail();
-
     }
 
     private void detail(){
@@ -130,6 +134,8 @@ public class D2NotifikasiDetail extends BaseActivity {
                     else if(jsonDetail.getInt("status") == 7)
                         TV_status_order.setText(getResources().getString(R.string.notification_detail_order_cancel_label));
 
+                    eTicketList.clear();
+                    adapter_eTicket.notifyDataSetChanged();
                     if(type.equals("flight") || type.equals("train")) {
                         for (int x = 0; x < jsonDetail.getJSONArray("detail").length(); x++) {
                             JSONObject jsonObject1 = new JSONObject();

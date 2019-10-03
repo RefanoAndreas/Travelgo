@@ -301,4 +301,12 @@ public class D1Notifikasi extends BaseActivity {
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        notifList.clear();
+        mAdapter.notifyDataSetChanged();
+        history();
+    }
 }
