@@ -51,14 +51,14 @@ import java.util.Map;
 
 public class ConfirmationOrder extends BaseActivity {
 
-    TextView  TV_routeInfo, TV_routeType, specialRequestAdd, guestData, sub_total, pajak, total, titleData,
+    TextView  TV_routeInfo, TV_routeType, specialRequestAdd, bed_type_add, guestData, sub_total, pajak, total, titleData,
     TV_namaPemesan, TV_emailPemesan, TV_teleponPemesan, login, baggage_depart, baggage_return;
     RecyclerView flight_depart,flight_return, list_hotel, list_train;
     LinearLayout list_flight;
     View border;
     Intent intent;
     String intentString, userID, url, durasi;
-    LinearLayout specialRequestLinear,special_request,login_data,flight_baggage_depart,flight_baggage_return;
+    LinearLayout specialRequestLinear,bed_typeLinear,special_request, bed_type,login_data,flight_baggage_depart,flight_baggage_return;
     RecyclerView list_pax;
     CardView card_dataPemesan;
     SharedPreferences user_id;
@@ -70,7 +70,7 @@ public class ConfirmationOrder extends BaseActivity {
             flight_list_depart_array = new ArrayList<JSONObject>(),
             flight_list_return_array = new ArrayList<JSONObject>(),
             train_list_array = new ArrayList<JSONObject>(),hotel_list_array = new ArrayList<JSONObject>(),
-            special_request_array = new ArrayList<JSONObject>();
+            special_request_array = new ArrayList<JSONObject>(),bed_type_array = new ArrayList<>();
     ConfirmationFlightListAdapter flight_list_depart_adapter,flight_list_return_adapter;
 
     ConfirmationTrainListAdapter train_list_adapter;
@@ -109,6 +109,7 @@ public class ConfirmationOrder extends BaseActivity {
         flight_baggage_depart = (LinearLayout)findViewById(R.id.flight_baggage_depart);
         flight_baggage_return = (LinearLayout)findViewById(R.id.flight_baggage_return);
         specialRequestLinear = (LinearLayout)findViewById(R.id.specialRequestLinear);
+        bed_typeLinear = findViewById(R.id.bed_typeLinear);
         list_flight = (LinearLayout) findViewById(R.id.list_flight);
         flight_depart = (RecyclerView) findViewById(R.id.flight_depart);
         flight_return = (RecyclerView) findViewById(R.id.flight_return);
@@ -152,6 +153,7 @@ public class ConfirmationOrder extends BaseActivity {
 //                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_4_label)+"\",\"checked\":false}"));
 //                special_request_array.add(new JSONObject("{\"label\":\""+getResources().getString(R.string.confirmation_special_request_list_5_label)+"\",\"checked\":false}"));
                 post_special_request();
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -246,6 +248,7 @@ public class ConfirmationOrder extends BaseActivity {
 
             list_flight.setVisibility(View.VISIBLE);
             specialRequestLinear.setVisibility(View.GONE);
+            bed_typeLinear.setVisibility(View.GONE);
             guestData.setText(getResources().getString(R.string.confirmation_passenger_title));
 
             try {
@@ -283,6 +286,7 @@ public class ConfirmationOrder extends BaseActivity {
             flight_baggage_return.setVisibility(View.GONE);
             list_train.setVisibility(View.VISIBLE);
             specialRequestLinear.setVisibility(View.GONE);
+            bed_typeLinear.setVisibility(View.GONE);
             guestData.setText(getResources().getString(R.string.confirmation_passenger_title));
 
             try {
@@ -365,6 +369,15 @@ public class ConfirmationOrder extends BaseActivity {
             public void onClick(View v) {
                 DialogFragment newFragment = new Special_Order_Hotel();
                 newFragment.show(getSupportFragmentManager(), "missiles");
+            }
+        });
+
+        bed_type_add = findViewById(R.id.bed_type_add);
+        bed_type_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BedTypeHotel modal = new BedTypeHotel();
+                modal.show(getSupportFragmentManager(),"modal");
             }
         });
 
@@ -701,6 +714,49 @@ public class ConfirmationOrder extends BaseActivity {
         });
     }
 
+    private void get_bed_type() {
+        String url;
+        url = C_URL + "hotel/bed-type";
+        Log.d("url",url);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray _array = response.getJSONArray("data");
+
+                    for(int x=0;x<_array.length();x++) {
+                        JSONObject json = new JSONObject();
+                        json.put("id",_array.getJSONObject(x).getString("id"));
+                        json.put("label",_array.getJSONObject(x).getString("name"));
+                        json.put("checked",false);
+                        bed_type_array.add(json);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                ConstraintLayout layout = (ConstraintLayout) findViewById(R.id.layout);
+                error_exception(error,layout);
+            }
+        });
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                600000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        requestQueue.add(jsonObjectRequest);
+        requestQueue.addRequestFinishedListener(new RequestQueue.RequestFinishedListener<Object>() {
+            @Override
+            public void onRequestFinished(Request<Object> request) {
+                requestQueue.getCache().clear();
+            }
+        });
+    }
+
     private void post_special_request() throws JSONException {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("YYYY-MM-dd");
 
@@ -721,12 +777,14 @@ public class ConfirmationOrder extends BaseActivity {
 
         Log.d("url",url);
         Log.d("data",data.toString());
+        Log.d("token",data.toString());
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, data, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 loading.dismiss();
                 get_special_request();
+                get_bed_type();
             }
         }, new Response.ErrorListener() {
             @Override

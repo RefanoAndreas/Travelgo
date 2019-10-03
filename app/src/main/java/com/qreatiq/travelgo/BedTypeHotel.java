@@ -16,7 +16,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class Special_Order_Hotel extends DialogFragment {
+public class BedTypeHotel extends DialogFragment {
 
     GridView specialOrder;
     TextView title;
@@ -42,10 +42,10 @@ public class Special_Order_Hotel extends DialogFragment {
         submit = (MaterialButton) view.findViewById(R.id.submit);
         title = view.findViewById(R.id.title);
 
-        title.setText(getString(R.string.confirmation_special_request_title));
+        title.setText(getString(R.string.confirmation_bed_type_title));
 
-        for(int x=0;x<parent.special_request_array.size();x++){
-            arrayOrder.add(parent.special_request_array.get(x));
+        for(int x=0;x<parent.bed_type_array.size();x++){
+            arrayOrder.add(parent.bed_type_array.get(x));
         }
 
         adapter = new SpecialOrderHotelAdapter(arrayOrder, view.getContext());
@@ -67,16 +67,16 @@ public class Special_Order_Hotel extends DialogFragment {
             @Override
             public void onClick(View v) {
                 try {
-                    parent.special_request_array.clear();
-                    parent.special_request.removeAllViews();
+                    parent.bed_type_array.clear();
+                    parent.bed_type.removeAllViews();
                     for(int x=0;x<arrayOrder.size();x++){
                         if(arrayOrder.get(x).getBoolean("checked")){
                             TextView textView = new TextView(view.getContext());
                             textView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                             textView.setText(arrayOrder.get(x).getString("label"));
-                            parent.special_request.addView(textView);
+                            parent.bed_type.addView(textView);
                         }
-                        parent.special_request_array.add(arrayOrder.get(x));
+                        parent.bed_type_array.add(arrayOrder.get(x));
                     }
                     dismiss();
                 } catch (JSONException e) {

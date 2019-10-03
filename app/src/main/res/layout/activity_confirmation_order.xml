@@ -287,6 +287,36 @@
                                 android:fontFamily="@font/montserrat_semi_bold"/>
                         </LinearLayout>
 
+                        <LinearLayout
+                            android:id="@+id/bed_typeLinear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="16dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/confirmation_bed_type_title"
+                                android:layout_marginTop="10dp"
+                                android:fontFamily="@font/montserrat_medium"
+                                android:textColor="#0E64FF"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/bed_type"
+                                android:orientation="vertical"/>
+
+                            <TextView
+                                android:id="@+id/bed_type_add"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="@string/confirmation_bed_type_add_label"
+                                android:layout_marginTop="8dp"
+                                android:textColor="@color/colorPrimary"
+                                android:fontFamily="@font/montserrat_semi_bold"/>
+                        </LinearLayout>
+
                     </LinearLayout>
 
                 </LinearLayout>

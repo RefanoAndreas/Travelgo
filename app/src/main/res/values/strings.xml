@@ -137,6 +137,8 @@
     <string name="confirmation_passenger_title">Passenger Data</string>
     <string name="confirmation_special_request_title">Special Requests</string>
     <string name="confirmation_special_request_add_label">Add Special Requests</string>
+    <string name="confirmation_bed_type_title">Bed Type</string>
+    <string name="confirmation_bed_type_add_label">Add Bed Type</string>
     <string name="confirmation_special_request_list_1_label">Free Smoke Room</string>
     <string name="confirmation_special_request_list_2_label">Late Check-In</string>
     <string name="confirmation_special_request_list_3_label">Early Check-In</string>
