@@ -102,11 +102,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomePackagesVi
         final JSONObject jsonObject = mHomeList.get(i);
 
         try {
-            Picasso.get()
-                    .load(jsonObject.getString("photo"))
-//                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-//                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
-                    .into(homePackagesViewHolder.mRoundedImageView);
+            if(!jsonObject.getString("photo").equals(""))
+                Picasso.get()
+                        .load(jsonObject.getString("photo"))
+    //                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+    //                    .networkPolicy(NetworkPolicy.NO_CACHE, NetworkPolicy.NO_STORE)
+                        .into(homePackagesViewHolder.mRoundedImageView);
 
             homePackagesViewHolder.mTextView1.setText(jsonObject.getString("name"));
             homePackagesViewHolder.mTextView2.setText(jsonObject.getString("description"));

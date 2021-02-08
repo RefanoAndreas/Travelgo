@@ -81,8 +81,8 @@ public class BaseActivity extends AppCompatActivity {
     public String android_id;
 
     public RequestQueue requestQueue;
-    public String C_URL = "http://safanci.com/stagging1/travelgo/api/";
-    public String C_URL_IMAGES = "http://safanci.com/stagging1/travelgo/api/images/";
+    public String C_URL = "http://travelgolaravel.quantumtri.com/api/";
+    public String C_URL_IMAGES = "http://travelgolaravel.quantumtri.com/api/images/";
 
 //    public String C_URL = "http://travelgolaravel.propertigo.id/api/";
 //    public String C_URL_IMAGES = "http://travelgolaravel.propertigo.id/api/images/";

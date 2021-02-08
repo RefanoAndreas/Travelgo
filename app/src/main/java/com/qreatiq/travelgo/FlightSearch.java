@@ -213,7 +213,7 @@ public class FlightSearch extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        get_token();
+//        get_token();
     }
 
     public void get_token(){

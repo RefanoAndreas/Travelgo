@@ -177,6 +177,7 @@ public class FragmentHome extends Fragment {
     public void getLocation(){
         skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_homelist_item).show();
         url = parent.C_URL+"home";
+        Log.d("url", url);
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
@@ -184,9 +185,13 @@ public class FragmentHome extends Fragment {
                 try {
                     homeList.clear();
                     JSONArray jsonArray = response.getJSONArray("location");
-                    for(int x=0; x<jsonArray.length(); x++){
-                        urlPhoto = parent.C_URL_IMAGES+"location?image="+jsonArray.getJSONObject(x).getString("urlPhoto")+
-                                "&mime="+jsonArray.getJSONObject(x).getString("mimePhoto");
+                    Log.d("data", String.valueOf(jsonArray.length()));
+                    for(int x=0; x < jsonArray.length(); x++){
+                        urlPhoto = "";
+                        for(int y = 0; y < jsonArray.getJSONObject(x).getJSONArray("photo").length(); y++){
+                            urlPhoto = parent.C_URL_IMAGES+"location?image="+jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(y).getString("urlPhoto")+
+                                    "&mime="+jsonArray.getJSONObject(x).getJSONArray("photo").getJSONObject(y).getString("mimePhoto");
+                        }
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("photo", urlPhoto);
                         jsonObject.put("name", jsonArray.getJSONObject(x).getString("name"));
