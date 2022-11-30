@@ -1,15 +1,15 @@
 package com.qreatiq.travelgo;
 
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.design.button.MaterialButton;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.material.button.MaterialButton;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONException;

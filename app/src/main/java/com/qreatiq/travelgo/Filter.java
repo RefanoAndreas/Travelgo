@@ -1,10 +1,7 @@
 package com.qreatiq.travelgo;
 
 import android.content.Intent;
-import android.support.design.button.MaterialButton;
 import android.os.Bundle;
-import android.support.design.chip.Chip;
-import android.support.design.chip.ChipGroup;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -14,6 +11,9 @@ import android.widget.TextView;
 
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONArray;

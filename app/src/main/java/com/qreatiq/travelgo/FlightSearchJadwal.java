@@ -5,16 +5,13 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.provider.Settings;
 import android.content.SharedPreferences;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.button.MaterialButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -34,6 +31,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
 import com.ethanhua.skeleton.Skeleton;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONArray;
@@ -528,7 +527,7 @@ public class FlightSearchJadwal extends BaseActivity {
                 else if (error instanceof TimeoutError) {
                     message="Server Timeout Reached";
                 }
-                Snackbar snackbar=Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
+                Snackbar snackbar= Snackbar.make(layout,message,Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         });

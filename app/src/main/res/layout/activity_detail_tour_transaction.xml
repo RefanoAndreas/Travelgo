@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,7 +11,7 @@
         android:id="@+id/toolbar_transactionDetail"
         layout="@layout/toolbar_elevation"/>
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/NSV_transaction_detail"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -162,13 +162,13 @@
                     android:layout_weight="1"
                     android:text="@string/participant_label"/>
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/RV_participant"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_weight="1">
 
-                </android.support.v7.widget.RecyclerView>
+                </androidx.recyclerview.widget.RecyclerView>
 
             </LinearLayout>
 
@@ -196,7 +196,7 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <View
         android:layout_width="match_parent"
@@ -204,4 +204,4 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar_transactionDetail"
         android:background="@drawable/shadow_uptodown"/>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

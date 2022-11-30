@@ -1,5 +1,5 @@
 <!--<?xml version="1.0" encoding="utf-8"?>-->
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main_login"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,13 +10,13 @@
     android:layout_gravity="center"
     tools:context=".LogIn">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/bottom_container"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginHorizontal="16dp">
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="48dp">
@@ -45,7 +45,7 @@
                     android:text="@string/email_label"
                     android:textSize="12dp"/>
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -55,7 +55,7 @@
                     app:boxStrokeColor="#cccccc"
                     app:errorEnabled="true"
                     app:boxStrokeWidth="1dp">
-                    <android.support.design.widget.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -65,9 +65,9 @@
                         android:drawablePadding="16dp"
                         android:textSize="14dp"
                         />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp">
@@ -84,9 +84,9 @@
                         android:text="@string/forgot_password_label"
                         android:textSize="12dp"
                         android:textColor="#3d43bd"/>
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/password_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
                     app:boxBackgroundColor="@android:color/white"
                     app:errorEnabled="true"
                     app:passwordToggleEnabled="true">
-                    <android.support.design.widget.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -107,9 +107,9 @@
                         android:drawablePadding="16dp"
                         android:hint="@string/password_label"
                         android:textSize="14dp"/>
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.design.button.MaterialButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnLogin"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -140,7 +140,7 @@
                     android:textStyle="bold"
                     android:visibility="gone"/>
 
-                <android.support.design.button.MaterialButton
+                <com.google.android.material.button.MaterialButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="facebook"
@@ -154,12 +154,12 @@
 
             </LinearLayout>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </android.support.v4.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_container"
         android:layout_width="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -168,7 +168,7 @@
         android:layout_marginHorizontal="16dp"
         android:layout_marginBottom="24dp">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bottom_container_content"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -204,8 +204,8 @@
                     android:textColor="@android:color/black"/>
             </LinearLayout>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

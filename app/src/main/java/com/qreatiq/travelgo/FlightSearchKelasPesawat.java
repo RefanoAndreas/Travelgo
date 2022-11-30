@@ -2,18 +2,17 @@ package com.qreatiq.travelgo;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.button.MaterialButton;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.BottomSheetDialogFragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.FrameLayout;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.button.MaterialButton;
 import com.shawnlin.numberpicker.NumberPicker;
 
 public class FlightSearchKelasPesawat extends BottomSheetDialogFragment {
@@ -60,7 +59,7 @@ public class FlightSearchKelasPesawat extends BottomSheetDialogFragment {
             @Override
             public void onShow(DialogInterface dialog) {
                 FrameLayout bottomSheet = (FrameLayout)
-                        getDialog().findViewById(android.support.design.R.id.design_bottom_sheet);
+                        getDialog().findViewById(R.id.design_bottom_sheet);
                 BottomSheetBehavior behavior = BottomSheetBehavior.from(bottomSheet);
                 behavior.setState(BottomSheetBehavior.STATE_EXPANDED);
             }

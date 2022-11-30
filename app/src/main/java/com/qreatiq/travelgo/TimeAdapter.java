@@ -1,12 +1,13 @@
 package com.qreatiq.travelgo;
 
 import android.content.Context;
-import android.support.v7.widget.AppCompatCheckBox;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CompoundButton;
+
+import androidx.appcompat.widget.AppCompatCheckBox;
 
 import com.qreatiq.travelgo.R;
 

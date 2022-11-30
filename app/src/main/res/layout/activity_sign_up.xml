@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--<?xml version="1.0" encoding="utf-8"?>-->
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,14 +11,14 @@
     android:maxHeight="720dp"
     tools:context=".SignUp">
 
-    <android.support.v4.widget.NestedScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
-        <android.support.constraint.ConstraintLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="48dp">
@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/email_label"
                     android:textSize="12dp"/>
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/email_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -55,16 +55,16 @@
                     app:boxStrokeWidth="1dp"
                     app:errorEnabled="true"
                     app:boxBackgroundColor="@android:color/white">
-                    <android.support.design.widget.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email_input"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:hint="@string/email_label"
                         android:inputType="textEmailAddress"
                         android:textSize="14dp"/>
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp">
@@ -74,9 +74,9 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         android:text="@string/password_label"
                         android:textSize="12dp"/>
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/password_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                     app:boxStrokeWidth="1dp"
                     app:boxBackgroundColor="@android:color/white"
                     app:passwordToggleEnabled="true">
-                    <android.support.design.widget.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/password_input"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
@@ -95,9 +95,9 @@
                         android:hint="@string/password_label"
                         android:textSize="14dp"
                         />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp">
@@ -107,9 +107,9 @@
                         app:layout_constraintLeft_toLeftOf="parent"
                         android:text="@string/retype_password_label"
                         android:textSize="12dp"/>
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/retype_password_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -121,7 +121,7 @@
                     app:boxBackgroundColor="@android:color/white"
                     app:errorEnabled="true"
                     app:passwordToggleEnabled="true">
-                    <android.support.design.widget.TextInputEditText
+                    <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/retype_password_input"
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
@@ -129,9 +129,9 @@
                         android:hint="@string/retype_password_label"
                         android:textSize="14dp"
                         />
-                </android.support.design.widget.TextInputLayout>
+                </com.google.android.material.textfield.TextInputLayout>
 
-                <android.support.design.button.MaterialButton
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/signUpBtn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -159,7 +159,7 @@
                     android:textStyle="bold"
                     android:visibility="gone"/>
 
-                <android.support.design.button.MaterialButton
+                <com.google.android.material.button.MaterialButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -170,7 +170,7 @@
                     android:text="Facebook"
                     android:textStyle="bold"/>
 
-                <android.support.constraint.ConstraintLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/bottom_container"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
@@ -211,16 +211,16 @@
                     </LinearLayout>
 
 
-                </android.support.constraint.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </LinearLayout>
 
-        </android.support.constraint.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </android.support.v4.widget.NestedScrollView>
-
-
+    </androidx.core.widget.NestedScrollView>
 
 
 
-</android.support.constraint.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

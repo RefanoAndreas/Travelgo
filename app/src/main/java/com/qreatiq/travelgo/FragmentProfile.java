@@ -9,15 +9,12 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.fragment.app.Fragment;
+
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -41,6 +38,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.google.android.material.snackbar.Snackbar;
 import com.zeugmasolutions.localehelper.LocaleHelper;
 import com.zeugmasolutions.localehelper.LocaleHelperActivityDelegateImpl;
 
@@ -331,7 +329,7 @@ public class FragmentProfile extends Fragment {
                 else if (error instanceof TimeoutError) {
                     message="Server Timeout Reached";
                 }
-                Snackbar snackbar=Snackbar.make(parent.layout,message,Snackbar.LENGTH_LONG);
+                Snackbar snackbar= Snackbar.make(parent.layout,message,Snackbar.LENGTH_LONG);
                 snackbar.show();
             }
         }){

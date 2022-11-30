@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +7,7 @@
     android:id="@+id/layout"
     tools:context=".SearchFlight">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/tour_topNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,7 +24,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <android.support.v7.widget.CardView
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -50,12 +50,12 @@
                 app:layout_constraintLeft_toRightOf="@id/tour_search_icon"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-        </android.support.v7.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
 
-    </android.support.constraint.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/tour_topNav"
@@ -88,16 +88,16 @@
             android:textColor="#7D7D7D"
             android:textSize="16dp" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/last_search_list"/>
 
-        <!--<android.support.v7.widget.RecyclerView-->
+        <!--<androidx.recyclerview.widget.RecyclerView-->
         <!--android:id="@+id/RV_spotWisata"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="10dp"></android.support.v7.widget.RecyclerView>-->
+        <!--android:layout_marginTop="10dp"></androidx.recyclerview.widget.RecyclerView>-->
 
         <TextView
             android:layout_width="match_parent"
@@ -110,20 +110,20 @@
             android:textColor="#7D7D7D"
             android:textSize="16dp" />
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/popular_city_list"/>
 
-        <!--<android.support.v7.widget.RecyclerView-->
+        <!--<androidx.recyclerview.widget.RecyclerView-->
         <!--android:id="@+id/RV_StasiunTepopuler"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_marginTop="10dp">-->
-        <!--</android.support.v7.widget.RecyclerView>-->
+        <!--</androidx.recyclerview.widget.RecyclerView>-->
 
 
 
     </LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

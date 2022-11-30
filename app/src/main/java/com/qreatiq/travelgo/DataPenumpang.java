@@ -1,18 +1,15 @@
 package com.qreatiq.travelgo;
 
 import android.content.Intent;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.button.MaterialButton;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TextInputEditText;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -24,6 +21,9 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputEditText;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONArray;
@@ -164,7 +164,7 @@ public class DataPenumpang extends BaseActivity {
             public void onClick(View v) {
                 if(name.getText().toString().equals("")){
                     name.setError(getResources().getString(R.string.data_penumpang_error_name_empty_title));
-                    Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.data_penumpang_error_name_empty_title),Snackbar.LENGTH_LONG);
+                    Snackbar snackbar= Snackbar.make(layout,getResources().getString(R.string.data_penumpang_error_name_empty_title),Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
                 else if(email.getText().toString().equals("") && getIntent().getStringExtra("packageName").equals("hotel")){

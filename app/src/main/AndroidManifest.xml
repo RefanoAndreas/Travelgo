@@ -20,7 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -29,77 +29,77 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <activity android:name=".CaptchaActivity"></activity>
-        <activity android:name=".Payment" />
-        <activity
+        <activity android:exported="true" android:name=".CaptchaActivity"></activity>
+        <activity android:exported="true" android:name=".Payment" />
+        <activity android:exported="true"
             android:name=".DatePickerActivity"
             android:label="Pick Date" />
-        <activity android:name=".DetailTourTransaction" />
-        <activity android:name=".Sort" android:label="@string/manifest_sort_title"/>
-        <activity android:name=".SearchHotel" />
-        <activity android:name=".SearchFlight" />
-        <activity android:name=".SearchTrain" />
-        <activity android:name=".TrainSearchJadwal" />
-        <activity
+        <activity android:exported="true" android:name=".DetailTourTransaction" />
+        <activity android:exported="true" android:name=".Sort" android:label="@string/manifest_sort_title"/>
+        <activity android:exported="true" android:name=".SearchHotel" />
+        <activity android:exported="true" android:name=".SearchFlight" />
+        <activity android:exported="true" android:name=".SearchTrain" />
+        <activity android:exported="true" android:name=".TrainSearchJadwal" />
+        <activity android:exported="true"
             android:name=".TrainSearch"
             android:label="@string/manifest_train_search_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".ConfirmationOrder"
             android:label="@string/manifest_confirmation_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".HotelDetail"
             android:label="" />
-        <activity
+        <activity android:exported="true"
             android:name=".FilterHotel"
             android:label="@string/filter_label" />
-        <activity android:name=".HotelSearchResult" />
-        <activity
+        <activity android:exported="true" android:name=".HotelSearchResult" />
+        <activity android:exported="true"
             android:name=".HotelSearch"
             android:label="@string/manifest_hotel_search_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".HistoryPurchasing"
             android:label="@string/manifest_history_purchase_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".FilterTourLocation"
             android:label="@string/location_label" />
-        <activity
+        <activity android:exported="true"
             android:name=".FilterTour"
             android:label="@string/filter_label" />
-        <activity android:name=".FlightSearchJadwal" />
-        <activity android:name=".D3Eticket" />
-        <activity
+        <activity android:exported="true" android:name=".FlightSearchJadwal" />
+        <activity android:exported="true" android:name=".D3Eticket" />
+        <activity android:exported="true"
             android:name=".D2NotifikasiDetail"
             android:label="@string/manifest_notifikasi_detail_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".D1Notifikasi"
             android:label="@string/manifest_notifikasi_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".DataPenumpang"
             android:label="@string/confirmation_passenger_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".Filter"
             android:label="@string/filter_label" />
-        <activity android:name=".SearchTour" />
-        <activity
+        <activity android:exported="true" android:name=".SearchTour" />
+        <activity android:exported="true"
             android:name=".TransactionDetail"
             android:label="@string/manifest_transaction_detail_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".FlightSearch"
             android:label="@string/manifest_flight_search_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".ChangeDateActivity"
             android:label="@string/manifest_change_date_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".HistoryTransaction"
             android:label="@string/manifest_history_sales_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".CityDetail"
             android:label="" />
-        <activity
+        <activity android:exported="true"
             android:name=".TourDetail"
             android:label="@string/manifest_tour_detail_title" />
-        <activity android:name=".BottomNavContainer" />
-        <activity
+        <activity android:exported="true" android:name=".BottomNavContainer" />
+        <activity android:exported="true"
             android:name=".SplashActivity"
             >
             <intent-filter>
@@ -108,25 +108,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignUp" />
-        <activity android:name=".LogIn" />
-        <activity android:name=".LogSign" />
-        <activity
+        <activity android:exported="true" android:name=".SignUp" />
+        <activity android:exported="true" android:name=".LogIn" />
+        <activity android:exported="true" android:name=".LogSign" />
+        <activity android:exported="true"
             android:name=".TourCreatePackage"
             android:label="@string/manifest_create_tour_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".TourCreate"
             android:label="@string/manifest_create_package_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".TourList"
             android:label="@string/manifest_tour_list_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".TourEdit"
             android:label="@string/manifest_tour_edit_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".ProfileEdit"
             android:label="@string/manifest_profile_edit_title" />
-        <activity
+        <activity android:exported="true"
             android:name=".MainActivity"
             android:label="@string/manifest_my_profile_title" />
 
@@ -134,7 +134,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity
+        <activity android:exported="true"
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
@@ -151,7 +151,7 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".LatestFirebaseMessagingService">
+        <service android:name=".LatestFirebaseMessagingService" android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

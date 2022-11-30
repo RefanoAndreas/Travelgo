@@ -12,9 +12,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -32,6 +29,9 @@ import java.util.Map;
 import java.util.Queue;
 
 import static java.security.AccessController.getContext;
+
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class SwipeToDeleteCallback extends ItemTouchHelper.SimpleCallback {
     public static int BUTTON_WIDTH = 0;

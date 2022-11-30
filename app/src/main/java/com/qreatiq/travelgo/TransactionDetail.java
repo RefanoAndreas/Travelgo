@@ -4,15 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.button.MaterialButton;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -29,6 +26,8 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONArray;
@@ -168,7 +167,7 @@ public class TransactionDetail extends BaseActivity {
             public void onClick(View v) {
                 if(ParticipantList.size() == 0){
                     ConstraintLayout layout=(ConstraintLayout) findViewById(R.id.layout);
-                    Snackbar snackbar=Snackbar.make(layout,getResources().getString(R.string.transaction_detail_error_participant_label),Snackbar.LENGTH_LONG);
+                    Snackbar snackbar= Snackbar.make(layout,getResources().getString(R.string.transaction_detail_error_participant_label),Snackbar.LENGTH_LONG);
                     snackbar.show();
                 }
                 else {

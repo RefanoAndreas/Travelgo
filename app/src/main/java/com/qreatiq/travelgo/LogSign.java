@@ -1,10 +1,12 @@
 package com.qreatiq.travelgo;
 
 import android.content.Intent;
-import android.support.design.button.MaterialButton;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.button.MaterialButton;
 
 public class LogSign extends AppCompatActivity {
 
