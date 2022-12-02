@@ -92,10 +92,10 @@ public class FlightSearch extends BaseActivity {
         DepartCitySearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent in = new Intent(FlightSearch.this, SearchFlight.class);
-                in.putExtra("type","flight");
-                in.putExtra("data",arrive_data.toString());
-                startActivityForResult(in,DEPARTURE_CITY);
+//                Intent in = new Intent(FlightSearch.this, SearchFlight.class);
+//                in.putExtra("type","flight");
+//                in.putExtra("data",arrive_data.toString());
+//                startActivityForResult(in,DEPARTURE_CITY);
             }
         });
 

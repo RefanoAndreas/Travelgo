@@ -20,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -59,7 +60,7 @@ public class FragmentHome extends Fragment {
 
     String url, urlPhoto, userID;
     SharedPreferences user_id;
-    CardView tourBtn, flightBtn, hotelBtn, trainBtn;
+    LinearLayout tourBtn, flightBtn, hotelBtn, trainBtn;
     BottomNavContainer parent;
     SwipeRefreshLayout swipe;
 
@@ -96,7 +97,7 @@ public class FragmentHome extends Fragment {
         swipe = (SwipeRefreshLayout) view.findViewById(R.id.swipe);
         swipe.setColorSchemeColors(Color.BLUE, Color.RED);
 
-        tourBtn = (CardView)view.findViewById(R.id.tourBtn);
+        tourBtn = view.findViewById(R.id.tourBtn);
         tourBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,7 +105,7 @@ public class FragmentHome extends Fragment {
             }
         });
 
-        flightBtn = (CardView)view.findViewById(R.id.flightBtn);
+        flightBtn = view.findViewById(R.id.flightBtn);
         flightBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +113,7 @@ public class FragmentHome extends Fragment {
             }
         });
 
-        hotelBtn = (CardView)view.findViewById(R.id.hotelBtn);
+        hotelBtn = view.findViewById(R.id.hotelBtn);
         hotelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,7 +121,7 @@ public class FragmentHome extends Fragment {
             }
         });
 
-        trainBtn = (CardView)view.findViewById(R.id.trainBtn);
+        trainBtn = view.findViewById(R.id.trainBtn);
         trainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

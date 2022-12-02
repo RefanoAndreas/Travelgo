@@ -27,6 +27,9 @@
         app:itemTextAppearanceActive="@style/TextStyleBNV"
         app:itemTextAppearanceInactive="@style/TextStyleBNV"
         app:menu="@menu/bottom_navigation"
+      android:backgroundTint="@color/colorPrimary"
+      app:itemIconTint="@color/bottom_nav_color"
+      app:itemTextColor="@color/bottom_nav_color"
         app:labelVisibilityMode="labeled">
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 

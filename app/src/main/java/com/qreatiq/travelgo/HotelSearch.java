@@ -99,14 +99,14 @@ public class HotelSearch extends BaseActivity {
                     snackbar.show();
                 }
                 else {
-                    startActivity(new Intent(HotelSearch.this, FlightSearchJadwal.class)
-                            .putExtra("origin", "hotel")
-                            .putExtra("city", city_data.toString())
-                            .putExtra("check_in", start_date.getTime())
-                            .putExtra("check_out", end_date.getTime())
-                            .putExtra("guest", guest)
-                            .putExtra("room", room)
-                    );
+//                    startActivity(new Intent(HotelSearch.this, FlightSearchJadwal.class)
+//                            .putExtra("origin", "hotel")
+//                            .putExtra("city", city_data.toString())
+//                            .putExtra("check_in", start_date.getTime())
+//                            .putExtra("check_out", end_date.getTime())
+//                            .putExtra("guest", guest)
+//                            .putExtra("room", room)
+//                    );
                 }
             }
         });
@@ -157,7 +157,7 @@ public class HotelSearch extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        get_token();
+//        get_token();
     }
 
     public void get_token(){

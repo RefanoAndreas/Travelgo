@@ -150,17 +150,17 @@ public class TrainSearch extends BaseActivity {
                     snackbar.show();
                 }
                 else {
-                    startActivity(new Intent(TrainSearch.this, FlightSearchJadwal.class)
-                            .putExtra("origin", "train")
-                            .putExtra("depart_data", depart_data.toString())
-                            .putExtra("arrive_data", arrive_data.toString())
-                            .putExtra("tanggal_berangkat", start_date.getTime())
-                            .putExtra("tanggal_kembali", end_date.getTime())
-                            .putExtra("adult", adult)
-                            .putExtra("infant", infant)
-                            .putExtra("kelas", kelas_data)
-                            .putExtra("isReturn", isReturn)
-                    );
+//                    startActivity(new Intent(TrainSearch.this, FlightSearchJadwal.class)
+//                            .putExtra("origin", "train")
+//                            .putExtra("depart_data", depart_data.toString())
+//                            .putExtra("arrive_data", arrive_data.toString())
+//                            .putExtra("tanggal_berangkat", start_date.getTime())
+//                            .putExtra("tanggal_kembali", end_date.getTime())
+//                            .putExtra("adult", adult)
+//                            .putExtra("infant", infant)
+//                            .putExtra("kelas", kelas_data)
+//                            .putExtra("isReturn", isReturn)
+//                    );
                 }
             }
         });

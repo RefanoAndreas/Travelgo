@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Travelgo</string>
+    <string name="app_name">Travel Interest</string>
     <string name="location_prompt">Choose a location</string>
 
     <string-array name="location_array">
@@ -77,6 +77,7 @@
     <string name="hotel_label">Hotel</string>
     <string name="entertainment_label">Entertainment</string>
     <string name="wifi_label">Wi-Fi</string>
+    <string name="car_rental_label">Car Rental</string>
     <string name="no_data_label">No Data Found</string>
     <string name="facilities_label">Facilities</string>
     <string name="description_label">Description</string>
