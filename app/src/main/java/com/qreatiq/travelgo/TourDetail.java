@@ -38,8 +38,6 @@ import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.qreatiq.travelgo.Utils.BaseActivity;
-import com.synnapps.carouselview.CarouselView;
-import com.synnapps.carouselview.ImageListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,6 +47,9 @@ import org.w3c.dom.Text;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+
+import you.thiago.carouselview.CarouselView;
+import you.thiago.carouselview.ImageListener;
 
 public class TourDetail extends BaseActivity {
     CarouselView carouselView;

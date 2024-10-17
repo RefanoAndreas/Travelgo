@@ -27,8 +27,6 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
-import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -51,7 +49,7 @@ import java.util.Map;
 public class FilterTour extends BaseActivity {
 
     TextView minPrice, maxPrice, seeLocation, seeDuration, startDate, endDate, reset;
-    CrystalRangeSeekbar rangeSeekbar;
+//    CrystalRangeSeekbar rangeSeekbar;
     MaterialButton submit;
     private int year = 2019, month = 3, day = 10, START_DATE = 3, END_DATE = 4, FILTER_LOCATION_ALL = 1;
     Long min_price = Long.valueOf(0),max_price = Long.valueOf(30000000);
@@ -77,7 +75,7 @@ public class FilterTour extends BaseActivity {
 
         getLocation();
 
-        rangeSeekbar = (CrystalRangeSeekbar)findViewById(R.id.rangeSeekbarPrice);
+//        rangeSeekbar = (CrystalRangeSeekbar)findViewById(R.id.rangeSeekbarPrice);
         minPrice = (TextView)findViewById(R.id.minimumPrice);
         maxPrice = (TextView)findViewById(R.id.maximumPrice);
         reset = (TextView)findViewById(R.id.reset);
@@ -94,9 +92,9 @@ public class FilterTour extends BaseActivity {
                 start_date = new Date(filter.getLong("start_date_number"));
                 end_date = new Date(filter.getLong("end_date_number"));
 
-                rangeSeekbar.setMaxStartValue(filter.getLong("max_price"))
-                        .setMinStartValue(filter.getLong("min_price"))
-                        .apply();
+//                rangeSeekbar.setMaxStartValue(filter.getLong("max_price"))
+//                        .setMinStartValue(filter.getLong("min_price"))
+//                        .apply();
 
                 min_price = filter.getLong("min_price");
                 max_price = filter.getLong("max_price");
@@ -156,20 +154,20 @@ public class FilterTour extends BaseActivity {
         showDate(simpleDateFormat.format(start_date),"start");
         showDate(simpleDateFormat.format(end_date),"end");
 
-        rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
-            @Override
-            public void valueChanged(Number minValue, Number maxValue) {
-                NumberFormat formatter = new DecimalFormat("#,###");
-                String formattedNumber = formatter.format(minValue);
-                minPrice.setText("Rp. "+formattedNumber);
-                min_price = (Long) minValue;
-
-                NumberFormat formatter1 = new DecimalFormat("#,###");
-                String formattedNumber1 = formatter1.format(maxValue);
-                maxPrice.setText("Rp. "+formattedNumber1);
-                max_price = (Long) maxValue;
-            }
-        });
+//        rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+//            @Override
+//            public void valueChanged(Number minValue, Number maxValue) {
+//                NumberFormat formatter = new DecimalFormat("#,###");
+//                String formattedNumber = formatter.format(minValue);
+//                minPrice.setText("Rp. "+formattedNumber);
+//                min_price = (Long) minValue;
+//
+//                NumberFormat formatter1 = new DecimalFormat("#,###");
+//                String formattedNumber1 = formatter1.format(maxValue);
+//                maxPrice.setText("Rp. "+formattedNumber1);
+//                max_price = (Long) maxValue;
+//            }
+//        });
 
         seeLocation = (TextView) findViewById(R.id.see_locationBtn);
         seeLocation.setOnClickListener(new View.OnClickListener() {
@@ -207,8 +205,8 @@ public class FilterTour extends BaseActivity {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rangeSeekbar.setMinStartValue(0f).apply();
-                rangeSeekbar.setMaxStartValue(300000000f).apply();
+//                rangeSeekbar.setMinStartValue(0f).apply();
+//                rangeSeekbar.setMaxStartValue(300000000f).apply();
 
                 start_date = new Date();
                 end_date = new Date();

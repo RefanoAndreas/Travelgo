@@ -14,15 +14,11 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.ethanhua.skeleton.Skeleton;
-import com.ethanhua.skeleton.ViewSkeletonScreen;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
-import com.synnapps.carouselview.CarouselView;
-import com.synnapps.carouselview.ImageListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -31,12 +27,14 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
+import you.thiago.carouselview.CarouselView;
+import you.thiago.carouselview.ImageListener;
+
 public class TourAdapter extends RecyclerView.Adapter<TourAdapter.TourPackagesViewHolder> {
 
     private ArrayList<JSONObject> mTourPackagesList;
     Context context;
     ClickListener clickListener;
-    ViewSkeletonScreen skeleton;
 
     public class TourPackagesViewHolder extends RecyclerView.ViewHolder{
         public CarouselView carouselView;

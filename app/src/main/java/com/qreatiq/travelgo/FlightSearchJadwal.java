@@ -29,8 +29,6 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
-import com.ethanhua.skeleton.Skeleton;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.qreatiq.travelgo.Utils.BaseActivity;
@@ -63,7 +61,7 @@ public class FlightSearchJadwal extends BaseActivity {
     int[] colors;
 
     Date date, check_in_date, check_out_date;
-    RecyclerViewSkeletonScreen skeleton;
+//    RecyclerViewSkeletonScreen skeleton;
 
     JSONObject origin,destination,hotel_city,sort = new JSONObject(),filter = new JSONObject();
     MaterialButton filterBtn,sort_button;
@@ -154,7 +152,7 @@ public class FlightSearchJadwal extends BaseActivity {
         flightSearchJadwal_menubar.setWeightSum(2);
         dateBtn.setVisibility(View.GONE);
 
-        mRecyclerView = findViewById(R.id.RV_chooseDate);
+//        mRecyclerView = findViewById(R.id.RV_chooseDate);
         mRecyclerView = findViewById(R.id.RV_ticket_result);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
@@ -344,7 +342,7 @@ public class FlightSearchJadwal extends BaseActivity {
     }
 
     public void flightData() throws JSONException, UnsupportedEncodingException {
-        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_jadwal_flight_train_item).show();
+//        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_jadwal_flight_train_item).show();
         String url;
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
@@ -486,11 +484,11 @@ public class FlightSearchJadwal extends BaseActivity {
 //                            }
 
                             mAdapter.notifyDataSetChanged();
-                            skeleton.hide();
+//                            skeleton.hide();
                         }
                         else {
                             no_data.setVisibility(View.VISIBLE);
-                            skeleton.hide();
+//                            skeleton.hide();
                         }
 
 
@@ -540,7 +538,7 @@ public class FlightSearchJadwal extends BaseActivity {
     }
 
     public void trainData() throws JSONException, UnsupportedEncodingException {
-        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_jadwal_flight_train_item).show();
+//        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_jadwal_flight_train_item).show();
         String kelas = intent.getStringExtra("kelas");
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String url = C_URL+"train/search?origin="+origin.getString("code")+
@@ -597,7 +595,7 @@ public class FlightSearchJadwal extends BaseActivity {
                     else{
                         no_data.setVisibility(View.VISIBLE);
                     }
-                    skeleton.hide();
+//                    skeleton.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -638,7 +636,7 @@ public class FlightSearchJadwal extends BaseActivity {
     }
 
     public void hotelData() throws JSONException, UnsupportedEncodingException {
-        skeleton = Skeleton.bind(mRecyclerView).adapter(hotel_adapter).load(R.layout.skeleton_jadwal_hotel_item).show();
+//        skeleton = Skeleton.bind(mRecyclerView).adapter(hotel_adapter).load(R.layout.skeleton_jadwal_hotel_item).show();
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String url = C_URL+"hotel/search?city="+hotel_city.getString("id")+
                 "&check_in="+format.format(check_in_date)+
@@ -696,7 +694,7 @@ public class FlightSearchJadwal extends BaseActivity {
                     }
                     else
                         no_data.setVisibility(View.VISIBLE);
-                    skeleton.hide();
+//                    skeleton.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

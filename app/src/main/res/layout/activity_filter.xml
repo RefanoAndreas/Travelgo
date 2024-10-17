@@ -124,20 +124,20 @@
 
             </LinearLayout>
 
-            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
-                android:id="@+id/rangeSeekbarPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                app:bar_color="#CCCCCC"
-                app:bar_highlight_color="#163E7F"
-                app:corner_radius="10"
-                app:data_type="_integer"
-                app:gap="0"
-                app:left_thumb_color="#0E64FF"
-                app:right_thumb_color="#0E64FF"
-                app:max_value="300000000"
-                app:min_value="0"/>
+<!--            <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar-->
+<!--                android:id="@+id/rangeSeekbarPrice"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="30dp"-->
+<!--                app:bar_color="#CCCCCC"-->
+<!--                app:bar_highlight_color="#163E7F"-->
+<!--                app:corner_radius="10"-->
+<!--                app:data_type="_integer"-->
+<!--                app:gap="0"-->
+<!--                app:left_thumb_color="#0E64FF"-->
+<!--                app:right_thumb_color="#0E64FF"-->
+<!--                app:max_value="300000000"-->
+<!--                app:min_value="0"/>-->
 
         </LinearLayout>
 

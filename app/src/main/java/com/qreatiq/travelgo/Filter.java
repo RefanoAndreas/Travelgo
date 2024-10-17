@@ -9,8 +9,6 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
-import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -27,7 +25,7 @@ import java.util.ArrayList;
 public class Filter extends BaseActivity {
 
     TextView minPrice, maxPrice, reset, price_label;
-    CrystalRangeSeekbar rangeSeekbar;
+//    CrystalRangeSeekbar rangeSeekbar;
 
     ArrayList<JSONObject> arrayTimeDeparture = new ArrayList<JSONObject>();
     ArrayList<JSONObject> arrayTimeArrive = new ArrayList<JSONObject>();
@@ -59,7 +57,7 @@ public class Filter extends BaseActivity {
             e.printStackTrace();
         }
 
-        rangeSeekbar = (CrystalRangeSeekbar)findViewById(R.id.rangeSeekbarPrice);
+//        rangeSeekbar = (CrystalRangeSeekbar)findViewById(R.id.rangeSeekbarPrice);
         minPrice = (TextView)findViewById(R.id.minimumPrice);
         maxPrice = (TextView)findViewById(R.id.maximumPrice);
         price_label = (TextView)findViewById(R.id.price_label);
@@ -264,8 +262,8 @@ public class Filter extends BaseActivity {
                 String formattedNumber1 = formatter1.format(filter.getLong("max_price"));
                 maxPrice.setText("Rp. "+formattedNumber1);
 
-                rangeSeekbar.setMaxStartValue(filter.getLong("max_price")).apply();
-                rangeSeekbar.setMinStartValue(filter.getLong("min_price")).apply();
+//                rangeSeekbar.setMaxStartValue(filter.getLong("max_price")).apply();
+//                rangeSeekbar.setMinStartValue(filter.getLong("min_price")).apply();
 
                 min_price = (Long) filter.getLong("min_price");
                 max_price = (Long) filter.getLong("max_price");
@@ -274,21 +272,21 @@ public class Filter extends BaseActivity {
             e.printStackTrace();
         }
 
-        rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
-            @Override
-            public void valueChanged(Number minValue, Number maxValue) {
-                NumberFormat formatter = new DecimalFormat("#,###");
-                String formattedNumber = formatter.format(minValue);
-                minPrice.setText("Rp. "+formattedNumber);
-
-                NumberFormat formatter1 = new DecimalFormat("#,###");
-                String formattedNumber1 = formatter1.format(maxValue);
-                maxPrice.setText("Rp. "+formattedNumber1);
-
-                min_price = (Long) minValue;
-                max_price = (Long) maxValue;
-            }
-        });
+//        rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+//            @Override
+//            public void valueChanged(Number minValue, Number maxValue) {
+//                NumberFormat formatter = new DecimalFormat("#,###");
+//                String formattedNumber = formatter.format(minValue);
+//                minPrice.setText("Rp. "+formattedNumber);
+//
+//                NumberFormat formatter1 = new DecimalFormat("#,###");
+//                String formattedNumber1 = formatter1.format(maxValue);
+//                maxPrice.setText("Rp. "+formattedNumber1);
+//
+//                min_price = (Long) minValue;
+//                max_price = (Long) maxValue;
+//            }
+//        });
 
         adapterDeparture.setOnCheckedChangeListener(new TimeAdapter.ClickListener() {
             @Override
@@ -387,8 +385,8 @@ public class Filter extends BaseActivity {
         reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                rangeSeekbar.setMinStartValue(0f).apply();
-                rangeSeekbar.setMaxStartValue(300000000f).apply();
+//                rangeSeekbar.setMinStartValue(0f).apply();
+//                rangeSeekbar.setMaxStartValue(300000000f).apply();
 
                 try {
                     if(intent.getStringExtra("type").equals("flight") || intent.getStringExtra("type").equals("train")) {

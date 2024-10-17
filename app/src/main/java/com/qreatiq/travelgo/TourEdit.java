@@ -35,8 +35,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.ethanhua.skeleton.Skeleton;
-import com.ethanhua.skeleton.ViewSkeletonScreen;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.qreatiq.travelgo.Utils.BaseActivity;
@@ -68,7 +66,7 @@ public class TourEdit extends BaseActivity {
 
     ConstraintLayout layout;
 
-    ViewSkeletonScreen skeletonScreen;
+//    ViewSkeletonScreen skeletonScreen;
     CardView image_container;
 
     @Override
@@ -110,7 +108,7 @@ public class TourEdit extends BaseActivity {
         imageView = (ImageView) findViewById(R.id.image);
         image_container = (CardView) findViewById(R.id.image_container);
 //        imageView.setClipToOutline(true);
-        skeletonScreen = Skeleton.bind(image_container).load(R.layout.skeleton_tour_edit).show();
+//        skeletonScreen = Skeleton.bind(image_container).load(R.layout.skeleton_tour_edit).show();
     }
 
     public void getTourInfo(){
@@ -136,16 +134,16 @@ public class TourEdit extends BaseActivity {
                                 .into(imageView, new Callback() {
                                     @Override
                                     public void onSuccess() {
-                                        skeletonScreen.hide();
+//                                        skeletonScreen.hide();
                                     }
                                     @Override
                                     public void onError(Exception e) {
-                                        skeletonScreen.hide();
+//                                        skeletonScreen.hide();
                                     }
                                 });
                     }
-                    else
-                        skeletonScreen.hide();
+//                    else
+//                        skeletonScreen.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -155,7 +153,7 @@ public class TourEdit extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 ConstraintLayout layout=(ConstraintLayout) findViewById(R.id.layout);
                 error_exception(error,layout);
-                skeletonScreen.hide();
+//                skeletonScreen.hide();
             }
         }){
             @Override

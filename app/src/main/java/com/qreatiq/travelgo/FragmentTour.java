@@ -34,8 +34,8 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
-import com.ethanhua.skeleton.Skeleton;
+//import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
+//import com.ethanhua.skeleton.Skeleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,7 +65,7 @@ public class FragmentTour extends Fragment {
 
     Intent intent;
     String intentString;
-    RecyclerViewSkeletonScreen skeleton;
+//    RecyclerViewSkeletonScreen skeleton;
 
     BottomNavContainer parent;
 
@@ -203,7 +203,7 @@ public class FragmentTour extends Fragment {
     }
 
     public void getTrip(){
-        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_tour_item).show();
+//        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_tour_item).show();
         url = parent.C_URL+"tour/trip?loc_id="+loc_id;
 
         if(!filter.toString().equals("{}")){
@@ -262,7 +262,7 @@ public class FragmentTour extends Fragment {
                         swipeLayout.setVisibility(View.GONE);
                         TV_no_result.setVisibility(View.VISIBLE);
                     }
-                    skeleton.hide();
+//                    skeleton.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

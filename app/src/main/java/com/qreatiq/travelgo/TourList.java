@@ -25,8 +25,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
-import com.ethanhua.skeleton.Skeleton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
@@ -50,7 +48,7 @@ public class TourList extends BaseActivity {
     FloatingActionButton fabAdd;
     TextView no_trip,no_tour;
 
-    RecyclerViewSkeletonScreen skeletonScreen;
+//    RecyclerViewSkeletonScreen skeletonScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +119,7 @@ public class TourList extends BaseActivity {
             }
         });
 
-        skeletonScreen = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_tour_list_item_swipe).show();
+//        skeletonScreen = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_tour_list_item_swipe).show();
 
     }
 
@@ -181,7 +179,7 @@ public class TourList extends BaseActivity {
                         no_tour.setVisibility(View.VISIBLE);
                         no_trip.setVisibility(View.GONE);
                     }
-                    skeletonScreen.hide();
+//                    skeletonScreen.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

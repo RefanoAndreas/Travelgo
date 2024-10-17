@@ -25,8 +25,6 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
-import com.ethanhua.skeleton.Skeleton;
 import com.qreatiq.travelgo.Utils.BaseActivity;
 
 import org.json.JSONArray;
@@ -47,7 +45,7 @@ public class D1Notifikasi extends BaseActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     ArrayList<JSONObject> notifList = new ArrayList<>();
     SwipeRefreshLayout swipeLayout;
-    RecyclerViewSkeletonScreen skeleton;
+//    RecyclerViewSkeletonScreen skeleton;
     TextView no_data;
 
     int page = 1;
@@ -142,8 +140,8 @@ public class D1Notifikasi extends BaseActivity {
     }
 
     private void history(){
-        if(page == 1)
-            skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_notification).show();
+//        if(page == 1)
+//            skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_notification).show();
         if(dataIntent.equals("purchasing"))
             url = C_URL+"history-purchasing";
         else if(dataIntent.equals("sales"))
@@ -272,8 +270,8 @@ public class D1Notifikasi extends BaseActivity {
                             no_data.setVisibility(View.VISIBLE);
                     }
                     swipeLayout.setRefreshing(false);
-                    if(page == 1)
-                        skeleton.hide();
+//                    if(page == 1)
+//                        skeleton.hide();
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

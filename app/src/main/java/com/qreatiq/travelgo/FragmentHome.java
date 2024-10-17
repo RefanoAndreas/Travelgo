@@ -35,8 +35,8 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
-import com.ethanhua.skeleton.Skeleton;
+//import com.ethanhua.skeleton.RecyclerViewSkeletonScreen;
+//import com.ethanhua.skeleton.Skeleton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -66,7 +66,7 @@ public class FragmentHome extends Fragment {
 
     FilterTourLocationAdapter adapter;
 
-    RecyclerViewSkeletonScreen skeleton;
+//    RecyclerViewSkeletonScreen skeleton;
     boolean is_loaded = false;
 
     Handler mHandler = new Handler();
@@ -168,7 +168,7 @@ public class FragmentHome extends Fragment {
                 for(int x=0; x<jsonArray.length(); x++)
                     homeList.add(jsonArray.getJSONObject(x));
                 mAdapter.notifyDataSetChanged();
-                skeleton.hide();
+//                skeleton.hide();
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -176,7 +176,7 @@ public class FragmentHome extends Fragment {
     }
 
     public void getLocation(){
-        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_homelist_item).show();
+//        skeleton = Skeleton.bind(mRecyclerView).adapter(mAdapter).load(R.layout.skeleton_homelist_item).show();
         url = parent.C_URL+"home";
         Log.d("url", url);
 
@@ -204,7 +204,7 @@ public class FragmentHome extends Fragment {
                         homeList.add(jsonObject);
                     }
                     mAdapter.notifyDataSetChanged();
-                    skeleton.hide();
+//                    skeleton.hide();
 
                     parent.home_list = new JSONArray(homeList.toString());
                     is_loaded = true;
@@ -217,7 +217,7 @@ public class FragmentHome extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 parent.error_exception(error,parent.layout);
-                skeleton.hide();
+//                skeleton.hide();
             }
         }){
             @Override
